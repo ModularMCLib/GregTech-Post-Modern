@@ -4,23 +4,23 @@ dependencies {
     compileOnly(libs.jetbrains.annotations)
     compileOnly(libs.jspecify)
 
-    testImplementation(libs.testframework.get())
+    testImplementation(libs.testframework)
 
     jarJar(api(libs.zstd.get()))
     additionalRuntimeClasspath(libs.zstd)
 
-    jarJar(api(libs.kotlin.stdlib.get())) {
+    api(libs.kotlin.stdlib.get()) {
         exclude group: 'org.jetbrains', module: 'annotations'
     }
 
     // Registrate
-    jarJar(api(forge.registrate.get()))
+    api(forge.registrate)
 
     // Configuration
-    jarJar(api(forge.configuration.get()))
+    api(forge.configuration)
 
     // LDLIB2
-    api(forge.ldlib2.get())
+    api(forge.ldlib2)
 
     // Recipe Viewers
     compileOnly(forge.bundles.jei)
