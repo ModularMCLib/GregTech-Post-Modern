@@ -6,15 +6,17 @@ dependencies {
 
     testImplementation(libs.testframework)
 
-    jarJar(api(libs.zstd.get()))
-    additionalRuntimeClasspath(libs.zstd)
+    api(libs.zstd)
 
-    api(libs.kotlin.stdlib.get()) {
+    api(libs.kotlin.stdlib) {
         exclude group: 'org.jetbrains', module: 'annotations'
     }
 
-    // Registrate
-    api(forge.registrate)
+    // ModularMCLibUtils
+    api(forge.mmclutils)
+
+    // Registrate Lib
+    api(forge.registratelib)
 
     // Configuration
     api(forge.configuration)

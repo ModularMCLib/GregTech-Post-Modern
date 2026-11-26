@@ -13,6 +13,16 @@ repositories {
         }
     }
 
+    maven {
+        name = "fury"
+        url = uri("https://maven.fury.io/modularmclib/")
+        content {
+            includeGroup("com.modularmc.mmclutils")
+            includeGroup("com.modularmc.registrate")
+            includeGroup("com.modularmc.mixinsplice")
+        }
+    }
+
     exclusiveContent { // Create, Ponder, Flywheel
         forRepository { maven { url = "https://maven.blamejared.com" } }
         filter {

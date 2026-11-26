@@ -1,11 +1,11 @@
 {
     "net/minecraft/core/MappedRegistry": [
-        "com/modularmclib/gtpm/core/IMappedRegistryAccess"
+        "com/modularmc/gtpm/core/IMappedRegistryAccess"
     ],
     "net/minecraft/client/renderer/block/model/BakedQuad": [
-        "com/modularmclib/gtpm/core/util/extensions/BakedQuadExt"
+        "com/modularmc/gtpm/core/util/extensions/BakedQuadExt"
     ],
     "com/mojang/blaze3d/vertex/VertexConsumer": [
-        "com/modularmclib/gtpm/core/util/extensions/VertexConsumerExt"
+        "com/modularmc/gtpm/core/util/extensions/VertexConsumerExt"
     ]
 }
