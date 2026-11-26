@@ -16,9 +16,9 @@ GregTech Post Modern（GTPM）基于 [GregTech CEu Modern](https://github.com/Gr
 
 ## 下载
 
-- [下载模组](https://github.com/ExtremelyFrozen/GregTech-Post-Modern/releases)
-- [下载离线文档 ZIP](https://github.com/ExtremelyFrozen/GregTech-Post-Modern/archive/refs/heads/gh-pages.zip)
+- [下载模组](https://github.com/ModularMCLib/GregTech-Post-Modern/releases)
+- [下载离线文档 ZIP](https://github.com/ModularMCLib/GregTech-Post-Modern/archive/refs/heads/gh-pages.zip)
 
 
 ## 想参与贡献？
-如果你想为这个文档站点做贡献，欢迎阅读 [贡献说明](https://github.com/ExtremelyFrozen/GregTech-Post-Modern/blob/1.21/docs/CONTRIBUTING.md)，并在 [GitHub 仓库](https://github.com/ExtremelyFrozen/GregTech-Post-Modern) 中发起 pull request。
+如果你想为这个文档站点做贡献，欢迎阅读 [贡献说明](https://github.com/ModularMCLib/GregTech-Post-Modern/blob/1.21/docs/CONTRIBUTING.md)，并在 [GitHub 仓库](https://github.com/ModularMCLib/GregTech-Post-Modern) 中发起 pull request。

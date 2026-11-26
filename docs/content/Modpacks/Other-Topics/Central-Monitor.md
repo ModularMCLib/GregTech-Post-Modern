@@ -38,7 +38,7 @@ title: 定制中央监控器与占位符系统
             // this is only called on the logical client
             // should return a new instance of the renderer for this module (not null)
             // for examples of renderer code look in the GregTech Post Modern github:
-            // https://github.com/ExtremelyFrozen/GregTech-Post-Modern/tree/1.21/src/main/java/com/gregtechceu/gtceu/client/renderer
+            // https://github.com/ModularMCLib/GregTech-Post-Modern/tree/1.21/src/main/java/com/modularmclib/gtpm/client/renderer
             return new MonitorTextRenderer(MultiLineComponent.of("this text is displayed on the monitor"), 1.0);
         }
 

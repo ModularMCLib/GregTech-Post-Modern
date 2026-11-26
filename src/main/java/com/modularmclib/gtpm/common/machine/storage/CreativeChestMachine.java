@@ -1,0 +1,299 @@
+package com.modularmclib.gtpm.common.machine.storage;
+
+import com.modularmclib.gtpm.api.GTValues;
+import com.modularmclib.gtpm.api.blockentity.BlockEntityCreationInfo;
+import com.modularmclib.gtpm.api.gui.GuiTextures;
+import com.modularmclib.gtpm.api.gui.UITemplate;
+import com.modularmclib.gtpm.api.gui.element.GTButtonElement;
+import com.modularmclib.gtpm.api.gui.element.GTImageElement;
+import com.modularmclib.gtpm.api.gui.element.GTLabelElement;
+import com.modularmclib.gtpm.api.gui.element.GTPhantomItemSlotElement;
+import com.modularmclib.gtpm.api.gui.element.GTTextFieldElement;
+import com.modularmclib.gtpm.api.gui.factory.MachineUIHolder;
+import com.modularmclib.gtpm.api.gui.fancy.ConfiguratorPanel;
+import com.modularmclib.gtpm.api.gui.fancy.FancyMachineUIWidget;
+import com.modularmclib.gtpm.api.gui.fancy.IFancyConfiguratorButton;
+import com.modularmclib.gtpm.api.gui.texture.IGuiTexture;
+import com.modularmclib.gtpm.api.item.datacomponents.CreativeMachineInfo;
+import com.modularmclib.gtpm.api.sync_system.annotations.SaveField;
+import com.modularmclib.gtpm.api.sync_system.annotations.ServerFieldChangeListener;
+import com.modularmclib.gtpm.api.sync_system.annotations.SyncBoth;
+import com.modularmclib.gtpm.api.sync_system.rpc.RPCMethod;
+import com.modularmclib.gtpm.common.data.GTDataComponents;
+import com.modularmclib.gtpm.utils.ExtendedUseOnContext;
+
+import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
+import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
+import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
+
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+
+import lombok.Getter;
+
+import java.util.List;
+
+public class CreativeChestMachine extends QuantumChestMachine {
+
+    private static final int PAGE_WIDTH = 176;
+    private static final int PAGE_HEIGHT = 131;
+    @Getter
+    @SaveField
+    @SyncBoth
+    private int itemsPerCycle;
+    @Getter
+    @SaveField
+    @SyncBoth
+    private int ticksPerCycle = 1;
+
+    public CreativeChestMachine(BlockEntityCreationInfo info) {
+        super(info, GTValues.MAX, -1);
+    }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        if (!isRemote()) autoOutput.setTicksPerCycle(ticksPerCycle);
+    }
+
+    @Override
+    protected ItemCache createCacheItemHandler() {
+        return new InfiniteCache();
+    }
+
+    @RPCMethod
+    public void setCreativeChestItem(ItemStack item) {
+        stored = item.isEmpty() ? ItemStack.EMPTY : item.copyWithCount(1);
+        onItemChanged();
+    }
+
+    @ServerFieldChangeListener(fieldName = "ticksPerCycle")
+    private void onTicksPerCycleChanged(int oldValue, int newValue) {
+        autoOutput.setTicksPerCycle(newValue);
+    }
+
+    @Override
+    public InteractionResult onUseWithItem(ExtendedUseOnContext context) {
+        var heldItem = context.getItemInHand();
+        var player = context.getPlayer();
+
+        if (context.getClickedFace() != getFrontFacing() || isRemote()) {
+            return InteractionResult.PASS;
+        }
+        // Clear item if empty hand + shift-rclick
+        if (player.getItemInHand(context.getHand()).isEmpty() && player.isShiftKeyDown() && !stored.isEmpty()) {
+            setCreativeChestItem(ItemStack.EMPTY);
+            return InteractionResult.SUCCESS;
+        }
+        return super.onUseWithItem(context);
+    }
+
+    private GTPhantomItemSlotElement createStoredItemSlot(Player player, MachineUIHolder holder) {
+        GTPhantomItemSlotElement slot = new GTPhantomItemSlotElement(this::getStored,
+                stack -> setStoredItem(player, holder, stack), () -> 1);
+        slot.setBackgroundTexture(GuiTextures.SLOT);
+        UITemplate.setBounds(slot, 36, 6, 18, 18);
+        slot.addEventListener(UIEvents.MOUSE_DOWN, event -> {
+            if (!player.level().isClientSide()) {
+                return;
+            }
+            if (event.button == 0) {
+                ItemStack carried = player.containerMenu.getCarried();
+                if (!carried.isEmpty()) {
+                    slot.setItem(carried.copyWithCount(1));
+                    event.stopImmediatePropagation();
+                    event.hasHandler = true;
+                }
+            } else if (event.button == 1 && !stored.isEmpty()) {
+                slot.setItem(ItemStack.EMPTY);
+                event.stopImmediatePropagation();
+                event.hasHandler = true;
+            }
+        });
+        return slot;
+    }
+
+    private GTLabelElement createLabel(int x, int y, int width, int height, String translationKey) {
+        GTLabelElement label = new GTLabelElement(x, y, width, height, translationKey, true);
+        label.textStyle(style -> style
+                .textColor(0x404040)
+                .textShadow(false)
+                .textAlignHorizontal(Horizontal.LEFT)
+                .textAlignVertical(Vertical.CENTER));
+        return label;
+    }
+
+    GTTextFieldElement createItemsPerCycleField() {
+        GTTextFieldElement field = new GTTextFieldElement(9, 50, 152, 10) {
+
+            @Override
+            public void screenTick() {
+                if (!isFocused()) {
+                    setText(Integer.toString(itemsPerCycle), false);
+                }
+                super.screenTick();
+            }
+        };
+        field.setNumbersOnlyInt(1, Integer.MAX_VALUE);
+        field.setText(Integer.toString(itemsPerCycle), false);
+        field.textFieldStyle(style -> style
+                .textColor(0x404040)
+                .textShadow(false));
+        field.setTextResponder(value -> {
+            if (!value.isEmpty()) itemsPerCycle = Integer.parseInt(value);
+        });
+        return field;
+    }
+
+    GTTextFieldElement createTicksPerCycleField() {
+        GTTextFieldElement field = new GTTextFieldElement(9, 87, 152, 10) {
+
+            @Override
+            public void screenTick() {
+                if (!isFocused()) {
+                    setText(Integer.toString(ticksPerCycle), false);
+                }
+                super.screenTick();
+            }
+        };
+        field.setNumbersOnlyInt(1, Integer.MAX_VALUE);
+        field.setText(Integer.toString(ticksPerCycle), false);
+        field.textFieldStyle(style -> style
+                .textColor(0x404040)
+                .textShadow(false));
+        field.setTextResponder(value -> {
+            if (!value.isEmpty()) ticksPerCycle = Integer.parseInt(value);
+        });
+        return field;
+    }
+
+    private GTButtonElement createActivityButton() {
+        return new GTButtonElement(7, 101, 162, 20, createActivityButtonTexture(),
+                event -> setWorkingEnabled(!isWorkingEnabled())) {
+
+            @Override
+            public void screenTick() {
+                setButtonTexture(createActivityButtonTexture());
+                super.screenTick();
+            }
+        };
+    }
+
+    private IGuiTexture createActivityButtonTexture() {
+        return GuiTextures.group(GuiTextures.BUTTON,
+                GuiTextures.text(isWorkingEnabled() ? "gtpm.creative.activity.on" : "gtpm.creative.activity.off"));
+    }
+
+    IFancyConfiguratorButton.Toggle createWorkingEnabledConfigurator() {
+        return new IFancyConfiguratorButton.Toggle(
+                GuiTextures.BUTTON_POWER.getSubTexture(0, 0, 1, 0.5),
+                GuiTextures.BUTTON_POWER.getSubTexture(0, 0.5, 1, 0.5),
+                this::isWorkingEnabled,
+                (event, pressed) -> {
+                    setWorkingEnabled(pressed);
+                    event.stopImmediatePropagation();
+                    event.hasHandler = true;
+                })
+                .setTooltipsSupplier(pressed -> List.of(Component.translatable(
+                        pressed ? "behaviour.soft_hammer.enabled" : "behaviour.soft_hammer.disabled")));
+    }
+
+    private void setStoredItem(Player player, MachineUIHolder holder, ItemStack item) {
+        setCreativeChestItem(item);
+        if (player.level().isClientSide()) {
+            ItemStack storedItem = item.isEmpty() ? ItemStack.EMPTY : item.copyWithCount(1);
+            holder.getMachine().rpcToServer("setCreativeChestItem", storedItem);
+        }
+    }
+
+    @Override
+    protected void applyImplicitComponents(DataComponentInput componentInput) {
+        super.applyImplicitComponents(componentInput);
+        CreativeMachineInfo info = componentInput.get(GTDataComponents.CREATIVE_MACHINE_INFO);
+        if (info != null) {
+            itemsPerCycle = info.outputPerCycle();
+            ticksPerCycle = info.ticksPerCycle();
+        }
+    }
+
+    @Override
+    public void collectImplicitComponents(DataComponentMap.Builder components) {
+        super.collectImplicitComponents(components);
+        components.set(GTDataComponents.CREATIVE_MACHINE_INFO, new CreativeMachineInfo(itemsPerCycle, ticksPerCycle));
+    }
+
+    private class InfiniteCache extends ItemCache {
+
+        public InfiniteCache() {
+            super();
+        }
+
+        @Override
+        public ItemStack getStackInSlot(int slot) {
+            return stored;
+        }
+
+        @Override
+        public void setStackInSlot(int index, ItemStack stack) {
+            setCreativeChestItem(stack);
+        }
+
+        @Override
+        public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+            if (!stored.isEmpty() && ItemStack.isSameItemSameComponents(stored, stack)) return ItemStack.EMPTY;
+            return stack;
+        }
+
+        @Override
+        public ItemStack extractItem(int slot, int amount, boolean simulate) {
+            if (!stored.isEmpty()) return stored.copyWithCount(itemsPerCycle);
+            return ItemStack.EMPTY;
+        }
+
+        @Override
+        public boolean isItemValid(int slot, ItemStack stack) {
+            return true;
+        }
+
+        @Override
+        public int getSlotLimit(int slot) {
+            return 1;
+        }
+    }
+
+    @Override
+    public UIElement createUIWidget(FancyMachineUIWidget shell) {
+        Player player = shell.getOpeningPlayer();
+        MachineUIHolder holder = shell.getHolder(this);
+        UIElement root = UITemplate.setBounds(new UIElement(), 0, 0, PAGE_WIDTH, PAGE_HEIGHT);
+        root.addChild(createStoredItemSlot(player, holder));
+        root.addChild(createLabel(7, 9, 162, 10, "gtpm.creative.chest.item"));
+        root.addChild(new GTImageElement(7, 48, 154, 14, GuiTextures.DISPLAY));
+        root.addChild(createItemsPerCycleField());
+        root.addChild(createLabel(7, 28, 162, 10, "gtpm.creative.chest.ipc"));
+        root.addChild(new GTImageElement(7, 85, 154, 14, GuiTextures.DISPLAY));
+        root.addChild(createTicksPerCycleField());
+        root.addChild(createLabel(7, 65, 162, 10, "gtpm.creative.chest.tpc"));
+        root.addChild(createActivityButton());
+        return root;
+    }
+
+    @Override
+    public int getPageWidth() {
+        return PAGE_WIDTH;
+    }
+
+    @Override
+    public int getPageHeight() {
+        return PAGE_HEIGHT;
+    }
+
+    @Override
+    public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
+        configuratorPanel.attachConfigurators(createWorkingEnabledConfigurator());
+    }
+}

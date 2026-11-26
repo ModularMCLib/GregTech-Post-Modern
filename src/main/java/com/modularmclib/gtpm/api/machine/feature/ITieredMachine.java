@@ -1,0 +1,19 @@
+package com.modularmclib.gtpm.api.machine.feature;
+
+import com.modularmclib.gtpm.api.GTValues;
+
+public interface ITieredMachine extends IMachineFeature {
+
+    /**
+     * Tier of machine determines it's input voltage, storage and generation rate
+     *
+     * @return tier of this machine
+     */
+    default int getTier() {
+        return self().getDefinition().getTier();
+    }
+
+    default long getTierVoltage() {
+        return GTValues.V[getTier()];
+    }
+}

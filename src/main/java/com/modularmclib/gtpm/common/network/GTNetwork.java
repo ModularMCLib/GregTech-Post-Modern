@@ -1,0 +1,54 @@
+package com.modularmclib.gtpm.common.network;
+
+import com.modularmclib.gtpm.api.GTCEuAPI;
+import com.modularmclib.gtpm.common.network.packets.*;
+import com.modularmclib.gtpm.common.network.packets.hazard.*;
+import com.modularmclib.gtpm.common.network.packets.prospecting.SPacketProspectBedrockFluid;
+import com.modularmclib.gtpm.common.network.packets.prospecting.SPacketProspectBedrockOre;
+import com.modularmclib.gtpm.common.network.packets.prospecting.SPacketProspectOre;
+
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+
+public class GTNetwork {
+
+    public static void registerPayloads(RegisterPayloadHandlersEvent event) {
+        PayloadRegistrar registar = event.registrar(GTCEuAPI.NETWORK_VERSION);
+        // spotless:off
+        registar.playToClient(SCPacketMonitorGroupDataChange.TYPE, SCPacketMonitorGroupDataChange.CODEC, SCPacketMonitorGroupDataChange::execute);
+
+        registar.playToServer(CPacketImageRequest.TYPE, CPacketImageRequest.CODEC, CPacketImageRequest::execute);
+        registar.playToServer(CPacketMachineSyncToServer.TYPE, CPacketMachineSyncToServer.CODEC, CPacketMachineSyncToServer::execute);
+        registar.playBidirectional(PacketRPCBlockEntity.TYPE, PacketRPCBlockEntity.CODEC, PacketRPCBlockEntity::execute);
+        registar.playBidirectional(PacketRPCMenu.TYPE, PacketRPCMenu.CODEC, PacketRPCMenu::execute);
+        registar.playBidirectional(PacketRPCPacket.TYPE, PacketRPCPacket.CODEC, PacketRPCPacket::execute);
+        registar.playToServer(CPacketDynamicItemSlotPreparedToServer.TYPE, CPacketDynamicItemSlotPreparedToServer.CODEC, CPacketDynamicItemSlotPreparedToServer::execute);
+        registar.playToServer(CPacketDynamicItemSlotActivatedToServer.TYPE, CPacketDynamicItemSlotActivatedToServer.CODEC, CPacketDynamicItemSlotActivatedToServer::execute);
+        registar.playToServer(CPacketDynamicItemSlotSelectionToServer.TYPE, CPacketDynamicItemSlotSelectionToServer.CODEC, CPacketDynamicItemSlotSelectionToServer::execute);
+        registar.playToClient(SPacketImageResponse.TYPE, SPacketImageResponse.CODEC, SPacketImageResponse::execute);
+        registar.playToClient(SPacketMachineSyncToClient.TYPE, SPacketMachineSyncToClient.CODEC, SPacketMachineSyncToClient::execute);
+        registar.playBidirectional(PacketMenuSync.TYPE, PacketMenuSync.CODEC, PacketMenuSync::execute);
+        registar.playToClient(SPacketDynamicItemSlotManifestToClient.TYPE, SPacketDynamicItemSlotManifestToClient.CODEC, SPacketDynamicItemSlotManifestToClient::execute);
+        registar.playToClient(SPacketDynamicItemSlotActivationToClient.TYPE, SPacketDynamicItemSlotActivationToClient.CODEC, SPacketDynamicItemSlotActivationToClient::execute);
+        registar.playToClient(SPacketDynamicItemSlotSelectionToClient.TYPE, SPacketDynamicItemSlotSelectionToClient.CODEC, SPacketDynamicItemSlotSelectionToClient::execute);
+        registar.playToClient(SPacketProspectingMapData.TYPE, SPacketProspectingMapData.CODEC, SPacketProspectingMapData::execute);
+
+        registar.playToServer(CPacketKeyDown.TYPE, CPacketKeyDown.CODEC, CPacketKeyDown::execute);
+
+        registar.playToClient(SPacketAddHazardZone.TYPE, SPacketAddHazardZone.CODEC, SPacketAddHazardZone::execute);
+        registar.playToClient(SPacketRemoveHazardZone.TYPE, SPacketRemoveHazardZone.CODEC, SPacketRemoveHazardZone::execute);
+        registar.playToClient(SPacketSyncHazardZoneStrength.TYPE, SPacketSyncHazardZoneStrength.CODEC, SPacketSyncHazardZoneStrength::execute);
+        registar.playToClient(SPacketSyncLevelHazards.TYPE, SPacketSyncLevelHazards.CODEC, SPacketSyncLevelHazards::execute);
+
+        registar.playToClient(SPacketProspectOre.TYPE, SPacketProspectOre.CODEC, SPacketProspectOre::execute);
+        registar.playToClient(SPacketProspectBedrockOre.TYPE, SPacketProspectBedrockOre.CODEC, SPacketProspectBedrockOre::execute);
+        registar.playToClient(SPacketProspectBedrockFluid.TYPE, SPacketProspectBedrockFluid.CODEC, SPacketProspectBedrockFluid::execute);
+
+        registar.playToClient(SPacketSendWorldID.TYPE, SPacketSendWorldID.CODEC, SPacketSendWorldID::execute);
+        registar.playToClient(SPacketNotifyCapeChange.TYPE, SPacketNotifyCapeChange.CODEC, SPacketNotifyCapeChange::execute);
+
+        registar.playBidirectional(SCPacketShareProspection.TYPE, SCPacketShareProspection.CODEC, SCPacketShareProspection::execute);
+
+        // spotless:on
+    }
+}

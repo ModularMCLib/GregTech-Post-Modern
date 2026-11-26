@@ -1,0 +1,584 @@
+package com.modularmclib.gtpm.client.model.machine;
+
+import com.modularmclib.gtpm.GTPM;
+import com.modularmclib.gtpm.api.machine.MachineDefinition;
+import com.modularmclib.gtpm.api.machine.MetaMachine;
+import com.modularmclib.gtpm.api.machine.feature.multiblock.IMultiPart;
+import com.modularmclib.gtpm.api.machine.multiblock.MultiblockControllerMachine;
+import com.modularmclib.gtpm.client.model.BaseBakedModel;
+import com.modularmclib.gtpm.client.model.GTModelProperties;
+import com.modularmclib.gtpm.client.model.IBlockEntityRendererBakedModel;
+import com.modularmclib.gtpm.client.model.TextureOverrideModel;
+import com.modularmclib.gtpm.client.model.ctm.CTMMeshBuilder;
+import com.modularmclib.gtpm.client.model.machine.multipart.MultiPartBakedModel;
+import com.modularmclib.gtpm.client.model.quad.StaticFaceBakery;
+import com.modularmclib.gtpm.client.renderer.cover.ICoverableRenderer;
+import com.modularmclib.gtpm.client.renderer.machine.DynamicRender;
+import com.modularmclib.gtpm.client.util.FacadeBlockAndTintGetter;
+import com.modularmclib.gtpm.client.util.RenderUtil;
+import com.modularmclib.gtpm.common.data.models.GTModels;
+import com.modularmclib.gtpm.common.machine.trait.AutoOutputTrait;
+import com.modularmclib.gtpm.core.mixins.neoforge.BakedModelWrapperAccessor;
+
+import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.*;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.client.ChunkRenderTypeSet;
+import net.neoforged.neoforge.client.model.QuadTransformers;
+import net.neoforged.neoforge.client.model.data.ModelData;
+import net.neoforged.neoforge.client.model.data.ModelProperty;
+import net.neoforged.neoforge.client.model.geometry.UnbakedGeometryHelper;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Transformation;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+public final class MachineModel extends BaseBakedModel implements ICoverableRenderer,
+                                IBlockEntityRendererBakedModel<MetaMachine> {
+
+    public static final ResourceLocation PIPE_OVERLAY = GTPM.id("block/overlay/machine/overlay_pipe");
+    public static final ResourceLocation FLUID_OUTPUT_OVERLAY = GTPM.id("block/overlay/machine/overlay_fluid_output");
+    public static final ResourceLocation ITEM_OUTPUT_OVERLAY = GTPM.id("block/overlay/machine/overlay_item_output");
+
+    private static @Nullable TextureAtlasSprite pipeOverlaySprite;
+    private static @Nullable TextureAtlasSprite fluidOutputOverlaySprite;
+    private static @Nullable TextureAtlasSprite itemOutputOverlaySprite;
+    private static @Nullable TextureAtlasSprite blankSprite;
+
+    public static final Map<String, List<String>> TEXTURE_REMAPS = Util.make(new HashMap<>(), map -> {
+        var all = List.of("all");
+
+        map.put("side", all);
+        map.put("top", all);
+        map.put("bottom", all);
+        map.put("all", List.of("side", "top", "bottom"));
+    });
+
+    @Getter
+    private final MachineDefinition definition;
+    private final Map<MachineRenderState, BakedModel> modelsByState;
+    private final @Nullable MultiPartBakedModel multiPart;
+    @Getter
+    private final List<DynamicRender<?, ?>> dynamicRenders;
+
+    @Getter
+    private final ItemTransforms transforms;
+    private final Transformation rootTransform;
+    private final ModelState modelState;
+    @Getter
+    private final boolean isGui3d;
+    @Accessors(fluent = true)
+    @Getter
+    private final boolean usesBlockLight, useAmbientOcclusion;
+
+    @Setter
+    private TextureAtlasSprite particleIcon = null;
+    @Setter
+    private Set<String> replaceableTextures;
+    @Setter
+    private Map<String, TextureAtlasSprite> textureOverrides;
+
+    public MachineModel(MachineDefinition definition,
+                        Map<MachineRenderState, BakedModel> modelsByState,
+                        @Nullable MultiPartBakedModel multiPart,
+                        List<DynamicRender<?, ?>> dynamicRenders,
+                        ItemTransforms transforms, Transformation rootTransform, ModelState modelState,
+                        boolean isGui3d, boolean usesBlockLight, boolean useAmbientOcclusion) {
+        this.definition = definition;
+        this.modelsByState = modelsByState;
+        this.multiPart = multiPart;
+        this.dynamicRenders = dynamicRenders;
+
+        this.transforms = transforms;
+        this.rootTransform = rootTransform;
+        this.modelState = modelState;
+        this.isGui3d = isGui3d;
+        this.usesBlockLight = usesBlockLight;
+        this.useAmbientOcclusion = useAmbientOcclusion;
+
+        for (DynamicRender<?, ?> render : this.dynamicRenders) {
+            render.setParent(this);
+        }
+    }
+
+    public static void initSprites(TextureAtlas atlas) {
+        pipeOverlaySprite = atlas.getSprite(PIPE_OVERLAY);
+        fluidOutputOverlaySprite = atlas.getSprite(FLUID_OUTPUT_OVERLAY);
+        itemOutputOverlaySprite = atlas.getSprite(ITEM_OUTPUT_OVERLAY);
+        blankSprite = atlas.getSprite(GTModels.BLANK_TEXTURE);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public TextureAtlasSprite getParticleIcon() {
+        if (particleIcon != null) {
+            return particleIcon;
+        } else if (multiPart != null) {
+            return multiPart.getParticleIcon();
+        } else if (!modelsByState.isEmpty()) {
+            return modelsByState.get(getDefinition().defaultRenderState()).getParticleIcon();
+        } else {
+            return Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS)
+                    .apply(MissingTextureAtlasSprite.getLocation());
+        }
+    }
+
+    @Override
+    public TextureAtlasSprite getParticleIcon(ModelData modelData) {
+        BlockAndTintGetter level = modelData.get(GTModelProperties.LEVEL);
+        BlockPos pos = modelData.get(GTModelProperties.POS);
+
+        MetaMachine machine = (level == null || pos == null) ? null : MetaMachine.getMachine(level, pos);
+        MachineRenderState renderState = machine != null ? machine.getRenderState() :
+                getDefinition().defaultRenderState();
+
+        if (multiPart != null) {
+            return multiPart.getParticleIcon(renderState, modelData);
+        } else if (modelsByState.containsKey(renderState)) {
+            return modelsByState.get(renderState).getParticleIcon(modelData);
+        } else {
+            return super.getParticleIcon(modelData);
+        }
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Override
+    public ModelData getModelData(BlockAndTintGetter level, BlockPos pos,
+                                  BlockState state, ModelData modelData) {
+        ModelData.Builder builder = modelData.derive()
+                .with(GTModelProperties.LEVEL, level)
+                .with(GTModelProperties.POS, pos);
+        MetaMachine machine = MetaMachine.getMachine(level, pos);
+        MachineRenderState renderState = machine == null ? definition.defaultRenderState() : machine.getRenderState();
+
+        // add the inner model's model data too
+        if (multiPart != null) {
+            multiPart.addMachineModelData(renderState, level, pos, state, modelData, builder);
+        }
+        if (modelsByState.containsKey(renderState)) {
+            ModelData data = modelsByState.get(renderState).getModelData(level, pos, state, modelData);
+            for (ModelProperty key : data.getProperties()) {
+                builder.with(key, data.get(key));
+            }
+        }
+
+        if (machine != null) {
+            builder.with(GTModelProperties.COVER_MODEL_DATA,
+                    ICoverableRenderer.collectCoverModelData(machine.getCoverContainer(), pos, level, modelData));
+        }
+        return builder.build();
+    }
+
+    @Override
+    public ChunkRenderTypeSet getRenderTypes(BlockState state, RandomSource rand, ModelData modelData) {
+        BlockAndTintGetter level = modelData.get(GTModelProperties.LEVEL);
+        BlockPos pos = modelData.get(GTModelProperties.POS);
+
+        MetaMachine machine = (level == null || pos == null) ? null : MetaMachine.getMachine(level, pos);
+        MachineRenderState renderState = machine != null ? machine.getRenderState() : definition.defaultRenderState();
+
+        Set<ChunkRenderTypeSet> renderTypeSets = new HashSet<>();
+        renderTypeSets.add(super.getRenderTypes(state, rand, modelData));
+
+        if (multiPart != null) {
+            renderTypeSets.add(multiPart.getRenderTypes(state, rand, modelData));
+        }
+        if (modelsByState.containsKey(renderState)) {
+            renderTypeSets.add(modelsByState.get(renderState).getRenderTypes(state, rand, modelData));
+        }
+
+        if (machine != null) {
+            renderTypeSets.add(ICoverableRenderer.super.getCoverRenderTypes(machine.getCoverContainer(),
+                    pos, level, rand, modelData));
+        }
+
+        return ChunkRenderTypeSet.union(renderTypeSets);
+    }
+
+    @Override
+    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side,
+                                    RandomSource rand,
+                                    ModelData modelData, @Nullable RenderType renderType) {
+        // If there is a root transform, undo the ModelState transform, apply it,
+        // then re-apply the ModelState transform.
+        // This is necessary because of things like UV locking, which should only respond to the ModelState,
+        // and as such that is the only transform that should be applied during face bake.
+        var postTransform = QuadTransformers.empty();
+        if (!rootTransform.isIdentity()) {
+            postTransform = UnbakedGeometryHelper.applyRootTransform(modelState, rootTransform);
+        }
+
+        List<BakedQuad> quads;
+        if (modelData.has(GTModelProperties.LEVEL) && modelData.has(GTModelProperties.POS)) {
+            quads = getMachineQuads(state, side, rand, modelData, renderType);
+        } else {
+            // if it doesn't have either of those properties, we're rendering an item.
+            quads = renderMachine(null, null, null, state, side, rand, modelData, renderType);
+        }
+        postTransform.processInPlace(quads);
+        return quads;
+    }
+
+    public List<BakedQuad> getMachineQuads(@Nullable BlockState blockState, @Nullable Direction side,
+                                           RandomSource rand, ModelData modelData,
+                                           @Nullable RenderType renderType) {
+        BlockAndTintGetter level = modelData.get(GTModelProperties.LEVEL);
+        BlockPos pos = modelData.get(GTModelProperties.POS);
+
+        MetaMachine machine = (level == null || pos == null) ? null : MetaMachine.getMachine(level, pos);
+        // render machine quads
+        List<BakedQuad> quads = renderMachine(machine, level, pos, blockState, side, rand, modelData, renderType);
+        if (machine == null) {
+            return quads;
+        }
+
+        // render output overlays
+        var outputTrait = machine.getTrait(AutoOutputTrait.TYPE);
+        if (outputTrait != null && outputTrait.supportsAutoOutputItems()) {
+            var itemFace = outputTrait.getItemOutputDirection();
+            if (itemFace != null && side == itemFace) {
+                quads.add(StaticFaceBakery.bakeFace(StaticFaceBakery.OUTPUT_OVERLAY, side, pipeOverlaySprite));
+                if (outputTrait.isAutoOutputItems()) {
+                    quads.add(StaticFaceBakery.bakeFace(StaticFaceBakery.AUTO_OUTPUT_OVERLAY, side,
+                            itemOutputOverlaySprite, BlockModelRotation.X0_Y0, -101, 15, true, true));
+                }
+            }
+        }
+        if (outputTrait != null && outputTrait.supportsAutoOutputFluids()) {
+            var fluidFace = outputTrait.getFluidOutputDirection();
+            if (fluidFace != null && side == fluidFace) {
+                quads.add(StaticFaceBakery.bakeFace(StaticFaceBakery.OUTPUT_OVERLAY, side, pipeOverlaySprite));
+                if (outputTrait.isAutoOutputFluids()) {
+                    quads.add(StaticFaceBakery.bakeFace(StaticFaceBakery.AUTO_OUTPUT_OVERLAY, side,
+                            fluidOutputOverlaySprite, BlockModelRotation.X0_Y0, -101, 15, true, true));
+                }
+            }
+        }
+
+        // render covers
+        ICoverableRenderer.super.renderCovers(quads, machine.getCoverContainer(), pos, level,
+                side, rand, modelData, renderType);
+        return quads;
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public List<BakedQuad> renderMachine(@Nullable MetaMachine machine, @Nullable BlockAndTintGetter level,
+                                         @Nullable BlockPos pos, @Nullable BlockState blockState,
+                                         @Nullable Direction side, RandomSource rand,
+                                         ModelData modelData, @Nullable RenderType renderType) {
+        List<BakedQuad> quads = new LinkedList<>();
+
+        MachineRenderState renderState = machine != null ? machine.getRenderState() : definition.defaultRenderState();
+        renderBaseModel(quads, renderState, blockState, side, rand, modelData, renderType);
+
+        for (DynamicRender render : dynamicRenders) {
+            quads.addAll(render.getRenderQuads(machine, level, pos, blockState, side, rand, modelData, renderType));
+        }
+        // the instanceof check also ensures it's not null
+        if (machine instanceof IMultiPart part && part.replacePartModelWhenFormed()) {
+            quads = replacePartBaseModel(quads, part, machine.getFrontFacing(), level, pos, blockState,
+                    side, rand, modelData, renderType);
+        }
+
+        // we have to recalculate CTM ourselves.
+        if (level != null && pos != null && blockState != null && side != null) {
+            BlockState ctmState = blockState;
+            BlockAndTintGetter ctmLevel = level;
+            if (machine instanceof IMultiPart part && part.isFormed()) {
+                BlockState appearance = part.getFormedAppearance(blockState, pos, side);
+                if (appearance != null) {
+                    ctmState = appearance;
+                    ctmLevel = new FacadeBlockAndTintGetter(level, pos, appearance, level.getBlockEntity(pos));
+                }
+            }
+            return CTMMeshBuilder.buildCTMQuads(ctmLevel, pos, ctmState, quads, side);
+        }
+        return quads;
+    }
+
+    public void renderBaseModel(List<BakedQuad> quads, MachineRenderState renderState,
+                                @Nullable BlockState blockState, @Nullable Direction side, RandomSource rand,
+                                ModelData modelData, @Nullable RenderType renderType) {
+        if (multiPart != null) {
+            quads.addAll(multiPart.getMachineQuads(definition, renderState, blockState,
+                    side, rand, modelData, renderType));
+        }
+        if (modelsByState.containsKey(renderState)) {
+            quads.addAll(modelsByState.get(renderState).getQuads(blockState, side, rand, modelData, renderType));
+        }
+    }
+
+    public List<BakedQuad> replacePartBaseModel(List<BakedQuad> originalQuads, IMultiPart part, Direction frontFacing,
+                                                @Nullable BlockAndTintGetter level, @Nullable BlockPos pos,
+                                                @Nullable BlockState blockState,
+                                                @Nullable Direction side, RandomSource rand,
+                                                ModelData modelData, @Nullable RenderType renderType) {
+        var controllers = part.getControllers();
+        for (MultiblockControllerMachine controller : controllers) {
+            var state = controller.getBlockState();
+            BakedModel model = RenderUtil.getModelForState(state);
+            List<BakedQuad> newQuads = null;
+
+            // spotless:off
+            if (model instanceof IControllerModelRenderer controllerRenderer) {
+                controllerRenderer.renderPartModel(originalQuads, controller, part, frontFacing, side,
+                        rand, modelData, renderType);
+            } else if (model instanceof MachineModel controllerModel) {
+                newQuads = renderPartOverrides(controllerModel, controller, originalQuads, part, frontFacing,
+                        level, pos, blockState,
+                        side, rand, modelData, renderType);
+            }
+            if (newQuads != null) {
+                return newQuads;
+            }
+            // spotless:on
+        }
+        return originalQuads;
+    }
+
+    public List<String> remapReplaceableTextures(String key) {
+        if (this.replaceableTextures.contains(key)) {
+            return Collections.singletonList(key);
+        } else {
+            List<String> remapped = TEXTURE_REMAPS.get(key);
+            if (remapped != null) return remapped;
+            else return Collections.emptyList();
+        }
+    }
+
+    private List<BakedQuad> renderPartOverrides(MachineModel controllerModel, MultiblockControllerMachine controller,
+                                                List<BakedQuad> quads, IMultiPart part, Direction frontFacing,
+                                                @Nullable BlockAndTintGetter level, @Nullable BlockPos pos,
+                                                @Nullable BlockState blockState,
+                                                @Nullable Direction side, RandomSource rand,
+                                                ModelData modelData, @Nullable RenderType renderType) {
+        var overrides = controllerModel.textureOverrides;
+
+        List<BakedQuad> renderQuads = new LinkedList<>();
+        boolean controllerDrewBaseModel = false;
+        for (var render : controllerModel.getDynamicRenders()) {
+            if (render instanceof IControllerModelRenderer controllerRenderer) {
+                controllerRenderer.renderPartModel(renderQuads, controller, part, frontFacing, side,
+                        rand, modelData, renderType);
+                if (!renderQuads.isEmpty()) {
+                    // assume the renderer drew the base model, and replace the override textures with empty ones
+                    overrides = new HashMap<>();
+                    for (String key : this.replaceableTextures) {
+                        overrides.put(key, blankSprite);
+                    }
+                    controllerDrewBaseModel = true;
+                    break;
+                }
+
+            }
+        }
+        if (overrides.isEmpty()) {
+            quads.addAll(renderQuads);
+            return quads;
+        }
+
+        // parse out valid overrides
+        Map<String, String> remaps = new IdentityHashMap<>();
+        final TextureAtlasSprite missingno = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS)
+                .apply(MissingTextureAtlasSprite.getLocation());
+        final Map<String, TextureAtlasSprite> finalOverrides = overrides;
+        overrides = finalOverrides.keySet().stream()
+                .flatMap(key -> {
+                    var remapped = remapReplaceableTextures(key);
+                    for (String r : remapped) {
+                        remaps.put(r, key);
+                    }
+                    return remapped.stream();
+                })
+                .collect(Collectors.toMap(Function.identity(),
+                        key -> finalOverrides.getOrDefault(remaps.get(key), missingno),
+                        (o1, o2) -> o1));
+
+        if (!controllerDrewBaseModel) {
+            BlockState appearance = getPartAppearance(part, level, pos, blockState, side);
+            if (appearance != null) {
+                List<BakedQuad> appearanceQuads = getAppearanceQuads(appearance, level, pos, side,
+                        rand, modelData, renderType);
+                if (!appearanceQuads.isEmpty()) {
+                    quads = replaceBaseQuadsWithAppearance(quads, appearanceQuads, overrides);
+                    quads.addAll(renderQuads);
+                    return quads;
+                }
+            }
+        }
+
+        // actually process the sprite replacement
+        quads = TextureOverrideModel.retextureQuads(quads, overrides);
+        quads.addAll(renderQuads);
+        return quads;
+    }
+
+    private @Nullable BlockState getPartAppearance(IMultiPart part, @Nullable BlockAndTintGetter level,
+                                                   @Nullable BlockPos pos, @Nullable BlockState blockState,
+                                                   @Nullable Direction side) {
+        if (level == null || pos == null || blockState == null) {
+            return null;
+        }
+        return part.getFormedAppearance(blockState, pos, side);
+    }
+
+    private List<BakedQuad> getAppearanceQuads(BlockState appearance, BlockAndTintGetter level, BlockPos pos,
+                                               @Nullable Direction side, RandomSource rand, ModelData modelData,
+                                               @Nullable RenderType renderType) {
+        BakedModel model = Minecraft.getInstance().getBlockRenderer().getBlockModel(appearance);
+        model = unwrapWrappedModel(model);
+
+        BlockAndTintGetter appearanceLevel = new FacadeBlockAndTintGetter(level, pos, appearance,
+                level.getBlockEntity(pos));
+        ModelData appearanceData = model.getModelData(appearanceLevel, pos, appearance, modelData);
+        return new LinkedList<>(model.getQuads(appearance, side, rand, appearanceData, renderType));
+    }
+
+    private static List<BakedQuad> replaceBaseQuadsWithAppearance(List<BakedQuad> originalQuads,
+                                                                  List<BakedQuad> appearanceQuads,
+                                                                  Map<String, TextureAtlasSprite> overrides) {
+        List<BakedQuad> newQuads = new LinkedList<>(appearanceQuads);
+        for (BakedQuad quad : originalQuads) {
+            String textureKey = normalizeTextureKey(quad);
+            if (textureKey != null && !overrides.containsKey(textureKey)) {
+                newQuads.add(quad);
+            }
+        }
+        return newQuads;
+    }
+
+    private static @Nullable String normalizeTextureKey(BakedQuad quad) {
+        String textureKey = quad.gtceu$getTextureKey();
+        if (textureKey == null || textureKey.isEmpty()) {
+            return null;
+        }
+        return textureKey.charAt(0) == '#' ? textureKey.substring(1) : textureKey;
+    }
+
+    private static BakedModel unwrapWrappedModel(BakedModel model) {
+        while (model instanceof BakedModelWrapperAccessor<?> accessor) {
+            BakedModel parent = accessor.gtceu$getParent();
+            if (parent == model) {
+                break;
+            }
+            model = parent;
+        }
+        return model;
+    }
+
+    @Override
+    public boolean isCustomRenderer() {
+        return true;
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Override
+    public void render(MetaMachine machine, float partialTick,
+                       PoseStack poseStack, MultiBufferSource buffer,
+                       int packedLight, int packedOverlay) {
+        if (machine.getDefinition() != getDefinition()) return;
+        ICoverableRenderer.super.renderDynamicCovers(machine, partialTick, poseStack, buffer,
+                packedLight,
+                packedOverlay);
+        if (dynamicRenders.isEmpty()) return;
+
+        Vec3 cameraPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+        for (DynamicRender model : dynamicRenders) {
+            if (!model.shouldRender(machine, cameraPos)) {
+                continue;
+            }
+            model.render(machine, partialTick, poseStack, buffer, packedLight, packedOverlay);
+        }
+    }
+
+    @Override
+    public void renderByItem(ItemStack stack, ItemDisplayContext displayContext,
+                             PoseStack poseStack, MultiBufferSource buffer,
+                             int packedLight, int packedOverlay) {
+        if (dynamicRenders.isEmpty()) return;
+        for (DynamicRender<?, ?> model : dynamicRenders) {
+            model.renderByItem(stack, displayContext, poseStack, buffer, packedLight, packedOverlay);
+        }
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Override
+    public AABB getRenderBoundingBox(MetaMachine machine) {
+        AABB bounds = IBlockEntityRendererBakedModel.super.getRenderBoundingBox(machine);
+
+        if (machine.getDefinition() != getDefinition()) return bounds;
+        if (dynamicRenders.isEmpty()) return bounds;
+
+        for (DynamicRender model : dynamicRenders) {
+            bounds = bounds.minmax(model.getRenderBoundingBox(machine));
+        }
+        return bounds;
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Override
+    public boolean shouldRenderOffScreen(MetaMachine machine) {
+        if (machine.getDefinition() != getDefinition()) return false;
+        if (dynamicRenders.isEmpty()) return false;
+
+        for (DynamicRender render : dynamicRenders) {
+            if (render.shouldRenderOffScreen(machine)) return true;
+        }
+        return false;
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Override
+    public boolean shouldRender(MetaMachine machine, Vec3 cameraPos) {
+        if (machine.getDefinition() != getDefinition()) return false;
+        if (machine.getCoverContainer().hasDynamicCovers()) return true;
+        if (dynamicRenders.isEmpty()) return false;
+
+        for (DynamicRender model : dynamicRenders) {
+            if (model.shouldRender(machine, cameraPos)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int getViewDistance() {
+        int distance = 0;
+        for (DynamicRender<?, ?> model : dynamicRenders) {
+            distance = Math.max(distance, model.getViewDistance());
+        }
+        return distance;
+    }
+
+    @Override
+    public BlockEntityType<? extends MetaMachine> getBlockEntityType() {
+        return getDefinition().getBlockEntityType();
+    }
+}

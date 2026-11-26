@@ -35,4 +35,4 @@ title: 基岩矿脉
 | `materials` | 候选材料及各自相对权重。 |
 | `dimension_filter` | 矿脉可出现的维度。 |
 
-[基岩矿脉数据模型](https://github.com/ExtremelyFrozen/GregTech-Post-Modern/blob/1.21/src/main/java/com/gregtechceu/gtceu/api/data/worldgen/bedrockore/BedrockOreDefinition.java)
+[基岩矿脉数据模型](https://github.com/ModularMCLib/GregTech-Post-Modern/blob/1.21/src/main/java/com/modularmclib/gtpm/api/data/worldgen/bedrockore/BedrockOreDefinition.java)

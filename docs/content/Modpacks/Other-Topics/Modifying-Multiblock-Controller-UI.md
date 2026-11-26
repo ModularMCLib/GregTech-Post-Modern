@@ -27,6 +27,6 @@ title: 多方块主机界面
 
 ## 定制 LDLib2 页面
 
-在控制器类中覆盖 `createUIWidget(FancyMachineUIWidget shell)`，返回 LDLib2 的 `UIElement`。`GTComponentPanelElement` 可从 `addDisplayText` 读取动态文本。`attachSideTabs` 和 `attachConfigurators` 分别提供侧边页和设置控件。拥有交互槽位的页面还可以由可用部件提供。 [IFancyUIProvider 源码](https://github.com/ExtremelyFrozen/GregTech-Post-Modern/blob/1.21/src/main/java/com/gregtechceu/gtceu/api/gui/fancy/IFancyUIProvider.java)
+在控制器类中覆盖 `createUIWidget(FancyMachineUIWidget shell)`，返回 LDLib2 的 `UIElement`。`GTComponentPanelElement` 可从 `addDisplayText` 读取动态文本。`attachSideTabs` 和 `attachConfigurators` 分别提供侧边页和设置控件。拥有交互槽位的页面还可以由可用部件提供。 [IFancyUIProvider 源码](https://github.com/ModularMCLib/GregTech-Post-Modern/blob/1.21/src/main/java/com/modularmclib/gtpm/api/gui/fancy/IFancyUIProvider.java)
 
 机器、部件与覆板使用自身的界面入口。客户端状态显示使用 `@SyncToClient`，双向设置使用 `@SyncBoth`，需要执行一次的交互使用 `@RPCMethod`。 [字段同步](../../Development/Data-Sync-System/index.md) · [XML 模板](LDLib-UI-Editor.md)

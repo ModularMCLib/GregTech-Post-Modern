@@ -36,7 +36,7 @@ jobs:
       - name: Build
         run: ./gradlew build
       - name: Publish to Maven
-        if: ${{ github.repository_owner == 'GregTechCEu' && env.PUBLISH == 'true' }}
+        if: ${{ github.repository_owner == 'ModularMCLib' && env.PUBLISH == 'true' }}
         run: ./gradlew publish
       - name: Rename Jars
         if: ${{ env.PUBLISH == 'true' }}
@@ -54,7 +54,7 @@ jobs:
         if: ${{ env.PUBLISH == 'true' }}
         uses: mikepenz/release-changelog-builder-action@v5
         with:
-          configuration: "./.github/json/config-latest${{ github.ref_name }}.json"
+          configuration: './.github/json/config-latest-${{ github.ref_name }}.json'
           toTag: ${{ github.ref }}
           fetchViaCommits: true
           failOnError: false
@@ -66,7 +66,7 @@ jobs:
           name: '${{ github.ref_name }}-${{ steps.ver.outputs.version}} SNAPSHOT ${{ env.VERSION_SUFFIX }}'
           prerelease: true
           body: |
-            The latest build of GTPM for Minecraft ${{ github.ref_name }}.
-            Please report any [issues](https://github.com/ExtremelyFrozen/GregTech-Modern-Post-Modern/issues).
+            The latest build of GTPM for Minecraft 1.21.1.
+            Please report any [issues](${{ github.server_url }}/${{ github.repository }}/issues).
             ${{ steps.changelog.outputs.changelog }}
           files: build/libs/*.jar

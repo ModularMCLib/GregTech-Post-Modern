@@ -1,0 +1,360 @@
+package com.modularmclib.gtpm.common.machine.multiblock.electric;
+
+import com.modularmclib.gtpm.api.GTValues;
+import com.modularmclib.gtpm.api.block.IFusionCasingType;
+import com.modularmclib.gtpm.api.blockentity.BlockEntityCreationInfo;
+import com.modularmclib.gtpm.api.capability.IEnergyContainer;
+import com.modularmclib.gtpm.api.capability.recipe.EURecipeCapability;
+import com.modularmclib.gtpm.api.capability.recipe.FluidRecipeCapability;
+import com.modularmclib.gtpm.api.capability.recipe.IO;
+import com.modularmclib.gtpm.api.gui.element.GTLabelElement;
+import com.modularmclib.gtpm.api.machine.MetaMachine;
+import com.modularmclib.gtpm.api.machine.TickableSubscription;
+import com.modularmclib.gtpm.api.machine.feature.multiblock.IMultiPart;
+import com.modularmclib.gtpm.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.modularmclib.gtpm.api.machine.trait.NotifiableEnergyContainer;
+import com.modularmclib.gtpm.api.misc.EnergyContainerList;
+import com.modularmclib.gtpm.api.recipe.GTRecipe;
+import com.modularmclib.gtpm.api.recipe.GTRecipeDefinition;
+import com.modularmclib.gtpm.api.recipe.OverclockingLogic;
+import com.modularmclib.gtpm.api.recipe.RecipeData;
+import com.modularmclib.gtpm.api.recipe.RecipeHelper;
+import com.modularmclib.gtpm.api.recipe.modifier.ModifierFunction;
+import com.modularmclib.gtpm.api.recipe.modifier.RecipeModifier;
+import com.modularmclib.gtpm.api.recipe.ui.GTRecipeTypeUI.RecipeUISize;
+import com.modularmclib.gtpm.api.sync_system.annotations.SaveField;
+import com.modularmclib.gtpm.api.sync_system.annotations.SyncToClient;
+import com.modularmclib.gtpm.client.bloom.BloomRenderTicket;
+import com.modularmclib.gtpm.common.block.FusionCasingBlock;
+import com.modularmclib.gtpm.utils.FormattingUtil;
+import com.modularmclib.gtpm.utils.GTUtil;
+
+import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
+
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.block.Block;
+
+import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.longs.Long2IntAVLTreeMap;
+import it.unimi.dsi.fastutil.longs.Long2IntSortedMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectMaps;
+import lombok.Getter;
+import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.modularmclib.gtpm.api.GTValues.*;
+import static com.modularmclib.gtpm.api.recipe.OverclockingLogic.PERFECT_HALF_DURATION_FACTOR;
+import static com.modularmclib.gtpm.api.recipe.OverclockingLogic.PERFECT_HALF_VOLTAGE_FACTOR;
+import static com.modularmclib.gtpm.common.data.GTBlocks.*;
+
+public class FusionReactorMachine extends WorkableElectricMultiblockMachine {
+
+    // Standard OC used for Fusion
+    public static final OverclockingLogic FUSION_OC = OverclockingLogic.create(PERFECT_HALF_DURATION_FACTOR,
+            PERFECT_HALF_VOLTAGE_FACTOR, false);
+
+    // Max EU -> Tier map, used to find minimum tier needed for X EU to start
+    private static final Long2IntSortedMap FUSION_ENERGY = new Long2IntAVLTreeMap();
+    // Tier -> Suffix map, i.e. LuV -> MKI
+    private static final Int2ObjectMap<String> FUSION_NAMES = new Int2ObjectArrayMap<>(4);
+    // Minimum registered fusion reactor tier
+    private static int MINIMUM_TIER = MAX;
+
+    @Getter
+    private final int tier;
+    @Nullable
+    protected EnergyContainerList inputEnergyContainers;
+    @SaveField
+    protected long heat = 0;
+    @SaveField
+    protected final NotifiableEnergyContainer energyContainer;
+    @Nullable
+    protected TickableSubscription preHeatSubs;
+
+    // Used for rendering
+    @Getter
+    @SyncToClient
+    private int color = 0xFFFFFFFF;
+    public float delta = 0;
+    public int lastColor = -1;
+    @Getter
+    @Setter
+    protected BloomRenderTicket registeredBloomTicket = BloomRenderTicket.INVALID;
+
+    public FusionReactorMachine(BlockEntityCreationInfo info, int tier) {
+        super(info);
+        this.tier = tier;
+        this.energyContainer = attachTrait(new NotifiableEnergyContainer(0, 0, 0, 0, 0));
+        energyContainer.setCapabilityValidator(candidate -> candidate == null);
+    }
+
+    //////////////////////////////////////
+    // ***** Initialization ******//
+    //////////////////////////////////////
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        if (!isRemote()) {
+            updatePreHeatSubscription();
+        }
+    }
+
+    @Override
+    public void formStructure(String structureName) {
+        super.formStructure(structureName);
+        if (!DEFAULT_STRUCTURE.equals(structureName)) return;
+        // capture all energy containers
+        List<IEnergyContainer> energyContainers = new ArrayList<>();
+        Long2ObjectMap<IO> ioMap = getMultiblockState(DEFAULT_STRUCTURE).getFacts().getOrDefault("ioMap",
+                Long2ObjectMaps.emptyMap());
+        for (IMultiPart part : getParts()) {
+            IO io = ioMap.getOrDefault(part.self().getBlockPos().asLong(), IO.BOTH);
+            if (io == IO.NONE || io == IO.OUT) continue;
+            var handlerLists = part.getRecipeHandlers();
+            for (var handlerList : handlerLists) {
+                if (!handlerList.isValid(io)) continue;
+
+                handlerList.getCapability(EURecipeCapability.CAP).stream()
+                        .filter(IEnergyContainer.class::isInstance)
+                        .map(IEnergyContainer.class::cast)
+                        .forEach(energyContainers::add);
+                traitSubscriptions.add(handlerList.subscribe(this::updatePreHeatSubscription, EURecipeCapability.CAP));
+            }
+        }
+        this.inputEnergyContainers = new EnergyContainerList(energyContainers);
+        energyContainer.resetBasicInfo(calculateEnergyStorageFactor(getTier(), energyContainers.size()), 0, 0, 0, 0);
+        updatePreHeatSubscription();
+    }
+
+    @Override
+    public void invalidateStructure(String structureName) {
+        super.invalidateStructure(structureName);
+        if (!DEFAULT_STRUCTURE.equals(structureName)) return;
+        this.inputEnergyContainers = null;
+        heat = 0;
+        energyContainer.resetBasicInfo(0, 0, 0, 0, 0);
+        energyContainer.setEnergyStored(0);
+        updatePreHeatSubscription();
+    }
+
+    //////////////////////////////////////
+    // ***** Recipe Logic ******//
+    //////////////////////////////////////
+    protected void updatePreHeatSubscription() {
+        // do preheat logic for heat cool down and charge internal energy container
+        if (heat > 0 || (inputEnergyContainers != null && inputEnergyContainers.getEnergyStored() > 0 &&
+                energyContainer.getEnergyStored() < energyContainer.getEnergyCapacity())) {
+            preHeatSubs = subscribeServerTick(preHeatSubs, this::updateHeat);
+        } else if (preHeatSubs != null) {
+            preHeatSubs.unsubscribe();
+            preHeatSubs = null;
+        }
+    }
+
+    /**
+     * Recipe Modifier for <b>Fusion Reactors</b> - can be used as a valid {@link RecipeModifier}
+     * <p>
+     * If the Fusion Reactor has enough heat or can get enough heat to run the recipe based on the {@code eu_to_start}
+     * data,
+     * apply {@link FusionReactorMachine#FUSION_OC} to the recipe.
+     * Otherwise, the recipe is rejected.
+     * </p>
+     *
+     * @param machine a {@link FusionReactorMachine}
+     * @param recipe  recipe
+     * @return A {@link ModifierFunction} for the given Fusion Reactor and recipe
+     */
+    public static ModifierFunction recipeModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
+        if (!(machine instanceof FusionReactorMachine fusionReactorMachine)) {
+            return RecipeModifier.nullWrongType(FusionReactorMachine.class, machine);
+        }
+        if (RecipeHelper.getRecipeEUtTier(recipe) > fusionReactorMachine.getTier() ||
+                !RecipeData.contains(recipe.data, "eu_to_start") ||
+                RecipeData.getLong(recipe.data, "eu_to_start") >
+                        fusionReactorMachine.energyContainer.getEnergyCapacity()) {
+            return ModifierFunction
+                    .cancel(Component.translatable("gtpm.recipe_modifier.insufficient_eu_to_start_fusion"));
+        }
+
+        long heatDiff = RecipeData.getLong(recipe.data, "eu_to_start") - fusionReactorMachine.heat;
+
+        // if the stored heat is >= required energy, recipe is okay to run
+        if (heatDiff <= 0) {
+            return FUSION_OC.getModifier(machine, recipe, fusionReactorMachine.getMaxVoltage(), false);
+        }
+        // if the remaining energy needed is more than stored, do not run
+        if (fusionReactorMachine.energyContainer.getEnergyStored() < heatDiff)
+            return ModifierFunction
+                    .cancel(Component.translatable("gtpm.recipe_modifier.insufficient_eu_to_start_fusion"));
+
+        // remove the energy needed
+        fusionReactorMachine.energyContainer.removeEnergy(heatDiff);
+        // increase the stored heat
+        fusionReactorMachine.heat += heatDiff;
+        fusionReactorMachine.updatePreHeatSubscription();
+        return FUSION_OC.getModifier(machine, recipe, fusionReactorMachine.getMaxVoltage(), false);
+    }
+
+    @Override
+    public boolean onWorking() {
+        GTRecipe recipe = recipeLogic.getLastRecipe();
+        assert recipe != null;
+        if (RecipeData.contains(recipe.data, "eu_to_start")) {
+            long heatDiff = RecipeData.getLong(recipe.data, "eu_to_start") - this.heat;
+            // if the remaining energy needed is more than stored, do not run
+            if (heatDiff > 0) {
+                recipeLogic.setWaiting(Component.translatable("gtpm.recipe_logic.insufficient_fuel"));
+
+                // if the remaining energy needed is more than stored, do not run
+                if (this.energyContainer.getEnergyStored() < heatDiff)
+                    return super.onWorking();
+                // remove the energy needed
+                this.energyContainer.removeEnergy(heatDiff);
+                // increase the stored heat
+                this.heat += heatDiff;
+                this.updatePreHeatSubscription();
+            }
+        }
+
+        if (color == -1) {
+            if (!recipe.getOutputContents(FluidRecipeCapability.CAP).isEmpty()) {
+                var stack = FluidRecipeCapability.CAP
+                        .of(recipe.getOutputContents(FluidRecipeCapability.CAP).getFirst().getContent()).getFluids()[0];
+                int newColor = 0xFF000000 | GTUtil.getFluidColor(stack);
+                if (color != newColor) {
+                    color = newColor;
+                    syncDataHolder.markClientSyncFieldDirty("color");
+                }
+            }
+        }
+        return super.onWorking();
+    }
+
+    public void updateHeat() {
+        // Drain heat when the reactor is not active, is paused via soft mallet, or does not have enough energy and has
+        // fully wiped recipe progress
+        // Don't drain heat when there is not enough energy and there is still some recipe progress, as that makes it
+        // doubly hard to complete the recipe
+        // (Will have to recover heat and recipe progress)
+        var workLogic = getWorkLogic();
+        if ((workLogic.isIdle() || !workLogic.isWorkingEnabled() ||
+                (workLogic.isWaiting() && getRecipeLogic().getProgress() == 0)) && heat > 0) {
+            heat = heat <= 10000 ? 0 : (heat - 10000);
+        }
+        // charge the internal energy storage
+        var leftStorage = energyContainer.getEnergyCapacity() - energyContainer.getEnergyStored();
+        if (inputEnergyContainers != null && leftStorage > 0) {
+            energyContainer.addEnergy(inputEnergyContainers.removeEnergy(leftStorage));
+        }
+        updatePreHeatSubscription();
+    }
+
+    @Override
+    public void onWaiting() {
+        super.onWaiting();
+        color = -1;
+        syncDataHolder.markClientSyncFieldDirty("color");
+    }
+
+    @Override
+    public void afterWorking() {
+        super.afterWorking();
+        color = -1;
+        syncDataHolder.markClientSyncFieldDirty("color");
+    }
+
+    @Override
+    public long getMaxVoltage() {
+        return Math.min(GTValues.V[tier], super.getMaxVoltage());
+    }
+
+    //////////////////////////////////////
+    // ******** GUI *********//
+    //////////////////////////////////////
+    @Override
+    public void addDisplayText(List<Component> textList) {
+        super.addDisplayText(textList);
+        if (isFormed()) {
+            textList.add(Component.translatable("gtpm.multiblock.fusion_reactor.energy",
+                    energyContainer.getEnergyStored(), energyContainer.getEnergyCapacity()));
+            textList.add(Component.translatable("gtpm.multiblock.fusion_reactor.heat", heat));
+        }
+    }
+
+    public static void addEUToStartLabel(GTRecipeDefinition recipe, UIElement root,
+                                         RecipeUISize rootSize) {
+        long euToStart = RecipeData.getLong(recipe.data, "eu_to_start");
+        if (euToStart <= 0) return;
+        int recipeTier = RecipeHelper.getPreOCRecipeEuTier(recipe);
+        addEUToStartLabel(root, euToStart, recipeTier, rootSize);
+    }
+
+    private static void addEUToStartLabel(UIElement root, long euToStart, int recipeTier,
+                                          RecipeUISize rootSize) {
+        int fusionTier = findCeilingTier(euToStart);
+        int tier = Math.max(MINIMUM_TIER, Math.max(recipeTier, fusionTier));
+        GTLabelElement label = new GTLabelElement(-8, rootSize.height() - 10, rootSize.width() + 8, 10);
+        label.setValue(Component.translatable("gtpm.recipe.eu_to_start",
+                FormattingUtil.formatNumberReadable2F(euToStart, false),
+                FUSION_NAMES.get(tier)));
+        label.textStyle(textStyle -> textStyle.textWrap(TextWrap.NONE));
+        root.addChild(label);
+    }
+
+    //////////////////////////////////////
+    // ******** MISC *********//
+    //////////////////////////////////////
+    public static void registerFusionTier(int tier, @NotNull String name) {
+        long maxEU = calculateEnergyStorageFactor(tier, 16);
+        FUSION_ENERGY.put(maxEU, tier);
+        FUSION_NAMES.put(tier, name);
+        MINIMUM_TIER = Math.min(tier, MINIMUM_TIER);
+    }
+
+    private static int findCeilingTier(long euToStart) {
+        long key;
+        // tail = submap where all keys are >= EU to start
+        // if tail is empty, then EU is greater than all the EU values, so we choose the last key
+        // otherwise we want the first key in the tail map
+        var tail = FUSION_ENERGY.tailMap(euToStart);
+        if (tail.isEmpty()) key = FUSION_ENERGY.lastLongKey();
+        else key = tail.firstLongKey();
+        return FUSION_ENERGY.get(key);
+    }
+
+    public static long calculateEnergyStorageFactor(int tier, int energyInputAmount) {
+        return energyInputAmount * (long) Math.pow(2, tier - LuV) * 10000000L;
+    }
+
+    public static Block getCasingState(int tier) {
+        return switch (tier) {
+            case LuV -> FUSION_CASING.get();
+            case ZPM -> FUSION_CASING_MK2.get();
+            default -> FUSION_CASING_MK3.get();
+        };
+    }
+
+    public static Block getCoilState(int tier) {
+        if (tier == GTValues.LuV)
+            return SUPERCONDUCTING_COIL.get();
+
+        return FUSION_COIL.get();
+    }
+
+    public static IFusionCasingType getCasingType(int tier) {
+        return switch (tier) {
+            case LuV -> FusionCasingBlock.CasingType.FUSION_CASING;
+            case ZPM -> FusionCasingBlock.CasingType.FUSION_CASING_MK2;
+            case UV -> FusionCasingBlock.CasingType.FUSION_CASING_MK3;
+            default -> FusionCasingBlock.CasingType.FUSION_CASING;
+        };
+    }
+}

@@ -50,4 +50,4 @@ title: 持有者与 Codec
 
     在附属模组初始化时调用 `ScanTarget.registerFieldCodec()`。受管对象可将 `ScanTarget` 用作保存或同步字段。
 
-持久化以 `SyncFieldData.CODEC` 和相应的注册表上下文写入。网络字段按自身 Codec 直接编码。上下文 Codec 提供值的编码方式，调用者选择保存或网络场景。 [FieldCodecs 源码](https://github.com/ExtremelyFrozen/GregTech-Post-Modern/blob/1.21/src/main/java/com/gregtechceu/gtceu/api/sync_system/FieldCodecs.kt)
+持久化以 `SyncFieldData.CODEC` 和相应的注册表上下文写入。网络字段按自身 Codec 直接编码。上下文 Codec 提供值的编码方式，调用者选择保存或网络场景。 [FieldCodecs 源码](https://github.com/ModularMCLib/GregTech-Post-Modern/blob/1.21/src/main/java/com/modularmclib/gtpm/api/sync_system/FieldCodecs.kt)

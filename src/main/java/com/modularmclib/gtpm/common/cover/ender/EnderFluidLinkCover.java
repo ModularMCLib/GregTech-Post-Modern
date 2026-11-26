@@ -1,0 +1,163 @@
+package com.modularmclib.gtpm.common.cover.ender;
+
+import com.modularmclib.gtpm.api.blockentity.ConfigCopyHelper;
+import com.modularmclib.gtpm.api.capability.ICoverable;
+import com.modularmclib.gtpm.api.cover.CoverDefinition;
+import com.modularmclib.gtpm.api.cover.filter.FilterHandler;
+import com.modularmclib.gtpm.api.cover.filter.FilterHandlers;
+import com.modularmclib.gtpm.api.cover.filter.FluidFilter;
+import com.modularmclib.gtpm.api.gui.GuiTextures;
+import com.modularmclib.gtpm.api.gui.UITemplate;
+import com.modularmclib.gtpm.api.gui.element.GTFluidSlotElement;
+import com.modularmclib.gtpm.api.misc.virtualregistry.EntryTypes;
+import com.modularmclib.gtpm.api.misc.virtualregistry.VirtualEnderRegistry;
+import com.modularmclib.gtpm.api.misc.virtualregistry.VirtualEntry;
+import com.modularmclib.gtpm.api.misc.virtualregistry.entries.VirtualTank;
+import com.modularmclib.gtpm.api.sync_system.SyncFieldData;
+import com.modularmclib.gtpm.api.sync_system.annotations.SaveField;
+import com.modularmclib.gtpm.api.sync_system.annotations.SyncToClient;
+import com.modularmclib.gtpm.api.transfer.fluid.IFluidHandlerModifiable;
+import com.modularmclib.gtpm.utils.GTTransferUtils;
+
+import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+
+import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+
+import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
+public class EnderFluidLinkCover extends AbstractEnderLinkCover<VirtualTank> {
+
+    public static final int TRANSFER_RATE = 8000; // mB/t
+
+    @SaveField
+    @SyncToClient
+    protected VirtualTank visualTank;
+
+    @Getter
+    @SaveField
+    @SyncToClient
+    protected final FilterHandler<FluidStack, FluidFilter> filterHandler;
+    protected int mBLeftToTransferLastSecond;
+
+    public EnderFluidLinkCover(CoverDefinition definition, ICoverable coverHolder, Direction attachedSide) {
+        super(definition, coverHolder, attachedSide);
+        this.mBLeftToTransferLastSecond = TRANSFER_RATE * 20;
+        filterHandler = FilterHandlers.fluid(this);
+        if (!coverHolder.isRemote()) setEntry(VirtualEnderRegistry.getInstance()
+                .getOrCreateEntry(getOwner(), EntryTypes.ENDER_FLUID, getChannelName()));
+    }
+
+    @Override
+    protected VirtualTank getEntry() {
+        return visualTank;
+    }
+
+    @Override
+    protected void setEntry(VirtualEntry entry) {
+        visualTank = (VirtualTank) entry;
+        syncDataHolder.markClientSyncFieldDirty("visualTank");
+    }
+
+    @Override
+    public boolean canAttach() {
+        return FluidUtil.getFluidHandler(coverHolder.getLevel(), coverHolder.getBlockPos(), attachedSide).isPresent();
+    }
+
+    @Override
+    protected EntryTypes<VirtualTank> getEntryType() {
+        return EntryTypes.ENDER_FLUID;
+    }
+
+    @Override
+    protected String identifier() {
+        return "EFLink#";
+    }
+
+    @Override
+    protected void transfer() {
+        long timer = coverHolder.getOffsetTimer();
+        if (mBLeftToTransferLastSecond > 0) {
+            int platformTransferredFluid = doTransferFluids(mBLeftToTransferLastSecond);
+            this.mBLeftToTransferLastSecond -= platformTransferredFluid;
+        }
+
+        if (timer % 20 == 0) {
+            this.mBLeftToTransferLastSecond = TRANSFER_RATE * 20;
+        }
+    }
+
+    protected @Nullable IFluidHandlerModifiable getOwnFluidHandler() {
+        return coverHolder.getFluidHandlerCap(attachedSide, false);
+    }
+
+    private int doTransferFluids(int platformTransferLimit) {
+        var ownFluidHandler = getOwnFluidHandler();
+
+        if (ownFluidHandler != null) {
+            return switch (io) {
+                case IN -> GTTransferUtils.transferFluidsFiltered(ownFluidHandler, visualTank.getFluidTank(),
+                        filterHandler.getFilter(), platformTransferLimit);
+                case OUT -> GTTransferUtils.transferFluidsFiltered(visualTank.getFluidTank(), ownFluidHandler,
+                        filterHandler.getFilter(), platformTransferLimit);
+                default -> 0;
+            };
+
+        }
+        return 0;
+    }
+
+    @Override
+    public SyncFieldData copyConfig(HolderLookup.Provider registries) {
+        return ConfigCopyHelper.withFields(super.copyConfig(registries), fields -> fields
+                .put(SyncFieldData.key("filter"), ItemStack.OPTIONAL_CODEC, filterHandler.getFilterItem(), registries));
+    }
+
+    @Override
+    public void pasteConfig(ServerPlayer player, HolderLookup.Provider registries, SyncFieldData config) {
+        filterHandler
+                .setFilterItem(ConfigCopyHelper.getItem(registries, config, "filter"));
+        super.pasteConfig(player, registries, config);
+    }
+
+    @Override
+    public @NotNull List<ItemStack> getAdditionalDrops() {
+        var list = super.getAdditionalDrops();
+        if (!filterHandler.getFilterItem().isEmpty()) {
+            list.add(filterHandler.getFilterItem());
+        }
+        return list;
+    }
+
+    //////////////////////////////////////
+    // ************ GUI ************ //
+    //////////////////////////////////////
+
+    @Override
+    protected UIElement addVirtualEntryElement(VirtualEntry entry, int x, int y, int width, int height,
+                                               boolean canClick) {
+        GTFluidSlotElement tank = new GTFluidSlotElement()
+                .setFluidTank(((VirtualTank) entry).getFluidTank(), 0)
+                .setAllowClickFilled(false)
+                .setAllowClickDrained(false)
+                .setBackgroundTexture(GuiTextures.FLUID_SLOT);
+        return UITemplate.setBounds(tank, x, y, width, height);
+    }
+
+    @NotNull
+    @Override
+    protected String getUITitle() {
+        return "cover.ender_fluid_link.title";
+    }
+}

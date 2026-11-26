@@ -47,8 +47,8 @@ title: 自定义机器
                             .where('#', PatternPredicate.air())
                             .build())
             .workableCasingModel(
-                    GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
-                    GTCEu.id("block/multiblock/large_chemical_reactor"))
+                    GTPM.id("block/casings/solid/machine_casing_solid_steel"),
+                    GTPM.id("block/multiblock/large_chemical_reactor"))
             .register();
     ```
 

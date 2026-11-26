@@ -84,4 +84,4 @@ let addFluid = (mat, key) => {
     })
 ```
 
-1. [``Material`` class](https://github.com/ExtremelyFrozen/GregTech-Post-Modern/blob/1.21/src/main/java/com/gregtechceu/gtceu/api/data/chemical/material/Material.java) 中的大多数方法都可以在 ``materialModification`` 事件中使用
+1. [``Material`` class](https://github.com/ModularMCLib/GregTech-Post-Modern/blob/1.21/src/main/java/com/modularmclib/gtpm/api/data/chemical/material/Material.java) 中的大多数方法都可以在 ``materialModification`` 事件中使用

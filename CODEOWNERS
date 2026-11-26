@@ -1,7 +1,7 @@
 # All other changes require the primary team
-* @ExtremelyFrozen/GregTech-Modern-Post-Modern-Devs
+* @ModularMCLib/GregTechPostModernDevs
 
 # Specific files requiring admin approval
-CODEOWNERS @ExtremelyFrozen/admin
-LICENSE @ExtremelyFrozen/admin
-/README.md @ExtremelyFrozen/admin
+CODEOWNERS @ModularMCLib/admin
+LICENSE @ModularMCLib/admin
+/README.md @ModularMCLib/admin

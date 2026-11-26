@@ -1,0 +1,498 @@
+package com.modularmclib.gtpm.common.item.behavior;
+
+import com.modularmclib.gtpm.api.GTValues;
+import com.modularmclib.gtpm.api.block.property.GTBlockStateProperties;
+import com.modularmclib.gtpm.api.blockentity.PipeBlockEntity;
+import com.modularmclib.gtpm.api.capability.*;
+import com.modularmclib.gtpm.api.data.worldgen.bedrockfluid.BedrockFluidVeinSavedData;
+import com.modularmclib.gtpm.api.gui.misc.ProspectorMode;
+import com.modularmclib.gtpm.api.item.component.IAddInformation;
+import com.modularmclib.gtpm.api.item.component.IInteractionItem;
+import com.modularmclib.gtpm.api.machine.MetaMachine;
+import com.modularmclib.gtpm.api.machine.feature.IDataInfoProvider;
+import com.modularmclib.gtpm.api.machine.feature.IMufflableMachine;
+import com.modularmclib.gtpm.api.machine.feature.IWorkLogicMachine;
+import com.modularmclib.gtpm.api.machine.trait.RecipeLogic;
+import com.modularmclib.gtpm.api.recipe.GTRecipe;
+import com.modularmclib.gtpm.api.recipe.RecipeHelper;
+import com.modularmclib.gtpm.api.sync_system.SyncFieldData;
+import com.modularmclib.gtpm.api.sync_system.managed.ManagedSyncBlockEntity;
+import com.modularmclib.gtpm.common.blockentity.FluidPipeBlockEntity;
+import com.modularmclib.gtpm.common.capability.EnvironmentalHazardSavedData;
+import com.modularmclib.gtpm.common.capability.LocalizedHazardSavedData;
+import com.modularmclib.gtpm.common.data.GTDataComponents;
+import com.modularmclib.gtpm.common.data.GTSoundEntries;
+import com.modularmclib.gtpm.common.network.packets.prospecting.SPacketProspectBedrockFluid;
+import com.modularmclib.gtpm.utils.FormattingUtil;
+import com.modularmclib.gtpm.utils.GTUtil;
+
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.network.PacketDistributor;
+
+import com.mojang.serialization.JsonOps;
+import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class PortableScannerBehavior implements IInteractionItem, IAddInformation {
+
+    private int debugLevel = 0;
+
+    @Getter
+    public enum DisplayMode {
+
+        SHOW_ALL("behavior.portable_scanner.mode.show_all_info"),
+        SHOW_BLOCK_INFO("behavior.portable_scanner.mode.show_block_info"),
+        SHOW_MACHINE_INFO("behavior.portable_scanner.mode.show_machine_info"),
+        SHOW_ELECTRICAL_INFO("behavior.portable_scanner.mode.show_electrical_info"),
+        SHOW_RECIPE_INFO("behavior.portable_scanner.mode.show_recipe_info"),
+        SHOW_ENVIRONMENTAL_INFO("behavior.portable_scanner.mode.show_environmental_info"),
+        SHOW_INTERNAL_JAVA_INFO("behavior.portable_scanner.mode.show_internal_info");
+
+        private final String langKey;
+
+        DisplayMode(String langKey) {
+            this.langKey = langKey;
+        }
+    }
+
+    public PortableScannerBehavior(int debugLevel) {
+        this.debugLevel = debugLevel;
+    }
+
+    @Override
+    public InteractionResult useOn(UseOnContext context) {
+        var player = context.getPlayer();
+        var level = context.getLevel();
+        var pos = context.getClickedPos();
+        var stack = context.getItemInHand();
+
+        if (!level.isClientSide() && !level.isEmptyBlock(pos) && player != null) {
+
+            List<Component> list = new ArrayList<>();
+            int energyCost = addScannerInfo(player, level, pos, getMode(stack), list);
+
+            if (player.isCreative()) {
+                energyCost = 0;
+            }
+
+            if (energyCost > 0 && !drainEnergy(stack, energyCost, true)) {
+                player.sendSystemMessage(Component.translatable("behavior.prospector.not_enough_energy"));
+                return InteractionResult.CONSUME;
+            }
+
+            drainEnergy(stack, energyCost, false);
+            for (var line : list) {
+                player.sendSystemMessage(line);
+            }
+
+            GTSoundEntries.PORTABLE_SCANNER.play(level, null, player.position(), 1.0f, 1.0f);
+
+            return InteractionResult.CONSUME;
+        }
+
+        return InteractionResult.CONSUME;
+    }
+
+    @Override
+    public InteractionResultHolder<ItemStack> use(ItemStack item, Level level, Player player,
+                                                  InteractionHand usedHand) {
+        if (player.isShiftKeyDown()) {
+            if (!level.isClientSide) {
+                setNextMode(item);
+                var mode = getMode(item);
+                player.sendSystemMessage(Component.translatable("behavior.portable_scanner.mode.caption",
+                        Component.translatable(mode.getLangKey())));
+            }
+            return InteractionResultHolder.success(item);
+        }
+        return IInteractionItem.super.use(item, level, player, usedHand);
+    }
+
+    protected boolean drainEnergy(@NotNull ItemStack stack, int amount, boolean simulate) {
+        IElectricItem electricItem = GTCapabilityHelper.getElectricItem(stack);
+        if (electricItem == null) return false;
+        return electricItem.discharge(amount, Integer.MAX_VALUE, true, false, simulate) >= amount;
+    }
+
+    protected void setNextMode(ItemStack stack) {
+        stack.update(GTDataComponents.SCANNER_MODE, (byte) 0,
+                mode -> (byte) ((mode + 1) % DisplayMode.values().length));
+    }
+
+    @NotNull
+    protected DisplayMode getMode(ItemStack stack) {
+        if (stack == ItemStack.EMPTY) {
+            return DisplayMode.SHOW_ALL;
+        }
+        return DisplayMode.values()[stack.getOrDefault(GTDataComponents.SCANNER_MODE, (byte) 0) %
+                DisplayMode.values().length];
+    }
+
+    public int addScannerInfo(Player player, Level level, BlockPos pos, DisplayMode mode, List<Component> list) {
+        BlockEntity tileEntity = level.getBlockEntity(pos);
+        int energyCost = 0;
+
+        BlockState state = level.getBlockState(pos);
+        Block block = state.getBlock();
+
+        // General information
+        if (mode == DisplayMode.SHOW_ALL || mode == DisplayMode.SHOW_BLOCK_INFO) {
+
+            // Coordinates of the block
+            list.add(Component.translatable("behavior.portable_scanner.position",
+                    Component.translatable(FormattingUtil.formatNumbers(pos.getX()))
+                            .withStyle(ChatFormatting.AQUA),
+                    Component.translatable(FormattingUtil.formatNumbers(pos.getY()))
+                            .withStyle(ChatFormatting.AQUA),
+                    Component.translatable(FormattingUtil.formatNumbers(pos.getZ()))
+                            .withStyle(ChatFormatting.AQUA),
+                    Component.translatable(level.dimension().location().toString())
+                            .withStyle(ChatFormatting.AQUA)));
+
+            // Hardness and blast resistance
+            list.add(Component.translatable("behavior.portable_scanner.block_hardness",
+                    Component.translatable(
+                            FormattingUtil.formatNumbers(block.defaultDestroyTime()))
+                            .withStyle(ChatFormatting.YELLOW),
+                    Component.translatable(FormattingUtil.formatNumbers(block.getExplosionResistance()))
+                            .withStyle(ChatFormatting.YELLOW)));
+
+            // Possible block states
+            if (debugLevel > 2) {
+                state.getProperties().forEach((property) -> {
+                    list.add(Component.translatable("behavior.portable_scanner.state",
+                            Component.translatable(property.getName()),
+                            Component.translatable(state.getValue(property).toString())
+                                    .withStyle(ChatFormatting.AQUA)));
+                });
+            }
+        }
+
+        if (tileEntity instanceof MetaMachine machine) {
+
+            list.add(Component.translatable(state.getBlock().getDescriptionId()).withStyle(ChatFormatting.BLUE));
+
+            // General machine information
+            if (mode == DisplayMode.SHOW_ALL || mode == DisplayMode.SHOW_MACHINE_INFO) {
+                if (machine.getOwner() != null) {
+                    machine.getOwner().displayInfo(list);
+                }
+
+                if (machine.getDefinition().isAllowExtendedFacing()) {
+                    list.add(Component.translatable("behavior.portable_scanner.divider"));
+
+                    list.add(Component.translatable("behavior.portable_scanner.machine_front_facing",
+                            machine.getFrontFacing().getSerializedName()));
+                    list.add(Component.translatable("behavior.portable_scanner.machine_upwards_facing",
+                            machine.getBlockState().getValue(GTBlockStateProperties.UPWARDS_FACING)
+                                    .getSerializedName()));
+                }
+
+                // Fluid tanks
+                IFluidHandler fluidHandler = tileEntity.getLevel().getCapability(Capabilities.FluidHandler.BLOCK,
+                        tileEntity.getBlockPos(), null);
+                if (fluidHandler != null) {
+                    list.add(Component.translatable("behavior.portable_scanner.divider"));
+                    boolean allTanksEmpty = true;
+
+                    for (int i = 0; i < fluidHandler.getTanks(); i++) {
+                        FluidStack fluidStack = fluidHandler.getFluidInTank(i);
+
+                        if (fluidStack.isEmpty()) {
+                            continue;
+                        }
+
+                        energyCost += 500;
+                        allTanksEmpty = false;
+                        list.add(Component.translatable("behavior.portable_scanner.tank", i,
+                                Component.translatable(FormattingUtil.formatNumbers(fluidStack.getAmount()))
+                                        .withStyle(ChatFormatting.GREEN),
+                                Component.translatable(FormattingUtil.formatNumbers(fluidHandler.getTankCapacity(i)))
+                                        .withStyle(ChatFormatting.YELLOW),
+                                ((MutableComponent) fluidStack.getHoverName()).withStyle(ChatFormatting.GOLD)));
+                    }
+
+                    if (allTanksEmpty) {
+                        list.add(Component.translatable("behavior.portable_scanner.tanks_empty"));
+                    }
+                }
+
+                // Sound muffling
+                if (machine instanceof IMufflableMachine mufflableMachine) {
+                    energyCost += 500;
+                    if (mufflableMachine.isMuffled()) {
+                        list.add(Component.translatable("behavior.portable_scanner.divider"));
+                        list.add(Component.translatable("behavior.portable_scanner.muffled")
+                                .withStyle(ChatFormatting.GREEN));
+                    }
+                }
+            }
+
+            // Energy related information
+            if (mode == DisplayMode.SHOW_ALL || mode == DisplayMode.SHOW_ELECTRICAL_INFO) {
+
+                // Energy container
+                IEnergyContainer energyContainer = tileEntity.getLevel()
+                        .getCapability(GTCapability.CAPABILITY_ENERGY_CONTAINER, tileEntity.getBlockPos(), null);
+                if (energyContainer != null) {
+                    if (energyContainer.getInputVoltage() > 0) {
+                        list.add(Component.translatable("behavior.portable_scanner.divider"));
+                        list.add(Component.translatable("behavior.portable_scanner.energy_container_in",
+                                Component.translatable(FormattingUtil.formatNumbers(energyContainer.getInputVoltage()))
+                                        .withStyle(ChatFormatting.RED),
+                                Component.translatable(
+                                        GTValues.VN[GTUtil.getTierByVoltage(energyContainer.getInputVoltage())])
+                                        .withStyle(ChatFormatting.RED),
+                                Component.translatable(FormattingUtil.formatNumbers(energyContainer.getInputAmperage()))
+                                        .withStyle(ChatFormatting.RED)));
+                    }
+                    if (energyContainer.getOutputVoltage() > 0) {
+                        list.add(Component.translatable("behavior.portable_scanner.divider"));
+                        list.add(Component.translatable("behavior.portable_scanner.energy_container_out",
+                                Component.translatable(FormattingUtil.formatNumbers(energyContainer.getOutputVoltage()))
+                                        .withStyle(ChatFormatting.RED),
+                                Component.translatable(
+                                        GTValues.VN[GTUtil.getTierByVoltage(energyContainer.getOutputVoltage())])
+                                        .withStyle(ChatFormatting.RED),
+                                Component.translatable(
+                                        FormattingUtil.formatNumbers(energyContainer.getOutputAmperage()))
+                                        .withStyle(ChatFormatting.RED)));
+                    }
+                    list.add(Component.translatable("behavior.portable_scanner.energy_container_storage",
+                            Component.translatable(FormattingUtil.formatNumbers(energyContainer.getEnergyStored()))
+                                    .withStyle(ChatFormatting.GREEN),
+                            Component.translatable(FormattingUtil.formatNumbers(energyContainer.getEnergyCapacity()))
+                                    .withStyle(ChatFormatting.YELLOW)));
+                }
+            }
+
+            // Recipe related information
+            if (mode == DisplayMode.SHOW_ALL || mode == DisplayMode.SHOW_RECIPE_INFO) {
+
+                // Workable progress info
+                if (machine instanceof IWorkable workableMachine) {
+                    energyCost += 400;
+                    if (!workableMachine.isWorkingEnabled()) {
+                        list.add(Component.translatable("behavior.portable_scanner.divider"));
+                        list.add(Component.translatable("behavior.portable_scanner.machine_disabled")
+                                .withStyle(ChatFormatting.RED));
+                    }
+                    if (workableMachine.getMaxProgress() > 0) {
+                        list.add(Component.translatable("behavior.portable_scanner.divider"));
+                        list.add(Component.translatable("behavior.portable_scanner.machine_progress",
+                                Component.translatable(FormattingUtil.formatNumbers(workableMachine.getProgress()))
+                                        .withStyle(ChatFormatting.GREEN),
+                                Component.translatable(FormattingUtil.formatNumbers(workableMachine.getMaxProgress()))
+                                        .withStyle(ChatFormatting.YELLOW)));
+                    }
+                }
+
+                // Recipe logic for EU production/consumption
+                RecipeLogic recipeLogic = machine.getTrait(RecipeLogic.TYPE);
+                boolean waitingDisplayed = false;
+                if (machine instanceof IWorkLogicMachine workLogicMachine) {
+                    var workLogic = workLogicMachine.getWorkLogic();
+                    if (workLogic.isWaiting()) {
+                        list.add(Component.translatable("behavior.portable_scanner.divider"));
+                        list.add(Component.translatable("gtpm.multiblock.waiting"));
+                        list.addAll(workLogic.getFancyTooltip());
+                        waitingDisplayed = true;
+                    }
+                }
+                if (recipeLogic != null) {
+                    GTRecipe recipe = recipeLogic.getLastRecipe();
+                    if (recipe != null && !waitingDisplayed) {
+                        list.add(Component.translatable("behavior.portable_scanner.divider"));
+                        var EUt = RecipeHelper.getRealEUtWithIO(recipe);
+                        long displayVoltage = Math.max(1, recipeLogic.getRLMachine().getDisplayRecipeVoltage());
+
+                        list.add(Component.translatable(
+                                EUt > 0 ? "behavior.portable_scanner.workable_consumption" :
+                                        "behavior.portable_scanner.workable_production",
+                                // TODO is this supposed to show voltage or total EU/t?
+                                Component.translatable(FormattingUtil.formatNumbers(Math.abs(EUt)))
+                                        .withStyle(ChatFormatting.RED),
+                                Component.translatable(
+                                        FormattingUtil.formatNumbers(Math.abs(EUt) / displayVoltage))
+                                        .withStyle(ChatFormatting.RED)));
+                    }
+                }
+            }
+
+            // machine-specific info
+            IDataInfoProvider provider = null;
+            if (tileEntity instanceof IDataInfoProvider) provider = (IDataInfoProvider) tileEntity;
+
+            if (provider != null) {
+                list.add(Component.translatable("behavior.portable_scanner.divider"));
+                list.addAll(provider.getDataInfo(mode));
+            }
+
+        } else if (tileEntity instanceof PipeBlockEntity<?, ?> pipe) {
+
+            // Pipes need special name handling
+            list.add(pipe.getPipeBlock().getName().withStyle(ChatFormatting.BLUE));
+
+            // Pipe-specific info
+            if (tileEntity instanceof IDataInfoProvider dataInfoProvider) {
+                list.add(Component.translatable("behavior.portable_scanner.divider"));
+                list.addAll(dataInfoProvider.getDataInfo(mode));
+            }
+
+            if (tileEntity instanceof FluidPipeBlockEntity) {
+                // Getting fluid info always costs 500
+                energyCost += 500;
+            }
+        } else if (tileEntity instanceof IDataInfoProvider dataInfoProvider) {
+            list.add(Component.translatable("behavior.portable_scanner.divider"));
+            list.addAll(dataInfoProvider.getDataInfo(mode));
+        } else {
+            list.add(Component.translatable(state.getBlock().getDescriptionId()).withStyle(ChatFormatting.BLUE));
+        }
+
+        // Environmental information
+        if (mode == DisplayMode.SHOW_ALL || mode == DisplayMode.SHOW_ENVIRONMENTAL_INFO) {
+
+            // Bedrock fluids
+            if (level instanceof ServerLevel serverLevel) {
+                list.add(Component.translatable("behavior.portable_scanner.divider"));
+                var veinData = BedrockFluidVeinSavedData.getOrCreate(serverLevel);
+                int chunkX = pos.getX() >> 4;
+                int chunkZ = pos.getZ() >> 4;
+                Fluid fluid = veinData.getFluidInChunk(chunkX, chunkZ);
+
+                if (fluid != null) {
+                    FluidStack stack = new FluidStack(fluid,
+                            veinData.getOperationsRemaining(chunkX, chunkZ));
+                    double fluidPercent = stack.getAmount() * 100.0 / BedrockFluidVeinSavedData.MAXIMUM_VEIN_OPERATIONS;
+
+                    var fluidInfo = ProspectorMode.FluidInfo
+                            .fromVeinWorldEntry(veinData.getFluidVeinWorldEntry(chunkX, chunkZ));
+                    var packet = new SPacketProspectBedrockFluid(level.dimension(), pos, fluidInfo);
+                    PacketDistributor.sendToPlayer((ServerPlayer) player, packet);
+
+                    if (player.isCreative()) {
+                        list.add(Component.translatable("behavior.portable_scanner.bedrock_fluid.amount",
+                                ((MutableComponent) stack.getHoverName())
+                                        .withStyle(ChatFormatting.GOLD),
+                                Component.translatable(String.valueOf(
+                                        veinData.getFluidYield(chunkX, chunkZ)))
+                                        .withStyle(ChatFormatting.GOLD),
+                                Component.translatable(String.valueOf(fluidPercent))
+                                        .withStyle(ChatFormatting.YELLOW)));
+                    } else {
+                        list.add(Component.translatable("behavior.portable_scanner.bedrock_fluid.amount_unknown",
+                                Component.translatable(String.valueOf(fluidPercent))
+                                        .withStyle(ChatFormatting.YELLOW)));
+                    }
+                } else {
+                    list.add(Component.translatable("behavior.portable_scanner.bedrock_fluid.nothing"));
+                }
+
+                // Pollution
+                var environmental = EnvironmentalHazardSavedData.getOrCreate(serverLevel);
+                var environmentHazardZone = environmental.getZoneByContainedPos(pos);
+                if (environmentHazardZone != null) {
+                    list.add(Component.translatable("behavior.portable_scanner.environmental_hazard",
+                            Component.translatable("gtpm.medical_condition." + environmentHazardZone.condition().name),
+                            Component.literal(FormattingUtil.formatNumbers(environmentHazardZone.strength()))));
+                } else {
+                    list.add(Component.translatable("behavior.portable_scanner.environmental_hazard.nothing"));
+                }
+
+                var local = LocalizedHazardSavedData.getOrCreate(serverLevel);
+                var localHazardZone = local.getZoneByContainedPos(pos);
+                if (localHazardZone != null) {
+                    list.add(Component.translatable("behavior.portable_scanner.local_hazard",
+                            Component.translatable("gtpm.medical_condition." + localHazardZone.condition().name),
+                            Component.literal(FormattingUtil.formatNumbers(localHazardZone.strength()))));
+                } else {
+                    list.add(Component.translatable("behavior.portable_scanner.local_hazard.nothing"));
+                }
+            }
+        }
+
+        // Add optional debug info
+        if (tileEntity instanceof IDataInfoProvider dataInfoProvider) {
+            List<Component> debugInfo = dataInfoProvider.getDebugInfo(player, debugLevel, mode);
+            if (debugInfo != null) {
+                list.addAll(debugInfo);
+            }
+        }
+
+        if (mode == DisplayMode.SHOW_INTERNAL_JAVA_INFO &&
+                tileEntity instanceof ManagedSyncBlockEntity syncBlockEntity) {
+            MetaMachine machine = (syncBlockEntity instanceof MetaMachine m) ? m : null;
+            PipeBlockEntity<?, ?> pipe = (syncBlockEntity instanceof PipeBlockEntity<?, ?> p) ? p : null;
+
+            list.add(Component.literal(syncBlockEntity.toString()));
+            if (pipe != null) {
+                var net = pipe.getPipeNet();
+                list.add(Component.literal(net == null ? "null" : net.toString()));
+            }
+            list.add(Component.translatable("behavior.portable_scanner.divider"));
+
+            list.add(Component.literal("Covers"));
+            ICoverable coverable = machine != null ? machine.getCoverContainer() :
+                    (pipe != null ? pipe.getCoverContainer() : null);
+            if (coverable != null) {
+                for (var dir : GTUtil.DIRECTIONS) {
+                    var cover = coverable.getCoverAtSide(dir);
+                    list.add(Component.literal(dir.getName() + ": " + (cover != null ? cover.toString() : "null")));
+                }
+            }
+
+            list.add(Component.translatable("behavior.portable_scanner.divider"));
+            list.add(Component.literal("Save data"));
+            list.add(Component.literal(SyncFieldData.CODEC
+                    .encodeStart(level.registryAccess().createSerializationContext(JsonOps.INSTANCE),
+                            syncBlockEntity.getSyncDataHolder()
+                                    .serializeToFieldData(level.registryAccess(), false, false))
+                    .getOrThrow()
+                    .toString()));
+
+            list.add(Component.translatable("behavior.portable_scanner.divider"));
+            list.add(Component.literal("Update packet"));
+            list.add(Component.literal(SyncFieldData.CODEC
+                    .encodeStart(level.registryAccess().createSerializationContext(JsonOps.INSTANCE),
+                            syncBlockEntity.getSyncDataHolder()
+                                    .serializeToFieldData(level.registryAccess(), true, true))
+                    .getOrThrow()
+                    .toString()));
+        }
+
+        return energyCost;
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents,
+                                TooltipFlag isAdvanced) {
+        tooltipComponents.add(Component.translatable("metaitem.behavior.mode_switch.tooltip"));
+        tooltipComponents.add(Component.translatable("behavior.portable_scanner.mode.caption",
+                Component.translatable(getMode(stack).getLangKey()).withStyle(ChatFormatting.AQUA)));
+    }
+}

@@ -5,7 +5,7 @@ title: 自定义矿脉
 
 # 添加、覆盖与停用普通矿脉
 
-普通矿脉的动态注册表为 `gtpm:ore_vein`。矿脉文件的位置是 `data/<命名空间>/gtpm/ore_vein/<路径>.json`。例如 `gtpm:cassiterite` 对应 `data/gtpm/gtpm/ore_vein/cassiterite.json`。 [内置矿脉定义](https://github.com/ExtremelyFrozen/GregTech-Post-Modern/tree/1.21/src/generated/resources/data/gtpm/gtpm/ore_vein)
+普通矿脉的动态注册表为 `gtpm:ore_vein`。矿脉文件的位置是 `data/<命名空间>/gtpm/ore_vein/<路径>.json`。例如 `gtpm:cassiterite` 对应 `data/gtpm/gtpm/ore_vein/cassiterite.json`。 [内置矿脉定义](https://github.com/ModularMCLib/GregTech-Post-Modern/tree/1.21/src/generated/resources/data/gtpm/gtpm/ore_vein)
 
 
 ## 创建矿脉
