@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       CHANGELOG: ${{ steps.changelog.outputs.changelog }}
+      branch: ${{ steps.release.outputs.branch }}
     permissions:
       contents: write
       pull-requests: read
@@ -18,28 +19,43 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.ref_name }}
-          sparse-checkout: '.github/json'
+          sparse-checkout: |
+            .github/json
+            gradle
+      - name: Read Release Branch
+        id: release
+        run: |
+          minecraft_version=$(awk -F '"' '/^minecraft[[:blank:]]*=/ { print $2; exit }' gradle/libs.versions.toml)
+          if [[ ! "$minecraft_version" =~ ^(1\.21|26\.[0-9]+)([.-]|$) ]]; then
+            echo "::notice::Skipping release for Minecraft $minecraft_version"
+            exit 0
+          fi
+          branch=${BASH_REMATCH[1]}
+          escaped_branch=${branch//./\\.}
+          config=$(jq -c --arg branch "$branch" --arg pattern "^(?!v?[0-9.]+(-$escaped_branch)$).+$" \
+            '.base_branches = [$branch] | .tag_resolver.filter.pattern = $pattern' .github/json/config.json)
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
+          echo "configuration=$config" >> "$GITHUB_OUTPUT"
       - name: Generate changelog
         id: changelog
+        if: steps.release.outputs.branch != ''
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          CONFIG: ${{ github.ref_name }}
         uses: mikepenz/release-changelog-builder-action@v5
         with:
-          configuration: './.github/json/config${{ env.CONFIG }}.json'
+          configurationJson: ${{ steps.release.outputs.configuration }}
           ignorePreReleases: true
           fetchViaCommits: true
           failOnError: true
 
-  publish-21:
-    name: 1.21.1
+  publish:
+    name: Publish Release
     needs: [ meta ]
-    if: ${{ contains(github.ref_name, '1.21') || !contains(github.ref_name, '1.20.1') }}
+    if: needs.meta.outputs.branch != ''
     secrets: inherit
     uses: ./.github/workflows/publish.yml
     with:
-      simulate: ${{ startsWith(github.event.release.name, 'simulate') || github.repository_owner != 'ExtremelyFrozen' }}
+      simulate: ${{ startsWith(github.event.release.name, 'simulate') || github.repository_owner != 'ModularMCLib' }}
       tag-name: ${{ github.ref_name }}
-      version: '1.21'
-      release-body: ${{ github.event.release.body }}
+      version: ${{ needs.meta.outputs.branch }}
       changelog-body: ${{ needs.meta.outputs.CHANGELOG }}

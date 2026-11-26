@@ -10,23 +10,38 @@ inputs:
     description: 'Ref to checkout'
     required: false
 
+outputs:
+  minecraft-version:
+    description: 'Minecraft version of the checked-out ref'
+    value: ${{ steps.versions.outputs.minecraft-version }}
+
 runs:
   using: 'composite'
   steps:
     - uses: actions/checkout@v4
       with:
         ref: ${{ inputs.ref || github.ref }}
+    - name: Read build versions
+      id: versions
+      shell: bash
+      run: |
+        minecraft_version=$(awk -F '"' '/^minecraft[[:blank:]]*=/ { print $2; exit }' gradle/libs.versions.toml)
+        case "$minecraft_version" in
+          1.21.*) java_version=21 ;;
+          26.*) java_version=25 ;;
+          *) echo "::error::Unsupported Minecraft version: $minecraft_version"; exit 1 ;;
+        esac
+        echo "minecraft-version=$minecraft_version" >> "$GITHUB_OUTPUT"
+        echo "java-version=$java_version" >> "$GITHUB_OUTPUT"
     - name: Set up JDK
       uses: actions/setup-java@v4
-      env:
-        REF: ${{ inputs.ref || github.ref }}
       with:
         distribution: temurin
-        java-version: '21'
+        java-version: ${{ steps.versions.outputs.java-version }}
 
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v4
       with:
         cache-write-only: ${{ inputs.update-cache }}
-        cache-read-only: ${{ github.ref != 'refs/heads/1.21' }}
+        cache-read-only: ${{ github.ref != 'refs/heads/1.21' && !startsWith(github.ref, 'refs/heads/26.') }}
         add-job-summary: 'on-failure'

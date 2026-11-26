@@ -15,7 +15,6 @@ body:
       description: The version of Minecraft you wish this feature was added for.
       options:
         - "Both"
-        - "1.20.1 Forge"
         - "1.21.1 NeoForge"
   - type: textarea
     id: description

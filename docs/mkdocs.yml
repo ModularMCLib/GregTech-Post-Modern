@@ -1,9 +1,9 @@
 site_name: GregTech Post Modern 文档
-site_url: https://extremelyfrozen.github.io/GregTech-Post-Modern/
+site_url: https://modularmclib.github.io/GregTech-Post-Modern/
 
 repo_name: GregTech Post Modern
-repo_url: https://github.com/ExtremelyFrozen/GregTech-Post-Modern
-edit_uri: blob/1.21/docs/content/
+repo_url: https://github.com/ModularMCLib/GregTech-Post-Modern
+edit_uri: !ENV [MKDOCS_EDIT_URI, 'blob/1.21/docs/content/']
 
 docs_dir: content
 
@@ -52,12 +52,13 @@ extra:
     provider: mike
   social:
     - icon: fontawesome/brands/discord
-      link: https://discord.gg/bWSWuYvURP
+      link: https://discord.gg/HwnF3RTPtH
+      name: ModularMC Discord
     - icon: material/download
-      link: https://github.com/ExtremelyFrozen/GregTech-Post-Modern/releases
+      link: https://github.com/ModularMCLib/GregTech-Post-Modern/releases
       name: 下载 GregTech Post Modern
     - icon: fontawesome/brands/github
-      link: https://github.com/ExtremelyFrozen/GregTech-Post-Modern
+      link: https://github.com/ModularMCLib/GregTech-Post-Modern
 
 markdown_extensions:
   - admonition
