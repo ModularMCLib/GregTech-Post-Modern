@@ -1,0 +1,190 @@
+package com.modularmc.gtpm.api.cover.filter;
+
+import com.modularmc.gtpm.GTPM;
+import com.modularmc.gtpm.api.cover.CoverBehavior;
+import com.modularmc.gtpm.api.gui.GuiTextures;
+import com.modularmc.gtpm.api.gui.UITemplate;
+import com.modularmc.gtpm.api.gui.element.GTItemSlotElement;
+import com.modularmc.gtpm.api.machine.MachineCoverContainer;
+import com.modularmc.gtpm.api.machine.MetaMachine;
+import com.modularmc.gtpm.api.sync_system.SyncDataHolder;
+import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
+import com.modularmc.gtpm.api.sync_system.annotations.SyncToClient;
+import com.modularmc.gtpm.api.sync_system.managed.ISyncManaged;
+import com.modularmc.gtpm.api.transfer.item.CustomItemStackHandler;
+
+import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+
+import net.minecraft.world.item.ItemStack;
+
+import lombok.Getter;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Consumer;
+
+public abstract class FilterHandler<T, F extends Filter<T, F>> implements ISyncManaged {
+
+    @Getter
+    private final SyncDataHolder syncDataHolder = new SyncDataHolder(this);
+
+    private final ISyncManaged container;
+
+    @SaveField
+    @SyncToClient
+    @Getter
+    private ItemStack filterItem = ItemStack.EMPTY;
+
+    private @Nullable F filter;
+    private @Nullable CustomItemStackHandler filterSlot;
+    private @Nullable UIElement filterGroup;
+
+    private Consumer<F> onFilterLoaded = (filter) -> {};
+    private Consumer<F> onFilterRemoved = (filter) -> {};
+    private Consumer<F> onFilterUpdated = (filter) -> {};
+
+    public FilterHandler(ISyncManaged container) {
+        this.container = container;
+    }
+
+    protected abstract F loadFilter(ItemStack filterItem);
+
+    protected abstract F getEmptyFilter();
+
+    protected abstract boolean canInsertFilterItem(ItemStack itemStack);
+
+    //////////////////////////////////
+    // ***** PUBLIC API ******//
+    //////////////////////////////////
+
+    public UIElement createFilterSlotUI(int xPos, int yPos) {
+        GTItemSlotElement slot = new GTItemSlotElement(getFilterSlot(), 0)
+                .setChangeListener(this::updateFilter)
+                .setBackgroundTexture(GuiTextures.group(GuiTextures.SLOT, GuiTextures.FILTER_SLOT_OVERLAY));
+        return UITemplate.setBounds(slot, xPos, yPos, 18, 18);
+    }
+
+    public UIElement createFilterConfigUI(int xPos, int yPos, int width, int height) {
+        F loadedFilter = this.filterItem.isEmpty() ? null : getFilter();
+        this.filterGroup = UITemplate.setBounds(new UIElement(), xPos, yPos, width, height);
+        if (!this.filterItem.isEmpty() && loadedFilter != null) {
+            this.filterGroup.addChild(loadedFilter.openConfigurator(0, 0));
+        }
+
+        return this.filterGroup;
+    }
+
+    public boolean isFilterPresent() {
+        return filter != null || !filterItem.isEmpty();
+    }
+
+    public F getFilter() {
+        if (this.filter == null) {
+            if (this.filterItem.isEmpty()) {
+                return getEmptyFilter();
+            } else {
+                loadFilterFromItem();
+            }
+        }
+
+        return this.filter;
+    }
+
+    public boolean test(T resource) {
+        return getFilter().test(resource);
+    }
+
+    public FilterHandler<T, F> onFilterLoaded(Consumer<F> onFilterLoaded) {
+        this.onFilterLoaded = onFilterLoaded;
+        return this;
+    }
+
+    public FilterHandler<T, F> onFilterRemoved(Consumer<F> onFilterRemoved) {
+        this.onFilterRemoved = onFilterRemoved;
+        return this;
+    }
+
+    public FilterHandler<T, F> onFilterUpdated(Consumer<F> onFilterUpdated) {
+        this.onFilterUpdated = onFilterUpdated;
+        return this;
+    }
+
+    ///////////////////////////////////////
+    // ***** FILTER HANDLING ******//
+    ///////////////////////////////////////
+
+    private CustomItemStackHandler getFilterSlot() {
+        if (this.filterSlot == null) {
+            this.filterSlot = new CustomItemStackHandler(this.filterItem) {
+
+                @Override
+                public int getSlotLimit(int slot) {
+                    return 1;
+                }
+            };
+
+            this.filterSlot.setFilter(this::canInsertFilterItem);
+        }
+
+        return this.filterSlot;
+    }
+
+    public void setFilterItem(ItemStack item) {
+        getFilterSlot().setStackInSlot(0, item);
+        updateFilter();
+    }
+
+    private void updateFilter() {
+        var filterContainer = getFilterSlot();
+
+        if (GTPM.isClientThread()) {
+            if (!filterContainer.getStackInSlot(0).isEmpty() && !this.filterItem.isEmpty()) {
+                return;
+            }
+        }
+
+        this.filterItem = filterContainer.getStackInSlot(0);
+        syncDataHolder.markClientSyncFieldDirty("filterItem");
+
+        if (this.filter != null) {
+            F removedFilter = this.filter;
+            this.filter = null;
+            this.onFilterRemoved.accept(removedFilter);
+        }
+
+        loadFilterFromItem();
+    }
+
+    private void loadFilterFromItem() {
+        if (!this.filterItem.isEmpty()) {
+            this.filter = loadFilter(this.filterItem);
+            filter.setOnUpdated(this.onFilterUpdated);
+            if (filter instanceof SmartItemFilter smart &&
+                    container instanceof CoverBehavior cover &&
+                    cover.coverHolder instanceof MachineCoverContainer mcc) {
+                var machine = MetaMachine.getMachine(mcc.getLevel(), mcc.getBlockPos());
+                if (machine != null) {
+                    smart.setModeFromMachine(machine.getDefinition().getName());
+                }
+            }
+            this.onFilterLoaded.accept(this.filter);
+        }
+        updateFilterGroupUI();
+    }
+
+    private void updateFilterGroupUI() {
+        if (this.filterGroup != null) {
+            for (UIElement child : this.filterGroup.getSafeChildren()) {
+                this.filterGroup.removeChild(child);
+            }
+
+            if (!this.filterItem.isEmpty() && this.filter != null) {
+                this.filterGroup.addChild(this.filter.openConfigurator(0, 0));
+            }
+        }
+    }
+
+    @Override
+    public @Nullable ISyncManaged getParentSyncObject() {
+        return container;
+    }
+}

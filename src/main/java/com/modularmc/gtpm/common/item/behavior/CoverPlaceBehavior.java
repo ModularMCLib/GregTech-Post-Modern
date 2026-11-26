@@ -1,0 +1,90 @@
+package com.modularmc.gtpm.common.item.behavior;
+
+import com.modularmc.gtpm.api.capability.GTCapabilityHelper;
+import com.modularmc.gtpm.api.capability.ICoverable;
+import com.modularmc.gtpm.api.cover.CoverDefinition;
+import com.modularmc.gtpm.api.item.IComponentItem;
+import com.modularmc.gtpm.api.item.component.IInteractionItem;
+import com.modularmc.gtpm.api.item.component.IItemComponent;
+import com.modularmc.gtpm.common.data.item.GTItemAbilities;
+
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+
+import org.jetbrains.annotations.Nullable;
+
+import java.util.function.BooleanSupplier;
+import java.util.function.Predicate;
+
+public record CoverPlaceBehavior(CoverDefinition coverDefinition) implements IInteractionItem {
+
+    @Override
+    public InteractionResult onItemUseFirst(ItemStack itemStack, UseOnContext context) {
+        var level = context.getLevel();
+        var pos = context.getClickedPos();
+        var face = context.getClickedFace();
+        var player = context.getPlayer();
+        ICoverable coverable = GTCapabilityHelper.getCoverable(level, pos, face);
+        if (coverable != null) {
+            var coverSide = ICoverable.rayTraceCoverableSide(coverable, player);
+            if (coverSide != null && coverable.getCoverAtSide(coverSide) == null &&
+                    coverable.canPlaceCoverOnSide(coverDefinition, coverSide)) {
+                if (player instanceof ServerPlayer serverPlayer) {
+                    boolean result = coverable.placeCoverOnSide(coverSide, itemStack, coverDefinition, serverPlayer);
+                    if (result && !player.isCreative()) {
+                        itemStack.shrink(1);
+                    }
+                    return result ? InteractionResult.SUCCESS : InteractionResult.FAIL;
+                }
+                return InteractionResult.SUCCESS;
+            }
+        }
+        return InteractionResult.PASS;
+    }
+
+    public static boolean isCoverBehaviorItem(ItemStack itemStack, @Nullable BooleanSupplier hasCoverSupplier,
+                                              @Nullable Predicate<CoverDefinition> canPlaceCover) {
+        Item item = itemStack.getItem();
+        if (item instanceof IComponentItem componentItem) {
+            for (IItemComponent component : componentItem.getComponents()) {
+                if (component instanceof CoverPlaceBehavior(CoverDefinition definition)) {
+                    if (canPlaceCover == null || canPlaceCover.test(definition)) {
+                        return true;
+                    }
+                }
+            }
+        // spotless:off
+        } else if (itemStack.canPerformAction(GTItemAbilities.INTERACT_WITH_COVER) ||
+                itemStack.canPerformAction(GTItemAbilities.CROWBAR_REMOVE_COVER)) {
+            return hasCoverSupplier == null || hasCoverSupplier.getAsBoolean();
+        }
+        // spotless:on
+        return false;
+    }
+
+    /**
+     * Finds the cover definition carried by a component item so server actions can validate the actual player stack
+     * without trusting a client-supplied definition id.
+     *
+     * @param itemStack stack whose item components are inspected
+     * @return the first attached cover definition, or {@code null} when the stack is not a placeable cover item
+     */
+    @Nullable
+    public static CoverDefinition findCoverDefinition(ItemStack itemStack) {
+        if (itemStack.isEmpty()) {
+            return null;
+        }
+        Item item = itemStack.getItem();
+        if (item instanceof IComponentItem componentItem) {
+            for (IItemComponent component : componentItem.getComponents()) {
+                if (component instanceof CoverPlaceBehavior(CoverDefinition definition)) {
+                    return definition;
+                }
+            }
+        }
+        return null;
+    }
+}

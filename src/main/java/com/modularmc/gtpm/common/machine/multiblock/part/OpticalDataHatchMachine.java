@@ -1,0 +1,70 @@
+package com.modularmc.gtpm.common.machine.multiblock.part;
+
+import com.modularmc.gtpm.api.blockentity.BlockEntityCreationInfo;
+import com.modularmc.gtpm.api.capability.GTCapability;
+import com.modularmc.gtpm.api.capability.IDataAccessMachine;
+import com.modularmc.gtpm.api.capability.IOpticalDataAccessHatch;
+import com.modularmc.gtpm.api.machine.feature.IRecipeLogicMachine;
+import com.modularmc.gtpm.api.machine.multiblock.MultiblockControllerMachine;
+import com.modularmc.gtpm.api.machine.multiblock.part.MultiblockPartMachine;
+import com.modularmc.gtpm.api.recipe.GTRecipeType;
+
+import net.minecraft.resources.ResourceLocation;
+
+import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
+
+public class OpticalDataHatchMachine extends MultiblockPartMachine
+                                     implements IOpticalDataAccessHatch {
+
+    @Getter
+    private final boolean isTransmitter;
+
+    public OpticalDataHatchMachine(BlockEntityCreationInfo info, boolean isTransmitter) {
+        super(info);
+        this.isTransmitter = isTransmitter;
+    }
+
+    @Override
+    public boolean isRecipeAvailable(@NotNull GTRecipeType recipeType, @NotNull ResourceLocation recipeId) {
+        if (!isFormed()) {
+            return false;
+        }
+
+        if (isTransmitter()) {
+            MultiblockControllerMachine controller = getControllers().first();
+            return controller instanceof IDataAccessMachine dataAccessMachine &&
+                    dataAccessMachine.isRecipeAvailable(recipeType, recipeId);
+        } else {
+            IDataAccessMachine cap = getLevel().getCapability(GTCapability.CAPABILITY_DATA_ACCESS,
+                    getBlockPos().relative(getFrontFacing()), getFrontFacing().getOpposite());
+            return cap != null && cap.isRecipeAvailable(recipeType, recipeId);
+        }
+    }
+
+    @Override
+    public void notifyListeners() {
+        if (isTransmitter()) {
+            IDataAccessMachine cap = getLevel().getCapability(GTCapability.CAPABILITY_DATA_ACCESS,
+                    getBlockPos().relative(getFrontFacing()), getFrontFacing().getOpposite());
+            if (cap != null) {
+                cap.notifyListeners();
+            }
+            return;
+        }
+        for (MultiblockControllerMachine controller : getControllers()) {
+            if (controller instanceof IDataAccessMachine dataAccessMachine) {
+                dataAccessMachine.notifyListeners();
+            } else if (controller instanceof IRecipeLogicMachine recipeLogicMachine) {
+                recipeLogicMachine.getRecipeLogic().onRecipeHandlerChanged();
+            }
+        }
+    }
+
+    /** Creates the holder-scoped default preview used by a surrounding multiblock controller. */
+
+    @Override
+    public boolean canShared(MultiblockControllerMachine controller, String structureName) {
+        return false;
+    }
+}

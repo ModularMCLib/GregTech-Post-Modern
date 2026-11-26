@@ -1,0 +1,55 @@
+package com.modularmc.gtpm.core.mixins;
+
+import com.modularmc.gtpm.GTPM;
+import com.modularmc.gtpm.common.data.GTRecipes;
+import com.modularmc.gtpm.core.MixinHelpers;
+import com.modularmc.gtpm.data.loot.DungeonLootLoader;
+import com.modularmc.gtpm.data.pack.DynamicRecipeOutput;
+import com.modularmc.gtpm.data.pack.GTDynamicDataPack;
+import com.modularmc.gtpm.data.recipe.GTCraftingComponents;
+
+import net.minecraft.commands.Commands;
+import net.minecraft.core.LayeredRegistryAccess;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.server.RegistryLayer;
+import net.minecraft.server.ReloadableServerResources;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.world.flag.FeatureFlagSet;
+
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+
+@Mixin(value = ReloadableServerResources.class, priority = 2000)
+public abstract class ReloadableServerResourcesMixin {
+
+    @Inject(method = "loadResources", at = @At("HEAD"))
+    private static void gtceu$init(ResourceManager resourceManager, LayeredRegistryAccess<RegistryLayer> access,
+                                   FeatureFlagSet featureFlags, Commands.CommandSelection commands,
+                                   int functionCompilationLevel, Executor backgroundExecutor, Executor gameExecutor,
+                                   CallbackInfoReturnable<CompletableFuture<ReloadableServerResources>> cir) {
+        // load and loot tables recipes *before* other data so that we have the registries loaded
+        // before saving recipes to JSON.
+        // because it breaks if we don't do that.
+
+        // this doesn't have dynamic registries available, by the way.
+        RegistryAccess.Frozen frozen = access.compositeAccess();
+
+        // Register recipes & unification data again
+        long startTime = System.currentTimeMillis();
+        GTCraftingComponents.init();
+        DynamicRecipeOutput recipes = new DynamicRecipeOutput(frozen);
+        GTRecipes.recipeAddition(recipes);
+        GTPM.LOGGER.info("GregTech generated {} recipes in {}ms", recipes.getRecipeCount(),
+                System.currentTimeMillis() - startTime);
+        MixinHelpers.generateGTDynamicLoot(GTDynamicDataPack::addLootTable, frozen);
+        // Initialize dungeon loot additions
+        DungeonLootLoader.init();
+
+        GTPM.LOGGER.info("GregTech Data loading took {}ms", System.currentTimeMillis() - startTime);
+    }
+}

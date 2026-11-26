@@ -1,8 +1,8 @@
 {
 	"required": true,
 	"minVersion": "0.8",
-	"package": "com.modularmclib.gtpm.core.mixins",
-	"plugin": "com.modularmclib.gtpm.core.mixins.GTMixinPlugin",
+	"package": "com.modularmc.gtpm.core.mixins",
+	"plugin": "com.modularmc.gtpm.core.mixins.GTMixinPlugin",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
 		"client.AbstractClientPlayerAccessor",

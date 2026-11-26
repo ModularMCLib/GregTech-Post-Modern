@@ -1,0 +1,49 @@
+package com.modularmc.gtpm.common.item.tool.behavior;
+
+import com.modularmc.gtpm.api.item.tool.behavior.IToolBehavior;
+import com.modularmc.gtpm.api.item.tool.behavior.ToolBehaviorType;
+import com.modularmc.gtpm.api.sync_system.FieldCodecs;
+import com.modularmc.gtpm.common.data.GTToolBehaviors;
+
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+
+import com.mojang.serialization.Codec;
+import io.netty.buffer.ByteBuf;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+
+public class DisableShieldBehavior implements IToolBehavior<DisableShieldBehavior> {
+
+    public static final DisableShieldBehavior INSTANCE = new DisableShieldBehavior();
+    public static final Codec<DisableShieldBehavior> CODEC = Codec.unit(INSTANCE);
+    public static final StreamCodec<ByteBuf, DisableShieldBehavior> STREAM_CODEC = StreamCodec.unit(INSTANCE);
+
+    static {
+        FieldCodecs.register(DisableShieldBehavior.class, CODEC);
+        FieldCodecs.registerStream(DisableShieldBehavior.class, STREAM_CODEC);
+    }
+
+    protected DisableShieldBehavior() {/**/}
+
+    @Override
+    public boolean canDisableShield(ItemStack stack, ItemStack shield, LivingEntity entity, LivingEntity attacker) {
+        return true;
+    }
+
+    @Override
+    public ToolBehaviorType<DisableShieldBehavior> getType() {
+        return GTToolBehaviors.DISABLE_SHIELD;
+    }
+
+    @Override
+    public void addInformation(@NotNull ItemStack stack, Item.TooltipContext context, @NotNull List<Component> tooltip,
+                               @NotNull TooltipFlag flag) {
+        tooltip.add(Component.translatable("item.gtpm.tool.behavior.shield_disable"));
+    }
+}

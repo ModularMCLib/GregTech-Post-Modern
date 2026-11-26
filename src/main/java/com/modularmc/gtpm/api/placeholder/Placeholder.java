@@ -1,0 +1,35 @@
+package com.modularmc.gtpm.api.placeholder;
+
+import com.modularmc.gtpm.api.placeholder.exceptions.PlaceholderException;
+import com.modularmc.gtpm.common.capability.PlaceholderSavedData;
+
+import net.minecraft.server.level.ServerLevel;
+
+import lombok.Getter;
+
+import java.util.List;
+
+public abstract class Placeholder {
+
+    @Getter
+    private final String name;
+    @Getter
+    private final int priority;
+
+    public abstract MultiLineComponent apply(PlaceholderContext ctx,
+                                             List<MultiLineComponent> args) throws PlaceholderException;
+
+    public Placeholder(String name) {
+        this(name, 0);
+    }
+
+    public Placeholder(String name, int priority) {
+        this.name = name;
+        this.priority = priority;
+    }
+
+    protected PlaceholderData getData(PlaceholderContext ctx) {
+        return PlaceholderSavedData.getOrCreate((ServerLevel) ctx.level())
+                .getPlaceholderData(this, ctx.uuid());
+    }
+}

@@ -1,0 +1,305 @@
+package com.modularmc.gtpm.common.data.machines;
+
+import com.modularmc.gtpm.GTPM;
+import com.modularmc.gtpm.api.GTValues;
+import com.modularmc.gtpm.api.blockentity.BlockEntityCreationInfo;
+import com.modularmc.gtpm.api.data.RotationState;
+import com.modularmc.gtpm.api.machine.MachineDefinition;
+import com.modularmc.gtpm.api.machine.MetaMachine;
+import com.modularmc.gtpm.api.machine.MultiblockMachineDefinition;
+import com.modularmc.gtpm.api.machine.multiblock.MultiblockControllerMachine;
+import com.modularmc.gtpm.api.machine.multiblock.PartAbility;
+import com.modularmc.gtpm.api.machine.property.GTMachineModelProperties;
+import com.modularmc.gtpm.api.machine.trait.WorkLogic;
+import com.modularmc.gtpm.api.multiblock.pattern.dsl.PatternBuilder;
+import com.modularmc.gtpm.api.registry.registrate.MachineBuilder;
+import com.modularmc.gtpm.client.util.TooltipHelper;
+import com.modularmc.gtpm.common.data.GTMaterials;
+import com.modularmc.gtpm.common.data.GTRecipeTypes;
+import com.modularmc.gtpm.common.machine.multiblock.electric.research.DataBankMachine;
+import com.modularmc.gtpm.common.machine.multiblock.electric.research.HPCAMachine;
+import com.modularmc.gtpm.common.machine.multiblock.electric.research.NetworkSwitchMachine;
+import com.modularmc.gtpm.common.machine.multiblock.electric.research.ResearchStationMachine;
+import com.modularmc.gtpm.common.machine.multiblock.part.DataAccessHatchMachine;
+import com.modularmc.gtpm.common.machine.multiblock.part.ObjectHolderMachine;
+import com.modularmc.gtpm.common.machine.multiblock.part.OpticalComputationHatchMachine;
+import com.modularmc.gtpm.common.machine.multiblock.part.OpticalDataHatchMachine;
+import com.modularmc.gtpm.common.machine.multiblock.part.hpca.*;
+import com.modularmc.gtpm.data.lang.LangHandler;
+import com.modularmc.gtpm.utils.FormattingUtil;
+
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import static com.modularmc.gtpm.api.GTValues.*;
+import static com.modularmc.gtpm.api.machine.property.GTMachineModelProperties.IS_FORMED;
+import static com.modularmc.gtpm.common.data.GTBlocks.*;
+import static com.modularmc.gtpm.common.data.GTMachines.CREATIVE_TOOLTIPS;
+import static com.modularmc.gtpm.common.data.models.GTMachineModels.*;
+import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
+
+@SuppressWarnings("unused")
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
+public class GTResearchMachines {
+
+    public static final MultiblockMachineDefinition RESEARCH_STATION = REGISTRATE
+            .multiblock("research_station", ResearchStationMachine::new)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(GTRecipeTypes.RESEARCH_STATION_RECIPES)
+            .appearanceBlock(ADVANCED_COMPUTER_CASING)
+            .tooltips(LangHandler.getMultiLang("gtpm.machine.research_station.tooltip"))
+            .pattern(MultiblockControllerMachine.DEFAULT_STRUCTURE, definition -> PatternBuilder.start(definition)
+                    .appendDefinition()
+                    .build())
+            .sidedWorkableCasingModel(GTPM.id("block/casings/hpca/advanced_computer_casing"),
+                    GTPM.id("block/multiblock/research_station"))
+            .register();
+
+    public static final MachineDefinition OBJECT_HOLDER = REGISTRATE.machine("object_holder", ObjectHolderMachine::new)
+            .langValue("Object Holder")
+            .tier(ZPM)
+            .rotationState(RotationState.ALL)
+            .abilities(PartAbility.OBJECT_HOLDER)
+            .modelProperty(IS_FORMED, false)
+            .modelProperty(GTMachineModelProperties.RECIPE_LOGIC_STATUS, WorkLogic.Status.IDLE)
+            .model(createWorkableTieredHullMachineModel(GTPM.id("block/machines/object_holder"))
+                    .andThen((ctx, prov, model) -> {
+                        model.addReplaceableTextures("bottom", "top", "side");
+                    }))
+            .register();
+
+    public static final MachineDefinition DATA_BANK = REGISTRATE.multiblock("data_bank", DataBankMachine::new)
+            .langValue("Data Bank")
+            .rotationState(RotationState.NON_Y_AXIS)
+            .appearanceBlock(COMPUTER_CASING)
+            .recipeType(GTRecipeTypes.DUMMY_RECIPES)
+            .tooltips(Component.translatable("gtpm.machine.data_bank.tooltip.0"),
+                    Component.translatable("gtpm.machine.data_bank.tooltip.1"),
+                    Component.translatable("gtpm.machine.data_bank.tooltip.2"),
+                    Component.translatable("gtpm.machine.data_bank.tooltip.3",
+                            FormattingUtil.formatNumbers(DataBankMachine.EUT_PER_HATCH)),
+                    Component.translatable("gtpm.machine.data_bank.tooltip.4",
+                            FormattingUtil.formatNumbers(DataBankMachine.EUT_PER_HATCH_CHAINED)))
+            .pattern(MultiblockControllerMachine.DEFAULT_STRUCTURE, definition -> PatternBuilder.start(definition)
+                    .appendDefinition()
+                    .build())
+            .workableCasingModel(GTPM.id("block/casings/hpca/high_power_casing"),
+                    GTPM.id("block/multiblock/data_bank"))
+            .register();
+
+    public static final MachineDefinition NETWORK_SWITCH = REGISTRATE
+            .multiblock("network_switch", NetworkSwitchMachine::new)
+            .langValue("Network Switch")
+            .rotationState(RotationState.NON_Y_AXIS)
+            .appearanceBlock(COMPUTER_CASING)
+            .recipeType(GTRecipeTypes.DUMMY_RECIPES)
+            .tooltips(Component.translatable("gtpm.machine.network_switch.tooltip.0"),
+                    Component.translatable("gtpm.machine.network_switch.tooltip.1"),
+                    Component.translatable("gtpm.machine.network_switch.tooltip.2"),
+                    Component.translatable("gtpm.machine.network_switch.tooltip.3",
+                            FormattingUtil.formatNumbers(NetworkSwitchMachine.EUT_PER_HATCH)))
+            .pattern(MultiblockControllerMachine.DEFAULT_STRUCTURE, definition -> PatternBuilder.start(definition)
+                    .appendDefinition()
+                    .build())
+            .sidedWorkableCasingModel(GTPM.id("block/casings/hpca/computer_casing"),
+                    GTPM.id("block/multiblock/network_switch"))
+            .register();
+
+    public static final MachineDefinition HIGH_PERFORMANCE_COMPUTING_ARRAY = REGISTRATE
+            .multiblock("high_performance_computation_array", HPCAMachine::new)
+            .langValue("High Performance Computation Array (HPCA)")
+            .rotationState(RotationState.NON_Y_AXIS)
+            // TODO : Make a controllerAppearanceBlock() so the controller CTM's to the correct casings - Also just a
+            // good API addition for packdevs
+            .appearanceBlock(COMPUTER_CASING)
+            .recipeType(GTRecipeTypes.DUMMY_RECIPES)
+            .tooltips(LangHandler.getMultiLang("gtpm.machine.high_performance_computation_array.tooltip"))
+            .pattern(MultiblockControllerMachine.DEFAULT_STRUCTURE, definition -> PatternBuilder.start(definition)
+                    .appendDefinition()
+                    .build())
+            .sidedWorkableCasingModel(GTPM.id("block/casings/hpca/computer_casing"),
+                    GTPM.id("block/multiblock/hpca"))
+            .register();
+
+    ////////////////////////////////////////////
+    // ******** MULTIBLOCK PARTS ********//
+    ////////////////////////////////////////////
+
+    public static final MachineDefinition COMPUTATION_HATCH_TRANSMITTER = registerDataHatch(
+            "computation_transmitter_hatch", "Computation Data Transmission Hatch",
+            ZPM, (holder) -> new OpticalComputationHatchMachine(holder, true),
+            "computation_data_hatch", PartAbility.COMPUTATION_DATA_TRANSMISSION)
+            .tooltips(Component.translatable("gtpm.part_sharing.disabled"))
+            .register();
+
+    public static final MachineDefinition COMPUTATION_HATCH_RECEIVER = registerDataHatch(
+            "computation_receiver_hatch", "Computation Data Reception Hatch",
+            ZPM, (holder) -> new OpticalComputationHatchMachine(holder, false),
+            "computation_data_hatch", PartAbility.COMPUTATION_DATA_RECEPTION)
+            .tooltips(Component.translatable("gtpm.part_sharing.disabled"))
+            .register();
+
+    public static final MachineDefinition DATA_HATCH_TRANSMITTER = registerDataHatch(
+            "data_transmitter_hatch", "Optical Data Transmission Hatch",
+            LuV, (holder) -> new OpticalDataHatchMachine(holder, true),
+            "optical_data_hatch", PartAbility.OPTICAL_DATA_TRANSMISSION)
+            .tooltips(Component.translatable("gtpm.part_sharing.disabled"))
+            .register();
+
+    public static final MachineDefinition DATA_HATCH_RECEIVER = registerDataHatch(
+            "data_receiver_hatch", "Optical Data Reception Hatch",
+            LuV, (holder) -> new OpticalDataHatchMachine(holder, false),
+            "optical_data_hatch", PartAbility.OPTICAL_DATA_RECEPTION)
+            .tooltips(Component.translatable("gtpm.part_sharing.disabled"))
+            .register();
+
+    public static final MachineDefinition BASIC_DATA_ACCESS_HATCH = REGISTRATE
+            .machine("basic_data_access_hatch", (holder) -> new DataAccessHatchMachine(holder, HV, false))
+            .langValue("Basic Data Access Hatch")
+            .tier(HV)
+            .rotationState(RotationState.ALL)
+            .abilities(PartAbility.DATA_ACCESS)
+            .tooltips(Component.translatable("gtpm.machine.data_access_hatch.tooltip.0"),
+                    Component.translatable("gtpm.machine.data_access_hatch.tooltip.1", 4),
+                    Component.translatable("gtpm.part_sharing.disabled"))
+            .overlayTieredHullModel("data_access_hatch")
+            .register();
+
+    public static final MachineDefinition DATA_ACCESS_HATCH = REGISTRATE
+            .machine("data_access_hatch", (holder) -> new DataAccessHatchMachine(holder, EV, false))
+            .langValue("Data Access Hatch")
+            .tier(EV)
+            .rotationState(RotationState.ALL)
+            .abilities(PartAbility.DATA_ACCESS)
+            .tooltips(Component.translatable("gtpm.machine.data_access_hatch.tooltip.0"),
+                    Component.translatable("gtpm.machine.data_access_hatch.tooltip.1", 9),
+                    Component.translatable("gtpm.part_sharing.disabled"))
+            .overlayTieredHullModel("data_access_hatch")
+            .register();
+
+    public static final MachineDefinition ADVANCED_DATA_ACCESS_HATCH = REGISTRATE
+            .machine("advanced_data_access_hatch", (holder) -> new DataAccessHatchMachine(holder, LuV, false))
+            .langValue("Advanced Data Access Hatch")
+            .tier(LuV)
+            .rotationState(RotationState.ALL)
+            .abilities(PartAbility.DATA_ACCESS)
+            .tooltips(Component.translatable("gtpm.machine.data_access_hatch.tooltip.0"),
+                    Component.translatable("gtpm.machine.data_access_hatch.tooltip.1", 16),
+                    Component.translatable("gtpm.part_sharing.disabled"))
+            .overlayTieredHullModel("data_access_hatch")
+            .register();
+
+    public static final MachineDefinition CREATIVE_DATA_ACCESS_HATCH = REGISTRATE
+            .machine("creative_data_access_hatch", (holder) -> new DataAccessHatchMachine(holder, MAX, true))
+            .langValue("Creative Data Access Hatch")
+            .tier(MAX)
+            .rotationState(RotationState.ALL)
+            .abilities(PartAbility.DATA_ACCESS)
+            .modelProperty(IS_FORMED, false)
+            .tooltipBuilder((s, list) -> {
+                list.add(Component.translatable("gtpm.machine.data_access_hatch.tooltip.0"));
+                CREATIVE_TOOLTIPS.accept(s, list);
+                list.add(Component.translatable("gtpm.part_sharing.enabled"));
+            })
+            .overlayTieredHullModel("data_access_hatch_creative")
+            .register();
+
+    //////////////////////////////////////
+    // *********** HPCA ***********//
+    //////////////////////////////////////
+
+    public static final BiConsumer<ItemStack, List<Component>> OVERHEAT_TOOLTIPS = (stack, components) -> components
+            .add(Component.translatable("gtpm.machine.hpca.component_type.damaged")
+                    .withStyle(style -> style.withColor(TooltipHelper.BLINKING_ORANGE.getCurrent())));
+
+    public static final MachineDefinition HPCA_EMPTY_COMPONENT = registerHPCAPart(
+            "hpca_empty_component", "Empty HPCA Component",
+            HPCAEmptyPartMachine::new, "empty", false)
+            .tooltips(Component.translatable("gtpm.part_sharing.disabled"))
+            .register();
+    public static final MachineDefinition HPCA_COMPUTATION_COMPONENT = registerHPCAPart(
+            "hpca_computation_component", "HPCA Computation Component",
+            holder -> new HPCAComputationPartMachine(holder, false), "computation", false)
+            .tooltips(
+                    Component.translatable("gtpm.machine.hpca.component_general.upkeep_eut", GTValues.VA[GTValues.EV]),
+                    Component.translatable("gtpm.machine.hpca.component_general.max_eut", GTValues.VA[GTValues.LuV]),
+                    Component.translatable("gtpm.machine.hpca.component_type.computation_cwut", 4),
+                    Component.translatable("gtpm.machine.hpca.component_type.computation_cooling", 2),
+                    Component.translatable("gtpm.part_sharing.disabled"))
+            .tooltipBuilder(OVERHEAT_TOOLTIPS)
+            .register();
+    public static final MachineDefinition HPCA_ADVANCED_COMPUTATION_COMPONENT = registerHPCAPart(
+            "hpca_advanced_computation_component", "HPCA Advanced Computation Component",
+            holder -> new HPCAComputationPartMachine(holder, true), "advanced_computation", true)
+            .tooltips(
+                    Component.translatable("gtpm.machine.hpca.component_general.upkeep_eut", GTValues.VA[GTValues.IV]),
+                    Component.translatable("gtpm.machine.hpca.component_general.max_eut", GTValues.VA[GTValues.ZPM]),
+                    Component.translatable("gtpm.machine.hpca.component_type.computation_cwut", 16),
+                    Component.translatable("gtpm.machine.hpca.component_type.computation_cooling", 4),
+                    Component.translatable("gtpm.part_sharing.disabled"))
+            .tooltipBuilder(OVERHEAT_TOOLTIPS)
+            .register();
+    public static final MachineDefinition HPCA_HEAT_SINK_COMPONENT = registerHPCAPart(
+            "hpca_heat_sink_component", "HPCA Heat Sink Component",
+            holder -> new HPCACoolerPartMachine(holder, false), "heat_sink", false)
+            .tooltips(Component.translatable("gtpm.machine.hpca.component_type.cooler_passive"),
+                    Component.translatable("gtpm.machine.hpca.component_type.cooler_cooling", 1),
+                    Component.translatable("gtpm.part_sharing.disabled"))
+            .register();
+    public static final MachineDefinition HPCA_ACTIVE_COOLER_COMPONENT = registerHPCAPart(
+            "hpca_active_cooler_component", "HPCA Active Cooling Component",
+            holder -> new HPCACoolerPartMachine(holder, true), "active_cooler", true)
+            .tooltips(Component.translatable("gtpm.machine.hpca.component_general.max_eut", GTValues.VA[GTValues.IV]),
+                    Component.translatable("gtpm.machine.hpca.component_type.cooler_active"),
+                    Component.translatable("gtpm.machine.hpca.component_type.cooler_active_coolant",
+                            8, GTMaterials.PCBCoolant.getLocalizedName()),
+                    Component.translatable("gtpm.machine.hpca.component_type.cooler_cooling", 2),
+                    Component.translatable("gtpm.part_sharing.disabled"))
+            .register();
+    public static final MachineDefinition HPCA_BRIDGE_COMPONENT = registerHPCAPart(
+            "hpca_bridge_component", "HPCA Bridge Component",
+            HPCABridgePartMachine::new, "bridge", false)
+            .tooltips(Component.translatable("gtpm.machine.hpca.component_type.bridge"),
+                    Component.translatable("gtpm.machine.hpca.component_general.max_eut", GTValues.VA[GTValues.IV]),
+                    Component.translatable("gtpm.part_sharing.disabled"))
+            .register();
+
+    @NotNull
+    private static MachineBuilder<MachineDefinition, ?> registerDataHatch(String name, String displayName, int tier,
+                                                                          Function<BlockEntityCreationInfo, MetaMachine> constructor,
+                                                                          String model, PartAbility... abilities) {
+        return REGISTRATE.machine(name, constructor)
+                .langValue(displayName)
+                .tier(tier)
+                .rotationState(RotationState.ALL)
+                .abilities(abilities)
+                .overlayTieredHullModel(model);
+    }
+
+    private static MachineBuilder<MachineDefinition, ?> registerHPCAPart(String name, String displayName,
+                                                                         Function<BlockEntityCreationInfo, MetaMachine> constructor,
+                                                                         String texture, boolean isAdvanced) {
+        return REGISTRATE.machine(name, constructor)
+                .langValue(displayName)
+                .rotationState(RotationState.ALL)
+                .abilities(PartAbility.HPCA_COMPONENT)
+                .modelProperty(GTMachineModelProperties.IS_FORMED, false)
+                .modelProperty(GTMachineModelProperties.IS_HPCA_PART_DAMAGED, false)
+                .modelProperty(GTMachineModelProperties.IS_ACTIVE, false)
+                .model(createHPCAPartModel(isAdvanced,
+                        GTPM.id("block/overlay/machine/hpca/" + texture),
+                        GTPM.id("block/overlay/machine/hpca/damaged" + (isAdvanced ? "_advanced" : ""))));
+    }
+
+    public static void init() {}
+}

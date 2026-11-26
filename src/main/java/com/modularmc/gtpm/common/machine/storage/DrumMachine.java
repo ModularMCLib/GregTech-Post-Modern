@@ -1,0 +1,130 @@
+package com.modularmc.gtpm.common.machine.storage;
+
+import com.modularmc.gtpm.api.blockentity.BlockEntityCreationInfo;
+import com.modularmc.gtpm.api.capability.recipe.IO;
+import com.modularmc.gtpm.api.data.chemical.material.Material;
+import com.modularmc.gtpm.api.data.chemical.material.properties.PropertyKey;
+import com.modularmc.gtpm.api.machine.MetaMachine;
+import com.modularmc.gtpm.api.machine.trait.NotifiableFluidTank;
+import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
+import com.modularmc.gtpm.api.sync_system.annotations.SyncToClient;
+import com.modularmc.gtpm.common.data.GTDataComponents;
+import com.modularmc.gtpm.common.machine.trait.AutoOutputTrait;
+import com.modularmc.gtpm.utils.ExtendedUseOnContext;
+import com.modularmc.gtpm.utils.ISubscription;
+
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.world.InteractionResult;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.SimpleFluidContent;
+
+import lombok.Getter;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+public class DrumMachine extends MetaMachine {
+
+    @Getter
+    private final int maxStoredFluids;
+    @SaveField
+    protected final NotifiableFluidTank cache;
+    @Nullable
+    protected ISubscription exportFluidSubs;
+    @SaveField(nbtKey = "Fluid")
+    @SyncToClient
+    @Getter
+    protected FluidStack stored = FluidStack.EMPTY;
+    @Getter
+    protected final Material material;
+
+    @SaveField
+    @SyncToClient
+    public final AutoOutputTrait autoOutput;
+
+    public DrumMachine(BlockEntityCreationInfo info, Material material, int maxStoredFluids) {
+        super(info);
+        this.material = material;
+        this.maxStoredFluids = maxStoredFluids;
+        this.cache = attachTrait(new NotifiableFluidTank(1, maxStoredFluids, IO.BOTH)
+                .setFilter(material.getProperty(PropertyKey.FLUID_PIPE)));
+        this.autoOutput = attachTrait(new AutoOutputTrait(List.of(), List.of(cache), false));
+        autoOutput.setFluidOutputDirection(Direction.DOWN);
+        autoOutput.setFluidOutputDirectionValidator(d -> d == Direction.DOWN);
+    }
+
+    //////////////////////////////////////
+    // ***** Initialization *****//
+    //////////////////////////////////////
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        updateStoredFluidFromCache();
+        this.exportFluidSubs = cache.addChangedListener(this::onFluidChanged);
+    }
+
+    private void onFluidChanged() {
+        if (!isRemote()) {
+            syncDataHolder.markClientSyncFieldDirty("stored");
+            updateStoredFluidFromCache();
+        }
+    }
+
+    private void updateStoredFluidFromCache() {
+        FluidStack cachedFluid = cache.getFluidInTank(0);
+        this.stored = cachedFluid.isEmpty() ? FluidStack.EMPTY : cachedFluid;
+    }
+
+    @Override
+    public void onUnload() {
+        super.onUnload();
+        if (exportFluidSubs != null) {
+            exportFluidSubs.unsubscribe();
+            exportFluidSubs = null;
+        }
+    }
+
+    //////////////////////////////////////
+    //////////////////////////////////////
+    // ****** Fluid Logic *******//
+    //////////////////////////////////////
+
+    @Override
+    protected void applyImplicitComponents(DataComponentInput componentInput) {
+        super.applyImplicitComponents(componentInput);
+        stored = componentInput.getOrDefault(GTDataComponents.FLUID_CONTENT, SimpleFluidContent.EMPTY).copy();
+        // "stored" may not be same as cache (due to item's fluid cap). we should update it.
+        cache.getStorages()[0].setFluid(stored.copy());
+    }
+
+    @Override
+    public void collectImplicitComponents(DataComponentMap.Builder components) {
+        super.collectImplicitComponents(components);
+        if (!stored.isEmpty()) components.set(GTDataComponents.FLUID_CONTENT, SimpleFluidContent.copyOf(stored));
+    }
+
+    @Override
+    public InteractionResult onUseWithItem(ExtendedUseOnContext context) {
+        if (!isRemote()) {
+            if (FluidUtil.interactWithFluidHandler(context.getPlayer(), context.getHand(), cache)) {
+                return InteractionResult.SUCCESS;
+            }
+            return InteractionResult.PASS;
+        }
+        return super.onUseWithItem(context);
+    }
+
+    @Override
+    protected InteractionResult onScrewdriverClick(ExtendedUseOnContext context) {
+        autoOutput.setAllowAutoOutputItems(!autoOutput.isAutoOutputItems());
+        return InteractionResult.SUCCESS;
+    }
+}

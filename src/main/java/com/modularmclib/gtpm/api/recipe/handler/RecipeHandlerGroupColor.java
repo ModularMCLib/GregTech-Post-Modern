@@ -1,7 +1,0 @@
-package com.modularmclib.gtpm.api.recipe.handler;
-
-public record RecipeHandlerGroupColor(int color) implements RecipeHandlerGroup {
-
-    // Note: An un-dyed hatch is the same as an "indistinct" hatch.
-    public static final RecipeHandlerGroup UNDYED = new RecipeHandlerGroupColor(-1);
-}

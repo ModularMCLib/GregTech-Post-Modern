@@ -1,0 +1,103 @@
+package com.modularmc.gtpm.integration.ae2.machine.trait;
+
+import com.modularmc.gtpm.api.machine.trait.MachineTrait;
+import com.modularmc.gtpm.api.machine.trait.MachineTraitType;
+import com.modularmc.gtpm.api.sync_system.ContextualFieldCodec;
+import com.modularmc.gtpm.api.sync_system.FieldCodecs;
+import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
+import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.integration.ae2.machine.feature.IGridConnectedMachine;
+import com.modularmc.gtpm.integration.ae2.sync.GridNodeCodec;
+
+import net.minecraft.core.Direction;
+
+import appeng.api.networking.GridFlags;
+import appeng.me.ManagedGridNode;
+import appeng.me.helpers.BlockEntityNodeListener;
+import com.mojang.serialization.Codec;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.EnumSet;
+
+/**
+ * A MachineTrait that is only used for hosting a grid node and does not provide grid node capability,
+ * because {@link IGridConnectedMachine} already extends {@link appeng.api.networking.IInWorldGridNodeHost}.
+ *
+ * @see appeng.api.networking.IInWorldGridNodeHost
+ * @see IGridConnectedMachine
+ */
+public class GridNodeHolder extends MachineTrait {
+
+    static {
+        FieldCodecs.registerContextual(ManagedGridNode.class, new ContextualFieldCodec<ManagedGridNode>() {
+
+            @Override
+            public Codec<ManagedGridNode> codec(Context<ManagedGridNode> context) {
+                ManagedGridNode node = context.currentValue();
+                return GridNodeCodec.of(node == null ? ((GridNodeHolder) context.holder()).getMainNode() : node);
+            }
+        });
+    }
+
+    public static final MachineTraitType<GridNodeHolder> TYPE = new MachineTraitType<>(GridNodeHolder.class);
+
+    @Override
+    public MachineTraitType<GridNodeHolder> getTraitType() {
+        return TYPE;
+    }
+
+    @SaveField
+    protected @Nullable ManagedGridNode mainNode;
+    private boolean mainNodeCreationScheduled;
+
+    public GridNodeHolder(IGridConnectedMachine machine) {
+        super();
+        this.mainNode = createManagedNode(machine);
+    }
+
+    public ManagedGridNode getMainNode() {
+        if (mainNode == null) {
+            mainNode = createManagedNode((IGridConnectedMachine) getMachine());
+        }
+        return mainNode;
+    }
+
+    protected ManagedGridNode createManagedNode(IGridConnectedMachine machine) {
+        return (ManagedGridNode) new ManagedGridNode(machine,
+                BlockEntityNodeListener.INSTANCE)
+                .setFlags(GridFlags.REQUIRE_CHANNEL)
+                .setVisualRepresentation(machine.self().getDefinition().getItem())
+                .setIdlePowerUsage(ConfigHolder.INSTANCE.compat.ae2.meHatchEnergyUsage)
+                .setInWorldNode(true)
+                .setExposedOnSides(
+                        machine.self().hasFrontFacing() ? EnumSet.of(machine.self().getFrontFacing()) :
+                                EnumSet.allOf(Direction.class))
+                .setTagName("proxy");
+    }
+
+    protected void createMainNode() {
+        mainNodeCreationScheduled = false;
+        if (!getMainNode().isReady()) {
+            getMainNode().create(getLevel(), getBlockPos());
+        }
+    }
+
+    @Override
+    public void onMachineLoad() {
+        super.onMachineLoad();
+        if (!mainNodeCreationScheduled && !getMainNode().isReady()) {
+            mainNodeCreationScheduled = true;
+            getMachine().scheduleForNextServerTick(this::createMainNode);
+        }
+    }
+
+    @Override
+    public void onMachineUnload() {
+        super.onMachineUnload();
+        if (mainNode != null) {
+            mainNode.destroy();
+            mainNode = null;
+        }
+        mainNodeCreationScheduled = false;
+    }
+}

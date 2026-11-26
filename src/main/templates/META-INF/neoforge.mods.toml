@@ -15,7 +15,7 @@ credits = "GregoriusT, Mr_Touchyou, Zerrens for making GregTech and textures, th
 
 enumExtensions = "META-INF/enum_extensions.json"
 [mods."modernfix:integration"]
-    client_entrypoint = "com.modularmclib.gtpm.integration.modernfix.GTModernFixIntegration"
+    client_entrypoint = "com.modularmc.gtpm.integration.modernfix.GTModernFixIntegration"
 
 [[mixins]]
     config = "${mod_id}.mixins.json"

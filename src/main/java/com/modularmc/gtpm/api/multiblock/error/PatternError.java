@@ -1,0 +1,55 @@
+package com.modularmc.gtpm.api.multiblock.error;
+
+import com.modularmc.gtpm.api.multiblock.MultiblockState;
+import com.modularmc.gtpm.api.multiblock.structurepredicate.PatternPredicate;
+import com.modularmc.gtpm.api.multiblock.structurepredicate.PredicateRule;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class PatternError {
+
+    @Setter
+    protected MultiblockState worldState;
+
+    public Level getWorld() {
+        return worldState.getWorld();
+    }
+
+    public BlockPos getPos() {
+        return worldState.getPos();
+    }
+
+    public List<List<ItemStack>> getCandidates() {
+        PatternPredicate predicate = worldState.predicate;
+        List<List<ItemStack>> candidates = new ArrayList<>();
+        for (PredicateRule common : predicate.common) {
+            candidates.add(common.getCandidates());
+        }
+        for (PredicateRule limited : predicate.limited) {
+            candidates.add(limited.getCandidates());
+        }
+        return candidates;
+    }
+
+    public Component getErrorInfo() {
+        List<List<ItemStack>> candidates = getCandidates();
+        StringBuilder builder = new StringBuilder();
+        for (List<ItemStack> candidate : candidates) {
+            if (!candidate.isEmpty()) {
+                builder.append(candidate.get(0).getDisplayName());
+                builder.append(", ");
+            }
+        }
+        builder.append("...");
+        return Component.translatable("gtpm.multiblock.pattern.error", builder.toString(),
+                worldState.getPos().toShortString());
+    }
+}

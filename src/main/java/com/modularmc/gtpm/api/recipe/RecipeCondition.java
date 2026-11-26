@@ -1,0 +1,117 @@
+package com.modularmc.gtpm.api.recipe;
+
+import com.modularmc.gtpm.api.gui.GuiTextures;
+import com.modularmc.gtpm.api.gui.texture.IGuiTexture;
+import com.modularmc.gtpm.api.machine.trait.RecipeLogic;
+import com.modularmc.gtpm.api.recipe.condition.RecipeConditionType;
+import com.modularmc.gtpm.api.registry.GTRegistries;
+import com.modularmc.gtpm.api.sync_system.FieldCodecs;
+
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.RegistryOps;
+import net.minecraft.util.ExtraCodecs;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.mojang.datafixers.Products;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.JsonOps;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Function;
+
+@Accessors(chain = true)
+public abstract class RecipeCondition<T extends RecipeCondition<T>> {
+
+    public static final Codec<RecipeCondition<?>> CODEC = GTRegistries.RECIPE_CONDITIONS.byNameCodec()
+            .dispatch(RecipeCondition::getType, RecipeConditionType::getCodec);
+
+    static {
+        FieldCodecs.register(RecipeCondition.class, CODEC);
+    }
+
+    // spotless:off
+    public static <RC extends RecipeCondition<RC>> Products.P1<RecordCodecBuilder.Mu<RC>, Boolean> isReverse(RecordCodecBuilder.Instance<RC> instance) {
+        return instance.group(Codec.BOOL.optionalFieldOf("reverse", false).forGetter(val -> val.isReverse));
+    }
+    // spotless:on
+
+    public static <RC extends RecipeCondition<RC>> MapCodec<RC> simpleCodec(Function<Boolean, RC> function) {
+        return RecordCodecBuilder.mapCodec(instance -> isReverse(instance).apply(instance, function));
+    }
+
+    @Getter
+    @Setter
+    protected boolean isReverse;
+
+    public RecipeCondition() {
+        this(false);
+    }
+
+    public RecipeCondition(boolean isReverse) {
+        this.isReverse = isReverse;
+    }
+
+    public abstract RecipeConditionType<T> getType();
+
+    public String getTranslationKey() {
+        return "gtpm.recipe.condition." + getType();
+    }
+
+    public IGuiTexture getInValidTexture() {
+        return GuiTextures.resource("gtpm:textures/gui/condition/" + getType() + ".png").getSubTexture(0, 0, 1,
+                0.5f);
+    }
+
+    public IGuiTexture getValidTexture() {
+        return GuiTextures.resource("gtpm:textures/gui/condition/" + getType() + ".png").getSubTexture(0, 0.5f, 1,
+                0.5f);
+    }
+
+    public boolean isOr() {
+        return false;
+    }
+
+    public boolean perTick() {
+        return false;
+    }
+
+    public abstract Component getTooltips();
+
+    public boolean check(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
+        boolean test = testCondition(recipe, recipeLogic);
+        return test != isReverse;
+    }
+
+    protected abstract boolean testCondition(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic);
+
+    public abstract T createTemplate();
+
+    @NotNull
+    public final JsonObject serialize() {
+        var ops = RegistryOps.create(JsonOps.INSTANCE, GTRegistries.builtinRegistry());
+        return CODEC.encodeStart(ops, this).getOrThrow().getAsJsonObject();
+    }
+
+    public static RecipeCondition<?> deserialize(@NotNull JsonObject config) {
+        var ops = RegistryOps.create(JsonOps.INSTANCE, GTRegistries.builtinRegistry());
+        return CODEC.decode(ops, config).getOrThrow().getFirst();
+    }
+
+    public final void toNetwork(RegistryFriendlyByteBuf buf) {
+        var ops = RegistryOps.create(JsonOps.INSTANCE, buf.registryAccess());
+        JsonElement json = CODEC.encodeStart(ops, this).getOrThrow();
+        buf.writeJsonWithCodec(ExtraCodecs.JSON, json);
+    }
+
+    public static RecipeCondition<?> fromNetwork(RegistryFriendlyByteBuf buf) {
+        var ops = RegistryOps.create(JsonOps.INSTANCE, buf.registryAccess());
+        return CODEC.parse(ops, buf.readJsonWithCodec(ExtraCodecs.JSON)).getOrThrow();
+    }
+}

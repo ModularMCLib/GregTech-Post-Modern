@@ -1,0 +1,17 @@
+package com.modularmc.gtpm.client.model.machine.multipart;
+
+import com.modularmc.gtpm.api.machine.MachineDefinition;
+import com.modularmc.gtpm.client.model.machine.MachineRenderState;
+
+import net.minecraft.world.level.block.state.StateDefinition;
+
+import java.util.function.Predicate;
+
+@FunctionalInterface
+public interface PartCondition {
+
+    PartCondition TRUE = (definition) -> state -> true;
+    PartCondition FALSE = (definition) -> state -> false;
+
+    Predicate<MachineRenderState> getPredicate(StateDefinition<MachineDefinition, MachineRenderState> def);
+}

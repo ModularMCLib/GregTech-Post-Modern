@@ -1,0 +1,44 @@
+package com.modularmc.gtpm.common.item.datacomponents;
+
+import com.modularmc.gtpm.api.placeholder.MultiLineComponent;
+import com.modularmc.gtpm.api.sync_system.FieldCodecs;
+
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentSerialization;
+import net.minecraft.util.Mth;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import lombok.With;
+
+import java.util.Collections;
+import java.util.List;
+
+public record TextLineList(@With List<Component> lines, @With float scale) {
+
+    // spotless:off
+    public static final Codec<TextLineList> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            ComponentSerialization.CODEC.listOf().fieldOf("lines").forGetter(TextLineList::lines),
+            Codec.FLOAT.fieldOf("scale").forGetter(TextLineList::scale)
+    ).apply(instance, TextLineList::new));
+
+    static {
+        FieldCodecs.register(TextLineList.class, CODEC);
+    }
+    // spotless:on
+
+    public static final TextLineList EMPTY = new TextLineList(Collections.emptyList(), 1.0f);
+
+    public TextLineList {
+        lines = Collections.unmodifiableList(lines);
+        scale = Mth.clamp(scale, 0.0001f, 1000f);
+    }
+
+    public MultiLineComponent toMultiLineComponent() {
+        MultiLineComponent multiLine = new MultiLineComponent();
+        for (Component c : this.lines) {
+            multiLine.add(c.copy());
+        }
+        return multiLine;
+    }
+}

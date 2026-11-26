@@ -1,0 +1,111 @@
+package com.modularmc.gtpm.common.cover;
+
+import com.modularmc.gtpm.api.capability.ICoverable;
+import com.modularmc.gtpm.api.cover.CoverBehavior;
+import com.modularmc.gtpm.api.cover.CoverDefinition;
+import com.modularmc.gtpm.api.gui.GuiTextures;
+import com.modularmc.gtpm.api.gui.UITemplate;
+import com.modularmc.gtpm.api.gui.element.GTItemSlotElement;
+import com.modularmc.gtpm.api.gui.element.GTLabelElement;
+import com.modularmc.gtpm.api.gui.factory.CoverUIProvider;
+import com.modularmc.gtpm.api.gui.factory.UICoverHolder;
+import com.modularmc.gtpm.api.machine.MachineCoverContainer;
+import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
+import com.modularmc.gtpm.api.sync_system.annotations.SyncToClient;
+import com.modularmc.gtpm.api.transfer.item.CustomItemStackHandler;
+
+import com.lowdragmc.lowdraglib2.gui.ui.UI;
+import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
+import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
+
+import net.minecraft.core.Direction;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+
+public class StorageCover extends CoverBehavior implements CoverUIProvider {
+
+    @SaveField
+    @SyncToClient
+    public final CustomItemStackHandler inventory;
+    private final int SIZE = 18;
+
+    public StorageCover(@NotNull CoverDefinition definition, @NotNull ICoverable coverableView,
+                        @NotNull Direction attachedSide) {
+        super(definition, coverableView, attachedSide);
+        inventory = new CustomItemStackHandler(SIZE) {
+
+            @Override
+            public int getSlotLimit(int slot) {
+                return 1;
+            }
+        };
+
+        inventory.setOnContentsChanged(() -> syncDataHolder.markClientSyncFieldDirty("inventory"));
+    }
+
+    @Override
+    @NotNull
+    public List<ItemStack> getAdditionalDrops() {
+        var list = super.getAdditionalDrops();
+        for (int slot = 0; slot < SIZE; slot++) {
+            list.add(inventory.getStackInSlot(slot));
+        }
+        return list;
+    }
+
+    @Override
+    public boolean canAttach() {
+        if (!(coverHolder instanceof MachineCoverContainer)) return false;
+        for (var dir : Direction.values()) {
+            if (coverHolder.hasCover(dir) && coverHolder.getCoverAtSide(dir) instanceof StorageCover)
+                return false;
+        }
+        return super.canAttach();
+    }
+
+    private String getUITitle() {
+        return "cover.storage.title";
+    }
+
+    @Override
+    public boolean canCreateUI(Player player, UICoverHolder holder) {
+        return holder.getCover() == this;
+    }
+
+    @Override
+    public UI createUI(Player player, UICoverHolder holder) {
+        UIElement root = new UIElement();
+        UITemplate.setBounds(root, 0, 0, 176, 87 + 82);
+        root.style(style -> style.backgroundTexture(GuiTextures.BACKGROUND));
+
+        int centeredGroupX = (176 - 126) / 2;
+        root.addChild(createLabel(centeredGroupX));
+        for (int slot = 0; slot < SIZE; slot++) {
+            root.addChild(createStorageSlot(slot, centeredGroupX));
+        }
+        root.addChild(UITemplate.bindPlayerInventory(player.getInventory(), GuiTextures.SLOT, 7, 87, true));
+        return UI.of(root);
+    }
+
+    private GTLabelElement createLabel(int groupX) {
+        GTLabelElement label = new GTLabelElement(groupX + 10, 5, 116, 10, getUITitle(), true);
+        label.textStyle(style -> style
+                .textColor(0x404040)
+                .textShadow(false)
+                .textAlignHorizontal(Horizontal.LEFT)
+                .textAlignVertical(Vertical.CENTER));
+        return label;
+    }
+
+    private GTItemSlotElement createStorageSlot(int slot, int groupX) {
+        GTItemSlotElement element = new GTItemSlotElement(inventory, slot);
+        UITemplate.setBounds(element, groupX + 7 + (slot % 6) * 18, 21 + (slot / 6) * 18, 18, 18);
+        element.setBackgroundTexture(GuiTextures.SLOT);
+        return element;
+    }
+}

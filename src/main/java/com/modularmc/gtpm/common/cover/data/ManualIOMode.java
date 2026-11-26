@@ -1,0 +1,31 @@
+package com.modularmc.gtpm.common.cover.data;
+
+import com.modularmc.gtpm.api.gui.GuiTextures;
+import com.modularmc.gtpm.api.gui.SelectableEnum;
+
+import com.modularmc.gtpm.api.gui.texture.IGuiTexture;
+
+public enum ManualIOMode implements SelectableEnum {
+
+    DISABLED("disabled"),
+    FILTERED("filtered"),
+    UNFILTERED("unfiltered");
+
+    public static final ManualIOMode[] VALUES = values();
+
+    public final String localeName;
+
+    ManualIOMode(String localeName) {
+        this.localeName = localeName;
+    }
+
+    @Override
+    public String getTooltip() {
+        return "cover.universal.manual_import_export.mode." + localeName;
+    }
+
+    @Override
+    public IGuiTexture getIcon() {
+        return GuiTextures.resource("gtpm:textures/gui/icon/manual_io_mode/" + localeName + ".png");
+    }
+}
