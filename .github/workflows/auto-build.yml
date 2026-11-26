@@ -2,8 +2,8 @@ name: Latest Build
 
 on:
   push:
-    branches: ['1.21', '26.*']
-    paths: ['src/**', '**/*.gradle', 'gradle/**', 'gradle.properties']
+    branches: ['1.21']
+    paths: ['src/**', '**/*.gradle', 'gradle.properties']
 
 concurrency:
   group: auto-build-${{ github.ref }}
@@ -26,7 +26,6 @@ jobs:
         with:
           fetch-depth: 0 # do a full checkout instead of a shallow clone of HEAD so spotless's ratchetFrom works
       - name: Setup Build
-        id: setup
         uses: ./.github/actions/build_setup
       - name: Get Mod Version
         id: ver
@@ -50,22 +49,12 @@ jobs:
           path: build/libs/*
           if-no-files-found: error
           retention-days: 90
-      - name: Configure Changelog
-        if: ${{ env.PUBLISH == 'true' }}
-        id: changelog-config
-        env:
-          RELEASE_BRANCH: ${{ github.ref_name }}
-        run: |
-          escaped_branch=${RELEASE_BRANCH//./\\.}
-          config=$(jq -c --arg branch "$RELEASE_BRANCH" --arg pattern "^(?!v?[0-9.]+(-$escaped_branch)$).+$" \
-            '.base_branches = [$branch] | .tag_resolver.filter.pattern = $pattern' .github/json/config-latest.json)
-          echo "configuration=$config" >> "$GITHUB_OUTPUT"
       - name: Changelog
         id: changelog
         if: ${{ env.PUBLISH == 'true' }}
         uses: mikepenz/release-changelog-builder-action@v5
         with:
-          configurationJson: ${{ steps.changelog-config.outputs.configuration }}
+          configuration: './.github/json/config-latest-${{ github.ref_name }}.json'
           toTag: ${{ github.ref }}
           fetchViaCommits: true
           failOnError: false
@@ -77,7 +66,7 @@ jobs:
           name: '${{ github.ref_name }}-${{ steps.ver.outputs.version}} SNAPSHOT ${{ env.VERSION_SUFFIX }}'
           prerelease: true
           body: |
-            The latest build of GTPM for Minecraft ${{ steps.setup.outputs.minecraft-version }}.
+            The latest build of GTPM for Minecraft 1.21.1.
             Please report any [issues](${{ github.server_url }}/${{ github.repository }}/issues).
             ${{ steps.changelog.outputs.changelog }}
           files: build/libs/*.jar

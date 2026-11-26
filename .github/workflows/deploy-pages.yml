@@ -2,7 +2,7 @@ name: Publish docs via GitHub Pages
 on:
   workflow_dispatch:
   push:
-    branches: ['1.21', '26.*']
+    branches: ['1.21']
     paths: ['docs/**']
 
 permissions:
@@ -33,12 +33,6 @@ jobs:
       - name: Set git username and password
         run: git config user.name 'github-actions[bot]'; git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
       - name: Deploy pages to gh-pages branch
-        env:
-          DOCS_VERSION: ${{ github.ref_name }}
-          MKDOCS_EDIT_URI: blob/${{ github.ref_name }}/docs/content/
-        run: mike deploy "$DOCS_VERSION" --push
-      - name: Set the default docs version
-        if: github.ref_name == github.event.repository.default_branch
-        env:
-          DOCS_VERSION: ${{ github.ref_name }}
-        run: mike set-default "$DOCS_VERSION" --push
+        run: mike deploy "${{ github.ref_name }}" --push
+      - name: Ensure 1.21 is the default version
+        run: mike set-default 1.21 --push

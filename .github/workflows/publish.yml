@@ -11,7 +11,7 @@ on:
         required: true
         type: string
       version:
-        description: 'Release branch, such as 1.21 or 26.1'
+        description: 'Branch that receives the version and changelog updates'
         required: true
         type: string
       changelog-body:
