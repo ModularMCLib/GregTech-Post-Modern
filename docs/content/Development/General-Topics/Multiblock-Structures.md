@@ -38,7 +38,7 @@ title: 多方块结构开发
 
 在 `IGTAddon.registerStructurePredicateTypes()` 中调用 `GTRegistrate.structurePredicate(name, codec)`。它注册实现 `StructurePredicate` 的类型与其 `MapCodec`，JSON 中的 `type` 使用附属模组的命名空间。内置类型和附属类型会在机器定义使用结构 Codec 前完成注册。
 
-`observePosition` 通过世界状态生成匹配观察结果。`candidateStates` 与 `previewChoices` 提供供预览、终端和等级选择使用的候选。`collectDependencies` 声明匹配读取的位置，成型检测按这些位置跟踪方块变化。`diagnose` 为匹配失败提供 Jade 所用的原因。 [StructurePredicate 源码](https://github.com/ExtremelyFrozen/GregTech-Post-Modern/blob/1.21/src/main/java/com/gregtechceu/gtceu/api/multiblock/structurepredicate/StructurePredicate.kt)
+`observePosition` 通过世界状态生成匹配观察结果。`candidateStates` 与 `previewChoices` 提供供预览、终端和等级选择使用的候选。`collectDependencies` 声明匹配读取的位置，成型检测按这些位置跟踪方块变化。`diagnose` 为匹配失败提供 Jade 所用的原因。 [StructurePredicate 源码](https://github.com/ModularMCLib/GregTech-Post-Modern/blob/1.21/src/main/java/com/modularmclib/gtpm/api/multiblock/structurepredicate/StructurePredicate.kt)
 
 
 ## 注册材料来源

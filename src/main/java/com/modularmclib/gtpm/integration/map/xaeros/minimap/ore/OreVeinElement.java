@@ -1,0 +1,29 @@
+package com.modularmclib.gtpm.integration.map.xaeros.minimap.ore;
+
+import com.modularmclib.gtpm.api.data.chemical.material.Material;
+import com.modularmclib.gtpm.api.data.worldgen.ores.GeneratedVeinMetadata;
+
+import net.minecraft.client.Minecraft;
+
+import lombok.Getter;
+
+public class OreVeinElement {
+
+    @Getter
+    private final GeneratedVeinMetadata vein;
+    @Getter
+    private final String name;
+    @Getter
+    private final int cachedNameLength;
+
+    public OreVeinElement(GeneratedVeinMetadata vein, String name) {
+        this.vein = vein;
+        this.name = name;
+
+        this.cachedNameLength = Minecraft.getInstance().font.width(this.getName());
+    }
+
+    public Material getFirstMaterial() {
+        return vein.definition().value().veinGenerator().getAllMaterials().getFirst();
+    }
+}

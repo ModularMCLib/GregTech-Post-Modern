@@ -48,7 +48,7 @@ public class ExampleMod {
 ```
 
 1. 1.20.1 版本不要求 namespace，因此请确保不要使用与他人相同的 ID！
-2. 你可以使用类似 `GTCEu.id` 的辅助方法来创建 ResourceLocation，但你**必须**为它使用自己的 namespace。
+2. 你可以使用类似 `GTPM.id` 的辅助方法来创建 ResourceLocation，但你**必须**为它使用自己的 namespace。
 
 接下来会设置一个条件，要求机器的能量缓存位于某个 Y 坐标以上。
 ```java

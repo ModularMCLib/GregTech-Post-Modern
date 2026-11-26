@@ -1,4 +1,4 @@
-# Guide to Writing GameTests in GTCEu
+# Guide to Writing GameTests in GTPM
 
 ---
 
@@ -16,14 +16,14 @@
 
 ## Defining a Test Class
 
-- Put it in the same class path as the main element you're trying to test, e.g. `test/java/com/gregtechceu/gtceu/api/machine/trait/RecipeLogicTest.java`
-- Annotate with `@GameTestHolder(GTCEu.MOD_ID)` to register the class for testing.
+- Put it in the same class path as the main element you're trying to test, e.g. `test/java/com/modularmclib/gtpm/api/machine/trait/RecipeLogicTest.java`
+- Annotate with `@GameTestHolder(GTPM.MOD_ID)` to register the class for testing.
 - Use `@PrefixGameTestTemplate(false)` to ignore the automatic template prefix
     - Without annotation: looks for `data/gtceu/structures/MyTests.basicBlockTest.singleblock.nbt`
     - With annotation: looks for `data/gtceu/structures/singleblock.nbt`
 
 ```java
-@GameTestHolder(GTCEu.MOD_ID)
+@GameTestHolder(GTPM.MOD_ID)
 @PrefixGameTestTemplate(false)
 public class MyTests {
   // Test methods go here
@@ -45,7 +45,7 @@ public class MyTests {
 For a more complete list, see [this gist](https://gist.github.com/SizableShrimp/60ad4109e3d0a23107a546b3bc0d9752)
 
 ```java
-@GameTestHolder(GTCEu.MOD_ID)
+@GameTestHolder(GTPM.MOD_ID)
 @PrefixGameTestTemplate(false)
 public class MyTests {
     
@@ -92,7 +92,7 @@ To make your own templates:
 It can also help you interact with the world, spawn mock/fake players, assert conditions, etc. etc.
 
 You can also write your own utility methods for repeated patterns (e.g., checking inventories). 
-These go in `test/java/com/gregtechceu/gtceu/gametest/util/TestUtils.java`
+These go in `test/java/com/modularmclib/gtpm/gametest/util/TestUtils.java`
 
 ## Ensuring something does (not) happen
 To ensure something does happen:
@@ -119,7 +119,7 @@ If your test has a timeout value different from 100, you can pass that as a seco
 Here is a relatively complex test using the testing system. 
 
 ```java
-@GameTestHolder(GTCEu.MOD_ID)
+@GameTestHolder(GTPM.MOD_ID)
 @PrefixGameTestTemplate(false)
 public class RecipeLogicTest {    
     @GameTest(template = "singleblock_chem_reactor")
@@ -139,8 +139,8 @@ public class RecipeLogicTest {
         GTRecipeType type = recipeLogicMachine.getRecipeType();
         type.getLookup().removeAllRecipes();
         type.getLookup().addRecipe(type
-                .recipeBuilder(GTCEu.id("test-singleblock"))
-                .id(GTCEu.id("test-singleblock"))
+                .recipeBuilder(GTPM.id("test-singleblock"))
+                .id(GTPM.id("test-singleblock"))
                 .inputItems(new ItemStack(Blocks.COBBLESTONE))
                 .outputItems(new ItemStack(Blocks.STONE))
                 .EUt(512).duration(1)

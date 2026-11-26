@@ -1,0 +1,100 @@
+package com.modularmclib.gtpm.api.machine.steam;
+
+import com.modularmclib.gtpm.api.capability.recipe.EURecipeCapability;
+import com.modularmclib.gtpm.api.capability.recipe.IO;
+import com.modularmclib.gtpm.api.capability.recipe.IRecipeHandler;
+import com.modularmclib.gtpm.api.capability.recipe.RecipeCapability;
+import com.modularmclib.gtpm.api.machine.trait.NotifiableFluidTank;
+import com.modularmclib.gtpm.api.recipe.GTRecipe;
+import com.modularmclib.gtpm.common.data.GTMaterials;
+import com.modularmclib.gtpm.utils.GTMath;
+
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class SteamEnergyRecipeHandler implements IRecipeHandler<Long> {
+
+    private final NotifiableFluidTank steamTank;
+    private final double conversionRate; // mB steam per EU
+
+    public SteamEnergyRecipeHandler(NotifiableFluidTank steamTank, double conversionRate) {
+        this.steamTank = steamTank;
+        this.conversionRate = conversionRate;
+    }
+
+    @Override
+    public List<Long> handleRecipeInner(IO io, GTRecipe recipe, List<Long> left, boolean simulate) {
+        for (var it = left.listIterator(); it.hasNext();) {
+            long totalEU = it.next();
+            if (totalEU <= 0) {
+                it.remove();
+                continue;
+            }
+
+            int totalSteam = GTMath.saturatedCast((long) Math.ceil(totalEU * conversionRate));
+            if (totalSteam > 0) {
+                var steam = io == IO.IN ? SizedFluidIngredient.of(GTMaterials.Steam.getFluidTag(), totalSteam) :
+                        SizedFluidIngredient.of(GTMaterials.Steam.getFluid(totalSteam));
+                List<SizedFluidIngredient> list = new ArrayList<>();
+                list.add(steam);
+                List<SizedFluidIngredient> leftSteam = steamTank.handleRecipeInner(io, recipe, list, simulate);
+                if (leftSteam.isEmpty()) {
+                    it.remove();
+                } else {
+                    totalEU = (long) (leftSteam.get(0).amount() / conversionRate);
+                    it.set(totalEU);
+                }
+            }
+        }
+        return left;
+    }
+
+    @Override
+    public @NotNull List<Object> getContents() {
+        List<FluidStack> tankContents = new ArrayList<>();
+        for (int i = 0; i < steamTank.getTanks(); ++i) {
+            FluidStack stack = steamTank.getFluidInTank(i);
+            if (!stack.isEmpty()) {
+                tankContents.add(stack);
+            }
+        }
+        long sum = tankContents.stream().mapToLong(FluidStack::getAmount).sum();
+        long realSum = (long) Math.ceil(sum * conversionRate);
+        return List.of(realSum);
+    }
+
+    @Override
+    public double getTotalContentAmount() {
+        List<FluidStack> tankContents = new ArrayList<>();
+        for (int i = 0; i < steamTank.getTanks(); ++i) {
+            FluidStack stack = steamTank.getFluidInTank(i);
+            if (!stack.isEmpty()) {
+                tankContents.add(stack);
+            }
+        }
+        long sum = tankContents.stream().mapToLong(FluidStack::getAmount).sum();
+        return (long) Math.ceil(sum * conversionRate);
+    }
+
+    @Override
+    public RecipeCapability<Long> getCapability() {
+        return EURecipeCapability.CAP;
+    }
+
+    public long getCapacity() {
+        return steamTank.getTankCapacity(0);
+    }
+
+    public long getStored() {
+        FluidStack stack = steamTank.getFluidInTank(0);
+        if (stack != FluidStack.EMPTY) {
+            return stack.getAmount();
+        }
+        return 0;
+    }
+}

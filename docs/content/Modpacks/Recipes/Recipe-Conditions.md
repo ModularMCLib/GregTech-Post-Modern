@@ -39,4 +39,4 @@ title: 配方条件
 
 配方启动检查在消耗一次性输入前执行。白天、降雨、雷暴、排气与洁净室等返回 `perTick() == true` 的条件还会在运行中检查。运行条件失败会使配方进入等待，并在机器界面显示原因。 [配方执行](../../Development/Recipe-Logic/Recipe-Execution.md)
 
-附属模组可在 `GTRegistries.RECIPE_CONDITIONS` 中注册自己的 `RecipeConditionType`，并提供该条件的 `MapCodec`。 [内置条件登记](https://github.com/ExtremelyFrozen/GregTech-Post-Modern/blob/1.21/src/main/java/com/gregtechceu/gtceu/common/data/GTRecipeConditions.java)
+附属模组可在 `GTRegistries.RECIPE_CONDITIONS` 中注册自己的 `RecipeConditionType`，并提供该条件的 `MapCodec`。 [内置条件登记](https://github.com/ModularMCLib/GregTech-Post-Modern/blob/1.21/src/main/java/com/modularmclib/gtpm/common/data/GTRecipeConditions.java)

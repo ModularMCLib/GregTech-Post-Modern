@@ -1,0 +1,58 @@
+package com.modularmclib.gtpm.integration.modernfix;
+
+import com.modularmclib.gtpm.client.model.machine.MachineModel;
+import com.modularmclib.gtpm.client.util.AssetEventListener;
+import com.modularmclib.gtpm.client.util.ModelEventHelper;
+import com.modularmclib.gtpm.core.mixins.neoforge.BakedModelWrapperAccessor;
+
+import net.minecraft.client.resources.model.*;
+
+import lombok.Getter;
+import org.embeddedt.modernfix.ModernFixClient;
+import org.embeddedt.modernfix.api.entrypoint.ModernFixClientIntegration;
+import org.jetbrains.annotations.ApiStatus;
+
+public class GTModernFixIntegration implements ModernFixClientIntegration {
+
+    private static GTModernFixIntegration INSTANCE = null;
+    @Getter
+    private static boolean dynamicResourcesEnabled = false;
+
+    @ApiStatus.Internal
+    public GTModernFixIntegration() {
+        INSTANCE = this;
+    }
+
+    public static void setAsLast() {
+        if (INSTANCE != null) {
+            ModernFixClient.CLIENT_INTEGRATIONS.remove(INSTANCE);
+        } else {
+            INSTANCE = new GTModernFixIntegration();
+        }
+        ModernFixClient.CLIENT_INTEGRATIONS.add(INSTANCE);
+    }
+
+    @Override
+    public void onDynamicResourcesStatusChange(boolean enabled) {
+        dynamicResourcesEnabled = enabled;
+    }
+
+    @Override
+    public BakedModel onBakedModelLoad(ModelResourceLocation location, UnbakedModel baseModel,
+                                       BakedModel model, ModelState state, ModelBakery bakery,
+                                       ModelBakery.TextureGetter textureGetter) {
+        if (model instanceof BakedModelWrapperAccessor<?> accessor) {
+            // Unwrap machine models from wrapped models so we don't need to be as aggressive with mixins
+            if (accessor.gtceu$getParent() instanceof MachineModel machineModel) {
+                model = machineModel;
+            }
+        }
+
+        // process all model replacers
+        for (var listener : ModelEventHelper.EVENT_LISTENERS) {
+            if (!(listener.listener() instanceof AssetEventListener.BakedModelReplacement modelReplacement)) continue;
+            model = modelReplacement.modifyBakedModel(location, model, baseModel, bakery);
+        }
+        return model;
+    }
+}

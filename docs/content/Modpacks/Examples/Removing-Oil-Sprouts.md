@@ -19,4 +19,4 @@ title: 配置原油苗
 
 ## 调整原油苗放置条件
 
-将内置的 placed feature 复制到数据包的 `data/gtpm/worldgen/placed_feature/raw_oil_sprout.json`。修改 `minecraft:rarity_filter` 的 `chance` 即可调整放置频率，默认值为 `128`。[原油苗放置配置](https://github.com/ExtremelyFrozen/GregTech-Post-Modern/blob/1.21/src/generated/resources/data/gtpm/worldgen/placed_feature/raw_oil_sprout.json)
+将内置的 placed feature 复制到数据包的 `data/gtpm/worldgen/placed_feature/raw_oil_sprout.json`。修改 `minecraft:rarity_filter` 的 `chance` 即可调整放置频率，默认值为 `128`。[原油苗放置配置](https://github.com/ModularMCLib/GregTech-Post-Modern/blob/1.21/src/generated/resources/data/gtpm/worldgen/placed_feature/raw_oil_sprout.json)

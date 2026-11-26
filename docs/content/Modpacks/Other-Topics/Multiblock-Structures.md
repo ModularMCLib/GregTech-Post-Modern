@@ -64,7 +64,7 @@ title: 多方块结构文件
 
 `fragments` 可声明局部谓词、参数、锚点和端口。整数范围参数也可由 `measurements` 从世界实测，例如超净间沿轴查找边界以得到实际尺寸。`sizeConstraints` 用于比较坐标范围与尺寸表达式，例如限制一个轴的长度相对于另一轴的比例。
 
-蒸馏塔展示垂直轴映射与可重复层，超净间和木炭堆展示多轴结构。 [蒸馏塔](https://github.com/ExtremelyFrozen/GregTech-Post-Modern/blob/1.21/src/main/resources/multiblock/gtpm/json/distillation_tower.json) · [超净间](https://github.com/ExtremelyFrozen/GregTech-Post-Modern/blob/1.21/src/main/resources/multiblock/gtpm/json/cleanroom.json) · [木炭堆](https://github.com/ExtremelyFrozen/GregTech-Post-Modern/blob/1.21/src/main/resources/multiblock/gtpm/json/charcoal_pile_igniter.json)
+蒸馏塔展示垂直轴映射与可重复层，超净间和木炭堆展示多轴结构。 [蒸馏塔](https://github.com/ModularMCLib/GregTech-Post-Modern/blob/1.21/src/main/resources/multiblock/gtpm/json/distillation_tower.json) · [超净间](https://github.com/ModularMCLib/GregTech-Post-Modern/blob/1.21/src/main/resources/multiblock/gtpm/json/cleanroom.json) · [木炭堆](https://github.com/ModularMCLib/GregTech-Post-Modern/blob/1.21/src/main/resources/multiblock/gtpm/json/charcoal_pile_igniter.json)
 
 
 ## 谓词与数量

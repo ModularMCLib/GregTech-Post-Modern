@@ -1,0 +1,315 @@
+package com.modularmclib.gtpm.api.machine.multiblock;
+
+import com.modularmclib.gtpm.api.GTValues;
+import com.modularmclib.gtpm.api.blockentity.BlockEntityCreationInfo;
+import com.modularmclib.gtpm.api.capability.IEnergyContainer;
+import com.modularmclib.gtpm.api.capability.recipe.EURecipeCapability;
+import com.modularmclib.gtpm.api.capability.recipe.IO;
+import com.modularmclib.gtpm.api.capability.recipe.IRecipeHandler;
+import com.modularmclib.gtpm.api.gui.GuiTextures;
+import com.modularmclib.gtpm.api.gui.UITemplate;
+import com.modularmclib.gtpm.api.gui.element.GTComponentPanelElement;
+import com.modularmclib.gtpm.api.gui.element.GTLabelElement;
+import com.modularmclib.gtpm.api.gui.element.GTScrollerViewElement;
+import com.modularmclib.gtpm.api.gui.factory.MachineUIHolder;
+import com.modularmclib.gtpm.api.gui.fancy.ConfiguratorPanel;
+import com.modularmclib.gtpm.api.gui.fancy.FancyMachineUIWidget;
+import com.modularmclib.gtpm.api.gui.fancy.IFancyUIProvider;
+import com.modularmclib.gtpm.api.gui.fancy.TooltipsPanel;
+import com.modularmclib.gtpm.api.machine.fancyconfigurator.BatchModeConfigurator;
+import com.modularmclib.gtpm.api.machine.fancyconfigurator.StructureCheckConfigurator;
+import com.modularmclib.gtpm.api.machine.fancyconfigurator.VoidingModeConfigurator;
+import com.modularmclib.gtpm.api.machine.fancyconfigurator.WorkingEnabledConfigurator;
+import com.modularmclib.gtpm.api.machine.feature.IFancyUIMachine;
+import com.modularmclib.gtpm.api.machine.feature.IOverclockMachine;
+import com.modularmclib.gtpm.api.machine.feature.ITieredMachine;
+import com.modularmclib.gtpm.api.machine.feature.multiblock.BatchModeMachine;
+import com.modularmclib.gtpm.api.machine.feature.multiblock.IDisplayUIMachine;
+import com.modularmclib.gtpm.api.machine.feature.multiblock.IMultiPart;
+import com.modularmclib.gtpm.api.machine.trait.RecipeLogic;
+import com.modularmclib.gtpm.api.misc.EnergyContainerList;
+import com.modularmclib.gtpm.api.recipe.modifier.RecipeModifierList;
+import com.modularmclib.gtpm.api.sync_system.annotations.SaveField;
+import com.modularmclib.gtpm.api.sync_system.annotations.SyncBoth;
+import com.modularmclib.gtpm.common.data.GTRecipeModifiers;
+import com.modularmclib.gtpm.common.machine.multiblock.part.ParallelHatchPartMachine;
+
+import com.lowdragmc.lowdraglib2.gui.ui.UI;
+import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
+import com.lowdragmc.lowdraglib2.gui.ui.data.ScrollDisplay;
+import com.lowdragmc.lowdraglib2.gui.ui.data.ScrollerMode;
+import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
+import com.lowdragmc.lowdraglib2.gui.util.ClickData;
+
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
+
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class WorkableElectricMultiblockMachine extends WorkableMultiblockMachine implements BatchModeMachine,
+                                               IDisplayUIMachine, ITieredMachine, IOverclockMachine, IFancyUIMachine {
+
+    private static final int PAGE_WIDTH = 190;
+    private static final int PAGE_HEIGHT = 125;
+    // Leave room for the vertical scrollbar and both text margins in the 182 px display.
+    protected static final int DISPLAY_TEXT_WIDTH = 168;
+
+    // runtime
+    protected @Nullable EnergyContainerList energyContainer;
+    @Getter
+    protected int tier;
+    @SaveField
+    @SyncBoth
+    @Getter
+    protected boolean batchEnabled;
+
+    public WorkableElectricMultiblockMachine(BlockEntityCreationInfo info, RecipeLogic recipeLogic) {
+        super(info, recipeLogic);
+    }
+
+    public WorkableElectricMultiblockMachine(BlockEntityCreationInfo info) {
+        super(info);
+    }
+
+    @Override
+    public WorkableElectricMultiblockMachine self() {
+        return this;
+    }
+
+    //////////////////////////////////////
+    // *** Multiblock Lifecycle ***//
+    //////////////////////////////////////
+    @Override
+    public void invalidateStructure(String structureName) {
+        super.invalidateStructure(structureName);
+        if (DEFAULT_STRUCTURE.equals(structureName)) {
+            this.energyContainer = null;
+            this.tier = 0;
+        }
+    }
+
+    @Override
+    public void formStructure(String structureName) {
+        super.formStructure(structureName);
+        if (DEFAULT_STRUCTURE.equals(structureName)) {
+            this.energyContainer = getEnergyContainer();
+            this.tier = energyContainer.getTier();
+        }
+    }
+
+    @Override
+    public void onPartUnload() {
+        super.onPartUnload();
+        this.energyContainer = null;
+        this.tier = 0;
+    }
+
+    @Override
+    public boolean supportsBatchMode() {
+        return getDefinition().getRecipeModifier() instanceof RecipeModifierList list &&
+                Arrays.stream(list.getModifiers())
+                        .anyMatch(modifier -> modifier == GTRecipeModifiers.BATCH_MODE);
+    }
+
+    @Override
+    public void setBatchEnabled(boolean batchEnabled) {
+        this.batchEnabled = batchEnabled;
+    }
+
+    //////////////////////////////////////
+    // ********** GUI ***********//
+    //////////////////////////////////////
+
+    @Override
+    public UI createUI(Player player, MachineUIHolder holder) {
+        FancyMachineUIWidget shell = new FancyMachineUIWidget(this, player.getInventory(), holder,
+                getPageWidth(), getPageHeight());
+        return createDisplayUI(shell, this);
+    }
+
+    protected void handleDisplayClick(FancyMachineUIWidget shell, String componentData, ClickData clickData) {
+        handleDisplayClick(componentData, clickData);
+    }
+
+    @Override
+    public void addDisplayText(@NotNull List<Component> textList) {
+        var workLogic = getWorkLogic();
+        int numParallels;
+        int subtickParallels;
+        int batchParallels;
+        int totalRuns;
+        boolean exact = false;
+        if (workLogic.isActive() && recipeLogic.getLastRecipe() != null) {
+            numParallels = recipeLogic.getLastRecipe().parallels;
+            subtickParallels = recipeLogic.getLastRecipe().subtickParallels;
+            batchParallels = recipeLogic.getLastRecipe().batchParallels;
+            totalRuns = recipeLogic.getLastRecipe().getTotalRuns();
+            exact = true;
+        } else {
+            numParallels = getParallelHatch()
+                    .map(ParallelHatchPartMachine::getCurrentParallel)
+                    .orElse(0);
+            subtickParallels = 0;
+            batchParallels = 0;
+            totalRuns = 0;
+        }
+
+        MultiblockDisplayText.builder(textList, isFormed())
+                .setWorkingStatus(workLogic.isWorkingEnabled(), workLogic.isActive())
+                .addEnergyUsageLine(energyContainer)
+                .addEnergyTierLine(tier)
+                .addMachineModeLine(getRecipeType(), getRecipeTypes().length > 1)
+                .addTotalRunsLine(totalRuns)
+                .addParallelsLine(numParallels, exact)
+                .addSubtickParallelsLine(subtickParallels)
+                .addBatchModeLine(isBatchEnabled(), batchParallels)
+                .addWorkingStatusLine()
+                .addProgressLine(recipeLogic)
+                .addRecipeFailReasonLine(recipeLogic)
+                .addOutputLines(recipeLogic.getLastRecipe());
+        getDefinition().getAdditionalDisplay().accept(this, textList);
+        IDisplayUIMachine.super.addDisplayText(textList);
+    }
+
+    //////////////////////////////////////
+    // ******** OVERCLOCK *********//
+    //////////////////////////////////////
+    public int getOverclockTier() {
+        return getTier();
+    }
+
+    public int getMaxOverclockTier() {
+        return getTier();
+    }
+
+    public int getMinOverclockTier() {
+        return getTier();
+    }
+
+    @Override
+    public void setOverclockTier(int tier) {}
+
+    @Override
+    public long getOverclockVoltage() {
+        if (this.energyContainer == null) {
+            this.energyContainer = getEnergyContainer();
+        }
+        return energyContainer.getEffectiveVoltage();
+    }
+
+    //////////////////////////////////////
+    // ****** RECIPE LOGIC *******//
+    //////////////////////////////////////
+
+    public EnergyContainerList getEnergyContainer() {
+        List<IEnergyContainer> containers = new ArrayList<>();
+        var handlers = getCapabilitiesFlat(IO.IN, EURecipeCapability.CAP);
+        if (handlers.isEmpty()) handlers = getCapabilitiesFlat(IO.OUT, EURecipeCapability.CAP);
+        for (IRecipeHandler<?> handler : handlers) {
+            if (handler instanceof IEnergyContainer container) {
+                containers.add(container);
+            }
+        }
+        return new EnergyContainerList(containers);
+    }
+
+    public long getMaxVoltage() {
+        if (this.energyContainer == null) {
+            this.energyContainer = getEnergyContainer();
+        }
+        if (this.isGenerator()) {
+            return energyContainer.getEffectiveVoltage();
+        }
+        return GTValues.V[energyContainer.getTier()];
+    }
+
+    @Override
+    public long getTierVoltage() {
+        return getMaxVoltage();
+    }
+
+    @Override
+    public long getDisplayRecipeVoltage() {
+        return this.getEnergyContainer().getHighestVoltage();
+    }
+
+    /**
+     * Is this multiblock a generator?
+     * Used for max voltage calculations.
+     */
+    public boolean isGenerator() {
+        return getDefinition().isGenerator();
+    }
+
+    @Override
+    public UIElement createUIWidget(FancyMachineUIWidget shell) {
+        UIElement root = UITemplate.setBounds(new UIElement(), 0, 0, getPageWidth(), getPageHeight());
+        root.style(style -> style.backgroundTexture(GuiTextures.BACKGROUND_INVERSE));
+
+        GTScrollerViewElement screen = new GTScrollerViewElement(4, 4, 182, 117);
+        screen.style(style -> style.backgroundTexture(getScreenTexture()));
+        screen.viewPort(viewPort -> viewPort
+                .layout(layout -> layout.paddingAll(0))
+                .style(style -> style.backgroundTexture(getScreenTexture())));
+        screen.scrollerStyle(style -> style
+                .mode(ScrollerMode.VERTICAL)
+                .verticalScrollDisplay(ScrollDisplay.AUTO)
+                .horizontalScrollDisplay(ScrollDisplay.NEVER));
+
+        GTLabelElement title = new GTLabelElement(4, 5, 174, 10,
+                getBlockState().getBlock().getDescriptionId(), true);
+        title.textStyle(style -> style
+                .textColor(0x404040)
+                .textShadow(false)
+                .textAlignHorizontal(Horizontal.LEFT)
+                .textAlignVertical(Vertical.CENTER));
+        screen.addScrollViewChild(title);
+        screen.addScrollViewChild(new GTComponentPanelElement(4, 17, this::getDisplay)
+                .setMaxWidthLimit(DISPLAY_TEXT_WIDTH)
+                .clickHandler((componentData, clickData) -> handleDisplayClick(shell, componentData, clickData)));
+        root.addChild(screen);
+        return root;
+    }
+
+    @Override
+    public int getPageWidth() {
+        return PAGE_WIDTH;
+    }
+
+    @Override
+    public int getPageHeight() {
+        return PAGE_HEIGHT;
+    }
+
+    @Override
+    public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
+        VoidingModeConfigurator.attachConfigurators(
+                configuratorPanel, WorkableElectricMultiblockMachine.this);
+        BatchModeConfigurator.attachConfigurators(
+                configuratorPanel, WorkableElectricMultiblockMachine.this);
+        configuratorPanel.attachConfigurators(new StructureCheckConfigurator(this));
+        configuratorPanel.attachConfigurators(new WorkingEnabledConfigurator(
+                WorkableElectricMultiblockMachine.this));
+    }
+
+    @Override
+    public void attachTooltips(TooltipsPanel tooltipsPanel) {
+        for (IMultiPart part : getParts()) {
+            part.attachFancyTooltipsToController(
+                    WorkableElectricMultiblockMachine.this, tooltipsPanel);
+        }
+    }
+
+    @Override
+    public List<IFancyUIProvider> getSubTabs() {
+        return new ObjectArrayList<>(getParts());
+    }
+}

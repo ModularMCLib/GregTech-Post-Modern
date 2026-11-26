@@ -1,0 +1,46 @@
+package com.modularmclib.gtpm.client.renderer.machine;
+
+import com.modularmclib.gtpm.api.machine.MachineDefinition;
+import com.modularmclib.gtpm.api.machine.feature.IMachineFeature;
+import com.modularmclib.gtpm.api.sync_system.FieldCodecs;
+import com.modularmclib.gtpm.client.model.machine.IMachineRendererModel;
+import com.modularmclib.gtpm.client.model.machine.MachineModel;
+
+import com.mojang.serialization.Codec;
+import lombok.Getter;
+import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
+
+public abstract class DynamicRender<T extends IMachineFeature, S extends DynamicRender<T, S>>
+                                   implements Comparable<DynamicRender<T, S>>, IMachineRendererModel<T> {
+
+    public static final Codec<DynamicRender<?, ?>> CODEC = DynamicRenderManager.TYPE_CODEC
+            .dispatchStable(DynamicRender::getType, DynamicRenderType::codec);
+
+    static {
+        FieldCodecs.register(DynamicRender.class, CODEC);
+    }
+
+    @Getter
+    @Setter
+    protected MachineModel parent;
+
+    public DynamicRender() {}
+
+    public abstract DynamicRenderType<T, S> getType();
+
+    @Override
+    public MachineDefinition getDefinition() {
+        return parent.getDefinition();
+    }
+
+    @Override
+    public int compareTo(@NotNull DynamicRender<T, S> o) {
+        return this.getType().compareTo(o.getType());
+    }
+
+    @Override
+    public boolean isBlockEntityRenderer() {
+        return true;
+    }
+}

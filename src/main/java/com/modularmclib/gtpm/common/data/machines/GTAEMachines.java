@@ -1,0 +1,135 @@
+package com.modularmclib.gtpm.common.data.machines;
+
+import com.modularmclib.gtpm.GTPM;
+import com.modularmclib.gtpm.api.data.RotationState;
+import com.modularmclib.gtpm.api.machine.MachineDefinition;
+import com.modularmclib.gtpm.api.machine.multiblock.PartAbility;
+import com.modularmclib.gtpm.integration.ae2.machine.*;
+
+import net.minecraft.network.chat.Component;
+
+import static com.modularmclib.gtpm.api.GTValues.EV;
+import static com.modularmclib.gtpm.api.GTValues.LuV;
+import static com.modularmclib.gtpm.common.registry.GTRegistration.REGISTRATE;
+
+@SuppressWarnings("unused")
+public class GTAEMachines {
+
+    public final static MachineDefinition ITEM_IMPORT_BUS_ME = REGISTRATE
+            .machine("me_input_bus", MEInputBusPartMachine::new)
+            .langValue("ME Input Bus")
+            .tier(EV)
+            .rotationState(RotationState.ALL)
+            .abilities(PartAbility.IMPORT_ITEMS)
+            .colorOverlayTieredHullModel(GTPM.id("block/overlay/appeng/me_input_bus"))
+            .tooltips(
+                    Component.translatable("gtpm.machine.item_bus.import.tooltip"),
+                    Component.translatable("gtpm.machine.me.item_import.tooltip"),
+                    Component.translatable("gtpm.machine.me.copy_paste.tooltip"),
+                    Component.translatable("gtpm.part_sharing.enabled"))
+            .register();
+
+    public final static MachineDefinition STOCKING_IMPORT_BUS_ME = REGISTRATE
+            .machine("me_stocking_input_bus", MEStockingBusPartMachine::new)
+            .langValue("ME Stocking Input Bus")
+            .tier(LuV)
+            .rotationState(RotationState.ALL)
+            .abilities(PartAbility.IMPORT_ITEMS)
+            .colorOverlayTieredHullModel(GTPM.id("block/overlay/appeng/me_input_bus"))
+            .tooltips(
+                    Component.translatable("gtpm.machine.item_bus.import.tooltip"),
+                    Component.translatable("gtpm.machine.me.stocking_item.tooltip.0"),
+                    Component.translatable("gtpm.machine.me_import_item_hatch.configs.tooltip"),
+                    Component.translatable("gtpm.machine.me.copy_paste.tooltip"),
+                    Component.translatable("gtpm.machine.me.stocking_item.tooltip.1"),
+                    Component.translatable("gtpm.part_sharing.enabled"))
+            .register();
+
+    public final static MachineDefinition ITEM_EXPORT_BUS_ME = REGISTRATE
+            .machine("me_output_bus", MEOutputBusPartMachine::new)
+            .langValue("ME Output Bus")
+            .tier(EV)
+            .rotationState(RotationState.ALL)
+            .abilities(PartAbility.EXPORT_ITEMS)
+            .colorOverlayTieredHullModel(GTPM.id("block/overlay/appeng/me_output_bus"))
+            .tooltips(
+                    Component.translatable("gtpm.machine.item_bus.export.tooltip"),
+                    Component.translatable("gtpm.machine.me.item_export.tooltip"),
+                    Component.translatable("gtpm.machine.me.export.tooltip"),
+                    Component.translatable("gtpm.part_sharing.enabled"))
+            .register();
+
+    public final static MachineDefinition FLUID_IMPORT_HATCH_ME = REGISTRATE
+            .machine("me_input_hatch", MEInputHatchPartMachine::new)
+            .langValue("ME Input Hatch")
+            .tier(EV)
+            .rotationState(RotationState.ALL)
+            .abilities(PartAbility.IMPORT_FLUIDS)
+            .colorOverlayTieredHullModel(GTPM.id("block/overlay/appeng/me_input_hatch"))
+            .tooltips(
+                    Component.translatable("gtpm.machine.fluid_hatch.import.tooltip"),
+                    Component.translatable("gtpm.machine.me.fluid_import.tooltip"),
+                    Component.translatable("gtpm.machine.me.copy_paste.tooltip"),
+                    Component.translatable("gtpm.part_sharing.enabled"))
+            .register();
+
+    public final static MachineDefinition STOCKING_IMPORT_HATCH_ME = REGISTRATE
+            .machine("me_stocking_input_hatch", MEStockingHatchPartMachine::new)
+            .langValue("ME Stocking Input Hatch")
+            .tier(LuV)
+            .rotationState(RotationState.ALL)
+            .abilities(PartAbility.IMPORT_FLUIDS)
+            .colorOverlayTieredHullModel(GTPM.id("block/overlay/appeng/me_input_hatch"))
+            .tooltips(
+                    Component.translatable("gtpm.machine.fluid_hatch.import.tooltip"),
+                    Component.translatable("gtpm.machine.me.stocking_fluid.tooltip.0"),
+                    Component.translatable("gtpm.machine.me_import_fluid_hatch.configs.tooltip"),
+                    Component.translatable("gtpm.machine.me.copy_paste.tooltip"),
+                    Component.translatable("gtpm.machine.me.stocking_fluid.tooltip.1"),
+                    Component.translatable("gtpm.part_sharing.enabled"))
+            .register();
+
+    public final static MachineDefinition FLUID_EXPORT_HATCH_ME = REGISTRATE
+            .machine("me_output_hatch", MEOutputHatchPartMachine::new)
+            .langValue("ME Output Hatch")
+            .tier(EV)
+            .rotationState(RotationState.ALL)
+            .abilities(PartAbility.EXPORT_FLUIDS)
+            .colorOverlayTieredHullModel(GTPM.id("block/overlay/appeng/me_output_hatch"))
+            .tooltips(
+                    Component.translatable("gtpm.machine.fluid_hatch.export.tooltip"),
+                    Component.translatable("gtpm.machine.me.fluid_export.tooltip"),
+                    Component.translatable("gtpm.machine.me.export.tooltip"),
+                    Component.translatable("gtpm.part_sharing.enabled"))
+            .register();
+    public static final MachineDefinition ME_PATTERN_BUFFER = REGISTRATE
+            .machine("me_pattern_buffer", MEPatternBufferPartMachine::new)
+            .tier(LuV)
+            .rotationState(RotationState.ALL)
+            .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
+            .rotationState(RotationState.ALL)
+            .colorOverlayTieredHullModel(GTPM.id("block/overlay/appeng/me_buffer_hatch"))
+            .langValue("ME Pattern Buffer")
+            .tooltips(
+                    Component.translatable("block.gtpm.pattern_buffer.desc.0"),
+                    Component.translatable("block.gtpm.pattern_buffer.desc.1"),
+                    Component.translatable("block.gtpm.pattern_buffer.desc.2"),
+                    Component.translatable("gtpm.part_sharing.enabled"))
+            .register();
+    public static final MachineDefinition ME_PATTERN_BUFFER_PROXY = REGISTRATE
+            .machine("me_pattern_buffer_proxy", MEPatternBufferProxyPartMachine::new)
+            .tier(LuV)
+            .rotationState(RotationState.ALL)
+            .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
+            .rotationState(RotationState.ALL)
+            .colorOverlayTieredHullModel(GTPM.id("block/overlay/appeng/me_buffer_hatch_proxy"))
+            .langValue("ME Pattern Buffer Proxy")
+            .tooltips(
+                    Component.translatable("block.gtpm.pattern_buffer_proxy.desc.0"),
+                    Component.translatable("block.gtpm.pattern_buffer_proxy.desc.1"),
+                    Component.translatable("block.gtpm.pattern_buffer_proxy.desc.2"),
+                    Component.translatable("gtpm.part_sharing.enabled"))
+            .register();
+
+    public static void init() {}
+}

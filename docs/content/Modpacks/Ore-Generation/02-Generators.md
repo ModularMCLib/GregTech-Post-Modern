@@ -25,7 +25,7 @@ Dike 从 `cluster_size` 采样并向上取整得到半径 `r = ceil(cluster_size
 
 ### 脉状矿脉的高度与边缘
 
-`min_y` 和 `max_y` 控制生成器的垂直范围。`edge_roundoff_begin` 与 `max_edge_roundoff` 控制靠近端部的收缩。`veininess_threshold` 设置噪声通过阈值，`max_richness_threshold` 与丰度范围决定内部矿石分布。 [锡石矿脉示例](https://github.com/ExtremelyFrozen/GregTech-Post-Modern/blob/1.21/src/generated/resources/data/gtpm/gtpm/ore_vein/cassiterite.json)
+`min_y` 和 `max_y` 控制生成器的垂直范围。`edge_roundoff_begin` 与 `max_edge_roundoff` 控制靠近端部的收缩。`veininess_threshold` 设置噪声通过阈值，`max_richness_threshold` 与丰度范围决定内部矿石分布。 [锡石矿脉示例](https://github.com/ModularMCLib/GregTech-Post-Modern/blob/1.21/src/generated/resources/data/gtpm/gtpm/ore_vein/cassiterite.json)
 
 
 ## 地表指示物 { #indicator-generators }
@@ -44,4 +44,4 @@ Dike 从 `cluster_size` 采样并向上取整得到半径 `r = ceil(cluster_size
     }
     ```
 
-附属模组可通过 `IGTAddon.registerVeinGenerators()` 与 `registerIndicatorGenerators()` 注册新类型。 [生成器注册表](https://github.com/ExtremelyFrozen/GregTech-Post-Modern/tree/1.21/src/main/java/com/gregtechceu/gtceu/api/data/worldgen/generator)
+附属模组可通过 `IGTAddon.registerVeinGenerators()` 与 `registerIndicatorGenerators()` 注册新类型。 [生成器注册表](https://github.com/ModularMCLib/GregTech-Post-Modern/tree/1.21/src/main/java/com/modularmclib/gtpm/api/data/worldgen/generator)

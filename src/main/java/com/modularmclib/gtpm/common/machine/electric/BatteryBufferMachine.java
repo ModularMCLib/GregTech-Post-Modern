@@ -1,0 +1,479 @@
+package com.modularmclib.gtpm.common.machine.electric;
+
+import com.modularmclib.gtpm.api.GTValues;
+import com.modularmclib.gtpm.api.blockentity.BlockEntityCreationInfo;
+import com.modularmclib.gtpm.api.capability.GTCapabilityHelper;
+import com.modularmclib.gtpm.api.capability.IControllable;
+import com.modularmclib.gtpm.api.capability.IElectricItem;
+import com.modularmclib.gtpm.api.capability.IMonitorComponent;
+import com.modularmclib.gtpm.api.capability.compat.FeCompat;
+import com.modularmclib.gtpm.api.gui.GuiTextures;
+import com.modularmclib.gtpm.api.gui.UITemplate;
+import com.modularmclib.gtpm.api.gui.element.GTItemSlotElement;
+import com.modularmclib.gtpm.api.gui.fancy.FancyMachineUIWidget;
+import com.modularmclib.gtpm.api.gui.texture.IGuiTexture;
+import com.modularmclib.gtpm.api.machine.TieredEnergyMachine;
+import com.modularmclib.gtpm.api.machine.feature.IFancyUIMachine;
+import com.modularmclib.gtpm.api.machine.property.GTMachineModelProperties;
+import com.modularmclib.gtpm.api.machine.trait.NotifiableEnergyContainer;
+import com.modularmclib.gtpm.api.sync_system.annotations.RerenderOnChanged;
+import com.modularmclib.gtpm.api.sync_system.annotations.SaveField;
+import com.modularmclib.gtpm.api.sync_system.annotations.SyncToClient;
+import com.modularmclib.gtpm.api.transfer.item.CustomItemStackHandler;
+import com.modularmclib.gtpm.client.model.machine.MachineRenderState;
+import com.modularmclib.gtpm.config.ConfigHolder;
+import com.modularmclib.gtpm.utils.GTUtil;
+
+import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+
+import net.minecraft.core.Direction;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+
+import lombok.Getter;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class BatteryBufferMachine extends TieredEnergyMachine
+                                  implements IControllable, IFancyUIMachine, IMonitorComponent {
+
+    public static final long AMPS_PER_BATTERY_NORMAL = 2L;
+    public static final long AMPS_PER_BATTERY_CHARGER = 4L;
+    private static final int SLOT_SIZE = 18;
+    private static final int TEMPLATE_PADDING = 8;
+    private static final int TEMPLATE_SLOT_OFFSET = 4;
+    private static final int ENERGY_BAR_WIDTH = 18;
+    private static final int ENERGY_BAR_HEIGHT = 60;
+    private static final int ENERGY_BAR_X = 3;
+    private static final int PAGE_MIN_WIDTH = 172;
+    private static final int PAGE_ENERGY_TEMPLATE_GAP = 4;
+
+    public enum State implements StringRepresentable {
+
+        IDLE("idle"),
+        RUNNING("running"),
+        FINISHED("finished");
+
+        @Getter
+        private final String serializedName;
+
+        State(String name) {
+            this.serializedName = name;
+        }
+    }
+
+    public static final EnumProperty<State> STATE_PROPERTY = GTMachineModelProperties.CHARGER_STATE;
+
+    @SaveField
+    @Getter
+    private boolean isWorkingEnabled;
+    @Getter
+    private final int inventorySize;
+    @Getter
+    @SaveField
+    protected final CustomItemStackHandler batteryInventory;
+    private final boolean chargerMode;
+
+    @Getter
+    @SyncToClient
+    @RerenderOnChanged
+    private State state;
+
+    public BatteryBufferMachine(BlockEntityCreationInfo info, int tier, int inventorySize) {
+        this(info, tier, inventorySize, AMPS_PER_BATTERY_NORMAL, inventorySize);
+    }
+
+    public BatteryBufferMachine(BlockEntityCreationInfo info, int tier, int inventorySize, long inputAmpsPerItem,
+                                long outputAmps) {
+        super(info, tier, new EnergyBatteryTrait(tier, inventorySize, inputAmpsPerItem, outputAmps));
+        this.isWorkingEnabled = true;
+        this.inventorySize = inventorySize;
+        this.chargerMode = outputAmps == 0;
+        this.batteryInventory = createBatteryInventory();
+        this.batteryInventory.setOnContentsChanged(energyContainer::checkOutputSubscription);
+        this.state = State.IDLE;
+    }
+
+    //////////////////////////////////////
+    // ***** Initialization ******//
+    //////////////////////////////////////
+
+    protected CustomItemStackHandler createBatteryInventory() {
+        var handler = new CustomItemStackHandler(this.inventorySize) {
+
+            @Override
+            public int getSlotLimit(int slot) {
+                return 1;
+            }
+        };
+        handler.setFilter(item -> GTCapabilityHelper.getElectricItem(item) != null ||
+                (ConfigHolder.INSTANCE.compat.energy.nativeEUToFE &&
+                        GTCapabilityHelper.getForgeEnergyItem(item) != null));
+        return handler;
+    }
+
+    @Override
+    public int tintColor(int index) {
+        if (index == 2) {
+            return GTValues.VC[getTier()];
+        }
+        return super.tintColor(index);
+    }
+
+    //////////////////////////////////////
+    // ********** GUI ***********//
+    //////////////////////////////////////
+
+    @Override
+    public UIElement createUIWidget(FancyMachineUIWidget shell) {
+        UIElement root = UITemplate.setBounds(new UIElement(), 0, 0,
+                getPageWidth(), getPageHeight());
+
+        UIElement energyBar = createEnergyBar();
+        UITemplate.setBounds(energyBar, ENERGY_BAR_X,
+                (getPageHeight() - ENERGY_BAR_HEIGHT) / 2, ENERGY_BAR_WIDTH, ENERGY_BAR_HEIGHT);
+        root.addChild(energyBar);
+
+        UIElement template = UITemplate.setBounds(new UIElement(),
+                getBatteryTemplateX(), getBatteryTemplateY(),
+                getBatteryTemplateWidth(), getBatteryTemplateHeight());
+        template.style(style -> style.backgroundTexture(GuiTextures.BACKGROUND_INVERSE));
+        int index = 0;
+        for (int y = 0; y < getBatteryColSize(); y++) {
+            for (int x = 0; x < getBatteryRowSize(); x++) {
+                template.addChild(createBatterySlot(index++, TEMPLATE_SLOT_OFFSET + x * SLOT_SIZE,
+                        TEMPLATE_SLOT_OFFSET + y * SLOT_SIZE));
+            }
+        }
+
+        root.addChild(template);
+        return root;
+    }
+
+    @Override
+    public int getPageWidth() {
+        return Math.max(ENERGY_BAR_WIDTH + getBatteryTemplateWidth() + PAGE_ENERGY_TEMPLATE_GAP +
+                TEMPLATE_PADDING, PAGE_MIN_WIDTH);
+    }
+
+    @Override
+    public int getPageHeight() {
+        return Math.max(getBatteryTemplateHeight() + TEMPLATE_PADDING, ENERGY_BAR_HEIGHT + TEMPLATE_PADDING);
+    }
+
+    private GTItemSlotElement createBatterySlot(int index, int x, int y) {
+        GTItemSlotElement slot = new GTItemSlotElement(batteryInventory, index)
+                .setCanPutItems(true)
+                .setCanTakeItems(true)
+                .setBackgroundTexture(GuiTextures.group(GuiTextures.SLOT,
+                        chargerMode ? GuiTextures.CHARGER_OVERLAY : GuiTextures.BATTERY_OVERLAY));
+        return UITemplate.setBounds(slot, x, y, SLOT_SIZE, SLOT_SIZE);
+    }
+
+    private int getBatteryTemplateX() {
+        return (getPageWidth() - ENERGY_BAR_WIDTH - PAGE_ENERGY_TEMPLATE_GAP -
+                getBatteryTemplateWidth()) / 2 + 2 + ENERGY_BAR_WIDTH + 2;
+    }
+
+    private int getBatteryTemplateY() {
+        return (getPageHeight() - getBatteryTemplateHeight()) / 2;
+    }
+
+    private int getBatteryTemplateWidth() {
+        return SLOT_SIZE * getBatteryRowSize() + TEMPLATE_PADDING;
+    }
+
+    private int getBatteryTemplateHeight() {
+        return SLOT_SIZE * getBatteryColSize() + TEMPLATE_PADDING;
+    }
+
+    private int getBatteryRowSize() {
+        if (inventorySize == 8) {
+            return 4;
+        }
+        return (int) Math.sqrt(inventorySize);
+    }
+
+    private int getBatteryColSize() {
+        if (inventorySize == 8) {
+            return 2;
+        }
+        return getBatteryRowSize();
+    }
+
+    //////////////////////////////////////
+    // ****** Battery Logic ******//
+    //////////////////////////////////////
+
+    @Override
+    public void setWorkingEnabled(boolean workingEnabled) {
+        isWorkingEnabled = workingEnabled;
+        energyContainer.checkOutputSubscription();
+    }
+
+    private List<Object> getNonFullBatteries() {
+        List<Object> batteries = new ArrayList<>();
+        for (int i = 0; i < batteryInventory.getSlots(); i++) {
+            var batteryStack = batteryInventory.getStackInSlot(i);
+            var electricItem = GTCapabilityHelper.getElectricItem(batteryStack);
+            if (electricItem != null) {
+                if (electricItem.getCharge() < electricItem.getMaxCharge()) {
+                    batteries.add(electricItem);
+                }
+            } else if (ConfigHolder.INSTANCE.compat.energy.nativeEUToFE) {
+                IEnergyStorage energyStorage = GTCapabilityHelper.getForgeEnergyItem(batteryStack);
+                if (energyStorage != null) {
+                    if (energyStorage.getEnergyStored() < energyStorage.getMaxEnergyStored()) {
+                        batteries.add(energyStorage);
+                    }
+                }
+            }
+        }
+        return batteries;
+    }
+
+    private List<IElectricItem> getNonEmptyBatteries() {
+        List<IElectricItem> batteries = new ArrayList<>();
+        for (int i = 0; i < batteryInventory.getSlots(); i++) {
+            var batteryStack = batteryInventory.getStackInSlot(i);
+            var electricItem = GTCapabilityHelper.getElectricItem(batteryStack);
+            if (electricItem != null) {
+                if (electricItem.canProvideChargeExternally() && electricItem.getCharge() > 0) {
+                    batteries.add(electricItem);
+                }
+            }
+        }
+        return batteries;
+    }
+
+    private List<Object> getAllBatteries() {
+        List<Object> batteries = new ArrayList<>();
+        for (int i = 0; i < batteryInventory.getSlots(); i++) {
+            var batteryStack = batteryInventory.getStackInSlot(i);
+            var electricItem = GTCapabilityHelper.getElectricItem(batteryStack);
+            if (electricItem != null) {
+                batteries.add(electricItem);
+            } else if (ConfigHolder.INSTANCE.compat.energy.nativeEUToFE) {
+                IEnergyStorage energyStorage = GTCapabilityHelper.getForgeEnergyItem(batteryStack);
+                if (energyStorage != null) {
+                    batteries.add(energyStorage);
+                }
+            }
+        }
+        return batteries;
+    }
+
+    private void changeState(State newState) {
+        if (state == newState) return;
+        state = newState;
+        MachineRenderState renderState = getRenderState();
+        if (renderState.hasProperty(GTMachineModelProperties.CHARGER_STATE)) {
+            setRenderState(renderState.setValue(GTMachineModelProperties.CHARGER_STATE, newState));
+        }
+    }
+
+    @Override
+    public void onMachineDestroyed() {
+        super.onMachineDestroyed();
+        batteryInventory.dropInventoryInWorld(getLevel(), getBlockPos());
+    }
+
+    @Override
+    public IGuiTexture getComponentIcon() {
+        return GuiTextures.BUTTON_CHECK; // temporary
+    }
+
+    protected static class EnergyBatteryTrait extends NotifiableEnergyContainer {
+
+        private final int tier;
+        private final long inputAmpsPerItem;
+        private final long outputAmps;
+
+        protected EnergyBatteryTrait(int tier, int inventorySize, long inputAmpsPerItem, long outputAmps) {
+            super(GTValues.V[tier] * inventorySize * 32L, GTValues.V[tier],
+                    inventorySize * inputAmpsPerItem, outputAmps == 0 ? 0 : GTValues.V[tier], outputAmps);
+            this.tier = tier;
+            this.inputAmpsPerItem = inputAmpsPerItem;
+            this.outputAmps = outputAmps;
+            this.setSideInputCondition(
+                    side -> (outputAmps == 0 || side != getMachine().getFrontFacing()) &&
+                            getMachine().isWorkingEnabled());
+            this.setSideOutputCondition(
+                    side -> outputAmps > 0 && side == getMachine().getFrontFacing() && getMachine().isWorkingEnabled());
+        }
+
+        @Override
+        public BatteryBufferMachine getMachine() {
+            return (BatteryBufferMachine) super.getMachine();
+        }
+
+        @Override
+        protected List<Class<?>> validMachineClasses() {
+            return List.of(BatteryBufferMachine.class);
+        }
+
+        @Override
+        public void checkOutputSubscription() {
+            updateChargerState();
+            if (getMachine().isWorkingEnabled()) {
+                super.checkOutputSubscription();
+            } else if (outputSubs != null) {
+                outputSubs.unsubscribe();
+                outputSubs = null;
+            }
+        }
+
+        private void updateChargerState() {
+            if (outputAmps > 0) return;
+            long capacity = getEnergyCapacity();
+            if (capacity == 0) {
+                getMachine().changeState(State.IDLE);
+            } else if (capacity == getEnergyStored()) {
+                getMachine().changeState(State.FINISHED);
+            }
+        }
+
+        @Override
+        public void serverTick() {
+            if (outputAmps <= 0) {
+                return;
+            }
+            var outFacing = getMachine().getFrontFacing();
+            var energyContainer = GTCapabilityHelper.getEnergyContainer(getLevel(),
+                    getBlockPos().relative(outFacing),
+                    outFacing.getOpposite());
+            if (energyContainer == null) {
+                return;
+            }
+
+            var voltage = getOutputVoltage();
+            var batteries = getMachine().getNonEmptyBatteries();
+            if (!batteries.isEmpty()) {
+                // Prioritize as many packets as available of energy created
+                long internalAmps = Math.abs(Math.min(0, getInternalStorage() / voltage));
+                long genAmps = Math.max(0, Math.min(outputAmps, batteries.size()) - internalAmps);
+                long outAmps = 0L;
+
+                if (genAmps > 0) {
+                    outAmps = energyContainer.acceptEnergyFromNetwork(outFacing.getOpposite(), voltage, genAmps);
+                    if (outAmps == 0 && internalAmps == 0)
+                        return;
+                }
+
+                long energy = (outAmps + internalAmps) * voltage;
+                long distributed = energy / batteries.size();
+
+                boolean changed = false;
+                for (IElectricItem electricItem : batteries) {
+                    var charged = electricItem.discharge(distributed, tier, false, true, false);
+                    if (charged > 0) {
+                        changed = true;
+                    }
+                    energy -= charged;
+                    energyOutputPerSec += charged;
+                }
+
+                if (changed) {
+                    checkOutputSubscription();
+                }
+
+                // Subtract energy created out of thin air from the buffer
+                setEnergyStored(getInternalStorage() + internalAmps * voltage - energy);
+            }
+        }
+
+        @Override
+        public long acceptEnergyFromNetwork(@Nullable Direction side, long voltage, long amperage) {
+            var latestTimeStamp = getMachine().getOffsetTimer();
+            if (lastTimeStamp < latestTimeStamp) {
+                amps = 0;
+                lastTimeStamp = latestTimeStamp;
+            }
+            if (amperage <= 0 || voltage <= 0)
+                return 0;
+
+            var batteries = getMachine().getNonFullBatteries();
+            var leftAmps = batteries.size() * inputAmpsPerItem - amps;
+            var usedAmps = Math.min(leftAmps, amperage);
+            if (leftAmps <= 0)
+                return 0;
+
+            if (side == null || inputsEnergy(side)) {
+                if (voltage > getInputVoltage()) {
+                    GTUtil.doExplosion(getLevel(), getBlockPos(), GTUtil.getExplosionPower(voltage));
+                    return usedAmps;
+                }
+
+                // Prioritizes as many packets as available from the buffer
+                long internalAmps = Math.min(leftAmps, Math.max(0, getInternalStorage() / voltage));
+
+                usedAmps = Math.min(usedAmps, leftAmps - internalAmps);
+                amps += usedAmps;
+
+                long energy = (usedAmps + internalAmps) * voltage;
+                long distributed = energy / batteries.size();
+
+                boolean changed = false;
+                for (Object item : batteries) {
+                    long charged = 0;
+                    if (item instanceof IElectricItem electricItem) {
+                        charged = electricItem.charge(
+                                Math.min(distributed, GTValues.V[electricItem.getTier()] * inputAmpsPerItem), tier,
+                                true, false);
+                    } else if (item instanceof IEnergyStorage energyStorage) {
+                        charged = FeCompat.insertEu(energyStorage,
+                                Math.min(distributed, GTValues.V[tier] * inputAmpsPerItem), false);
+                    }
+                    if (charged > 0) {
+                        changed = true;
+                    }
+                    energy -= charged;
+                    energyInputPerSec += charged;
+                }
+
+                if (changed) {
+                    getMachine().changeState(State.RUNNING);
+                    checkOutputSubscription();
+                }
+
+                // Remove energy used and then transfer overflow energy into the internal buffer
+                setEnergyStored(getInternalStorage() - internalAmps * voltage + energy);
+                return usedAmps;
+            }
+            return 0;
+        }
+
+        @Override
+        public long getEnergyCapacity() {
+            long energyCapacity = 0L;
+            for (Object battery : getMachine().getAllBatteries()) {
+                if (battery instanceof IElectricItem electricItem) {
+                    energyCapacity += electricItem.getMaxCharge();
+                } else if (battery instanceof IEnergyStorage energyStorage) {
+                    energyCapacity += FeCompat.toEu(energyStorage.getMaxEnergyStored(), FeCompat.ratio(false));
+                }
+            }
+            return energyCapacity;
+        }
+
+        @Override
+        public long getEnergyStored() {
+            long energyStored = 0L;
+            for (Object battery : getMachine().getAllBatteries()) {
+                if (battery instanceof IElectricItem electricItem) {
+                    energyStored += electricItem.getCharge();
+                } else if (battery instanceof IEnergyStorage energyStorage) {
+                    energyStored += FeCompat.toEu(energyStorage.getEnergyStored(), FeCompat.ratio(false));
+                }
+            }
+            return energyStored;
+        }
+
+        private long getInternalStorage() {
+            return energyStored;
+        }
+    }
+}

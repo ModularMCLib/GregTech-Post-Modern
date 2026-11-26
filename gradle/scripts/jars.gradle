@@ -34,10 +34,10 @@ afterEvaluate {
                 'MixinConfigs': 'gtpm.mixins.json',
                 'Specification-Title': project.name,
                 'Specification-Version': mod_version,
-                'Specification-Vendor': 'ExtremelyFrozen Team',
+                'Specification-Vendor': 'ModularMCLib',
                 'Implementation-Title': base.archivesName,
                 'Implementation-Version': version,
-                'Implementation-Vendor': 'ExtremelyFrozen Team',
+                'Implementation-Vendor': 'ModularMCLib',
         ])
     }
 }

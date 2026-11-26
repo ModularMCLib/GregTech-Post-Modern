@@ -123,7 +123,7 @@ neoForge {
         configureEach {
             loadedMods.convention([mods[project.mod_id]])
             systemProperty 'forge.logging.markers', 'REGISTRIES'
-            jvmArgument('-ea:com.gregtechceu.gtceu...')
+            jvmArgument('-ea:com.modularmclib.gtpm...')
             logLevel = org.slf4j.event.Level.INFO
 
             // Disable JOML using scientific notation for its types' toString() outputs

@@ -28,4 +28,4 @@ title: 配方搜索与索引
 
 客户端在 `RecipesUpdatedEvent` 后用已接收的完整配方列表重建各类型的展示数据。空类型也会提交，使删除配方、重载和切换服务器时及时更新。代理配方在客户端根据其来源生成展示定义，使用独立的合成标识。
 
-查看器从展示定义读取物品、流体、能耗和条件。多方块结构是单独的预览类别，所需材料按预览选项求解。 [配方展示刷新](https://github.com/ExtremelyFrozen/GregTech-Post-Modern/blob/1.21/src/main/java/com/gregtechceu/gtceu/integration/xei/RecipeDisplayReload.java)
+查看器从展示定义读取物品、流体、能耗和条件。多方块结构是单独的预览类别，所需材料按预览选项求解。 [配方展示刷新](https://github.com/ModularMCLib/GregTech-Post-Modern/blob/1.21/src/main/java/com/modularmclib/gtpm/integration/xei/RecipeDisplayReload.java)

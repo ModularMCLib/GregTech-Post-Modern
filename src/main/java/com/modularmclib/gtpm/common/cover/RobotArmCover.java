@@ -1,0 +1,268 @@
+package com.modularmclib.gtpm.common.cover;
+
+import com.modularmclib.gtpm.api.blockentity.ConfigCopyHelper;
+import com.modularmclib.gtpm.api.capability.ICoverable;
+import com.modularmclib.gtpm.api.capability.recipe.IO;
+import com.modularmclib.gtpm.api.cover.CoverDefinition;
+import com.modularmclib.gtpm.api.cover.filter.ItemFilter;
+import com.modularmclib.gtpm.api.cover.filter.SimpleItemFilter;
+import com.modularmclib.gtpm.api.gui.element.GTEnumSelectorElement;
+import com.modularmclib.gtpm.api.gui.element.GTIntInputElement;
+import com.modularmclib.gtpm.api.gui.factory.UICoverHolder;
+import com.modularmclib.gtpm.api.sync_system.SyncFieldData;
+import com.modularmclib.gtpm.api.sync_system.annotations.SaveField;
+import com.modularmclib.gtpm.api.sync_system.annotations.SyncToClient;
+import com.modularmclib.gtpm.api.sync_system.rpc.RPCMethod;
+import com.modularmclib.gtpm.common.cover.data.TransferMode;
+import com.modularmclib.gtpm.common.pipelike.item.ItemNetHandler;
+
+import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+
+import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.items.IItemHandler;
+
+import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Iterator;
+import java.util.Map;
+
+public class RobotArmCover extends ConveyorCover {
+
+    @SaveField
+    @SyncToClient
+    @Getter
+    protected TransferMode transferMode;
+
+    @SaveField
+    @SyncToClient
+    @Getter
+    protected int globalTransferLimit;
+    protected int itemsTransferBuffered;
+
+    private @Nullable GTIntInputElement stackSizeInput;
+
+    public RobotArmCover(CoverDefinition definition, ICoverable coverHolder, Direction attachedSide, int tier,
+                         int maxTransferRate) {
+        super(definition, coverHolder, attachedSide, tier, maxTransferRate);
+        setTransferMode(TransferMode.TRANSFER_ANY);
+    }
+
+    public RobotArmCover(CoverDefinition definition, ICoverable coverHolder, Direction attachedSide, int tier) {
+        this(definition, coverHolder, attachedSide, tier, CONVEYOR_SCALING.applyAsInt(tier));
+    }
+
+    @Override
+    protected int doTransferItems(IItemHandler itemHandler, IItemHandler myItemHandler, int maxTransferAmount) {
+        if (io == IO.OUT && itemHandler instanceof ItemNetHandler && transferMode == TransferMode.KEEP_EXACT) {
+            return 0;
+        }
+        if (io == IO.IN && myItemHandler instanceof ItemNetHandler && transferMode == TransferMode.KEEP_EXACT) {
+            return 0;
+        }
+        return switch (transferMode) {
+            case TRANSFER_ANY -> moveInventoryItems(itemHandler, myItemHandler, maxTransferAmount);
+            case TRANSFER_EXACT -> doTransferExact(itemHandler, myItemHandler, maxTransferAmount);
+            case KEEP_EXACT -> doKeepExact(itemHandler, myItemHandler, maxTransferAmount);
+        };
+    }
+
+    protected int doTransferExact(IItemHandler sourceInventory, IItemHandler targetInventory, int maxTransferAmount) {
+        Map<ItemStack, TypeItemInfo> sourceItemAmount = countInventoryItemsByType(sourceInventory);
+
+        Iterator<ItemStack> iterator = sourceItemAmount.keySet().iterator();
+        while (iterator.hasNext()) {
+            TypeItemInfo sourceInfo = sourceItemAmount.get(iterator.next());
+            int itemAmount = sourceInfo.totalCount;
+            int itemToMoveAmount = getFilteredItemAmount(sourceInfo.itemStack);
+
+            if (itemAmount >= itemToMoveAmount) {
+                sourceInfo.totalCount = itemToMoveAmount;
+            } else {
+                iterator.remove();
+            }
+        }
+
+        int itemsTransferred = 0;
+        int maxTotalTransferAmount = maxTransferAmount + itemsTransferBuffered;
+        boolean notEnoughTransferRate = false;
+        for (TypeItemInfo itemInfo : sourceItemAmount.values()) {
+            if (maxTotalTransferAmount >= itemInfo.totalCount) {
+                boolean result = moveInventoryItemsExact(sourceInventory, targetInventory, itemInfo);
+                itemsTransferred += result ? itemInfo.totalCount : 0;
+                maxTotalTransferAmount -= result ? itemInfo.totalCount : 0;
+            } else {
+                notEnoughTransferRate = true;
+            }
+        }
+        // if we didn't transfer anything because of too small transfer rate, buffer it
+        if (itemsTransferred == 0 && notEnoughTransferRate) {
+            itemsTransferBuffered += maxTransferAmount;
+        } else {
+            // otherwise, if transfer succeed, empty transfer buffer value
+            itemsTransferBuffered = 0;
+        }
+        return Math.min(itemsTransferred, maxTransferAmount);
+    }
+
+    protected int doKeepExact(IItemHandler sourceInventory, IItemHandler targetInventory, int maxTransferAmount) {
+        Map<ItemStack, GroupItemInfo> targetItemAmounts = countInventoryItemsByMatchSlot(targetInventory);
+        Map<ItemStack, GroupItemInfo> sourceItemAmounts = countInventoryItemsByMatchSlot(sourceInventory);
+
+        Iterator<ItemStack> iterator = sourceItemAmounts.keySet().iterator();
+        while (iterator.hasNext()) {
+            ItemStack filteredItem = iterator.next();
+            GroupItemInfo sourceInfo = sourceItemAmounts.get(filteredItem);
+            int itemToKeepAmount = getFilteredItemAmount(sourceInfo.itemStack);
+
+            int itemAmount = 0;
+            if (targetItemAmounts.containsKey(filteredItem)) {
+                GroupItemInfo destItemInfo = targetItemAmounts.get(filteredItem);
+                itemAmount = destItemInfo.totalCount;
+            }
+            if (itemAmount < itemToKeepAmount) {
+                sourceInfo.totalCount = itemToKeepAmount - itemAmount;
+            } else {
+                iterator.remove();
+            }
+        }
+
+        return moveInventoryItems(sourceInventory, targetInventory, sourceItemAmounts, maxTransferAmount);
+    }
+
+    private int getFilteredItemAmount(ItemStack itemStack) {
+        if (!filterHandler.isFilterPresent())
+            return globalTransferLimit;
+
+        ItemFilter filter = filterHandler.getFilter();
+        return filter.supportsAmounts() ? filter.testItemCount(itemStack) : globalTransferLimit;
+    }
+
+    public int getBuffer() {
+        return itemsTransferBuffered;
+    }
+
+    public void buffer(int amount) {
+        itemsTransferBuffered += amount;
+    }
+
+    public void clearBuffer() {
+        itemsTransferBuffered = 0;
+    }
+
+    public void setGlobalTransferLimit(int globalTransferLimit) {
+        int clamped = Math.min(Math.max(globalTransferLimit, 1), transferMode.maxStackSize);
+        if (this.globalTransferLimit != clamped) {
+            this.globalTransferLimit = clamped;
+            syncDataHolder.markClientSyncFieldDirty("globalTransferLimit");
+        }
+        configureStackSizeInput();
+    }
+
+    //////////////////////////////////////
+    // *********** GUI ***********//
+    //////////////////////////////////////
+
+    @Override
+    @NotNull
+    protected String getUITitle() {
+        return "cover.robotic_arm.title";
+    }
+
+    @Override
+    protected void buildAdditionalUI(UIElement root, Player player, UICoverHolder holder) {
+        root.addChild(GTEnumSelectorElement.selectable(146, 45, 20, 20, TransferMode.values(),
+                this::getTransferMode, mode -> setTransferMode(player, holder, mode)));
+
+        this.stackSizeInput = new GTIntInputElement(64, 45, 80, 20,
+                this::getGlobalTransferLimit, value -> setGlobalTransferLimit(player, holder, value));
+        configureStackSizeInput();
+        root.addChild(this.stackSizeInput);
+    }
+
+    public void setTransferMode(TransferMode transferMode) {
+        if (this.transferMode == transferMode) {
+            configureStackSizeInput();
+            return;
+        }
+        this.transferMode = transferMode;
+
+        configureStackSizeInput();
+
+        if (!coverHolder.isRemote()) {
+            syncDataHolder.markClientSyncFieldDirty("transferMode");
+            configureFilter();
+        }
+    }
+
+    @Override
+    protected void configureFilter() {
+        if (filterHandler.getFilter() instanceof SimpleItemFilter filter) {
+            filter.setMaxStackSize(filter.isBlackList() ? 1 : transferMode.maxStackSize);
+        }
+
+        configureStackSizeInput();
+    }
+
+    private void configureStackSizeInput() {
+        if (this.stackSizeInput == null)
+            return;
+
+        this.stackSizeInput.setVisible(shouldShowStackSize());
+        this.stackSizeInput.setMin(1);
+        this.stackSizeInput.setMax(this.transferMode.maxStackSize);
+    }
+
+    private boolean shouldShowStackSize() {
+        if (this.transferMode == TransferMode.TRANSFER_ANY)
+            return false;
+
+        if (!this.filterHandler.isFilterPresent())
+            return true;
+
+        return !this.filterHandler.getFilter().supportsAmounts();
+    }
+
+    private void setTransferMode(Player player, UICoverHolder holder, TransferMode mode) {
+        setTransferMode(mode);
+        sendConfigAction(player, holder);
+    }
+
+    private void setGlobalTransferLimit(Player player, UICoverHolder holder, int value) {
+        setGlobalTransferLimit(value);
+        sendConfigAction(player, holder);
+    }
+
+    @RPCMethod
+    public void configureRobotArm(TransferMode transferMode, int transferLimit) {
+        setTransferMode(transferMode);
+        setGlobalTransferLimit(transferLimit);
+    }
+
+    private void sendConfigAction(Player player, UICoverHolder holder) {
+        if (player.level().isClientSide()) {
+            holder.getCover().rpcToServer("configureRobotArm", getTransferMode(), getGlobalTransferLimit());
+        }
+    }
+
+    @Override
+    public SyncFieldData copyConfig(HolderLookup.Provider registries) {
+        return ConfigCopyHelper.withFields(super.copyConfig(registries), fields -> fields
+                .put(SyncFieldData.key("transferMode"),
+                        transferMode.ordinal())
+                .put(SyncFieldData.key("transferLimit"),
+                        globalTransferLimit));
+    }
+
+    @Override
+    public void pasteConfig(ServerPlayer player, HolderLookup.Provider registries, SyncFieldData config) {
+        setTransferMode(TransferMode.values()[ConfigCopyHelper.getInt(config, "transferMode")]);
+        setGlobalTransferLimit(ConfigCopyHelper.getInt(config, "transferLimit"));
+        super.pasteConfig(player, registries, config);
+    }
+}

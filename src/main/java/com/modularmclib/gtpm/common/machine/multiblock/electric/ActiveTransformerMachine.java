@@ -1,0 +1,204 @@
+package com.modularmclib.gtpm.common.machine.multiblock.electric;
+
+import com.modularmclib.gtpm.api.blockentity.BlockEntityCreationInfo;
+import com.modularmclib.gtpm.api.capability.IEnergyContainer;
+import com.modularmclib.gtpm.api.capability.recipe.EURecipeCapability;
+import com.modularmclib.gtpm.api.capability.recipe.IO;
+import com.modularmclib.gtpm.api.machine.ConditionalSubscriptionHandler;
+import com.modularmclib.gtpm.api.machine.MetaMachine;
+import com.modularmclib.gtpm.api.machine.feature.multiblock.IMultiPart;
+import com.modularmclib.gtpm.api.machine.multiblock.MultiblockDisplayText;
+import com.modularmclib.gtpm.api.machine.multiblock.PartAbility;
+import com.modularmclib.gtpm.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.modularmclib.gtpm.api.machine.trait.WorkLogic;
+import com.modularmclib.gtpm.api.misc.EnergyContainerList;
+import com.modularmclib.gtpm.api.multiblock.structurepredicate.PatternPredicate;
+import com.modularmclib.gtpm.config.ConfigHolder;
+import com.modularmclib.gtpm.utils.FormattingUtil;
+import com.modularmclib.gtpm.utils.GTUtil;
+
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.network.chat.Component;
+
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectMaps;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import static com.modularmclib.gtpm.api.multiblock.structurepredicate.PatternPredicate.abilities;
+
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+public class ActiveTransformerMachine extends WorkableElectricMultiblockMachine {
+
+    private EnergyContainerList powerOutput;
+    private EnergyContainerList powerInput;
+    protected ConditionalSubscriptionHandler converterSubscription;
+
+    public ActiveTransformerMachine(BlockEntityCreationInfo info) {
+        super(info);
+        this.powerOutput = EnergyContainerList.EMPTY;
+        this.powerInput = EnergyContainerList.EMPTY;
+
+        this.converterSubscription = new ConditionalSubscriptionHandler(this, this::convertEnergyTick,
+                this::isSubscriptionActive);
+    }
+
+    public void convertEnergyTick() {
+        if (isWorkingEnabled()) {
+            getWorkLogic()
+                    .setStatus(isSubscriptionActive() ? WorkLogic.Status.WORKING : WorkLogic.Status.SUSPEND);
+        }
+        if (isWorkingEnabled()) {
+            long canDrain = powerInput.getEnergyStored();
+            long totalDrained = powerOutput.changeEnergy(canDrain);
+            powerInput.removeEnergy(totalDrained);
+        }
+        converterSubscription.updateSubscription();
+    }
+
+    @SuppressWarnings("RedundantIfStatement") // It is cleaner to have the final return true separate.
+    protected boolean isSubscriptionActive() {
+        if (!isFormed()) return false;
+
+        if (powerInput.getEnergyStored() <= 0) return false;
+        if (powerOutput.getEnergyStored() >= powerOutput.getEnergyCapacity()) return false;
+
+        return true;
+    }
+
+    @Override
+    public void formStructure(String structureName) {
+        super.formStructure(structureName);
+        if (!DEFAULT_STRUCTURE.equals(structureName)) return;
+        // capture all energy containers
+        List<IEnergyContainer> powerInput = new ArrayList<>();
+        List<IEnergyContainer> powerOutput = new ArrayList<>();
+        Long2ObjectMap<IO> ioMap = getMultiblockState(DEFAULT_STRUCTURE).getFacts().getOrDefault("ioMap",
+                Long2ObjectMaps.emptyMap());
+
+        for (IMultiPart part : getPrioritySortedParts()) {
+            IO io = ioMap.getOrDefault(part.self().getBlockPos().asLong(), IO.BOTH);
+            if (io == IO.NONE) continue;
+            var handlerLists = part.getRecipeHandlers();
+            for (var handlerList : handlerLists) {
+                if (!handlerList.isValid(io)) continue;
+
+                var containers = handlerList.getCapability(EURecipeCapability.CAP).stream()
+                        .filter(IEnergyContainer.class::isInstance)
+                        .map(IEnergyContainer.class::cast)
+                        .toList();
+
+                if (handlerList.getHandlerIO().support(IO.IN)) {
+                    powerInput.addAll(containers);
+                } else if (handlerList.getHandlerIO().support(IO.OUT)) {
+                    powerOutput.addAll(containers);
+                }
+
+                traitSubscriptions
+                        .add(handlerList.subscribe(converterSubscription::updateSubscription, EURecipeCapability.CAP));
+            }
+        }
+
+        // Invalidate the structure if there is not at least one output and one input
+        if (powerInput.isEmpty() || powerOutput.isEmpty()) {
+            this.invalidateStructure(DEFAULT_STRUCTURE);
+            return;
+        }
+
+        this.powerOutput = new EnergyContainerList(powerOutput);
+        this.powerInput = new EnergyContainerList(powerInput);
+
+        converterSubscription.updateSubscription();
+    }
+
+    @NotNull
+    private List<IMultiPart> getPrioritySortedParts() {
+        return getParts().stream().sorted(Comparator.comparingInt(part -> {
+            if (part instanceof MetaMachine partMachine) {
+                var partBlock = partMachine.getBlockState().getBlock();
+
+                if (PartAbility.OUTPUT_ENERGY.isApplicable(partBlock))
+                    return 1;
+
+                if (PartAbility.SUBSTATION_OUTPUT_ENERGY.isApplicable(partBlock))
+                    return 2;
+
+                if (PartAbility.OUTPUT_LASER.isApplicable(partBlock))
+                    return 3;
+            }
+
+            return 4;
+        })).toList();
+    }
+
+    @Override
+    public void invalidateStructure(String structureName) {
+        boolean shouldExplode = DEFAULT_STRUCTURE.equals(structureName) &&
+                (isWorkingEnabled() && getWorkLogic().getStatus() == WorkLogic.Status.WORKING) &&
+                !ConfigHolder.INSTANCE.machines.harmlessActiveTransformers;
+        float explosionStrength = 6f + getTier();
+        super.invalidateStructure(structureName);
+        if (!DEFAULT_STRUCTURE.equals(structureName)) return;
+        if (shouldExplode) {
+            GTUtil.doExplosion(getLevel(), getBlockPos(), explosionStrength);
+        }
+        resetTransferRuntimeState();
+    }
+
+    @Override
+    public void onUnload() {
+        resetTransferRuntimeState();
+        super.onUnload();
+    }
+
+    @Override
+    public void onPartUnload() {
+        super.onPartUnload();
+        resetTransferRuntimeState();
+    }
+
+    private void resetTransferRuntimeState() {
+        this.powerOutput = EnergyContainerList.EMPTY;
+        this.powerInput = EnergyContainerList.EMPTY;
+        getWorkLogic().setStatus(WorkLogic.Status.SUSPEND);
+        converterSubscription.unsubscribe();
+    }
+
+    public static PatternPredicate getHatchPatternPredicates() {
+        return abilities(PartAbility.INPUT_ENERGY).setPreviewCount(1)
+                .or(abilities(PartAbility.OUTPUT_ENERGY).setPreviewCount(2))
+                .or(abilities(PartAbility.SUBSTATION_INPUT_ENERGY).setPreviewCount(1))
+                .or(abilities(PartAbility.SUBSTATION_OUTPUT_ENERGY).setPreviewCount(1))
+                .or(abilities(PartAbility.INPUT_LASER).setPreviewCount(1))
+                .or(abilities(PartAbility.OUTPUT_LASER).setPreviewCount(1));
+    }
+
+    @Override
+    public void addDisplayText(@NotNull List<Component> textList) {
+        boolean formed = isFormed();
+        boolean workingEnabled = isWorkingEnabled();
+        boolean active = isActive();
+        MultiblockDisplayText.builder(textList, formed)
+                .setWorkingStatus(workingEnabled, active)
+                .addWorkingStatusLine();
+        if (!formed || !workingEnabled || !active) return;
+
+        textList.add(Component.translatable("gtpm.multiblock.active_transformer.max_input",
+                FormattingUtil.formatNumbers(powerInput.getTotalEUt())));
+        textList.add(Component.translatable("gtpm.multiblock.active_transformer.max_output",
+                FormattingUtil.formatNumbers(powerOutput.getTotalEUt())));
+        textList.add(Component.translatable("gtpm.multiblock.active_transformer.average_in",
+                FormattingUtil.formatNumbers(Math.abs(powerInput.getInputPerSec() / 20))));
+        textList.add(Component.translatable("gtpm.multiblock.active_transformer.average_out",
+                FormattingUtil.formatNumbers(Math.abs(powerOutput.getOutputPerSec() / 20))));
+        if (!ConfigHolder.INSTANCE.machines.harmlessActiveTransformers) {
+            textList.add(Component.translatable("gtpm.multiblock.active_transformer.danger_enabled"));
+        }
+    }
+}

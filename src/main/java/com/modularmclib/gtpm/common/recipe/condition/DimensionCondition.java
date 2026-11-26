@@ -1,0 +1,76 @@
+package com.modularmclib.gtpm.common.recipe.condition;
+
+import com.modularmclib.gtpm.api.machine.trait.RecipeLogic;
+import com.modularmclib.gtpm.api.recipe.GTRecipe;
+import com.modularmclib.gtpm.api.recipe.RecipeCondition;
+import com.modularmclib.gtpm.api.recipe.condition.RecipeConditionType;
+import com.modularmclib.gtpm.common.data.GTRecipeConditions;
+
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
+
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
+
+@NoArgsConstructor
+public class DimensionCondition extends RecipeCondition<DimensionCondition> {
+
+    // spotless:off
+    public static final MapCodec<DimensionCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> RecipeCondition.isReverse(instance).and(
+            ResourceKey.codec(Registries.DIMENSION).fieldOf("dimension").forGetter(DimensionCondition::getDimension)
+    ).apply(instance, DimensionCondition::new));
+    // spotless:on
+
+    @Getter
+    private ResourceKey<Level> dimension;
+
+    public DimensionCondition(ResourceKey<Level> dimension) {
+        this.dimension = dimension;
+    }
+
+    public DimensionCondition(boolean isReverse, ResourceKey<Level> dimension) {
+        super(isReverse);
+        this.dimension = dimension;
+    }
+
+    @Override
+    public RecipeConditionType<DimensionCondition> getType() {
+        return GTRecipeConditions.DIMENSION;
+    }
+
+    @Override
+    public boolean isOr() {
+        return true;
+    }
+
+    @Override
+    public Component getTooltips() {
+        return Component.translatableEscape("recipe.condition.dimension.tooltip", getDimensionName(this.dimension));
+    }
+
+    @Override
+    public boolean testCondition(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
+        Level level = recipeLogic.getLevel();
+        return level != null && dimension.location().equals(level.dimension().location());
+    }
+
+    @Override
+    public DimensionCondition createTemplate() {
+        return new DimensionCondition();
+    }
+
+    public static Component getDimensionName(ResourceKey<Level> dimension) {
+        return getDimensionName(dimension.location());
+    }
+
+    public static Component getDimensionName(ResourceLocation dimension) {
+        return Component.translatableWithFallback(dimension.toLanguageKey(Level.TRANSLATION_PREFIX),
+                dimension.toString());
+    }
+}

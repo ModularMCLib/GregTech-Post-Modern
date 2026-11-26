@@ -26,7 +26,7 @@ title: 自定义配方成分与能力
 
     该条目放在 `inputs.item` 中。档位为 `3` 的电路参与配方匹配，`chance: 0` 让它作为保留的催化物。Java 构建器也可用 `circuitMeta(3)`。
 
-原生物品组件可以使用 `gtpm:components`，填写 `items`、`components` 与可选的 `strict`。对于可经索引搜索的自定义类型，能力的映射成分应同时覆盖配方成分和机器内容的表示。 [电路成分源码](https://github.com/ExtremelyFrozen/GregTech-Post-Modern/blob/1.21/src/main/java/com/gregtechceu/gtceu/api/recipe/ingredient/IntCircuitIngredient.java) · [配方搜索](Recipe-Searching.md)
+原生物品组件可以使用 `gtpm:components`，填写 `items`、`components` 与可选的 `strict`。对于可经索引搜索的自定义类型，能力的映射成分应同时覆盖配方成分和机器内容的表示。 [电路成分源码](https://github.com/ModularMCLib/GregTech-Post-Modern/blob/1.21/src/main/java/com/modularmclib/gtpm/api/recipe/ingredient/IntCircuitIngredient.java) · [配方搜索](Recipe-Searching.md)
 
 
 ## 注册配方能力
@@ -37,4 +37,4 @@ title: 自定义配方成分与能力
 4. 将处理器用支持的 `IO` 加入机器的 `RecipeHandlerList`。多方块还要让对应部件通过结构谓词参加成型和配方处理。
 5. 在 `GTRecipeBuilder` 上用 `input(capability, content)` 或 `output(capability, content)` 生成内容。构建器设置 `perTick(true)` 时写入每刻输入或输出。
 
-物品与流体已有对应的查看器槽位。自定义能力需要展示时，在能力上提供它的界面元素与配方查看器数据转换。 [RecipeCapability 源码](https://github.com/ExtremelyFrozen/GregTech-Post-Modern/blob/1.21/src/main/java/com/gregtechceu/gtceu/api/capability/recipe/RecipeCapability.java) · [处理器契约](Recipe-Execution.md)
+物品与流体已有对应的查看器槽位。自定义能力需要展示时，在能力上提供它的界面元素与配方查看器数据转换。 [RecipeCapability 源码](https://github.com/ModularMCLib/GregTech-Post-Modern/blob/1.21/src/main/java/com/modularmclib/gtpm/api/capability/recipe/RecipeCapability.java) · [处理器契约](Recipe-Execution.md)

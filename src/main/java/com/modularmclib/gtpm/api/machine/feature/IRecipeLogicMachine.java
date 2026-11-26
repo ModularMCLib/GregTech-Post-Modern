@@ -1,0 +1,147 @@
+package com.modularmclib.gtpm.api.machine.feature;
+
+import com.modularmclib.gtpm.api.capability.recipe.IRecipeCapabilityHolder;
+import com.modularmclib.gtpm.api.machine.trait.RecipeLogic;
+import com.modularmclib.gtpm.api.machine.trait.WorkLogic;
+import com.modularmclib.gtpm.api.recipe.GTRecipe;
+import com.modularmclib.gtpm.api.recipe.GTRecipeType;
+import com.modularmclib.gtpm.api.recipe.RecipeHelper;
+import com.modularmclib.gtpm.config.ConfigHolder;
+import com.modularmclib.gtpm.integration.jade.provider.RecipeLogicProvider;
+
+import net.minecraft.network.chat.Component;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+/**
+ * A machine can handle recipes.
+ */
+public interface IRecipeLogicMachine extends IRecipeCapabilityHolder, IWorkLogicMachine, IVoidable {
+
+    /**
+     * RecipeType held
+     */
+    @NotNull
+    GTRecipeType[] getRecipeTypes();
+
+    @NotNull
+    GTRecipeType getRecipeType();
+
+    int getActiveRecipeType();
+
+    void setActiveRecipeType(int type);
+
+    /**
+     * Recipe logic
+     */
+    @NotNull
+    RecipeLogic getRecipeLogic();
+
+    @Override
+    default WorkLogic getWorkLogic() {
+        return getRecipeLogic();
+    }
+
+    default GTRecipe fullModifyRecipe(GTRecipe recipe) {
+        return doModifyRecipe(RecipeHelper.trimRecipeOutputs(recipe, this.getOutputLimits()));
+    }
+
+    /**
+     * Override it to modify recipe on the fly e.g. applying overclock, change chance, etc
+     *
+     * @param recipe recipe from detected from GTRecipeType
+     * @return modified recipe.
+     *         null -- this recipe is unavailable
+     */
+    @Nullable
+    default GTRecipe doModifyRecipe(GTRecipe recipe) {
+        return self().getDefinition().getRecipeModifier().applyModifier(self(), recipe);
+    }
+
+    /**
+     * Whether the recipe logic should keep subscribing tick logic when no recipe is available after one cycle.
+     * if false. you should call {@link RecipeLogic#updateTickSubscription()} manually later to active recipe logic
+     * again.
+     */
+    default boolean keepSubscribing() {
+        return true;
+    }
+
+    /**
+     * Whether the recipe logic should work or waiting for next {@link RecipeLogic#updateTickSubscription()}.
+     */
+    /**
+     * Called in {@link RecipeLogic#setupRecipe(GTRecipe)} ()}
+     */
+    @Nullable
+    default Component beforeWorking(@Nullable GTRecipe recipe) {
+        return self().getDefinition().getBeforeWorking().apply(this, recipe);
+    }
+
+    /**
+     * Called per tick in {@link RecipeLogic#handleRecipeWorking()}
+     */
+    default boolean onWorking() {
+        return self().getDefinition().getOnWorking().test(this);
+    }
+
+    /**
+     * Called per tick in {@link RecipeLogic#handleRecipeWorking()}
+     */
+    default void onWaiting() {
+        self().getDefinition().getOnWaiting().accept(this);
+    }
+
+    /**
+     * Called in {@link RecipeLogic#onRecipeFinish()} before outputs are produced
+     */
+    default void afterWorking() {
+        self().getDefinition().getAfterWorking().accept(this);
+    }
+
+    /**
+     * Whether progress decrease when machine is waiting for pertick ingredients. (e.g. lack of EU)
+     */
+    default boolean regressWhenWaiting() {
+        return self().getDefinition().isRegressWhenWaiting();
+    }
+
+    /**
+     * Always try {@link IRecipeLogicMachine#fullModifyRecipe(GTRecipe)} before setting up recipe.
+     *
+     * @return true - will map {@link RecipeLogic#lastOriginRecipe} to the latest recipe for next round when finishing.
+     *         false - keep using the {@link RecipeLogic#lastRecipe}, which is already modified.
+     */
+    default boolean alwaysTryModifyRecipe() {
+        // make it *always* do overclock and parallel so that the machine doesn't get stuck running a lower-tier recipe
+        // in any possible scenario.
+        return true;
+    }
+
+    default boolean shouldWorkingPlaySound() {
+        return ConfigHolder.INSTANCE.machines.machineSounds &&
+                (!(self() instanceof IMufflableMachine mufflableMachine) || !mufflableMachine.isMuffled());
+    }
+
+    /**
+     * Display recipe voltage used by {@link RecipeLogicProvider}
+     */
+
+    default long getDisplayRecipeVoltage() {
+        return -1;
+    }
+
+    //////////////////////////////////////
+    // ******* IWorkable ********//
+    //////////////////////////////////////
+    @Override
+    default int getProgress() {
+        return getRecipeLogic().getProgress();
+    }
+
+    @Override
+    default int getMaxProgress() {
+        return getRecipeLogic().getMaxProgress();
+    }
+}

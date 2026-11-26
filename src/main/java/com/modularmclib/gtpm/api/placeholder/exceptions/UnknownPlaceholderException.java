@@ -1,0 +1,10 @@
+package com.modularmclib.gtpm.api.placeholder.exceptions;
+
+import net.minecraft.network.chat.Component;
+
+public class UnknownPlaceholderException extends PlaceholderException {
+
+    public UnknownPlaceholderException(String name) {
+        super(Component.translatable("gtpm.computer_monitor_cover.error.no_placeholder", name).getString());
+    }
+}

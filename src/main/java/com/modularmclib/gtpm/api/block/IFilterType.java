@@ -1,0 +1,16 @@
+package com.modularmclib.gtpm.api.block;
+
+import com.modularmclib.gtpm.api.machine.multiblock.CleanroomType;
+
+import net.minecraft.util.StringRepresentable;
+
+import org.jetbrains.annotations.NotNull;
+
+public interface IFilterType extends StringRepresentable {
+
+    /**
+     * @return The cleanroom type of this filter.
+     */
+    @NotNull
+    CleanroomType getCleanroomType();
+}

@@ -64,4 +64,4 @@ CTM renderer 会通过从 5 张可用的 Block 纹理中组装 4 个象限来绘
         }
     }
     ```
-    塑料混凝土的资源展示了内置纹理的目录结构和 `gtpm` 元数据。[基础纹理](https://github.com/ExtremelyFrozen/GregTech-Post-Modern/blob/1.21/src/main/resources/assets/gtpm/textures/block/casings/cleanroom/plascrete.png) · [连接纹理](https://github.com/ExtremelyFrozen/GregTech-Post-Modern/blob/1.21/src/main/resources/assets/gtpm/textures/block/casings/cleanroom/plascrete_ctm.png) · [元数据](https://github.com/ExtremelyFrozen/GregTech-Post-Modern/blob/1.21/src/main/resources/assets/gtpm/textures/block/casings/cleanroom/plascrete.png.mcmeta)
+    塑料混凝土的资源展示了内置纹理的目录结构和 `gtpm` 元数据。[基础纹理](https://github.com/ModularMCLib/GregTech-Post-Modern/blob/1.21/src/main/resources/assets/gtpm/textures/block/casings/cleanroom/plascrete.png) · [连接纹理](https://github.com/ModularMCLib/GregTech-Post-Modern/blob/1.21/src/main/resources/assets/gtpm/textures/block/casings/cleanroom/plascrete_ctm.png) · [元数据](https://github.com/ModularMCLib/GregTech-Post-Modern/blob/1.21/src/main/resources/assets/gtpm/textures/block/casings/cleanroom/plascrete.png.mcmeta)

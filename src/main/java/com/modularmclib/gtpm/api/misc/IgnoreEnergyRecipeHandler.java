@@ -1,0 +1,34 @@
+package com.modularmclib.gtpm.api.misc;
+
+import com.modularmclib.gtpm.api.capability.recipe.EURecipeCapability;
+import com.modularmclib.gtpm.api.capability.recipe.IO;
+import com.modularmclib.gtpm.api.capability.recipe.IRecipeHandler;
+import com.modularmclib.gtpm.api.capability.recipe.RecipeCapability;
+import com.modularmclib.gtpm.api.recipe.GTRecipe;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+
+public class IgnoreEnergyRecipeHandler implements IRecipeHandler<Long> {
+
+    @Override
+    public List<Long> handleRecipeInner(IO io, GTRecipe recipe, List<Long> left, boolean simulate) {
+        return List.of();
+    }
+
+    @Override
+    public @NotNull List<Object> getContents() {
+        return List.of(Long.MAX_VALUE);
+    }
+
+    @Override
+    public double getTotalContentAmount() {
+        return Long.MAX_VALUE;
+    }
+
+    @Override
+    public RecipeCapability<Long> getCapability() {
+        return EURecipeCapability.CAP;
+    }
+}

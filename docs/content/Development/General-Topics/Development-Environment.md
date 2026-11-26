@@ -5,7 +5,7 @@ title: 开发运行环境
 
 # 开发运行环境
 
-`1.21` 分支使用 Java 21、Gradle Wrapper 9.9.1 和 NeoForge ModDevGradle。Java 与 Kotlin 使用同一 JVM 工具链。NeoForge、Kotlin 及 LDLib2 版本由 Gradle 版本目录提供。 [构建版本目录](https://github.com/ExtremelyFrozen/GregTech-Post-Modern/blob/1.21/gradle/libs.versions.toml) · [模组依赖版本](https://github.com/ExtremelyFrozen/GregTech-Post-Modern/blob/1.21/gradle/forge.versions.toml)
+`1.21` 分支使用 Java 21、Gradle Wrapper 9.9.1 和 NeoForge ModDevGradle。Java 与 Kotlin 使用同一 JVM 工具链。NeoForge、Kotlin 及 LDLib2 版本由 Gradle 版本目录提供。 [构建版本目录](https://github.com/ModularMCLib/GregTech-Post-Modern/blob/1.21/gradle/libs.versions.toml) · [模组依赖版本](https://github.com/ModularMCLib/GregTech-Post-Modern/blob/1.21/gradle/forge.versions.toml)
 
 
 ## 启动游戏
