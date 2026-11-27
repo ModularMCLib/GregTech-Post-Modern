@@ -4,6 +4,10 @@ import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.core.config.GTEarlyConfig;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.PostChain;
 import net.minecraft.client.renderer.ShaderInstance;
@@ -40,6 +44,10 @@ import java.nio.file.Path;
 @EventBusSubscriber(modid = GTPM.MOD_ID, value = Dist.CLIENT)
 @UtilityClass
 public class BloomShaderManager {
+
+    @Trans(source = "Could not load shaders for the bloom effect, see %s for details",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "无法加载泛光效果的着色器，详情请查看 %s"))
+    private static final String LOAD_ERROR = "config.gtpm.option.bloomType.load_error";
 
     public static @UnknownNullability PostChain BLOOM_CHAIN = null;
     public static @UnknownNullability RenderTarget BLOOM_TARGET = null;
@@ -173,7 +181,7 @@ public class BloomShaderManager {
                                         logFile.toFile().toString())));
 
                 return IValidationResult.warning(Component.translatable(
-                        "config.gtceu.option.bloomType.load_error", latestLogClickable));
+                        LOAD_ERROR, latestLogClickable));
             } else {
                 // post shader loaded successfully
                 return IValidationResult.success();

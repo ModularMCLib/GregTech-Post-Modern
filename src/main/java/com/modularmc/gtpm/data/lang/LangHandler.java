@@ -23,7 +23,6 @@ public class LangHandler {
         ItemLang.init(provider);
         MachineLang.init(provider);
         ToolLang.init(provider);
-        ConfigurationLang.init(provider);
         RecipeLogicLang.init(provider);
 
         provider.add("gtpm.gui.editor.project.xml", "GTPM XML UI Project");
