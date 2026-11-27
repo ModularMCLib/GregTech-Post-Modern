@@ -12,8 +12,6 @@ import com.modularmc.gtpm.integration.xei.GTXEIIngredientRoleAdapter;
 import com.modularmc.gtpm.integration.xei.handlers.fluid.CycleFluidEntryHandler;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
-import com.modularmc.registrate.util.RegistrateDistExecutor;
-
 import com.lowdragmc.lowdraglib2.gui.texture.ColorRectTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.ui.data.FillDirection;
@@ -201,7 +199,7 @@ public class GTFluidSlotElement extends FluidSlot {
 
     @Override
     public GTFluidSlotElement xeiPhantom() {
-        RegistrateDistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+        GTPM.runOnClient(() -> () -> {
             if (GTPM.MODS.isJEILoaded()) {
                 JeiIngredient.ghostFluid(this);
             }
@@ -407,7 +405,7 @@ public class GTFluidSlotElement extends FluidSlot {
                         FormattingUtil.formatNumbers(fluid.getAmount()),
                         FormattingUtil.formatNumbers(tooltipCapacity)));
             }
-            RegistrateDistExecutor.unsafeRunWhenOn(Dist.CLIENT,
+            GTPM.runOnClient(
                     () -> () -> TooltipsHandler.appendFluidTooltips(fluid, tooltips::add,
                             TooltipFlag.NORMAL, Item.TooltipContext.of(GTRegistries.builtinRegistry())));
         } else {
@@ -451,7 +449,7 @@ public class GTFluidSlotElement extends FluidSlot {
     }
 
     private void addXEIRecipeIngredient(IngredientIO io, Supplier<Stream<FluidStack>> allPossibleFluids) {
-        RegistrateDistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+        GTPM.runOnClient(() -> () -> {
             if (GTPM.MODS.isJEILoaded()) {
                 JeiIngredient.recipeFluidIngredient(this, io, allPossibleFluids);
             }
@@ -463,7 +461,7 @@ public class GTFluidSlotElement extends FluidSlot {
 
     private void addXEIRecipeSlot(IngredientIO io, Supplier<Float> chance, IntSupplier amount,
                                   Supplier<Stream<FluidStack>> allPossibleFluids) {
-        RegistrateDistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+        GTPM.runOnClient(() -> () -> {
             if (GTPM.MODS.isJEILoaded()) {
                 JeiIngredient.recipeFluidSlot(this, io, allPossibleFluids);
             }

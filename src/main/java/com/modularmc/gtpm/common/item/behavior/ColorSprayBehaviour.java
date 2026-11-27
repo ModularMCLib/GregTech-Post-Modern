@@ -44,9 +44,6 @@ import appeng.api.implementations.blockentities.IColorableBlockEntity;
 import appeng.api.util.AEColor;
 import appeng.blockentity.networking.CableBusBlockEntity;
 import com.google.common.collect.ImmutableMap;
-import com.simibubi.create.AllBlocks;
-import com.simibubi.create.AllTags;
-import com.simibubi.create.foundation.utility.BlockHelper;
 import it.unimi.dsi.fastutil.ints.IntIntPair;
 import org.jetbrains.annotations.Nullable;
 
@@ -344,9 +341,6 @@ public class ColorSprayBehaviour implements IDurabilityBar, IInteractionItem, IA
                 return true;
             }
         }
-        if (GTPM.MODS.CREATE.isLoaded() && block.defaultBlockState().is(AllTags.AllBlockTags.WINDMILL_SAILS.tag)) {
-            return recolorCreateSail(world, pos, color);
-        }
         return false;
     }
 
@@ -408,10 +402,6 @@ public class ColorSprayBehaviour implements IDurabilityBar, IInteractionItem, IA
             recolorBlockNoState(CANDLE_MAP, DyeColor.WHITE, world, pos);
             return true;
         }
-        if (GTPM.MODS.CREATE.isLoaded() && block.defaultBlockState().is(AllTags.AllBlockTags.WINDMILL_SAILS.tag)) {
-            return recolorCreateSail(world, pos, DyeColor.WHITE);
-        }
-
         // General case
         BlockState state = world.getBlockState(pos);
         for (Property prop : state.getProperties()) {
@@ -498,18 +488,5 @@ public class ColorSprayBehaviour implements IDurabilityBar, IInteractionItem, IA
                     child.getPart(childDirection) == null && child.getCableConnectionType(childDirection).isValid() &&
                     parent.getColor() == child.getColor();
         }
-    }
-
-    private static boolean recolorCreateSail(Level world, BlockPos pos, @Nullable DyeColor color) {
-        // logic copied from Create (SailBlock#applyDye).
-        // skip null color, because we're not shears.
-        if (color == null) return false;
-        BlockState oldState = world.getBlockState(pos);
-        BlockState newState = BlockHelper.copyProperties(oldState, AllBlocks.DYED_SAILS.get(color).getDefaultState());
-        if (oldState != newState) {
-            world.setBlockAndUpdate(pos, newState);
-            return true;
-        }
-        return false;
     }
 }

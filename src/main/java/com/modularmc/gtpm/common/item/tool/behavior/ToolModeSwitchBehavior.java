@@ -1,23 +1,18 @@
 package com.modularmc.gtpm.common.item.tool.behavior;
 
-import com.modularmc.gtpm.GTPM;
-import com.modularmc.gtpm.api.GTValues;
 import com.modularmc.gtpm.api.item.tool.GTToolType;
 import com.modularmc.gtpm.api.item.tool.ToolHelper;
 import com.modularmc.gtpm.api.item.tool.behavior.IToolBehavior;
 import com.modularmc.gtpm.api.item.tool.behavior.ToolBehaviorType;
 import com.modularmc.gtpm.api.sync_system.FieldCodecs;
 import com.modularmc.gtpm.common.data.GTDataComponents;
-import com.modularmc.gtpm.common.data.GTSoundEntries;
 import com.modularmc.gtpm.common.data.GTToolBehaviors;
 import com.modularmc.gtpm.common.data.item.GTItemAbilities;
-import com.modularmc.gtpm.data.recipe.CustomTags;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -28,8 +23,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.common.ItemAbility;
 
@@ -39,7 +32,6 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Set;
 
 public class ToolModeSwitchBehavior implements IToolBehavior<ToolModeSwitchBehavior> {
 
@@ -72,23 +64,7 @@ public class ToolModeSwitchBehavior implements IToolBehavior<ToolModeSwitchBehav
         BlockHitResult blockHitResult = context.getHitResult();
         Player player = context.getPlayer();
         ItemStack itemStack = context.getItemInHand();
-        BlockState state = world.getBlockState(blockHitResult.getBlockPos());
         BlockPos pos = blockHitResult.getBlockPos();
-        Set<GTToolType> toolTypes = ToolHelper.getToolTypes(itemStack);
-        // Copied and adapted from
-        // https://github.com/Creators-of-Create/Create/blob/mc1.20.1/dev/src/main/java/com/simibubi/create/content/equipment/wrench/WrenchItem.java
-        if (toolTypes.contains(GTToolType.WRENCH) && GTPM.MODS.CREATE.isLoaded() &&
-                state.is(CustomTags.CREATE_WRENCH_PICKUP)) {
-            if (!(world instanceof ServerLevel serverLevel))
-                return InteractionResult.SUCCESS;
-            if (player != null && !player.isCreative())
-                Block.getDrops(state, serverLevel, pos, world.getBlockEntity(pos), player, itemStack)
-                        .forEach(stack -> player.getInventory().placeItemBackInInventory(stack));
-            state.spawnAfterBreak(serverLevel, pos, ItemStack.EMPTY, true);
-            world.destroyBlock(pos, false);
-            GTSoundEntries.WRENCH_TOOL.playOnServer(serverLevel, pos, 1, GTValues.RNG.nextFloat() * .5f + .5f);
-            return InteractionResult.SUCCESS;
-        }
 
         if (player != null)
             world.getBlockState(pos).useItemOn(itemStack, world, player, context.getHand(), blockHitResult);

@@ -27,14 +27,10 @@ import com.modularmc.gtpm.common.item.datacomponents.FormatStringList;
 import com.modularmc.gtpm.common.item.modules.ImageModuleBehaviour;
 import com.modularmc.gtpm.common.machine.multiblock.electric.monitor.MonitorGroup;
 import com.modularmc.gtpm.common.machine.multiblock.part.monitor.AdvancedMonitorPartMachine;
-import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.integration.ae2.GTAEPlaceholders;
-import com.modularmc.gtpm.integration.create.GTCreateIntegration;
 import com.modularmc.gtpm.utils.GTMath;
 import com.modularmc.gtpm.utils.GTStringUtils;
 import com.modularmc.gtpm.utils.GTTransferUtils;
-
-import com.modularmc.registrate.util.RegistrateDistExecutor;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSource;
@@ -102,12 +98,9 @@ public class GTPlaceholders {
     }
 
     public static void initPlaceholders() {
-        RegistrateDistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> GTPlaceholders::initRenderers);
+        GTPM.runOnClient(() -> GTPlaceholders::initRenderers);
         if (GTPM.MODS.AE2.isLoaded()) {
             GTAEPlaceholders.init();
-        }
-        if (ConfigHolder.INSTANCE.compat.createCompat && GTPM.MODS.CREATE.isLoaded()) {
-            GTCreateIntegration.init();
         }
 
         PlaceholderHandler.addPlaceholder(new Placeholder("energy") {

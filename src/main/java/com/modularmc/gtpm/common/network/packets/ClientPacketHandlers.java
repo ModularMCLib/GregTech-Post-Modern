@@ -1,10 +1,8 @@
 package com.modularmc.gtpm.common.network.packets;
 
+import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.client.ProspectingMapClientHandler;
 
-import com.modularmc.registrate.util.RegistrateDistExecutor;
-
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 /**
@@ -15,7 +13,7 @@ public final class ClientPacketHandlers {
     private ClientPacketHandlers() {}
 
     public static void handleProspectingMapData(SPacketProspectingMapData packet, IPayloadContext context) {
-        RegistrateDistExecutor.unsafeRunWhenOn(Dist.CLIENT,
+        GTPM.runOnClient(
                 () -> () -> ProspectingMapClientHandler.handle(packet, context));
     }
 }

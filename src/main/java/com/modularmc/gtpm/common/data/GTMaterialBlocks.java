@@ -17,7 +17,7 @@ import com.modularmc.gtpm.common.pipelike.fluidpipe.FluidPipeType;
 import com.modularmc.gtpm.common.pipelike.item.ItemPipeType;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
-import com.modularmc.registrate.providers.ProviderType;
+import com.modularmc.registrate.providers.core.ProviderType;
 import com.modularmc.registrate.util.entry.BlockEntry;
 import com.modularmc.registrate.util.nullness.NonNullBiConsumer;
 
@@ -76,14 +76,14 @@ public class GTMaterialBlocks {
                         properties -> tagPrefix.blockConstructor().create(properties, tagPrefix, material))
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .properties(p -> tagPrefix.blockProperties().properties().apply(p).noLootTable())
-                .transform(GTBlocks.unificationBlock(tagPrefix, material))
                 .addLayer(tagPrefix.blockProperties().renderType())
+                .transform(GTBlocks.unificationBlock(tagPrefix, material))
                 .setData(ProviderType.BLOCKSTATE, NonNullBiConsumer.noop())
                 .setData(ProviderType.LANG, NonNullBiConsumer.noop())
                 .setData(ProviderType.LOOT, NonNullBiConsumer.noop())
                 .color(() -> MaterialBlock::tintedColor)
                 .item((b, p) -> tagPrefix.blockItemConstructor().create(b, p, tagPrefix, material))
-                .model(NonNullBiConsumer.noop())
+                .setData(ProviderType.ITEM_MODEL, NonNullBiConsumer.noop())
                 .color(() -> () -> MaterialBlockItem.tintColor(material))
                 .build()
                 .register());
@@ -125,12 +125,12 @@ public class GTMaterialBlocks {
                     })
                     .properties(properties -> GTBlocks.copy(oreType.template().get(), properties).noLootTable())
                     .transform(GTBlocks.unificationBlock(oreTag, material))
-                    .blockstate(NonNullBiConsumer.noop())
+                    .blockstate(() -> NonNullBiConsumer.noop())
                     .setData(ProviderType.LANG, NonNullBiConsumer.noop())
                     .setData(ProviderType.LOOT, NonNullBiConsumer.noop())
                     .color(() -> MaterialBlock::tintedColor)
                     .item((b, p) -> oreTag.blockItemConstructor().create(b, p, oreTag, material))
-                    .model(NonNullBiConsumer.noop())
+                    .setData(ProviderType.ITEM_MODEL, NonNullBiConsumer.noop())
                     .color(() -> () -> MaterialBlockItem.tintColor(material))
                     .build()
                     .register();
@@ -166,11 +166,11 @@ public class GTMaterialBlocks {
                 .block("%s_indicator".formatted(material.getName()), p -> new SurfaceRockBlock(p, material))
                 .initialProperties(() -> Blocks.GRAVEL)
                 .properties(p -> p.noLootTable().strength(0.25f))
+                .addLayer(() -> RenderType::cutoutMipped)
                 .transform(GTBlocks.unificationBlock(TagPrefix.surfaceRock, material))
                 .setData(ProviderType.LANG, NonNullBiConsumer.noop())
                 .setData(ProviderType.LOOT, NonNullBiConsumer.noop())
                 .setData(ProviderType.BLOCKSTATE, NonNullBiConsumer.noop())
-                .addLayer(() -> RenderType::cutoutMipped)
                 .color(() -> SurfaceRockBlock::tintedBlockColor)
                 .item((b, p) -> SurfaceRockBlockItem.create(b, p, material))
                 .color(() -> SurfaceRockBlock::tintedItemColor)
@@ -207,15 +207,15 @@ public class GTMaterialBlocks {
                         p -> new CableBlock(p, insulation, material))
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .properties(p -> p.dynamicShape().noOcclusion().noLootTable().forceSolidOn())
-                .transform(GTBlocks.unificationBlock(insulation.tagPrefix, material))
-                .blockstate(NonNullBiConsumer.noop())
-                .setData(ProviderType.LANG, NonNullBiConsumer.noop())
-                .setData(ProviderType.LOOT, NonNullBiConsumer.noop())
                 .addLayer(() -> RenderType::cutoutMipped)
                 .addLayer(() -> RenderType::translucent)
+                .transform(GTBlocks.unificationBlock(insulation.tagPrefix, material))
+                .blockstate(() -> NonNullBiConsumer.noop())
+                .setData(ProviderType.LANG, NonNullBiConsumer.noop())
+                .setData(ProviderType.LOOT, NonNullBiConsumer.noop())
                 .color(() -> MaterialPipeBlock::tintedColor)
                 .item(MaterialPipeBlockItem::new)
-                .model(NonNullBiConsumer.noop())
+                .setData(ProviderType.ITEM_MODEL, NonNullBiConsumer.noop())
                 .color(() -> MaterialPipeBlockItem::tintColor)
                 .build()
                 .register();
@@ -254,15 +254,15 @@ public class GTMaterialBlocks {
                     }
                     return p.dynamicShape().noOcclusion().noLootTable().forceSolidOn();
                 })
-                .transform(GTBlocks.unificationBlock(fluidPipeType.tagPrefix, material))
-                .blockstate(NonNullBiConsumer.noop())
-                .setData(ProviderType.LANG, NonNullBiConsumer.noop())
-                .setData(ProviderType.LOOT, NonNullBiConsumer.noop())
                 .addLayer(() -> RenderType::cutoutMipped)
                 .addLayer(() -> RenderType::translucent)
+                .transform(GTBlocks.unificationBlock(fluidPipeType.tagPrefix, material))
+                .blockstate(() -> NonNullBiConsumer.noop())
+                .setData(ProviderType.LANG, NonNullBiConsumer.noop())
+                .setData(ProviderType.LOOT, NonNullBiConsumer.noop())
                 .color(() -> MaterialPipeBlock::tintedColor)
                 .item(MaterialPipeBlockItem::new)
-                .model(NonNullBiConsumer.noop())
+                .setData(ProviderType.ITEM_MODEL, NonNullBiConsumer.noop())
                 .color(() -> MaterialPipeBlockItem::tintColor)
                 .build()
                 .register();
@@ -300,15 +300,15 @@ public class GTMaterialBlocks {
                     }
                     return p.dynamicShape().noOcclusion().noLootTable().forceSolidOn();
                 })
-                .transform(GTBlocks.unificationBlock(itemPipeType.getTagPrefix(), material))
-                .blockstate(NonNullBiConsumer.noop())
-                .setData(ProviderType.LANG, NonNullBiConsumer.noop())
-                .setData(ProviderType.LOOT, NonNullBiConsumer.noop())
                 .addLayer(() -> RenderType::cutoutMipped)
                 .addLayer(() -> RenderType::translucent)
+                .transform(GTBlocks.unificationBlock(itemPipeType.getTagPrefix(), material))
+                .blockstate(() -> NonNullBiConsumer.noop())
+                .setData(ProviderType.LANG, NonNullBiConsumer.noop())
+                .setData(ProviderType.LOOT, NonNullBiConsumer.noop())
                 .color(() -> MaterialPipeBlock::tintedColor)
                 .item(MaterialPipeBlockItem::new)
-                .model(NonNullBiConsumer.noop())
+                .setData(ProviderType.ITEM_MODEL, NonNullBiConsumer.noop())
                 .color(() -> MaterialPipeBlockItem::tintColor)
                 .build()
                 .register();

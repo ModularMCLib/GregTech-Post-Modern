@@ -46,16 +46,6 @@ repositories {
         url = "https://maven.firstdark.dev/snapshots"
     }
 
-    exclusiveContent { // Create, Ponder, Flywheel
-        forRepository {
-            maven { url = "https://maven.createmod.net" }
-        }
-        filter {
-            includeGroup("net.createmod.ponder")
-            includeGroup("com.simibubi.create")
-            includeGroupAndSubgroups("dev.engine-room")
-        }
-    }
     exclusiveContent { // Configuration
         forRepository { maven { url = "https://repo.repsy.io/mvn/toma/public" } }
         filter { includeGroup("dev.toma.configuration")}
@@ -83,10 +73,6 @@ repositories {
     exclusiveContent { // Architectury, pulled transitively by FTB mods
         forRepository { maven { url = "https://maven.shedaniel.me/" } }
         filter { includeGroup("dev.architectury") }
-    }
-    exclusiveContent { // tterrag - registrate
-        forRepository { maven { url = "https://maven.gegy.dev/releases" } }
-        filter { includeGroup("com.tterrag.registrate") }
     }
     exclusiveContent { // Curios
         forRepository { maven { url = "https://maven.theillusivec4.top/" } }

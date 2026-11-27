@@ -53,7 +53,7 @@ public class GTDimensionMarkers {
     private static BlockEntry<Block> createMarker(String name) {
         return REGISTRATE.block("%s_marker".formatted(name), Block::new)
                 .lang(FormattingUtil.toEnglishName(name))
-                .blockstate((ctx, prov) -> prov.simpleBlock(ctx.get(), prov.models().cube(ctx.getName(),
+                .blockstate(() -> (ctx, prov) -> prov.simpleBlock(ctx.get(), prov.models().cube(ctx.getName(),
                         prov.modLoc("block/dim_markers/%s/down".formatted(name)),
                         prov.modLoc("block/dim_markers/%s/up".formatted(name)),
                         prov.modLoc("block/dim_markers/%s/north".formatted(name)),

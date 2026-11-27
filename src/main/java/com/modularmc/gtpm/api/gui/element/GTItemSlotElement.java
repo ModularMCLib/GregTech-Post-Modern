@@ -8,8 +8,6 @@ import com.modularmc.gtpm.integration.xei.GTXEIIngredientRole;
 import com.modularmc.gtpm.integration.xei.GTXEIIngredientRoleAdapter;
 import com.modularmc.gtpm.integration.xei.handlers.item.CycleItemEntryHandler;
 
-import com.modularmc.registrate.util.RegistrateDistExecutor;
-
 import com.lowdragmc.lowdraglib2.gui.slot.ItemHandlerSlot;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.ItemSlot;
 import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
@@ -202,7 +200,7 @@ public class GTItemSlotElement extends ItemSlot {
 
     @Override
     public GTItemSlotElement xeiPhantom() {
-        RegistrateDistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+        GTPM.runOnClient(() -> () -> {
             if (GTPM.MODS.isJEILoaded()) {
                 JEISupport.ghostIngredient(this);
             }
@@ -304,7 +302,7 @@ public class GTItemSlotElement extends ItemSlot {
     public List<Component> getFullTooltipTexts() {
         var tooltips = new ArrayList<Component>();
         if (getSlotStyle().showItemTooltips()) {
-            RegistrateDistExecutor.unsafeRunWhenOn(Dist.CLIENT,
+            GTPM.runOnClient(
                     () -> () -> tooltips.addAll(DrawerHelper.getItemToolTip(getValue())));
         }
         tooltips.addAll(getStyle().tooltips().asList());
@@ -411,7 +409,7 @@ public class GTItemSlotElement extends ItemSlot {
     }
 
     private void addXEIRecipeIngredient(IngredientIO io, Supplier<Stream<ItemStack>> allPossibleItems) {
-        RegistrateDistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+        GTPM.runOnClient(() -> () -> {
             if (GTPM.MODS.isJEILoaded()) {
                 JEISupport.recipeIngredient(this, io, allPossibleItems);
             }
@@ -423,7 +421,7 @@ public class GTItemSlotElement extends ItemSlot {
 
     private void addXEIRecipeSlot(IngredientIO io, Supplier<Float> chance, IntSupplier amount,
                                   Supplier<Stream<ItemStack>> allPossibleItems) {
-        RegistrateDistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+        GTPM.runOnClient(() -> () -> {
             if (GTPM.MODS.isJEILoaded()) {
                 JEISupport.recipeSlot(this, io, allPossibleItems);
             }

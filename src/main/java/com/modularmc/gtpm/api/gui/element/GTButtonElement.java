@@ -4,8 +4,6 @@ import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.gui.UITemplate;
 import com.modularmc.gtpm.api.gui.texture.IGuiTexture;
 
-import com.modularmc.registrate.util.RegistrateDistExecutor;
-
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Button;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.TextElement.TextStyle;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
@@ -16,7 +14,6 @@ import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
-import net.neoforged.api.distmarker.Dist;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -76,7 +73,7 @@ public class GTButtonElement extends Button {
         if (event.button != 0 || !isActive()) {
             return;
         }
-        RegistrateDistExecutor.unsafeRunWhenOn(Dist.CLIENT,
+        GTPM.runOnClient(
                 () -> UISoundUtils::playButtonClickSound);
         if (clickHandler != null) {
             clickHandler.handleEvent(event);

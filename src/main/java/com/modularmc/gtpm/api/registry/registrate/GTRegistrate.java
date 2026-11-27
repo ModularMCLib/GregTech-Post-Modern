@@ -15,12 +15,14 @@ import com.modularmc.gtpm.api.multiblock.structurepredicate.PredicateType;
 import com.modularmc.gtpm.api.multiblock.structurepredicate.StructurePredicate;
 import com.modularmc.gtpm.api.multiblock.structurepredicate.StructurePredicateType;
 import com.modularmc.gtpm.api.registry.GTRegistries;
-import com.modularmc.gtpm.core.mixins.registrate.AbstractRegistrateAccessor;
 
 import com.modularmc.registrate.AbstractRegistrate;
-import com.modularmc.registrate.builders.Builder;
-import com.modularmc.registrate.builders.NoConfigBuilder;
-import com.modularmc.registrate.util.OneTimeEventReceiver;
+import com.modularmc.registrate.builders.base.Builder;
+import com.modularmc.registrate.builders.base.NoConfigBuilder;
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.providers.RegistrateLangProvider;
+import com.modularmc.registrate.providers.core.GeneratorType;
+import com.modularmc.registrate.providers.core.ProviderType;
 import com.modularmc.registrate.util.entry.ItemEntry;
 import com.modularmc.registrate.util.entry.RegistryEntry;
 import com.modularmc.registrate.util.nullness.NonNullFunction;
@@ -28,6 +30,7 @@ import com.modularmc.registrate.util.nullness.NonNullSupplier;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -36,21 +39,18 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.RegisterEvent;
 
 import com.mojang.serialization.MapCodec;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -59,12 +59,14 @@ import java.util.function.Supplier;
 
 public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
 
-    private static final Map<String, GTRegistrate> EXISTING_REGISTRATES = new Object2ObjectOpenHashMap<>();
+    private static final Map<String, GTRegistrate> EXISTING_REGISTRATES = new ConcurrentHashMap<>();
 
     private final AtomicBoolean registered = new AtomicBoolean(false);
+    private @Nullable PackOutput languageOutput;
 
     protected GTRegistrate(String modId) {
         super(modId);
+        sourceLocale(MinecraftLocale.EN_US);
     }
 
     public ResourceLocation makeResourceLocation(String path) {
@@ -94,45 +96,24 @@ public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
      * @return The {@link GTRegistrate} instance
      */
     public static GTRegistrate create(String modId, boolean registerEvents) {
-        return innerCreate(modId, false, registerEvents);
+        GTRegistrate registrate = EXISTING_REGISTRATES.computeIfAbsent(modId, GTRegistrate::new);
+        if (registerEvents) {
+            ModList.get().getModContainerById(modId).map(ModContainer::getEventBus)
+                    .ifPresentOrElse(registrate::registerEventListeners,
+                            () -> GTPM.LOGGER.error("No mod event bus for GTRegistrate namespace {}", modId));
+        }
+        return registrate;
     }
 
     /**
-     * Get or create a new {@link GTRegistrate} and register event listeners for registration and data generation.
-     * A new {@code GTRegistrate} instance is only made if one doesn't already exist in the cache.
-     * <br>
-     * Completely skips all mod id validity messages and defaults to GT's bus instead. <b>ADDON DEVS DO NOT USE.</b>
+     * Gets a material namespace's Registrate. CommonProxy binds it to the owning mod bus after material registration.
      *
      * @param modId The mod ID for which objects will be registered
      * @return The {@link GTRegistrate} instance
      */
     @ApiStatus.Internal
     public static GTRegistrate createIgnoringListenerErrors(String modId) {
-        return innerCreate(modId, true, false);
-    }
-
-    private static GTRegistrate innerCreate(String modId, boolean registerEvents, boolean requireValidEventBus) {
-        if (EXISTING_REGISTRATES.containsKey(modId)) {
-            return EXISTING_REGISTRATES.get(modId);
-        }
-        var registrate = new GTRegistrate(modId);
-        if (registerEvents) {
-            Optional<IEventBus> modEventBus = ModList.get().getModContainerById(modId).map(ModContainer::getEventBus);
-            if (requireValidEventBus) {
-                modEventBus.ifPresentOrElse(registrate::registerEventListeners, () -> {
-                    String message = "# [GTRegistrate] Failed to register eventListeners for mod " + modId +
-                            ", This should be reported to this mod's dev #";
-                    String hashtags = "#".repeat(message.length());
-                    GTPM.LOGGER.fatal(hashtags);
-                    GTPM.LOGGER.fatal(message);
-                    GTPM.LOGGER.fatal(hashtags);
-                });
-            } else {
-                registrate.registerEventListeners(modEventBus.orElse(GTPM.gtModBus));
-            }
-        }
-        EXISTING_REGISTRATES.put(modId, registrate);
-        return registrate;
+        return create(modId, false);
     }
 
     @Override
@@ -141,26 +122,33 @@ public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
             // early exit if event listeners are already registered
             return this;
         }
-        if (this.getModEventBus() == null) {
-            this.setModEventBus(bus);
-        }
-        // recreate the super method so we can register the event listener with LOW priority.
-        Consumer<RegisterEvent> onRegister = this::onRegister;
-        Consumer<RegisterEvent> onRegisterLate = this::onRegisterLate;
-        bus.addListener(EventPriority.LOW, onRegister);
-        bus.addListener(EventPriority.LOWEST, onRegisterLate);
+        return super.registerEventListeners(bus);
+    }
 
-        // Fired multiple times when ever tabs need contents rebuilt (changing op tab perms for example)
-        bus.addListener(this::onBuildCreativeModeTabContents);
-        // Register events fire multiple times, so clean them up on common setup
-        OneTimeEventReceiver.addModListener(this, FMLCommonSetupEvent.class, $ -> {
-            OneTimeEventReceiver.unregister(this, onRegister, RegisterEvent.class);
-            OneTimeEventReceiver.unregister(this, onRegisterLate, RegisterEvent.class);
-        });
-        if (((AbstractRegistrateAccessor) this).getDoDatagen().get()) {
-            OneTimeEventReceiver.addModListener(this, GatherDataEvent.class, this::onData);
+    @Override
+    protected void onData(GatherDataEvent event) {
+        languageOutput = event.getGenerator().getPackOutput();
+        super.onData(event);
+    }
+
+    @Override
+    public <T> void genData(GeneratorType<? extends T> type, T generator) {
+        if (type == ProviderType.LANG && generator instanceof RegistrateLangProvider language &&
+                languageOutput != null) {
+            // Preserve addon replacements before Registrate-Lib checks for conflicting declarations.
+            var translations = new LinkedHashMap<String, String>();
+            var staged = new RegistrateLangProvider(this, languageOutput) {
+
+                @Override
+                public void add(String key, String value) {
+                    translations.put(key, value);
+                }
+            };
+            super.genData(ProviderType.LANG, staged);
+            translations.forEach(language::add);
+            return;
         }
-        return this;
+        super.genData(type, generator);
     }
 
     protected <P> NoConfigBuilder<CreativeModeTab, CreativeModeTab, P> createCreativeModeTab(P parent, String name,
@@ -255,7 +243,7 @@ public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
     public <T extends Block, P> GTBlockBuilder<T, P> block(P parent, String name,
                                                            NonNullFunction<BlockBehaviour.Properties, T> factory) {
         return (GTBlockBuilder<T, P>) entry(name,
-                callback -> GTBlockBuilder.create(this, parent, name, callback, factory));
+                callback -> GTBlockBuilder.createGTBlock(this, parent, name, callback, factory));
     }
 
     private @Nullable RegistryEntry<CreativeModeTab, ? extends CreativeModeTab> currentTab;
@@ -287,6 +275,7 @@ public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
         TAB_LOOKUP.put(entry, tab);
     }
 
+    @Override
     protected <R, T extends R> RegistryEntry<R, T> accept(String name, ResourceKey<? extends Registry<R>> type,
                                                           Builder<R, T, ?, ?> builder,
                                                           NonNullSupplier<? extends T> creator,

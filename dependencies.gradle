@@ -37,11 +37,6 @@ dependencies {
     // AE2
     compileOnly(forge.ae2)
 
-    // Create
-    compileOnly(forge.ponder)
-    compileOnly(variantOf(forge.create) { classifier("slim") })
-    compileOnly(forge.flywheel.forge.api)
-
     // Rendering / Optimizations
     compileOnly(forge.sodium)
     compileOnly(forge.iris)
@@ -75,11 +70,6 @@ dependencies {
     localRuntime(forge.ae2)
     localRuntime(forge.spark)
     localRuntime(forge.modernfix)
-//    localRuntime(forge.create) {
-//        // Needed to prevent game-test crashes
-//        exclude group: "maven.modrinth", module: "journeymap"
-//        exclude group: "info.journeymap", module: "journeymap-api-neoforge"
-//    }
 
     // Runtime Recipe Viewers - uncomment whichever one you want to use //
     if (recipeViewer == "jei") {

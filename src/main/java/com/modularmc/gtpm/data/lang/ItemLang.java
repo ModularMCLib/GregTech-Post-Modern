@@ -10,14 +10,12 @@ import com.modularmc.registrate.providers.RegistrateLangProvider;
 import net.minecraft.core.registries.BuiltInRegistries;
 
 import static com.modularmc.gtpm.data.lang.LangHandler.multilineLang;
-import static com.modularmc.gtpm.data.lang.LangHandler.replace;
 import static com.modularmc.gtpm.utils.FormattingUtil.toEnglishName;
 
 public class ItemLang {
 
     public static void init(RegistrateLangProvider provider) {
         initGeneratedNames(provider);
-        initItemNames(provider);
         initItemTooltips(provider);
     }
 
@@ -57,10 +55,6 @@ public class ItemLang {
         provider.add("tagprefix.polymer.small_dust", "Small Pile of %s Pulp");
         provider.add("tagprefix.polymer.dust", "%s Pulp");
         provider.add("tagprefix.polymer.ingot", "%s Ingot");
-    }
-
-    private static void initItemNames(RegistrateLangProvider provider) {
-        replace(provider, "item.gtpm.tungsten_steel_fluid_cell", "%s Tungstensteel Cell");
     }
 
     private static void initItemTooltips(RegistrateLangProvider provider) {

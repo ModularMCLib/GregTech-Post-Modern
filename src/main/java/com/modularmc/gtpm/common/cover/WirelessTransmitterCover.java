@@ -29,14 +29,11 @@ public class WirelessTransmitterCover extends CoverBehavior
                                       implements IDataStickInteractable, IPlaceholderInfoProviderCover {
 
     @Getter
-    private final List<MutableComponent> createDisplayTargetBuffer = new ArrayList<>();
-    @Getter
     private final List<MutableComponent> computerCraftTextBuffer = new ArrayList<>();
 
     public WirelessTransmitterCover(CoverDefinition definition, ICoverable coverHolder, Direction attachedSide) {
         super(definition, coverHolder, attachedSide);
         for (int i = 0; i < 100; i++) {
-            createDisplayTargetBuffer.add(Component.empty());
             computerCraftTextBuffer.add(Component.empty());
         }
     }
@@ -51,11 +48,6 @@ public class WirelessTransmitterCover extends CoverBehavior
     @Override
     public long getTicksSincePlaced() {
         return coverHolder.getOffsetTimer();
-    }
-
-    @Override
-    public void setDisplayTargetBufferLine(int line, MutableComponent component) {
-        createDisplayTargetBuffer.set(line, component);
     }
 
     @Override

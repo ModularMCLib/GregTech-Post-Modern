@@ -28,8 +28,6 @@ import com.modularmc.gtpm.api.machine.multiblock.MultiblockControllerMachine;
 import com.modularmc.gtpm.client.gui.fancy.PreviewScene;
 import com.modularmc.gtpm.common.machine.trait.AutoOutputTrait;
 
-import com.modularmc.registrate.util.RegistrateDistExecutor;
-
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 
@@ -37,7 +35,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.api.distmarker.Dist;
 
 import java.util.List;
 
@@ -65,7 +62,7 @@ public interface IFancyUIMachine extends IUIMachine, IFancyUIProvider {
                 100, 100);
         if (self().isRemote()) {
             root.addChild(new GTImageElement(26, 60, 48, 16, GuiTextures.SCENE));
-            RegistrateDistExecutor.unsafeRunWhenOn(Dist.CLIENT,
+            GTPM.runOnClient(
                     () -> () -> root.addChild(PreviewScene.createScene(
                             self(), 100, 100)));
         }

@@ -28,6 +28,7 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.nio.file.Path;
+import java.util.function.Supplier;
 
 @Mod(GTPM.MOD_ID)
 public class GTPM {
@@ -149,6 +150,13 @@ public class GTPM {
         return FMLEnvironment.dist.isClient();
     }
 
+    /** Runs client initialization without resolving its callback on a dedicated server. */
+    public static void runOnClient(Supplier<Runnable> action) {
+        if (isClientSide()) {
+            action.get().run();
+        }
+    }
+
     /**
      * This check isn't the same for client and server!
      *
@@ -195,9 +203,7 @@ public class GTPM {
 
         GAMESTAGES(GTValues.MODID_GAMESTAGES),
 
-        CCTWEAKED(GTValues.MODID_CCTWEAKED),
-
-        CREATE(GTValues.MODID_CREATE);
+        CCTWEAKED(GTValues.MODID_CCTWEAKED);
 
         @Getter
         private final boolean loaded;

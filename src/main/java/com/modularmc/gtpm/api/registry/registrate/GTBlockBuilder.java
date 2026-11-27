@@ -5,8 +5,12 @@ import com.modularmc.gtpm.api.registry.registrate.provider.GTBlockstateProvider;
 import com.modularmc.registrate.AbstractRegistrate;
 import com.modularmc.registrate.builders.BlockBuilder;
 import com.modularmc.registrate.builders.BlockEntityBuilder;
-import com.modularmc.registrate.builders.BuilderCallback;
-import com.modularmc.registrate.providers.*;
+import com.modularmc.registrate.builders.base.BuilderCallback;
+import com.modularmc.registrate.providers.DataGenContext;
+import com.modularmc.registrate.providers.core.GeneratorType;
+import com.modularmc.registrate.providers.core.ProviderType;
+import com.modularmc.registrate.providers.generators.RegistrateBlockModelGenerator;
+import com.modularmc.registrate.providers.generators.RegistrateRecipeProvider;
 import com.modularmc.registrate.providers.loot.RegistrateBlockLootTables;
 import com.modularmc.registrate.util.nullness.*;
 
@@ -21,7 +25,7 @@ import java.util.function.Supplier;
 public class GTBlockBuilder<T extends Block, P> extends BlockBuilder<T, P> {
 
     // spotless:off
-    public static <T extends Block, P> GTBlockBuilder<T, P> create(AbstractRegistrate<?> owner, P parent, String name,
+    public static <T extends Block, P> GTBlockBuilder<T, P> createGTBlock(AbstractRegistrate<?> owner, P parent, String name,
                                                                    BuilderCallback callback,
                                                                    NonNullFunction<BlockBehaviour.Properties, T> factory) {
         return new GTBlockBuilder<>(owner, parent, name, callback, factory, BlockBehaviour.Properties::of)
@@ -54,7 +58,6 @@ public class GTBlockBuilder<T extends Block, P> extends BlockBuilder<T, P> {
         return (GTBlockBuilder<T, P>) super.initialProperties(block);
     }
 
-    @SuppressWarnings("removal")
     @Override
     public GTBlockBuilder<T, P> addLayer(Supplier<Supplier<RenderType>> layer) {
         return (GTBlockBuilder<T, P>) super.addLayer(layer);
@@ -86,8 +89,12 @@ public class GTBlockBuilder<T extends Block, P> extends BlockBuilder<T, P> {
     }
 
     @Override
-    public GTBlockBuilder<T, P> blockstate(NonNullBiConsumer<DataGenContext<Block, T>, RegistrateBlockstateProvider> cons) {
-        return (GTBlockBuilder<T, P>) setData(ProviderType.BLOCKSTATE, cons);
+    public GTBlockBuilder<T, P> blockstate(NonNullSupplier<NonNullBiConsumer<DataGenContext<Block, T>, RegistrateBlockModelGenerator>> cons) {
+        return (GTBlockBuilder<T, P>) super.blockstate(cons);
+    }
+
+    public GTBlockBuilder<T, P> blockstate(NonNullBiConsumer<DataGenContext<Block, T>, RegistrateBlockModelGenerator> cons) {
+        return blockstate(() -> cons);
     }
 
     @Override
@@ -121,13 +128,12 @@ public class GTBlockBuilder<T extends Block, P> extends BlockBuilder<T, P> {
     //     return tag(ProviderType.BLOCK_TAGS, tags);
     // }
 
-    public <D extends RegistrateProvider> GTBlockBuilder<T, P> setDataGeneric(ProviderType<? extends D> type, NonNullBiConsumer<DataGenContext<Block, ? extends Block>, D> cons) {
-        getOwner().setDataGenerator(this, type, prov -> cons.accept(DataGenContext.from(this), prov));
-        return this;
+    public <D> GTBlockBuilder<T, P> setDataGeneric(GeneratorType<? extends D> type, NonNullBiConsumer<DataGenContext<Block, ? extends Block>, D> cons) {
+        return setData(type, cons::accept);
     }
 
     @Override
-    public  <D extends RegistrateProvider> GTBlockBuilder<T, P> setData(ProviderType<? extends D> type, NonNullBiConsumer<DataGenContext<Block, T>, D> cons) {
+    public <D> GTBlockBuilder<T, P> setData(GeneratorType<? extends D> type, NonNullBiConsumer<DataGenContext<Block, T>, D> cons) {
         return (GTBlockBuilder<T, P>) super.setData(type, cons);
     }
 

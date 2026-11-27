@@ -6,8 +6,7 @@ import com.modularmc.gtpm.api.machine.MachineDefinition;
 import com.modularmc.gtpm.client.util.ExtendedBlockModelRotation;
 
 import com.modularmc.registrate.AbstractRegistrate;
-import com.modularmc.registrate.providers.ProviderType;
-import com.modularmc.registrate.providers.RegistrateBlockstateProvider;
+import com.modularmc.registrate.providers.generators.RegistrateModelProvider;
 
 import net.minecraft.core.Direction;
 import net.minecraft.data.CachedOutput;
@@ -27,7 +26,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-public class GTBlockstateProvider extends RegistrateBlockstateProvider {
+public class GTBlockstateProvider extends RegistrateModelProvider {
 
     public static final String Z_ROT_PROPERTY_NAME = "gtpm:z";
     private static final VariantProperty<VariantProperties.Rotation> X_ROT = VariantProperties.X_ROT;
@@ -37,12 +36,6 @@ public class GTBlockstateProvider extends RegistrateBlockstateProvider {
 
     public static final ResourceType TEXTURE = new ResourceType(PackType.CLIENT_RESOURCES, ".png", "textures");
     public static final ResourceType MODEL = new ResourceType(PackType.CLIENT_RESOURCES, ".json", "models");
-
-    public GTBlockstateProvider(ProviderType.Context<GTBlockstateProvider> context) {
-        this(context.parent(), context.output(), context.fileHelper());
-        // replace the default blockstate provider with this one
-        context.existing().put(ProviderType.BLOCKSTATE, this);
-    }
 
     public GTBlockstateProvider(AbstractRegistrate<?> parent, PackOutput packOutput, ExistingFileHelper exFileHelper) {
         super(parent, packOutput, exFileHelper);
@@ -57,10 +50,11 @@ public class GTBlockstateProvider extends RegistrateBlockstateProvider {
     @Override
     public @NotNull CompletableFuture<?> run(CachedOutput cache) {
         CURRENT_PROVIDER = this;
-        var value = super.run(cache);
-
-        CURRENT_PROVIDER = null;
-        return value;
+        try {
+            return super.run(cache);
+        } finally {
+            CURRENT_PROVIDER = null;
+        }
     }
 
     public ExistingFileHelper getExistingFileHelper() {

@@ -8,14 +8,14 @@ import net.minecraft.world.entity.EntityType;
 
 public class EntityTypeTagLoader {
 
-    public static void init(RegistrateTagsProvider.IntrinsicImpl<EntityType<?>> provider) {
-        provider.addTag(CustomTags.HEAT_IMMUNE)
+    public static void init(RegistrateTagsProvider.IntrinsicTags<EntityType<?>> provider) {
+        provider.tag(CustomTags.HEAT_IMMUNE)
                 .add(EntityType.BLAZE, EntityType.MAGMA_CUBE)
                 .add(EntityType.WITHER_SKELETON, EntityType.WITHER);
-        provider.addTag(CustomTags.CHEMICAL_IMMUNE)
+        provider.tag(CustomTags.CHEMICAL_IMMUNE)
                 .add(EntityType.SKELETON, EntityType.STRAY, EntityType.BOGGED);
-        provider.addTag(CustomTags.IRON_GOLEMS).add(EntityType.IRON_GOLEM);
-        provider.addTag(CustomTags.SPIDERS)
+        provider.tag(CustomTags.IRON_GOLEMS).add(EntityType.IRON_GOLEM);
+        provider.tag(CustomTags.SPIDERS)
                 .add(EntityType.SPIDER, EntityType.CAVE_SPIDER);
     }
 }

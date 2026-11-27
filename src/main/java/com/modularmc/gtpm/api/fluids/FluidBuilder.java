@@ -13,9 +13,7 @@ import com.modularmc.gtpm.api.registry.registrate.GTRegistrate;
 import com.modularmc.gtpm.common.item.GTBucketItem;
 import com.modularmc.gtpm.utils.GTUtil;
 
-import com.modularmc.registrate.AbstractRegistrate;
-import com.modularmc.registrate.providers.ProviderType;
-import com.modularmc.registrate.util.OneTimeEventReceiver;
+import com.modularmc.registrate.providers.core.ProviderType;
 import com.modularmc.registrate.util.nullness.NonNullBiConsumer;
 
 import net.minecraft.core.BlockPos;
@@ -26,7 +24,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.common.SoundActions;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
@@ -290,8 +287,15 @@ public class FluidBuilder {
         final String langKey = this.translation != null ? this.translation : key.getTranslationKeyFor(material);
         // noinspection DataFlowIssue
         var builder = registrate.fluid(this.name, this.still, this.flowing,
-                (p, $1, $2) -> makeFluidType(registrate, p, material, key, langKey),
+                p -> makeFluidType(p, material, langKey),
                 (p) -> new GTFluid.Flowing(this.state, this.burnTime, p))
+                .clientExtension(() -> () -> {
+                    final int tint = isColorEnabled ? this.color : INFER_COLOR;
+                    if (still == null || flowing == null) {
+                        this.determineTextures(material, key);
+                    }
+                    return new GTClientFluidTypeExtensions(still, flowing, tint);
+                })
                 .source((p) -> new GTFluid.Source(this.state, this.burnTime, p))
                 .setData(ProviderType.LANG, NonNullBiConsumer.noop());
         if (this.hasFluidBlock) {
@@ -430,8 +434,7 @@ public class FluidBuilder {
         };
     }
 
-    private FluidType makeFluidType(AbstractRegistrate<?> owner, FluidType.Properties properties,
-                                    Material material, FluidStorageKey key, String langKey) {
+    private FluidType makeFluidType(FluidType.Properties properties, Material material, String langKey) {
         properties.sound(SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL)
                 .sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY)
                 .sound(SoundActions.FLUID_VAPORIZE, SoundEvents.FIRE_EXTINGUISH)
@@ -474,13 +477,6 @@ public class FluidBuilder {
                 return false;
             }
         };
-        OneTimeEventReceiver.addModListener(owner, RegisterClientExtensionsEvent.class, event -> {
-            final int color = isColorEnabled ? this.color : INFER_COLOR;
-            if (still == null || flowing == null) {
-                this.determineTextures(material, key);
-            }
-            event.registerFluidType(new GTClientFluidTypeExtensions(still, flowing, color), type);
-        });
         return type;
     }
 }

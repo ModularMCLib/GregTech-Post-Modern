@@ -15,8 +15,8 @@ import com.modularmc.gtpm.core.MixinHelpers;
 import com.modularmc.gtpm.data.pack.GTDynamicResourcePack;
 
 import com.modularmc.registrate.providers.DataGenContext;
-import com.modularmc.registrate.providers.RegistrateBlockstateProvider;
-import com.modularmc.registrate.providers.RegistrateItemModelProvider;
+import com.modularmc.registrate.providers.generators.RegistrateBlockModelGenerator;
+import com.modularmc.registrate.providers.generators.RegistrateItemModelGenerator;
 import com.modularmc.registrate.util.nullness.NonNullBiConsumer;
 
 import net.minecraft.client.Minecraft;
@@ -53,11 +53,11 @@ public class GTModels {
     }
 
     public static void createCrossBlockState(DataGenContext<Block, ? extends Block> ctx,
-                                             RegistrateBlockstateProvider prov) {
+                                             RegistrateBlockModelGenerator prov) {
         prov.simpleBlock(ctx.getEntry(), prov.models().cross(ctx.getName(), prov.blockTexture(ctx.getEntry())));
     }
 
-    public static void cellModel(DataGenContext<Item, ? extends Item> ctx, RegistrateItemModelProvider prov) {
+    public static void cellModel(DataGenContext<Item, ? extends Item> ctx, RegistrateItemModelGenerator prov) {
         // empty model
         prov.getBuilder("item/" + prov.name(ctx::getEntry) + "_empty")
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
@@ -70,7 +70,7 @@ public class GTModels {
                 .texture("layer1", prov.modLoc("item/%s/overlay".formatted(prov.name(ctx))));
 
         // root model
-        prov.generated(ctx::getEntry, prov.modLoc("item/%s/base".formatted(prov.name(ctx))))
+        prov.generateFlatItem(ctx.get(), prov.modLoc("item/%s/base".formatted(prov.name(ctx))))
                 .override().predicate(GTPM.id("fluid_cell"), 0)
                 .model(new ModelFile.UncheckedModelFile(prov.modLoc("item/%s_empty".formatted(prov.name(ctx)))))
                 .end()
@@ -80,11 +80,11 @@ public class GTModels {
     }
 
     public static <
-            T extends Item> NonNullBiConsumer<DataGenContext<Item, T>, RegistrateItemModelProvider> overrideModel(ResourceLocation predicate,
-                                                                                                                  int modelNumber) {
+            T extends Item> NonNullBiConsumer<DataGenContext<Item, T>, RegistrateItemModelGenerator> overrideModel(ResourceLocation predicate,
+                                                                                                                   int modelNumber) {
         if (modelNumber <= 0) return NonNullBiConsumer.noop();
         return (ctx, prov) -> {
-            var rootModel = prov.generated(ctx::getEntry, prov.modLoc("item/%s/1".formatted(prov.name(ctx))));
+            var rootModel = prov.generateFlatItem(ctx.get(), prov.modLoc("item/%s/1".formatted(prov.name(ctx))));
             for (int i = 0; i < modelNumber; i++) {
                 var subModelBuilder = prov.getBuilder("item/" + prov.name(ctx::getEntry) + "/" + i)
                         .parent(new ModelFile.UncheckedModelFile("item/generated"));
@@ -97,18 +97,18 @@ public class GTModels {
         };
     }
 
-    public static void createTextureModel(DataGenContext<Item, ? extends Item> ctx, RegistrateItemModelProvider prov,
+    public static void createTextureModel(DataGenContext<Item, ? extends Item> ctx, RegistrateItemModelGenerator prov,
                                           ResourceLocation texture) {
-        prov.generated(ctx, texture);
+        prov.generateFlatItem(ctx.get(), texture);
     }
 
     public static void rubberTreeSaplingModel(DataGenContext<Item, BlockItem> context,
-                                              RegistrateItemModelProvider provider) {
-        provider.generated(context, provider.modLoc("block/" + provider.name(context)));
+                                              RegistrateItemModelGenerator provider) {
+        provider.generateFlatItem(context.get(), provider.modLoc("block/" + provider.name(context)));
     }
 
-    public static NonNullBiConsumer<DataGenContext<Block, LampBlock>, RegistrateBlockstateProvider> lampModel(DyeColor color,
-                                                                                                              boolean border) {
+    public static NonNullBiConsumer<DataGenContext<Block, LampBlock>, RegistrateBlockModelGenerator> lampModel(DyeColor color,
+                                                                                                               boolean border) {
         return (ctx, prov) -> {
             final String borderPart = (border ? "" : "_borderless");
             ModelFile parentOn = prov.models().getExistingFile(prov.modLoc("block/lamp" + borderPart));
@@ -153,7 +153,7 @@ public class GTModels {
         };
     }
 
-    public static NonNullBiConsumer<DataGenContext<Block, Block>, RegistrateBlockstateProvider> randomRotatedModel(ResourceLocation texturePath) {
+    public static NonNullBiConsumer<DataGenContext<Block, Block>, RegistrateBlockModelGenerator> randomRotatedModel(ResourceLocation texturePath) {
         return (ctx, prov) -> {
             Block block = ctx.getEntry();
             ModelFile cubeAll = prov.models().cubeAll(ctx.getName(), texturePath);
@@ -176,7 +176,7 @@ public class GTModels {
         };
     }
 
-    public static NonNullBiConsumer<DataGenContext<Block, Block>, RegistrateBlockstateProvider> createSidedCasingModel(ResourceLocation texture) {
+    public static NonNullBiConsumer<DataGenContext<Block, Block>, RegistrateBlockModelGenerator> createSidedCasingModel(ResourceLocation texture) {
         return (ctx, prov) -> {
             prov.simpleBlock(ctx.getEntry(), prov.models().cubeBottomTop(ctx.getName(),
                     texture.withSuffix("/side"),
@@ -191,7 +191,7 @@ public class GTModels {
         };
     }
 
-    public static NonNullBiConsumer<DataGenContext<Block, Block>, RegistrateBlockstateProvider> createMachineCasingModel(String tierName) {
+    public static NonNullBiConsumer<DataGenContext<Block, Block>, RegistrateBlockModelGenerator> createMachineCasingModel(String tierName) {
         return (ctx, prov) -> {
             prov.simpleBlock(ctx.getEntry(),
                     prov.models()
@@ -203,7 +203,7 @@ public class GTModels {
         };
     }
 
-    public static NonNullBiConsumer<DataGenContext<Block, Block>, RegistrateBlockstateProvider> createHermeticCasingModel(String tierName) {
+    public static NonNullBiConsumer<DataGenContext<Block, Block>, RegistrateBlockModelGenerator> createHermeticCasingModel(String tierName) {
         return (ctx, prov) -> {
             prov.simpleBlock(ctx.getEntry(), prov.models()
                     .withExistingParent("%s_hermetic_casing".formatted(tierName), GTPM.id("block/hermetic_casing"))
@@ -213,7 +213,7 @@ public class GTModels {
         };
     }
 
-    public static NonNullBiConsumer<DataGenContext<Block, Block>, RegistrateBlockstateProvider> createSteamCasingModel(String material) {
+    public static NonNullBiConsumer<DataGenContext<Block, Block>, RegistrateBlockModelGenerator> createSteamCasingModel(String material) {
         return (ctx, prov) -> {
             prov.simpleBlock(ctx.getEntry(), prov.models().cubeBottomTop(ctx.getName(),
                     GTPM.id("block/casings/steam/%s/side".formatted(material)),
@@ -222,7 +222,7 @@ public class GTModels {
         };
     }
 
-    public static NonNullBiConsumer<DataGenContext<Block, CoilBlock>, RegistrateBlockstateProvider> createCoilModel(ICoilType coilType) {
+    public static NonNullBiConsumer<DataGenContext<Block, CoilBlock>, RegistrateBlockModelGenerator> createCoilModel(ICoilType coilType) {
         return (ctx, prov) -> {
             String name = ctx.getName();
             ActiveBlock block = ctx.getEntry();
@@ -238,7 +238,7 @@ public class GTModels {
         };
     }
 
-    public static NonNullBiConsumer<DataGenContext<Block, BatteryBlock>, RegistrateBlockstateProvider> createBatteryBlockModel(IBatteryData batteryData) {
+    public static NonNullBiConsumer<DataGenContext<Block, BatteryBlock>, RegistrateBlockModelGenerator> createBatteryBlockModel(IBatteryData batteryData) {
         return (ctx, prov) -> {
             prov.simpleBlock(ctx.getEntry(), prov.models().cubeBottomTop(ctx.getName(),
                     GTPM.id("block/casings/battery/" + batteryData.getBatteryName() + "/side"),
@@ -247,7 +247,7 @@ public class GTModels {
         };
     }
 
-    public static NonNullBiConsumer<DataGenContext<Block, FusionCasingBlock>, RegistrateBlockstateProvider> createFusionCasingModel(IFusionCasingType casingType) {
+    public static NonNullBiConsumer<DataGenContext<Block, FusionCasingBlock>, RegistrateBlockModelGenerator> createFusionCasingModel(IFusionCasingType casingType) {
         return (ctx, prov) -> {
             String name = ctx.getName();
             ActiveBlock block = ctx.getEntry();
@@ -263,14 +263,14 @@ public class GTModels {
         };
     }
 
-    public static NonNullBiConsumer<DataGenContext<Block, Block>, RegistrateBlockstateProvider> createCleanroomFilterModel(IFilterType type) {
+    public static NonNullBiConsumer<DataGenContext<Block, Block>, RegistrateBlockModelGenerator> createCleanroomFilterModel(IFilterType type) {
         return (ctx, prov) -> {
             prov.simpleBlock(ctx.getEntry(), prov.models()
                     .cubeAll(ctx.getName(), GTPM.id("block/casings/cleanroom/" + type.getSerializedName())));
         };
     }
 
-    public static NonNullBiConsumer<DataGenContext<Block, ActiveBlock>, RegistrateBlockstateProvider> createActiveModel(ResourceLocation modelPath) {
+    public static NonNullBiConsumer<DataGenContext<Block, ActiveBlock>, RegistrateBlockModelGenerator> createActiveModel(ResourceLocation modelPath) {
         return (ctx, prov) -> {
             ActiveBlock block = ctx.getEntry();
             ModelFile inactive = prov.models().getExistingFile(modelPath);
@@ -283,7 +283,7 @@ public class GTModels {
         };
     }
 
-    public static NonNullBiConsumer<DataGenContext<Block, ActiveBlock>, RegistrateBlockstateProvider> createFireboxModel(BoilerFireboxType type) {
+    public static NonNullBiConsumer<DataGenContext<Block, ActiveBlock>, RegistrateBlockModelGenerator> createFireboxModel(BoilerFireboxType type) {
         return (ctx, prov) -> {
             String name = ctx.getName();
             ActiveBlock block = ctx.getEntry();

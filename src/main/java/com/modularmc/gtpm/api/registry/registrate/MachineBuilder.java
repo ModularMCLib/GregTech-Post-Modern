@@ -34,7 +34,7 @@ import com.modularmc.registrate.AbstractRegistrate;
 import com.modularmc.registrate.builders.BlockBuilder;
 import com.modularmc.registrate.builders.ItemBuilder;
 import com.modularmc.registrate.providers.DataGenContext;
-import com.modularmc.registrate.providers.ProviderType;
+import com.modularmc.registrate.providers.core.ProviderType;
 import com.modularmc.registrate.util.entry.BlockEntry;
 import com.modularmc.registrate.util.nullness.NonNullBiConsumer;
 import com.modularmc.registrate.util.nullness.NonNullConsumer;
@@ -642,7 +642,7 @@ public class MachineBuilder<DEFINITION extends MachineDefinition, TYPE extends M
         }
         var blockEntity = blockEntityBuilder.register();
         definition.setRecipeTypes(recipeTypes);
-        definition.setBlockSupplier(() -> (MetaMachineBlock) block.get());
+        definition.setBlockSupplier(block::get);
         definition.setItemSupplier(item);
         definition.setTier(tier);
         definition.setRecipeOutputLimits(recipeOutputLimits);
@@ -745,11 +745,9 @@ public class MachineBuilder<DEFINITION extends MachineDefinition, TYPE extends M
                     .item(properties -> builder.itemFactory.apply((MetaMachineBlock) block.get(), properties))
                     .setData(ProviderType.LANG, NonNullBiConsumer.noop()) // do not gen any lang keys
                     // copied from BlockBuilder#item
-                    .model((ctx, prov) -> {
-                        prov.withExistingParent(ctx.getName(),
-                                ResourceLocation.fromNamespaceAndPath(builder.registrate.getModid(),
-                                        "block/machine/" + ctx.getName()));
-                    })
+                    .model(() -> (ctx, prov) -> prov.withExistingParent(ctx.getName(),
+                            ResourceLocation.fromNamespaceAndPath(builder.registrate.getModid(),
+                                    "block/machine/" + ctx.getName())))
                     .clientExtension(() -> () -> new IClientItemExtensions() {
 
                         @Override

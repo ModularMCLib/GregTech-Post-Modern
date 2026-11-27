@@ -17,21 +17,21 @@ import net.neoforged.neoforge.common.Tags;
 
 public class BlockTagLoader {
 
-    public static void init(RegistrateTagsProvider.IntrinsicImpl<Block> provider) {
-        var speedConcretes = provider.addTag(CustomTags.VERY_FAST_WALKABLE_BLOCKS);
+    public static void init(RegistrateTagsProvider.IntrinsicTags<Block> provider) {
+        var speedConcretes = provider.tag(CustomTags.VERY_FAST_WALKABLE_BLOCKS);
         GTBlocks.STONE_BLOCKS.column(StoneTypes.CONCRETE_LIGHT)
                 .forEach((type, block) -> speedConcretes.add(block.get()));
         GTBlocks.STONE_BLOCKS.column(StoneTypes.CONCRETE_DARK)
                 .forEach((type, block) -> speedConcretes.add(block.get()));
 
-        var studs = provider.addTag(CustomTags.FAST_WALKABLE_BLOCKS);
+        var studs = provider.tag(CustomTags.FAST_WALKABLE_BLOCKS);
         GTBlocks.STUDS.forEach((color, block) -> studs.add(block.get()));
 
-        provider.addTag(CustomTags.ENDSTONE_ORE_REPLACEABLES)
+        provider.tag(CustomTags.ENDSTONE_ORE_REPLACEABLES)
                 .addTag(Tags.Blocks.END_STONES);
 
-        provider.addTag(CustomTags.NEEDS_NEUTRONIUM_TOOL);
-        provider.addTag(CustomTags.NEEDS_DURANIUM_TOOL);
+        provider.tag(CustomTags.NEEDS_NEUTRONIUM_TOOL);
+        provider.tag(CustomTags.NEEDS_DURANIUM_TOOL);
 
         @SuppressWarnings("unchecked")
         TagKey<Block>[] newToolRequirements = new TagKey[] {
@@ -48,31 +48,31 @@ public class BlockTagLoader {
                 BlockTags.INCORRECT_FOR_WOODEN_TOOL
         };
         for (TagKey<Block> tag : incorrectForToolTags) {
-            provider.addTag(tag).addTags(newToolRequirements);
+            provider.tag(tag).addTags(newToolRequirements);
         }
         // do these manually
-        provider.addTag(CustomTags.INCORRECT_FOR_NEUTRONIUM_TOOL);
-        provider.addTag(CustomTags.INCORRECT_FOR_DURANIUM_TOOL).addTag(CustomTags.NEEDS_NEUTRONIUM_TOOL);
+        provider.tag(CustomTags.INCORRECT_FOR_NEUTRONIUM_TOOL);
+        provider.tag(CustomTags.INCORRECT_FOR_DURANIUM_TOOL).addTag(CustomTags.NEEDS_NEUTRONIUM_TOOL);
 
         // this is awful. I don't care, though.
-        provider.addTag(BlockTags.REPLACEABLE)
+        provider.tag(BlockTags.REPLACEABLE)
                 .add(GTMaterials.Oil.getFluid().defaultFluidState().createLegacyBlock().getBlock())
                 .add(GTMaterials.LightOil.getFluid().defaultFluidState().createLegacyBlock().getBlock())
                 .add(GTMaterials.HeavyOil.getFluid().defaultFluidState().createLegacyBlock().getBlock())
                 .add(GTMaterials.RawOil.getFluid().defaultFluidState().createLegacyBlock().getBlock())
                 .add(GTMaterials.NaturalGas.getFluid().defaultFluidState().createLegacyBlock().getBlock());
 
-        provider.addTag(BlockTags.MINEABLE_WITH_AXE)
+        provider.tag(BlockTags.MINEABLE_WITH_AXE)
                 .add(GTMachines.WOODEN_DRUM.getBlock())
                 .add(GTMachines.WOODEN_CRATE.getBlock());
 
         // always add the wrench/pickaxe tag as a valid tag to mineable/wrench etc.
-        provider.addTag(CustomTags.MINEABLE_WITH_WRENCH)
+        provider.tag(CustomTags.MINEABLE_WITH_WRENCH)
                 .addTag(CustomTags.MINEABLE_WITH_CONFIG_VALID_PICKAXE_WRENCH);
-        provider.addTag(CustomTags.MINEABLE_WITH_WIRE_CUTTER)
+        provider.tag(CustomTags.MINEABLE_WITH_WIRE_CUTTER)
                 .addTag(CustomTags.MINEABLE_WITH_CONFIG_VALID_PICKAXE_WIRE_CUTTER);
 
-        provider.addTag(CustomTags.CLEANROOM_FLOORS)
+        provider.tag(CustomTags.CLEANROOM_FLOORS)
                 .addOptionalTag(ResourceLocation.fromNamespaceAndPath("elevatorid", "elevators"))
                 .addOptional(ResourceLocation.fromNamespaceAndPath("enderio", "travel_anchor"))
                 .addOptional(ResourceLocation.fromNamespaceAndPath("rftoolsutility", "matter_transmitter"))
@@ -80,13 +80,13 @@ public class BlockTagLoader {
                 .addOptional(ResourceLocation.fromNamespaceAndPath("rftoolsutility", "dialing_device"))
                 .addOptional(ResourceLocation.fromNamespaceAndPath("travelanchors", "travel_anchor"));
 
-        provider.addTag(CustomTags.CHARCOAL_PILE_IGNITER_WALLS)
+        provider.tag(CustomTags.CHARCOAL_PILE_IGNITER_WALLS)
                 .addTag(BlockTags.DIRT) // any dirt blocks
                 .remove(Blocks.MOSS_BLOCK, Blocks.MUD, Blocks.MUDDY_MANGROVE_ROOTS) // except moss and mud
                 .add(Blocks.DIRT_PATH) // path blocks
                 .addTag(Tags.Blocks.SANDS).addTag(BlockTags.SAND) // any sand blocks
                 .addTag(BlockTags.TERRACOTTA); // any terracotta
 
-        provider.addTag(CustomTags.CLEANROOM_DOORS).add(Blocks.IRON_DOOR).addTag(BlockTags.WOODEN_DOORS);
+        provider.tag(CustomTags.CLEANROOM_DOORS).add(Blocks.IRON_DOOR).addTag(BlockTags.WOODEN_DOORS);
     }
 }

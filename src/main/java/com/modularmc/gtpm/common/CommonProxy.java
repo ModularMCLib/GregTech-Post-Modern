@@ -96,7 +96,6 @@ import com.modularmc.gtpm.common.machine.multiblock.electric.FusionReactorMachin
 import com.modularmc.gtpm.common.machine.owner.MachineOwner;
 import com.modularmc.gtpm.common.machine.storage.QuantumTankMachine;
 import com.modularmc.gtpm.config.ConfigHolder;
-import com.modularmc.gtpm.core.mixins.registrate.AbstractRegistrateAccessor;
 import com.modularmc.gtpm.data.GregTechDatagen;
 import com.modularmc.gtpm.data.lang.MaterialLangGenerator;
 import com.modularmc.gtpm.data.loot.ChestGenHooks;
@@ -111,10 +110,7 @@ import com.modularmc.gtpm.integration.cctweaked.CCTweakedPlugin;
 import com.modularmc.gtpm.integration.map.WaypointManager;
 import com.modularmc.gtpm.utils.input.SyncedKeyMappings;
 
-import com.modularmc.registrate.providers.ProviderType;
-import com.modularmc.registrate.providers.RegistrateLangProvider;
-import com.modularmc.registrate.providers.RegistrateProvider;
-import com.modularmc.registrate.util.nullness.NonNullConsumer;
+import com.modularmc.registrate.providers.core.ProviderType;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -159,7 +155,6 @@ import net.neoforged.neoforge.registries.NewRegistryEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import net.neoforged.neoforge.registries.callback.BakeCallback;
 
-import com.google.common.collect.Multimaps;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -311,13 +306,8 @@ public class CommonProxy {
         GTRegistries.MATERIALS.getUsedNamespaces().forEach(namespace -> {
             // Force the material lang generator to be at index 0, so that addons' lang generators can override it.
             GTRegistrate registrate = GTRegistrate.createIgnoringListenerErrors(namespace);
-            AbstractRegistrateAccessor accessor = (AbstractRegistrateAccessor) registrate;
-            if (accessor.getDoDatagen().get()) {
-                List<NonNullConsumer<? extends RegistrateProvider>> providers = Multimaps.asMap(accessor.getDatagens())
-                        .get(ProviderType.LANG);
-                providers.addFirst(
-                        (provider) -> MaterialLangGenerator.generate((RegistrateLangProvider) provider, namespace));
-            }
+            registrate.addDataGeneratorFirst(ProviderType.LANG,
+                    provider -> MaterialLangGenerator.generate(provider, namespace));
 
             ModList.get().getModContainerById(namespace)
                     .map(ModContainer::getEventBus)

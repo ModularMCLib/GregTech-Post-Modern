@@ -17,7 +17,7 @@ import com.modularmc.gtpm.api.registry.GTRegistries;
 import com.modularmc.gtpm.api.registry.registrate.GTRegistrate;
 import com.modularmc.gtpm.common.item.armor.GTArmorItem;
 
-import com.modularmc.registrate.providers.ProviderType;
+import com.modularmc.registrate.providers.core.ProviderType;
 import com.modularmc.registrate.util.entry.ItemEntry;
 import com.modularmc.registrate.util.entry.ItemProviderEntry;
 import com.modularmc.registrate.util.nullness.NonNullBiConsumer;
@@ -103,7 +103,7 @@ public class GTMaterialItems {
                 .setData(ProviderType.LANG, NonNullBiConsumer.noop())
                 .transform(GTItems.unificationItem(tagPrefix, material))
                 .properties(p -> p.stacksTo(tagPrefix.maxStackSize()))
-                .model(NonNullBiConsumer.noop())
+                .setData(ProviderType.ITEM_MODEL, NonNullBiConsumer.noop())
                 .color(() -> () -> TagPrefixItem.tintColor(material))
                 .onRegister(GTItems::cauldronInteraction)
                 .register());
@@ -206,7 +206,7 @@ public class GTMaterialItems {
                     return p;
                 })
                 .setData(ProviderType.LANG, NonNullBiConsumer.noop())
-                .model(NonNullBiConsumer.noop())
+                .setData(ProviderType.ITEM_MODEL, NonNullBiConsumer.noop())
                 .color(() -> () -> IGTTool::tintColor)
                 .register());
         // spotless:on
@@ -234,7 +234,7 @@ public class GTMaterialItems {
                 .item(id, p -> new GTArmorItem(type, p, material, property))
                 .properties(p -> p.durability(type.getDurability(property.getDurabilityMultiplier())))
                 .setData(ProviderType.LANG, NonNullBiConsumer.noop())
-                .model(NonNullBiConsumer.noop())
+                .setData(ProviderType.ITEM_MODEL, NonNullBiConsumer.noop())
                 .clientExtension(() -> () -> new IClientItemExtensions() {
 
                     @Override

@@ -1,5 +1,6 @@
 package com.modularmc.gtpm.api.machine.fancyconfigurator;
 
+import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.cover.CoverBehavior;
 import com.modularmc.gtpm.api.gui.ColorPattern;
 import com.modularmc.gtpm.api.gui.GuiTextures;
@@ -19,8 +20,6 @@ import com.modularmc.gtpm.client.gui.fancy.DirectionalSceneFactory;
 import com.modularmc.gtpm.common.machine.trait.AutoOutputTrait;
 import com.modularmc.gtpm.data.lang.LangHandler;
 
-import com.modularmc.registrate.util.RegistrateDistExecutor;
-
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
@@ -30,7 +29,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
 
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
@@ -131,7 +129,7 @@ public final class CombinedDirectionalFancyConfigurator implements IFancyUIProvi
         root.addChild(createCoverControls());
 
         if (machine.isRemote()) {
-            RegistrateDistExecutor.unsafeRunWhenOn(Dist.CLIENT,
+            GTPM.runOnClient(
                     () -> () -> DirectionalSceneFactory.attachScene(sceneContainer, machine, output,
                             SCENE_WIDTH, SCENE_HEIGHT, this::handleSceneFaceClick));
         }

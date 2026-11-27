@@ -1,6 +1,5 @@
 package com.modularmc.gtpm.common.cover;
 
-import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.capability.ICoverable;
 import com.modularmc.gtpm.api.cover.CoverBehavior;
 import com.modularmc.gtpm.api.cover.CoverDefinition;
@@ -29,7 +28,6 @@ import com.modularmc.gtpm.client.renderer.cover.IDynamicCoverRenderer;
 import com.modularmc.gtpm.common.data.GTDataComponents;
 import com.modularmc.gtpm.common.item.datacomponents.ComputerMonitorConfig;
 import com.modularmc.gtpm.data.lang.LangHandler;
-import com.modularmc.gtpm.integration.create.GTCreateIntegration;
 import com.modularmc.gtpm.utils.GTStringUtils;
 import com.modularmc.gtpm.utils.GTUtil;
 
@@ -99,9 +97,6 @@ public class ComputerMonitorCover extends CoverBehavior
     private long ticksSincePlaced = 0;
     @SaveField
     @Getter
-    private List<MutableComponent> createDisplayTargetBuffer = new ArrayList<>();
-    @SaveField
-    @Getter
     private List<MutableComponent> computerCraftTextBuffer = new ArrayList<>();
     @SaveField
     @Getter
@@ -112,7 +107,6 @@ public class ComputerMonitorCover extends CoverBehavior
         renderer = new CoverTextRenderer(this::getText);
         placeholderUUID = UUID.randomUUID();
         for (int i = 0; i < 100; i++) {
-            createDisplayTargetBuffer.add(Component.empty());
             computerCraftTextBuffer.add(Component.empty());
         }
     }
@@ -126,10 +120,6 @@ public class ComputerMonitorCover extends CoverBehavior
                 new PlaceholderContext(coverHolder.getLevel(), coverHolder.getBlockPos(), attachedSide,
                         itemStackHandler,
                         this, new MultiLineComponent(text), placeholderUUID));
-    }
-
-    public void setDisplayTargetBufferLine(int line, MutableComponent component) {
-        createDisplayTargetBuffer.set(line, component);
     }
 
     @Override
@@ -353,8 +343,6 @@ public class ComputerMonitorCover extends CoverBehavior
         ticksSincePlaced++;
         if (coverHolder.getOffsetTimer() % updateInterval == 0) {
             try {
-                if (GTPM.MODS.CREATE.isLoaded())
-                    GTCreateIntegration.TemporaryRedstoneLinkTransmitter.destroyAll();
                 setRedstoneSignalOutput(0);
                 text = getRenderedText();
             } catch (RuntimeException e) {

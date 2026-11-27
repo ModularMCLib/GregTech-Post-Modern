@@ -1,6 +1,6 @@
 package com.modularmc.gtpm.api.gui.texture;
 
-import com.modularmc.registrate.util.RegistrateDistExecutor;
+import com.modularmc.gtpm.GTPM;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -80,7 +80,7 @@ public class ResourceTexture extends TransformTexture {
 
     public static ResourceTexture fromSpirit(ResourceLocation texture) {
         ResourceTexture result = new ResourceTexture(texture);
-        RegistrateDistExecutor.unsafeRunWhenOn(Dist.CLIENT,
+        GTPM.runOnClient(
                 () -> () -> ClientTextureLoader.loadSpirit(result, texture));
         return result;
     }

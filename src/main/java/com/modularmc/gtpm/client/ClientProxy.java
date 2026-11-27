@@ -32,7 +32,6 @@ import com.modularmc.gtpm.client.renderer.machine.impl.BoilerMultiPartRender;
 import com.modularmc.gtpm.client.util.ModelEventHelper;
 import com.modularmc.gtpm.common.CommonEventListener;
 import com.modularmc.gtpm.common.data.GTEntityTypes;
-import com.modularmc.gtpm.common.data.GTFluids;
 import com.modularmc.gtpm.common.data.GTMaterialBlocks;
 import com.modularmc.gtpm.common.data.GTParticleTypes;
 import com.modularmc.gtpm.common.data.models.GTModels;
@@ -55,22 +54,15 @@ import com.modularmc.gtpm.utils.input.SyncedKeyMapping;
 import com.lowdragmc.lowdraglib2.gui.holder.ModularUIContainerScreen;
 
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.alchemy.PotionContents;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.*;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.fluids.FluidStack;
-
-import org.jetbrains.annotations.NotNull;
 
 public class ClientProxy {
 
@@ -174,27 +166,6 @@ public class ClientProxy {
                 LampItemRendererHelper.registerModelBakeListener(lampItem);
             }
         }
-
-        event.registerFluidType(new IClientFluidTypeExtensions() {
-
-            private static final ResourceLocation TEXTURE = GTPM.id("block/fluids/fluid.potion");
-
-            @Override
-            public @NotNull ResourceLocation getStillTexture() {
-                return TEXTURE;
-            }
-
-            @Override
-            public @NotNull ResourceLocation getFlowingTexture() {
-                return TEXTURE;
-            }
-
-            @Override
-            public int getTintColor(@NotNull FluidStack stack) {
-                return stack.getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY)
-                        .getColor() | 0xff000000;
-            }
-        }, GTFluids.POTION.getType());
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)

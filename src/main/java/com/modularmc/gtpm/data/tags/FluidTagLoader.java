@@ -9,8 +9,8 @@ import net.minecraft.world.level.material.Fluid;
 
 public class FluidTagLoader {
 
-    public static void init(RegistrateTagsProvider.IntrinsicImpl<Fluid> provider) {
-        provider.addTag(CustomTags.LIGHTER_FLUIDS).add(GTMaterials.Butane.getFluid(), GTMaterials.Propane.getFluid());
-        provider.addTag(CustomTags.HPCA_COOLANTS).add(GTMaterials.PCBCoolant.getFluid());
+    public static void init(RegistrateTagsProvider.IntrinsicTags<Fluid> provider) {
+        provider.tag(CustomTags.LIGHTER_FLUIDS).add(GTMaterials.Butane.getFluid(), GTMaterials.Propane.getFluid());
+        provider.tag(CustomTags.HPCA_COOLANTS).add(GTMaterials.PCBCoolant.getFluid());
     }
 }
