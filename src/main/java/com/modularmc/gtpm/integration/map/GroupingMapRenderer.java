@@ -9,6 +9,11 @@ import com.modularmc.gtpm.integration.map.ftbchunks.FTBChunksRenderer;
 import com.modularmc.gtpm.integration.map.journeymap.JourneymapRenderer;
 import com.modularmc.gtpm.integration.map.xaeros.XaerosRenderer;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
@@ -21,6 +26,18 @@ import java.util.Map;
 /**
  * A map renderer that groups together multiple map mods' renderers for supporting multiple simultaneous mods.
  */
+@TransVariants(keyPrefix = "gtpm.button",
+               value = {
+                       @Variant(id = "ore_veins",
+                                source = "Show GT Ore Veins",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "显示GT矿脉")),
+                       @Variant(id = "bedrock_fluids",
+                                source = "Show Bedrock Fluid Veins",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "显示基岩流体矿脉")),
+                       @Variant(id = "show_depleted",
+                                source = "Show Depleted Veins",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "显示枯竭的矿脉")),
+               })
 public class GroupingMapRenderer extends GenericMapRenderer {
 
     @Getter

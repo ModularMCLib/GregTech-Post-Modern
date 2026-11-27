@@ -3,6 +3,10 @@ package com.modularmc.gtpm.integration.jade.provider;
 import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.blockentity.IPaintable;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -13,6 +17,9 @@ import snownee.jade.api.IServerDataProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 
+@Trans(key = "gtpm.top.stained",
+       source = "Colored: %s",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "颜色：%s"))
 public class StainedColorProvider implements IBlockComponentProvider, IServerDataProvider<BlockAccessor> {
 
     @Override

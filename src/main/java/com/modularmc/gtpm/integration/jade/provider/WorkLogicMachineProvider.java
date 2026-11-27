@@ -7,6 +7,11 @@ import com.modularmc.gtpm.api.machine.trait.WorkLogic;
 import com.modularmc.gtpm.common.machine.multiblock.electric.research.ResearchStationMachine;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -26,6 +31,18 @@ import snownee.jade.api.config.IPluginConfig;
 import snownee.jade.api.ui.BoxStyle;
 import snownee.jade.api.ui.IElementHelper;
 
+@TransVariants(keyPrefix = "gtpm.jade",
+               value = {
+                       @Variant(id = "progress_computation",
+                                source = "%s / %s CWU",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s / %s CWU")),
+                       @Variant(id = "progress_sec",
+                                source = "%s / %s s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s / %s s")),
+                       @Variant(id = "progress_tick",
+                                source = "%s / %s t",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s / %s t")),
+               })
 public class WorkLogicMachineProvider extends CapabilityBlockProvider<IWorkLogicMachine> {
 
     private static final String ACTIVE = "Active";

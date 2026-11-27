@@ -7,6 +7,11 @@ import com.modularmc.gtpm.api.item.tool.GTToolType;
 import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.core.mixins.MapColorAccessor;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.gui.screens.Screen;
@@ -55,6 +60,42 @@ import java.util.function.Function;
 import static com.modularmc.gtpm.api.data.chemical.material.properties.PropertyKey.HAZARD;
 import static com.modularmc.gtpm.utils.FormattingUtil.DECIMAL_FORMAT_SIC_2F;
 
+@TransVariants(keyPrefix = "gtpm",
+               value = {
+                       @Variant(id = "jade.days",
+                                source = "%s days",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s天")),
+                       @Variant(id = "jade.hours",
+                                source = "%s hours",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s小时")),
+                       @Variant(id = "jade.minutes",
+                                source = "%s minutes",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s分钟")),
+                       @Variant(id = "jade.seconds",
+                                source = "%s seconds",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s秒")),
+                       @Variant(id = "jade.years",
+                                source = "%s years",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s年")),
+                       @Variant(id = "top.maintenance.crowbar",
+                                source = "That doesn't belong there",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "这东西不属于这儿")),
+                       @Variant(id = "top.maintenance.hard_hammer",
+                                source = "Plating is dented",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "外壳有些凹痕")),
+                       @Variant(id = "top.maintenance.screwdriver",
+                                source = "Screws are loose",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "螺丝没拧紧")),
+                       @Variant(id = "top.maintenance.soft_mallet",
+                                source = "Something is stuck",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "有什么东西卡住了")),
+                       @Variant(id = "top.maintenance.wire_cutter",
+                                source = "Wires burned out",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "有几根线烧焦了")),
+                       @Variant(id = "top.maintenance.wrench",
+                                source = "Pipe is loose",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "管道松动了")),
+               })
 public class GTUtil {
 
     public static final Direction[] DIRECTIONS = Direction.values();

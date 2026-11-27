@@ -10,6 +10,11 @@ import com.modularmc.gtpm.integration.map.cache.WorldCache;
 import com.modularmc.gtpm.integration.map.cache.fluid.FluidCache;
 import com.modularmc.gtpm.integration.map.layer.builtin.OreRenderLayer;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.HolderLookup;
@@ -21,6 +26,13 @@ import net.minecraft.world.level.Level;
 
 import java.util.Collection;
 
+@TransVariants(keyPrefix = "message.gtpm.new_veins",
+               value = {
+                       @Variant(id = "name", source = "Prospected %s!",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "勘探到%s！")),
+                       @Variant(id = "amount", source = "Prospected %d new veins!",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "勘探到%d条新矿脉！")),
+               })
 public class GTClientCache extends WorldCache implements IClientCache {
 
     public static final GTClientCache instance = new GTClientCache();

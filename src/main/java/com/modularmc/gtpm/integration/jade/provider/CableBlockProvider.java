@@ -6,6 +6,11 @@ import com.modularmc.gtpm.common.block.CableBlock;
 import com.modularmc.gtpm.common.blockentity.CableBlockEntity;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -20,6 +25,18 @@ import snownee.jade.api.config.IPluginConfig;
 
 import static com.modularmc.gtpm.utils.FormattingUtil.DECIMAL_FORMAT_1F;
 
+@TransVariants(keyPrefix = "gtpm.top",
+               value = {
+                       @Variant(id = "cable_amperage",
+                                source = "Amperage: ",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "电流：")),
+                       @Variant(id = "cable_overloaded",
+                                source = "§4OVERHEATING: %s%%§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§4过热：%s%%§r")),
+                       @Variant(id = "cable_voltage",
+                                source = "Voltage: ",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "电压：")),
+               })
 public class CableBlockProvider implements IBlockComponentProvider, IServerDataProvider<BlockAccessor> {
 
     @Override

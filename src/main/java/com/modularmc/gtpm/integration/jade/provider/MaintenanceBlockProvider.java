@@ -7,6 +7,11 @@ import com.modularmc.gtpm.api.machine.feature.multiblock.IMaintenanceMachine;
 import com.modularmc.gtpm.api.machine.multiblock.MultiblockControllerMachine;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -23,6 +28,15 @@ import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 import snownee.jade.api.ui.IElementHelper;
 
+@TransVariants(keyPrefix = "gtpm.top",
+               value = {
+                       @Variant(id = "maintenance_broken",
+                                source = "Needs Maintenance",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "需要维护")),
+                       @Variant(id = "maintenance_fixed",
+                                source = "Maintenance Fine",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "无需维护")),
+               })
 public class MaintenanceBlockProvider extends CapabilityBlockProvider<IMaintenanceMachine> {
 
     public MaintenanceBlockProvider() {

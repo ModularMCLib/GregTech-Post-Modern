@@ -10,8 +10,6 @@ public class RecipeLogicLang {
     }
 
     private static void initGenericLang(RegistrateLangProvider provider) {
-        provider.add("gtpm.recipe_logic.setup_fail", "Fail to setup recipe: ");
-        provider.add("gtpm.recipe_logic.recipe_waiting", "Recipe Waiting: ");
 
         provider.add("gtpm.recipe_logic.insufficient_fuel", "Insufficient Fuel");
         provider.add("gtpm.recipe_logic.insufficient_in", "Insufficient Inputs");

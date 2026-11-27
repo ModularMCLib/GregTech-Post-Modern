@@ -4,6 +4,11 @@ import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.client.util.TooltipHelper;
 import com.modularmc.gtpm.integration.ae2.machine.MEPatternBufferProxyPartMachine;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -14,6 +19,16 @@ import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 
+@TransVariants(keyPrefix = "gtpm.top",
+               value = {
+                       @Variant(id = "buffer_bound_pos",
+                                source = "Bound To - X: %s, Y: %s, Z: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "已绑定至 - X：%s；Y：%s；Z：%s")),
+                       @Variant(id = "buffer_not_bound",
+                                source = "Buffer Not Currently Bound",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "尚未绑定总成")),
+               })
 public class MEPatternBufferProxyProvider extends MachineInfoProvider<MEPatternBufferProxyPartMachine, CompoundTag> {
 
     public MEPatternBufferProxyProvider() {

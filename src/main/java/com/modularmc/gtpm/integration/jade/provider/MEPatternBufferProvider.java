@@ -6,6 +6,10 @@ import com.modularmc.gtpm.integration.ae2.machine.MEPatternBufferPartMachine;
 import com.modularmc.gtpm.integration.jade.GTElementHelper;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.HolderLookup;
@@ -24,6 +28,9 @@ import snownee.jade.api.config.IPluginConfig;
 import snownee.jade.api.fluid.JadeFluidObject;
 import snownee.jade.api.ui.IElementHelper;
 
+@Trans(key = "gtpm.top.proxies_bound",
+       source = "Buffer Proxies Bound: %s",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "样板总成镜像绑定数量：%s"))
 public class MEPatternBufferProvider extends MachineInfoProvider<MEPatternBufferPartMachine, CompoundTag> {
 
     public MEPatternBufferProvider() {

@@ -4,6 +4,11 @@ import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.GTValues;
 import com.modularmc.gtpm.common.machine.electric.TransformerMachine;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -14,6 +19,21 @@ import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 
+@TransVariants(keyPrefix = "gtpm.top",
+               value = {
+                       @Variant(id = "transform_down",
+                                source = "§aStep Down§r %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§a降压§r %s")),
+                       @Variant(id = "transform_input",
+                                source = "§6Input:§r %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§6输入：§r%s")),
+                       @Variant(id = "transform_output",
+                                source = "§9Output:§r %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§9输出：§r%s")),
+                       @Variant(id = "transform_up",
+                                source = "§cStep Up§r %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§c升压§r %s")),
+               })
 public class TransformerBlockProvider extends MachineInfoProvider<TransformerMachine, CompoundTag> {
 
     public TransformerBlockProvider() {

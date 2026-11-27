@@ -4,6 +4,11 @@ import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.machine.steam.SteamBoilerMachine;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -15,6 +20,18 @@ import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 
+@TransVariants(keyPrefix = "gtpm.machine.boiler.info",
+               value = {
+                       @Variant(id = "cooling.down",
+                                source = "§9Cooling§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§9冷却中§r")),
+                       @Variant(id = "heating.up",
+                                source = "§cHeating§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§c加热中§r")),
+                       @Variant(id = "production.data",
+                                source = "§aProducing %s§a mB/t",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§a产出速率：%s§a mB/t")),
+               })
 public class SteamBoilerBlockProvider extends MachineInfoProvider<SteamBoilerMachine, CompoundTag> {
 
     public SteamBoilerBlockProvider() {

@@ -2,6 +2,12 @@ package com.modularmc.gtpm.integration.map.journeymap;
 
 import com.modularmc.gtpm.GTPM;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import journeymap.api.v2.client.IClientAPI;
 import journeymap.api.v2.common.option.BooleanOption;
 import journeymap.api.v2.common.option.OptionCategory;
@@ -9,6 +15,21 @@ import journeymap.api.v2.common.option.OptionCategory;
 import java.util.HashMap;
 import java.util.Map;
 
+@Trans(key = "gtpm.journeymap.options.layers",
+       source = "Prospection layers",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "勘探层"))
+@TransVariants(keyPrefix = "gtpm.journeymap.options.layers",
+               value = {
+                       @Variant(id = "bedrock_fluids",
+                                source = "Show Bedrock Fluid Veins",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "显示基岩流体矿脉")),
+                       @Variant(id = "hide_depleted",
+                                source = "Hide Depleted Veins",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "隐藏枯竭的矿脉")),
+                       @Variant(id = "ore_veins",
+                                source = "Show Ore Veins",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "显示矿脉")),
+               })
 public class JourneymapOptions {
 
     private final Map<String, BooleanOption> layerOptions = new HashMap<>();

@@ -11,6 +11,11 @@ import com.modularmc.gtpm.common.machine.multiblock.steam.SteamParallelMultibloc
 import com.modularmc.gtpm.utils.FormattingUtil;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -28,6 +33,32 @@ import snownee.jade.api.config.IPluginConfig;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+@TransVariants(keyPrefix = "gtpm",
+               value = {
+                       @Variant(id = "jade.amperage_use", source = "%s A",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s A")),
+                       @Variant(id = "jade.at",
+                                source = " @ ",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = " @ ")),
+                       @Variant(id = "jade.fluid_use",
+                                source = "%s mB/t",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s mB/t")),
+                       @Variant(id = "recipe_logic.recipe_waiting",
+                                source = "Recipe Waiting: ",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "配方等待中：")),
+                       @Variant(id = "recipe_logic.setup_fail",
+                                source = "Fail to setup recipe: ",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "配方设置失败：")),
+                       @Variant(id = "top.energy_consumption",
+                                source = "Using",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "耗能")),
+                       @Variant(id = "top.energy_production",
+                                source = "Producing",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "产能")),
+                       @Variant(id = "universal.padded_parentheses",
+                                source = " (%s) ",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = " (%s) ")),
+               })
 @ParametersAreNonnullByDefault
 public class RecipeLogicProvider extends MachineTraitProvider<RecipeLogic, CompoundTag> {
 

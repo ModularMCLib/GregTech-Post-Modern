@@ -13,6 +13,11 @@ import com.modularmc.gtpm.api.recipe.ingredient.IntProviderIngredient;
 import com.modularmc.gtpm.integration.jade.GTElementHelper;
 import com.modularmc.gtpm.utils.codec.CodecUtils;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -42,6 +47,15 @@ import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+@TransVariants(keyPrefix = "gtpm",
+               value = {
+                       @Variant(id = "gui.content.times_item",
+                                source = "x %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "x %s")),
+                       @Variant(id = "top.recipe_output",
+                                source = "Recipe Outputs:",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "配方输出：")),
+               })
 @ParametersAreNonnullByDefault
 public class RecipeOutputProvider extends MachineTraitProvider<RecipeLogic, CompoundTag> {
 

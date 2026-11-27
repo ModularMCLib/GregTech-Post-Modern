@@ -7,6 +7,10 @@ import com.modularmc.gtpm.api.machine.multiblock.MultiblockControllerMachine;
 import com.modularmc.gtpm.common.machine.multiblock.part.ParallelHatchPartMachine;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -17,6 +21,9 @@ import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 
+@Trans(key = "gtpm.multiblock.parallel.exact",
+       source = "- %dx from Parallels",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "- %dx 来自并行"))
 public class ParallelProvider extends MachineInfoProvider<MetaMachine, CompoundTag> {
 
     public ParallelProvider() {

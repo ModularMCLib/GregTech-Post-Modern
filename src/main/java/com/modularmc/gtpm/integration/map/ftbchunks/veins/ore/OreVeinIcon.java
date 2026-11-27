@@ -9,6 +9,11 @@ import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.integration.map.ftbchunks.FTBChunksOptions;
 import com.modularmc.gtpm.integration.map.layer.builtin.OreRenderLayer;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -35,6 +40,15 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+@TransVariants(keyPrefix = "button.gtpm",
+               value = {
+                       @Variant(id = "mark_as_depleted.name",
+                                source = "Mark as Depleted",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "标记为枯竭")),
+                       @Variant(id = "toggle_waypoint.name",
+                                source = "Toggle Waypoint",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "切换路径点")),
+               })
 public class OreVeinIcon implements MapIcon {
 
     protected final GeneratedVeinMetadata veinMetadata;

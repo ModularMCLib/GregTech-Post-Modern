@@ -874,7 +874,6 @@ public class LangHandler {
         provider.add("gtpm.universal.kiloliters", "%s B");
         provider.add("gtpm.universal.parentheses", "(%s)");
         provider.add("gtpm.universal.spaced_parentheses", "( %s )");
-        provider.add("gtpm.universal.padded_parentheses", " (%s) ");
         provider.add("gtpm.universal.padded_spaced_parentheses", " ( %s ) ");
         provider.add("gtpm.universal.tooltip.voltage_in", "§aVoltage IN: §f%d EU/t (%s§f)");
         provider.add("gtpm.universal.tooltip.max_voltage_in", "§aMax Voltage IN: §f%d (%s§f)");
@@ -1129,7 +1128,6 @@ public class LangHandler {
         provider.add("gtpm.multiblock.universal.distinct.info",
                 "If enabled, each Item Input Bus will be treated as fully distinct from each other for recipe lookup. Useful for things like Programmed Circuits, Extruder Shapes, etc.");
         provider.add("gtpm.multiblock.parallel", "Performing up to %d Recipes in Parallel");
-        provider.add("gtpm.multiblock.parallel.exact", "- %dx from Parallels");
         provider.add("gtpm.multiblock.multiple_recipemaps.header", "Machine Mode:");
         provider.add("gtpm.multiblock.multiple_recipemaps.tooltip",
                 "Screwdriver the controller to change which machine mode to use.");
@@ -1239,32 +1237,6 @@ public class LangHandler {
         provider.add("gtpm.multiblock.check_structure", "Check structure");
         provider.add("gtpm.multiblock.check_structure.recheck",
                 "Shift-click to recheck the structure");
-        provider.add("gtpm.structure.issue.at_least", "At least %s, found %s");
-        provider.add("gtpm.structure.issue.at_most", "At most %s");
-        provider.add("gtpm.structure.issue.condition", "Requirement not met");
-        provider.add("gtpm.structure.issue.expected", "Expected: %s");
-        provider.add("gtpm.structure.issue.found", "Found: %s");
-        provider.add("gtpm.structure.issue.mismatch", "Wrong block");
-        provider.add("gtpm.structure.issue.mixed", "Mixed %s");
-        provider.add("gtpm.structure.issue.more", "%s (%s kinds)");
-        provider.add("gtpm.structure.issue.position", "(%s, %s, %s)");
-        provider.add("gtpm.structure.issue.shared", "Part used by another multiblock");
-        provider.add("gtpm.structure.issue.forbidden", "Forbidden block inside");
-        provider.add("gtpm.structure.issue.size", "Invalid size");
-        provider.add("gtpm.structure.issue.size.combination", "Size combination not allowed");
-        provider.add("gtpm.structure.issue.size.range", "%s: %s~%s allowed, measured %s");
-        provider.add("gtpm.structure.issue.size.unmeasured", "%s: no boundary within %s blocks");
-        provider.add("gtpm.structure.issue.too_few", "Not enough %s");
-        provider.add("gtpm.structure.issue.too_few_layer", "Not enough %s in a layer");
-        provider.add("gtpm.structure.issue.too_many", "Too many %s");
-        provider.add("gtpm.structure.issue.too_many_layer", "Too many %s in a layer");
-        provider.add("gtpm.structure.issue.unchecked", "Waiting for structure check");
-        provider.add("gtpm.structure.issue.unloaded", "Chunk not loaded");
-        provider.add("gtpm.structure.issue.variants", "%s (%s variants)");
-        provider.add("gtpm.structure.issue.matching", "matching blocks");
-        provider.add("gtpm.structure.issue.orientation", "Block facing does not match the structure");
-        provider.add("gtpm.structure.issue.coils", "Heating coils");
-        provider.add("gtpm.structure.issue.filters", "Filters");
         provider.add("gtpm.multiblock.autobuild.terminal.open_failed", "Could not open the terminal interface.");
         provider.add("gtpm.multiblock.autobuild.terminal.out_of_range", "The bound controller is out of reach.");
         provider.add("gtpm.multiblock.autobuild.terminal.result", "%s · P:%s R:%s");
@@ -1329,35 +1301,9 @@ public class LangHandler {
         provider.add("gtpm.debug.resource_rebuild.done", "Gradle resource rebuild done in %s");
         provider.add("gtpm.debug.resource_rebuild.start",
                 "Invoking gradle resource rebuild (./gradlew :processResources)");
-        provider.add("config.jade.plugin_gtpm.controllable_provider", "[GTPM] Controllable");
-        provider.add("config.jade.plugin_gtpm.workable_provider", "[GTPM] Workable");
-        provider.add("config.jade.plugin_gtpm.battery_info", "[GTPM] Battery info");
-        provider.add("config.jade.plugin_gtpm.electric_container_provider", "[GTPM] Electric Container");
-        provider.add("config.jade.plugin_gtpm.recipe_logic_provider", "[GTPM] Recipe Logic");
-        provider.add("config.jade.plugin_gtpm.hazard_cleaner_provider", "[GTPM] Hazard Cleaner");
-        provider.add("config.jade.plugin_gtpm.recipe_output_info", "[GTPM] Recipe Output Info");
-        provider.add("config.jade.plugin_gtpm.auto_output_info", "[GTPM] Auto Output Info");
-        provider.add("config.jade.plugin_gtpm.cable_info", "[GTPM] Cable Info");
-        provider.add("config.jade.plugin_gtpm.exhaust_vent_info", "[GTPM] Exhaust Vent Info");
-        provider.add("config.jade.plugin_gtpm.steam_boiler_info", "[GTPM] Steam Boiler Info");
-        provider.add("config.jade.plugin_gtpm.machine_mode", "[GTPM] Machine Mode");
-        provider.add("config.jade.plugin_gtpm.maintenance_info", "[GTPM] Maintenance Info");
-        provider.add("config.jade.plugin_gtpm.multiblock_structure", "[GTPM] MultiBlock Structure");
-        provider.add("config.jade.plugin_gtpm.parallel_info", "[GTPM] Parallel Info");
-        provider.add("config.jade.plugin_gtpm.primitive_pump", "[GTPM] Primitive Pump Info");
-        provider.add("config.jade.plugin_gtpm.data_bank", "[GTPM] Data Bank Info");
-        provider.add("config.jade.plugin_gtpm.transformer", "[GTPM] Transformer Info");
-        provider.add("config.jade.plugin_gtpm.stained_color", "[GTPM] Stained Block Info");
-        provider.add("config.jade.plugin_gtpm.me_pattern_buffer", "[GTPM] Pattern Buffer Info");
-        provider.add("config.jade.plugin_gtpm.me_pattern_buffer_proxy", "[GTPM] Pattern Buffer Proxy Info");
-        provider.add("config.jade.plugin_gtpm.energy_converter_provider", "[GTPM] Energy Converter Mode");
-        provider.add("config.jade.plugin_gtpm.ldp_endpoint", "[GTPM] Long Distance Pipeline Endpoint Info");
 
         // gui
-        provider.add("gtpm.button.ore_veins", "Show GT Ore Veins");
-        provider.add("gtpm.button.bedrock_fluids", "Show Bedrock Fluid Veins");
         provider.add("gtpm.button.hide_depleted", "Hide Depleted Veins");
-        provider.add("gtpm.button.show_depleted", "Show Depleted Veins");
         provider.add("gtpm.recipe_type.show_recipes", "Show Recipes");
 
         provider.add("gtpm.gui.cover_setting.title", "Cover Settings");
@@ -1427,7 +1373,6 @@ public class LangHandler {
         provider.add("gtpm.gui.content.count_range", "%s-%sx");
         provider.add("gtpm.gui.content.fluid_range", "%s-%smB");
         provider.add("gtpm.gui.content.range", "%s-%s");
-        provider.add("gtpm.gui.content.times_item", "x %s");
 
         provider.add("gtpm.chance_logic.or", "OR");
         provider.add("gtpm.chance_logic.and", "AND");

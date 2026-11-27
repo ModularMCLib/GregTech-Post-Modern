@@ -10,6 +10,11 @@ import com.modularmc.gtpm.api.transfer.item.CustomItemStackHandler;
 import com.modularmc.gtpm.common.machine.electric.BatteryBufferMachine;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -24,6 +29,18 @@ import snownee.jade.api.ui.IElementHelper;
 import static com.modularmc.gtpm.utils.GTUtil.formatLongNumber;
 import static com.modularmc.gtpm.utils.GTUtil.getStringRemainTime;
 
+@TransVariants(keyPrefix = "gtpm.jade",
+               value = {
+                       @Variant(id = "changes_eu_sec",
+                                source = "%s EU/s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%sEU/s")),
+                       @Variant(id = "remaining_charge_time",
+                                source = "Until charged: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "预计充满时间：%s")),
+                       @Variant(id = "remaining_discharge_time",
+                                source = "Until empty: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "预计耗空时间：%s")),
+               })
 public class BatteryStorageInfoProvider extends MachineInfoProvider<MetaMachine, CompoundTag> {
 
     public BatteryStorageInfoProvider() {

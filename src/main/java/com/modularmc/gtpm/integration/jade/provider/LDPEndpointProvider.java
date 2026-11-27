@@ -4,6 +4,11 @@ import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.common.machine.storage.LongDistanceEndpointMachine;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -14,6 +19,21 @@ import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 
+@TransVariants(keyPrefix = "gtpm.top.ldp_endpoint",
+               value = {
+                       @Variant(id = "io_type",
+                                source = "IO Type: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "IO类型：%s")),
+                       @Variant(id = "is_formed",
+                                source = "§aPipeline Formed§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§a管路已成型§r")),
+                       @Variant(id = "not_formed",
+                                source = "§cPipeline Incomplete§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§c管路未连接§r")),
+                       @Variant(id = "output_direction",
+                                source = "Output Direction: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "输出方向：%s")),
+               })
 public class LDPEndpointProvider extends MachineInfoProvider<LongDistanceEndpointMachine, CompoundTag> {
 
     public LDPEndpointProvider() {

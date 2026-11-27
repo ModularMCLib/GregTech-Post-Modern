@@ -11,6 +11,11 @@ import com.modularmc.gtpm.integration.map.GenericMapRenderer;
 import com.modularmc.gtpm.integration.map.layer.MapRenderLayer;
 import com.modularmc.gtpm.integration.xei.widgets.GTOreVeinWidget;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -21,6 +26,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+@TransVariants(keyPrefix = "gtpm.minimap.ore_vein",
+               value = {
+                       @Variant(id = "depleted",
+                                source = "Depleted",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "已枯竭")),
+               })
 public class OreRenderLayer extends MapRenderLayer {
 
     public OreRenderLayer(String key, GenericMapRenderer renderer) {

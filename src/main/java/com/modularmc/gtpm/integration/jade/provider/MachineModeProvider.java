@@ -5,6 +5,10 @@ import com.modularmc.gtpm.api.machine.MetaMachine;
 import com.modularmc.gtpm.api.machine.feature.IRecipeLogicMachine;
 import com.modularmc.gtpm.api.recipe.GTRecipeType;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -19,6 +23,9 @@ import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 
+@Trans(key = "gtpm.top.machine_mode",
+       source = "Machine Mode: ",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "机器模式："))
 public class MachineModeProvider extends MachineInfoProvider<MetaMachine, CompoundTag> {
 
     public MachineModeProvider() {

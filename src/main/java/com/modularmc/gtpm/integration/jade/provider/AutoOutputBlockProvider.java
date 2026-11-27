@@ -3,6 +3,11 @@ package com.modularmc.gtpm.integration.jade.provider;
 import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.common.machine.trait.AutoOutputTrait;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -20,6 +25,21 @@ import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 import snownee.jade.api.ui.IElementHelper;
 
+@TransVariants(keyPrefix = "gtpm.top",
+               value = {
+                       @Variant(id = "allow_output_input",
+                                source = "Allow Input",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "允许输入")),
+                       @Variant(id = "auto_output",
+                                source = "Auto Output",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "自动输出")),
+                       @Variant(id = "fluid_auto_output",
+                                source = "Fluid Output: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "流体输出：%s")),
+                       @Variant(id = "item_auto_output",
+                                source = "Item Output: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "物品输出：%s")),
+               })
 public class AutoOutputBlockProvider extends MachineTraitProvider<AutoOutputTrait, CompoundTag> {
 
     public AutoOutputBlockProvider() {

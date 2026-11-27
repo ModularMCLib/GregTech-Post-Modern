@@ -3,6 +3,11 @@ package com.modularmc.gtpm.integration.jade.provider;
 import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.common.machine.trait.ExhaustVentMachineTrait;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -18,6 +23,15 @@ import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 import snownee.jade.api.ui.IElementHelper;
 
+@TransVariants(keyPrefix = "gtpm.top",
+               value = {
+                       @Variant(id = "exhaust_vent_blocked",
+                                source = "Blocked",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "受阻")),
+                       @Variant(id = "exhaust_vent_direction",
+                                source = "Exhaust Vent: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "排气口：%s")),
+               })
 public class ExhaustVentBlockProvider extends MachineTraitProvider<ExhaustVentMachineTrait, CompoundTag> {
 
     public ExhaustVentBlockProvider() {

@@ -5,6 +5,10 @@ import com.modularmc.gtpm.api.capability.GTCapabilityHelper;
 import com.modularmc.gtpm.api.capability.IEnergyInfoProvider;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -25,6 +29,9 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 
+@Trans(key = "gtpm.jade.energy_stored",
+       source = "%d / %d EU",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%d / %d EU"))
 public class ElectricContainerBlockProvider extends CapabilityBlockProvider<IEnergyInfoProvider> {
 
     public ElectricContainerBlockProvider() {
