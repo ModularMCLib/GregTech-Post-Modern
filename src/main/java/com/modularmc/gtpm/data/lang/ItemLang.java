@@ -110,11 +110,6 @@ public class ItemLang {
         provider.add("item.gtpm.luv_battery_hull.tooltip", "§7An empty §dLuV §7Battery Hull");
         provider.add("item.gtpm.zpm_battery_hull.tooltip", "§7An empty §fZPM §7Battery Hull");
         provider.add("item.gtpm.uv_battery_hull.tooltip", "§7An empty §3UV §7Battery Hull");
-        provider.add("item.gtpm.battery.charge_time", "§aHolds %s %s of Power (%s)");
-        provider.add("item.gtpm.battery.charge_detailed", "%s/%s EU§7 - Tier %s §7(%s/%s %s remaining§7)");
-        provider.add("item.gtpm.battery.charge_unit.second", "seconds");
-        provider.add("item.gtpm.battery.charge_unit.minute", "minutes");
-        provider.add("item.gtpm.battery.charge_unit.hour", "hours");
         provider.add("item.gtpm.ulv_tantalum_battery.tooltip", "§7Reusable Battery");
         provider.add("item.gtpm.lv_cadmium_battery.tooltip", "§7Reusable Battery");
         provider.add("item.gtpm.lv_lithium_battery.tooltip", "§7Reusable Battery");
@@ -148,7 +143,6 @@ public class ItemLang {
         provider.add("item.gtpm.circuit.integrated.gui", "§7Programmed Circuit Configuration");
         // multilineLang(provider, "item.gtpm.circuit.integrated.jei_description", "JEI is only showing recipes for the
         // given configuration.\n\nYou can select a configuration in the Programmed Circuit configuration tab.");
-        provider.add("item.glass_lens", "Glass Lens (White)"); // todo move to material overrides
         provider.add("item.gtpm.silicon_boule.tooltip", "§7Raw Circuit");
         provider.add("item.gtpm.phosphorus_boule.tooltip", "§7Raw Circuit");
         provider.add("item.gtpm.naquadah_boule.tooltip", "§7Raw Circuit");
@@ -285,10 +279,6 @@ public class ItemLang {
         provider.add("item.gtpm.gravi_star.tooltip", "§7Ultimate Nether Star");
         multilineLang(provider, "item.gtpm.item_filter.tooltip",
                 "§7Filters §fItem§7 I/O as §fCover§7.\nCan be used as a §fConveyor Module§7 and §fRobotic Arm§7 upgrade.");
-        multilineLang(provider, "item.gtpm.item_tag_filter.tooltip",
-                "§7Filters §fItem§7 I/O with §fItem Tags§7 as §fCover§7.\nCan be used as a §fConveyor Module§7 and §fRobotic Arm§7 upgrade.");
-        multilineLang(provider, "item.gtpm.tag_filter.tooltip",
-                "§7Filters §fItem§7 I/O with §fTag§7 as §fCover§7.\nCan be used as a §fConveyor Module§7 and §fRobotic Arm§7 upgrade.");
         multilineLang(provider, "item.gtpm.fluid_filter.tooltip",
                 "§7Filters §fFluid§7 I/O as §fCover§7.\nCan be used as an §fElectric Pump§7 and §fFluid Regulator§7 upgrade.");
         multilineLang(provider, "item.gtpm.fluid_tag_filter.tooltip",

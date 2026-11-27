@@ -11,6 +11,11 @@ import com.modularmc.gtpm.client.renderer.item.ToolChargeBarRenderer;
 import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -37,6 +42,24 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 
+@TransVariants(keyPrefix = "metaitem",
+               value = {
+                       @Variant(id = "electric.discharge_mode.disabled",
+                                source = "§eDischarge Mode Disabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§e释能模式已禁用")),
+                       @Variant(id = "electric.discharge_mode.enabled",
+                                source = "§eDischarge Mode Enabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§e释能模式已启用")),
+                       @Variant(id = "generic.electric_item.stored",
+                                source = "%d/%d EU (%s)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%d/%d EU（%s）")),
+                       @Variant(id = "electric.discharge_mode.tooltip",
+                                source = "Use while sneaking to toggle discharge mode",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "潜行右击以开关释能模式")),
+                       @Variant(id = "generic.electric_item.tooltip",
+                                source = "%d/%d EU - Tier %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%d/%d EU - %s电压")),
+               })
 public class ElectricStats implements IInteractionItem, ISubItemHandler, IAddInformation, IItemLifeCycle,
                            IComponentCapability, IItemDecoratorComponent {
 
@@ -267,4 +290,23 @@ public class ElectricStats implements IInteractionItem, ISubItemHandler, IAddInf
         }
         return false;
     }
+
+    @TransVariants(keyPrefix = "item.gtpm.battery",
+                   value = {
+                           @Variant(id = "charge_detailed",
+                                    source = "%s/%s EU§7 - Tier %s §7(%s/%s %s remaining§7)",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                                text = "%s/%sEU-%s级§7（剩余供能时长：%s/%s%s§7）")),
+                           @Variant(id = "charge_time",
+                                    source = "§aHolds %s %s of Power (%s)",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                                text = "§a最大供能时长：%s%s（%s）")),
+                           @Variant(id = "charge_unit.second", source = "seconds",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "秒")),
+                           @Variant(id = "charge_unit.minute", source = "minutes",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "分")),
+                           @Variant(id = "charge_unit.hour", source = "hours",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "时")),
+                   })
+    private static final class BatteryTranslations {}
 }

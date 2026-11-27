@@ -37,6 +37,11 @@ import com.modularmc.gtpm.utils.TagUtil;
 import com.modularmc.gtpm.utils.memoization.GTMemoizer;
 
 import com.modularmc.registrate.builders.ItemBuilder;
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
 import com.modularmc.registrate.providers.core.ProviderType;
 import com.modularmc.registrate.util.entry.ItemEntry;
 import com.modularmc.registrate.util.nullness.NonNullBiConsumer;
@@ -1467,6 +1472,9 @@ public class GTItems {
             .properties(p -> p.component(GTDataComponents.DATA_ITEM, new DataItem(true, 256)))
             .register();
 
+    @Trans(key = "item.glass_lens",
+           source = "Glass Lens (White)",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "玻璃透镜（白色）"))
     public static final Map<MarkerMaterial, ItemEntry<Item>> GLASS_LENSES = new HashMap<>();
 
     static {
@@ -1801,6 +1809,25 @@ public class GTItems {
             .onRegister(materialInfo(new ItemMaterialInfo(new MaterialStack(GTMaterials.Zinc, GTValues.M * 2),
                     new MaterialStack(GTMaterials.Steel, GTValues.M))))
             .register();
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "item_tag_filter.tooltip.0",
+                                    source = "§7Filters §fItem§7 I/O with §fItem Tags§7 as §fCover§7.",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                                text = "§7作§f覆盖板§7时以§f物品标签§7过滤§f物品§7的输入/输出。")),
+                           @Variant(id = "item_tag_filter.tooltip.1",
+                                    source = "Can be used as a §fConveyor Module§7 and §fRobotic Arm§7 upgrade.",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                                text = "亦可为§f传送带§7和§f机械臂§7提供此功能。")),
+                           @Variant(id = "tag_filter.tooltip.0",
+                                    source = "§7Filters §fItem§7 I/O with §fTag§7 as §fCover§7.",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                                text = "作§f覆盖板§7时以§f标签§7过滤§f物品§7的输入/输出。")),
+                           @Variant(id = "tag_filter.tooltip.1",
+                                    source = "Can be used as a §fConveyor Module§7 and §fRobotic Arm§7 upgrade.",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                                text = "亦可为§f传送带§7和§f机械臂§7提供此功能。")),
+                   })
     public static ItemEntry<ComponentItem> TAG_FILTER = REGISTRATE
             .item("item_tag_filter", ComponentItem::new)
             .lang("Item Tag Filter")

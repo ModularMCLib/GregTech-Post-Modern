@@ -75,11 +75,6 @@ public class LangHandler {
         provider.add("gtpm.tooltip.tool_fluid_hold_shift",
                 "§7Hold SHIFT to show Fluid Containment and Tool Info");
         provider.add("metaitem.generic.fluid_container.tooltip", "%d/%dL %s");
-        provider.add("metaitem.generic.electric_item.tooltip", "%d/%d EU - Tier %s");
-        provider.add("metaitem.generic.electric_item.stored", "%d/%d EU (%s)");
-        provider.add("metaitem.electric.discharge_mode.enabled", "§eDischarge Mode Enabled");
-        provider.add("metaitem.electric.discharge_mode.disabled", "§eDischarge Mode Disabled");
-        provider.add("metaitem.electric.discharge_mode.tooltip", "Use while sneaking to toggle discharge mode");
         provider.add("metaitem.int_circuit.configuration", "Configuration: %d");
 
         provider.add("metaitem.machine_configuration.mode", "§aConfiguration Mode:§r %s");
