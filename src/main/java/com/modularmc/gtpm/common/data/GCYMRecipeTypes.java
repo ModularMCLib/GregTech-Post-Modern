@@ -7,6 +7,11 @@ import com.modularmc.gtpm.api.recipe.GTRecipeType;
 import com.modularmc.gtpm.api.recipe.RecipeData;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.utils.LocalizationUtils;
 
 import net.minecraft.client.resources.language.I18n;
@@ -15,12 +20,24 @@ import static com.modularmc.gtpm.api.gui.texture.ProgressTexture.FillDirection.L
 import static com.modularmc.gtpm.common.data.GTRecipeTypes.MULTIBLOCK;
 import static com.modularmc.gtpm.common.data.GTRecipeTypes.register;
 
+@TransVariants(keyPrefix = "gtpm.recipe",
+               value = {
+                       @Variant(id = "coil.tier",
+                                source = "Coil: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "线圈：%s")),
+                       @Variant(id = "temperature",
+                                source = "Temp: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "温度：%s")),
+               })
 public class GCYMRecipeTypes {
 
     //////////////////////////////////////
     // ******* Multiblock *******//
     //////////////////////////////////////
     public final static GTRecipeType ALLOY_BLAST_RECIPES = register("alloy_blast_smelter", MULTIBLOCK)
+            .localization(text -> text
+                    .source("Alloy Blast Smelter")
+                    .translation(MinecraftLocale.ZH_CN, "合金冶炼炉"))
             .setMaxIOSize(9, 0, 3, 1)
             .setEUIO(IO.IN)
             .setProgressBar(

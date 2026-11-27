@@ -16,6 +16,8 @@ import com.modularmc.gtpm.common.recipe.condition.ResearchCondition;
 import com.modularmc.gtpm.data.recipe.builder.GTRecipeBuilder;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
+import com.modularmc.registrate.localization.LocalizationDeclaration;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 
 import net.minecraft.core.RegistryAccess;
@@ -56,6 +58,8 @@ public class GTRecipeType implements RecipeType<GTRecipeDefinition> {
     @Getter
     public final ResourceLocation registryName;
     public final String group;
+    @Getter(onMethod_ = { @ApiStatus.Internal })
+    private @Nullable LocalizationDeclaration localization;
     public final Object2IntSortedMap<RecipeCapability<?>> maxInputs = new Object2IntAVLTreeMap<>(
             RecipeCapability.COMPARATOR);
     public final Object2IntSortedMap<RecipeCapability<?>> maxOutputs = new Object2IntAVLTreeMap<>(
@@ -131,6 +135,14 @@ public class GTRecipeType implements RecipeType<GTRecipeDefinition> {
             map.put(proxyRecipe, new ArrayList<>());
         }
         this.proxyRecipes = map;
+    }
+
+    /** Declares the recipe browser name during recipe type registration. */
+    public GTRecipeType localization(Consumer<LocalizationDeclaration.Builder> configure) {
+        var text = new LocalizationDeclaration.Builder();
+        configure.accept(text);
+        localization = text.build();
+        return this;
     }
 
     public GTRecipeType setMaxIOSize(int maxInputs, int maxOutputs, int maxFluidInputs, int maxFluidOutputs) {
