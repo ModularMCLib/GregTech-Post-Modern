@@ -1,0 +1,14 @@
+{
+    "values": [
+        "#c:batteries/ulv",
+        "#c:batteries/lv",
+        "#c:batteries/mv",
+        "#c:batteries/hv",
+        "#c:batteries/ev",
+        "#c:batteries/iv",
+        "#c:batteries/luv",
+        "#c:batteries/zpm",
+        "#c:batteries/uv",
+        "#c:batteries/uhv"
+    ]
+}

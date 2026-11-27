@@ -3,8 +3,13 @@ package com.modularmc.gtpm.api.fluids.store;
 import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.data.chemical.material.Material;
 import com.modularmc.gtpm.api.fluids.FluidBuilder;
+import com.modularmc.gtpm.api.fluids.GTFluid;
 import com.modularmc.gtpm.api.registry.registrate.GTRegistrate;
+import com.modularmc.gtpm.api.registry.registrate.provider.GTLanguageProvider;
 
+import com.modularmc.registrate.providers.core.ProviderType;
+
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.level.material.Fluid;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -71,6 +76,23 @@ public class MaterialFluidStorage implements FluidStorage {
         // for the material.
         if (toRegister.isEmpty() && map.isEmpty()) {
             enqueueRegistration(FluidStorageKeys.LIQUID, new FluidBuilder());
+        }
+
+        if (GTPM.isDataGen() && GTPM.MOD_ID.equals(material.getModid())) {
+            for (FluidEntry entry : map.values()) {
+                // An existing fluid may still be waiting for its own registry callback.
+                registrate.addDataGeneratorFirst(ProviderType.LANG, provider -> {
+                    Fluid fluid = entry.getFluid().get();
+                    var name = FluidStorageKeys.getGenericNameLocalization();
+                    if (fluid instanceof GTFluid) {
+                        var description = (TranslatableContents) fluid.getFluidType().getDescription().getContents();
+                        name = FluidStorageKeys.getNameLocalization(description.getKey());
+                    }
+                    var id = fluid.builtInRegistryHolder().key().location();
+                    GTLanguageProvider.addLocalization(provider, registrate,
+                            "tag.fluid.c." + id.getPath().replace('/', '.'), material.formatLocalization(name));
+                });
+            }
         }
 
         toRegister.entrySet().stream()

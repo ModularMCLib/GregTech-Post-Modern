@@ -5362,7 +5362,7 @@
 	"block.gtpm.hp_steam_miner": "Паровой шахтер высокого давления",
 	"cover.tag_filter.info.11": "Это соответствует всей золотой пыли или всем микросхемам, кроме LV вотьтажа.",
 	"gtpm.journeymap.options.layers.bedrock_fluids": "Показать бедроковые залежи жидкости",
-	"cover.tag_filter.info.10": "§bНапример: §6*dusts/gold | (gtpm:circuits & !*lv)",
+	"cover.tag_filter.info.10": "§bНапример: §6*dusts/gold | (c:circuits & !*lv)",
 	"fluid.gtpm.potion": "Зелье",
 	"gtpm.forming_press.naming.named": "§oНеназванный предмет",
 	"gtpm.forming_press.naming.press": "§oНеназванный пресс",

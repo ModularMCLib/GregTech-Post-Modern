@@ -97,7 +97,6 @@ import com.modularmc.gtpm.common.machine.owner.MachineOwner;
 import com.modularmc.gtpm.common.machine.storage.QuantumTankMachine;
 import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.data.GregTechDatagen;
-import com.modularmc.gtpm.data.lang.MaterialTagLangGenerator;
 import com.modularmc.gtpm.data.loot.ChestGenHooks;
 import com.modularmc.gtpm.data.pack.GTDynamicDataPack;
 import com.modularmc.gtpm.data.pack.GTDynamicResourcePack;
@@ -109,8 +108,6 @@ import com.modularmc.gtpm.data.recipe.GTIngredientTypes;
 import com.modularmc.gtpm.integration.cctweaked.CCTweakedPlugin;
 import com.modularmc.gtpm.integration.map.WaypointManager;
 import com.modularmc.gtpm.utils.input.SyncedKeyMappings;
-
-import com.modularmc.registrate.providers.core.ProviderType;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -305,9 +302,6 @@ public class CommonProxy {
         // Register all material manager registries, for materials with mod ids.
         GTRegistries.MATERIALS.getUsedNamespaces().forEach(namespace -> {
             GTRegistrate registrate = GTRegistrate.createIgnoringListenerErrors(namespace);
-            registrate.addDataGeneratorFirst(ProviderType.LANG,
-                    provider -> MaterialTagLangGenerator.generate(provider, namespace));
-
             ModList.get().getModContainerById(namespace)
                     .map(ModContainer::getEventBus)
                     .ifPresent(registrate::registerEventListeners);

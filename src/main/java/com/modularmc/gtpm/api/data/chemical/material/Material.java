@@ -181,6 +181,21 @@ public class Material {
         return materialInfo.localization;
     }
 
+    /** Applies a material-name template for each locale that has both a name and a pattern. */
+    @ApiStatus.Internal
+    public LocalizationDeclaration formatLocalization(LocalizationDeclaration template) {
+        var result = new LocalizationDeclaration.Builder()
+                .source(template.source().formatted(getDefaultTranslation()));
+        var name = materialInfo.localization;
+        if (name != null) {
+            template.translations().forEach((locale, pattern) -> {
+                String translation = name.translations().get(locale);
+                if (translation != null) result.translation(locale, pattern.formatted(translation));
+            });
+        }
+        return result.build();
+    }
+
     public String getModid() {
         return materialInfo.resourceLocation.getNamespace();
     }

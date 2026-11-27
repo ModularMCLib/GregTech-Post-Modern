@@ -3,6 +3,8 @@ package com.modularmc.gtpm.api.data.chemical.material;
 import com.modularmc.gtpm.GTPM;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
 
 import net.minecraft.world.item.DyeColor;
 
@@ -33,36 +35,68 @@ public class MarkerMaterials {
          */
         public static final MarkerMaterial Colorless = new MarkerMaterial(GTPM.id("colorless"));
 
+        @Trans(key = "tag.item.c.dyes.white", source = "White Dye",
+               translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "白色染料"))
         public static final MarkerMaterial White = new MarkerMaterial(GTPM.id("white"), text -> text
                 .source("White").translation(MinecraftLocale.ZH_CN, "白色"));
+        @Trans(key = "tag.item.c.dyes.orange", source = "Orange Dye",
+               translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "橙色染料"))
         public static final MarkerMaterial Orange = new MarkerMaterial(GTPM.id("orange"), text -> text
                 .source("Orange").translation(MinecraftLocale.ZH_CN, "橙色"));
+        @Trans(key = "tag.item.c.dyes.magenta", source = "Magenta Dye",
+               translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "品红色染料"))
         public static final MarkerMaterial Magenta = new MarkerMaterial(GTPM.id("magenta"), text -> text
                 .source("Magenta").translation(MinecraftLocale.ZH_CN, "品红色"));
+        @Trans(key = "tag.item.c.dyes.light_blue", source = "Light Blue Dye",
+               translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "淡蓝色染料"))
         public static final MarkerMaterial LightBlue = new MarkerMaterial(GTPM.id("light_blue"), text -> text
                 .source("Light Blue").translation(MinecraftLocale.ZH_CN, "淡蓝色"));
+        @Trans(key = "tag.item.c.dyes.yellow", source = "Yellow Dye",
+               translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "黄色染料"))
         public static final MarkerMaterial Yellow = new MarkerMaterial(GTPM.id("yellow"), text -> text
                 .source("Yellow").translation(MinecraftLocale.ZH_CN, "黄色"));
+        @Trans(key = "tag.item.c.dyes.lime", source = "Lime Dye",
+               translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "黄绿色染料"))
         public static final MarkerMaterial Lime = new MarkerMaterial(GTPM.id("lime"), text -> text
                 .source("Lime").translation(MinecraftLocale.ZH_CN, "黄绿色"));
+        @Trans(key = "tag.item.c.dyes.pink", source = "Pink Dye",
+               translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "粉红色染料"))
         public static final MarkerMaterial Pink = new MarkerMaterial(GTPM.id("pink"), text -> text
                 .source("Pink").translation(MinecraftLocale.ZH_CN, "粉红色"));
+        @Trans(key = "tag.item.c.dyes.gray", source = "Gray Dye",
+               translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "灰色染料"))
         public static final MarkerMaterial Gray = new MarkerMaterial(GTPM.id("gray"), text -> text
                 .source("Gray").translation(MinecraftLocale.ZH_CN, "灰色"));
+        @Trans(key = "tag.item.c.dyes.light_gray", source = "Light Gray Dye",
+               translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "淡灰色染料"))
         public static final MarkerMaterial LightGray = new MarkerMaterial(GTPM.id("light_gray"), text -> text
                 .source("Light Gray").translation(MinecraftLocale.ZH_CN, "淡灰色"));
+        @Trans(key = "tag.item.c.dyes.cyan", source = "Cyan Dye",
+               translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "青色染料"))
         public static final MarkerMaterial Cyan = new MarkerMaterial(GTPM.id("cyan"), text -> text
                 .source("Cyan").translation(MinecraftLocale.ZH_CN, "青色"));
+        @Trans(key = "tag.item.c.dyes.purple", source = "Purple Dye",
+               translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "紫色染料"))
         public static final MarkerMaterial Purple = new MarkerMaterial(GTPM.id("purple"), text -> text
                 .source("Purple").translation(MinecraftLocale.ZH_CN, "紫色"));
+        @Trans(key = "tag.item.c.dyes.blue", source = "Blue Dye",
+               translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "蓝色染料"))
         public static final MarkerMaterial Blue = new MarkerMaterial(GTPM.id("blue"), text -> text
                 .source("Blue").translation(MinecraftLocale.ZH_CN, "蓝色"));
+        @Trans(key = "tag.item.c.dyes.brown", source = "Brown Dye",
+               translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "棕色染料"))
         public static final MarkerMaterial Brown = new MarkerMaterial(GTPM.id("brown"), text -> text
                 .source("Brown").translation(MinecraftLocale.ZH_CN, "棕色"));
+        @Trans(key = "tag.item.c.dyes.green", source = "Green Dye",
+               translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "绿色染料"))
         public static final MarkerMaterial Green = new MarkerMaterial(GTPM.id("green"), text -> text
                 .source("Green").translation(MinecraftLocale.ZH_CN, "绿色"));
+        @Trans(key = "tag.item.c.dyes.red", source = "Red Dye",
+               translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "红色染料"))
         public static final MarkerMaterial Red = new MarkerMaterial(GTPM.id("red"), text -> text
                 .source("Red").translation(MinecraftLocale.ZH_CN, "红色"));
+        @Trans(key = "tag.item.c.dyes.black", source = "Black Dye",
+               translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "黑色染料"))
         public static final MarkerMaterial Black = new MarkerMaterial(GTPM.id("black"), text -> text
                 .source("Black").translation(MinecraftLocale.ZH_CN, "黑色"));
 

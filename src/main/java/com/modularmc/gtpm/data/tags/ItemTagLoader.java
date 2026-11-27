@@ -9,6 +9,9 @@ import com.modularmc.gtpm.common.data.GTMaterialItems;
 import com.modularmc.gtpm.data.recipe.CustomTags;
 import com.modularmc.gtpm.utils.TagUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
 import com.modularmc.registrate.providers.RegistrateItemTagsProvider;
 
 import net.minecraft.data.tags.IntrinsicHolderTagsProvider;
@@ -21,6 +24,9 @@ import static com.modularmc.gtpm.api.data.tag.TagPrefix.*;
 import static com.modularmc.gtpm.common.data.GTMaterials.*;
 
 @SuppressWarnings({ "SameParameterValue", "DataFlowIssue" })
+@Trans(key = "tag.item.c.lenses.white",
+       source = "White Lens",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "白色透镜"))
 public class ItemTagLoader {
 
     public static void init(RegistrateItemTagsProvider provider) {

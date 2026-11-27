@@ -7,6 +7,7 @@ import net.minecraft.Util;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,6 +20,8 @@ public class TagType {
     private final String tagPath;
     @Getter
     private boolean isParentTag = false;
+    @Getter(AccessLevel.PACKAGE)
+    private boolean materialSpecific;
     // this is now memoized because creating tag keys interns them and that's slow
     private BiFunction<TagPrefix, Material, TagKey<Item>> formatter;
     private Predicate<Material> filter;
@@ -34,6 +37,7 @@ public class TagType {
      */
     public static TagType withDefaultFormatter(String tagPath, boolean isVanilla) {
         TagType type = new TagType(tagPath);
+        type.materialSpecific = tagPath.contains("%s");
         type.formatter = Util
                 .memoize((prefix, mat) -> TagUtil.createItemTag(type.tagPath.formatted(mat.getName()), isVanilla));
         return type;
@@ -46,6 +50,7 @@ public class TagType {
      */
     public static TagType withPrefixFormatter(String tagPath) {
         TagType type = new TagType(tagPath);
+        type.materialSpecific = true;
         type.formatter = Util.memoize((prefix, mat) -> TagUtil.createItemTag(
                 type.tagPath.formatted(prefix.getLowerCaseName(), mat.getName())));
         return type;
@@ -72,6 +77,7 @@ public class TagType {
 
     public static TagType withCustomFormatter(String tagPath, BiFunction<TagPrefix, Material, TagKey<Item>> formatter) {
         TagType type = new TagType(tagPath);
+        type.materialSpecific = true;
         type.formatter = Util.memoize(formatter);
         return type;
     }

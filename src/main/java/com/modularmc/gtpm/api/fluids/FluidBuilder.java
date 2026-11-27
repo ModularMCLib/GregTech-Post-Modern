@@ -1,5 +1,6 @@
 package com.modularmc.gtpm.api.fluids;
 
+import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.data.chemical.material.Material;
 import com.modularmc.gtpm.api.data.chemical.material.info.MaterialFlags;
 import com.modularmc.gtpm.api.data.chemical.material.properties.BlastProperty;
@@ -325,7 +326,13 @@ public class FluidBuilder {
             if (fluid.getSource() instanceof GTFluid gtSource) attributes.forEach(gtSource::addAttribute);
             if (fluid.getFlowing() instanceof GTFluid gtFlowing) attributes.forEach(gtFlowing::addAttribute);
         });
-        return builder.register()::getSource;
+        var fluid = builder.register();
+        if (GTPM.isDataGen() && GTPM.MOD_ID.equals(material.getModid())) {
+            String tagKey = "tag.fluid.c." + name.replace('/', '.');
+            registrate.addDefaultLocalization(tagKey,
+                    () -> material.formatLocalization(FluidStorageKeys.getNameLocalization(langKey)));
+        }
+        return fluid::getSource;
     }
 
     private void determineName(Material material, @Nullable FluidStorageKey key) {

@@ -1,23 +1,29 @@
 package com.modularmc.gtpm.api.data.chemical.material;
 
+import com.modularmc.gtpm.api.data.chemical.material.MarkerMaterials.Color;
 import com.modularmc.gtpm.api.data.chemical.material.stack.ItemMaterialInfo;
 import com.modularmc.gtpm.api.data.chemical.material.stack.MaterialEntry;
 import com.modularmc.gtpm.api.data.chemical.material.stack.MaterialStack;
 import com.modularmc.gtpm.api.data.tag.TagPrefix;
 import com.modularmc.gtpm.api.registry.GTRegistries;
 import com.modularmc.gtpm.common.data.GTMaterialItems;
+import com.modularmc.gtpm.common.data.GTMaterials;
 import com.modularmc.gtpm.data.recipe.misc.RecyclingRecipes;
 import com.modularmc.gtpm.data.recipe.misc.StoneMachineRecipes;
 import com.modularmc.gtpm.data.recipe.misc.WoodMachineRecipes;
-import com.modularmc.gtpm.data.tags.TagsHandler;
 import com.modularmc.gtpm.utils.ItemStackHashStrategy;
 import com.modularmc.gtpm.utils.memoization.MemoizedBlockSupplier;
+
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,6 +35,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenCustomHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -36,6 +43,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.function.Supplier;
 
+@Trans(key = "tag.item.c.ingots.clay", source = "Clay Ingot",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "黏土锭"))
 public class ItemMaterialData {
 
     /** Used for custom material data for items that do not fall into the normal "prefix, material" pair */
@@ -115,13 +124,15 @@ public class ItemMaterialData {
 
     private static void registerItemEntry(@NotNull Supplier<? extends ItemLike> supplier,
                                           @NotNull MaterialEntry materialEntry) {
-        MATERIAL_ENTRY_ITEM_MAP.computeIfAbsent(materialEntry, k -> new ArrayList<>())
-                .add(() -> supplier.get().asItem());
+        var items = MATERIAL_ENTRY_ITEM_MAP.computeIfAbsent(materialEntry, k -> new ObjectArrayList<>());
+        boolean first = items.isEmpty();
+        items.add(() -> supplier.get().asItem());
         if (TagPrefix.ORES.containsKey(materialEntry.tagPrefix()) &&
                 !ORES_INVERSE.containsValue(materialEntry.tagPrefix())) {
             ORES_INVERSE.put(TagPrefix.ORES.get(materialEntry.tagPrefix()).stoneType(), materialEntry.tagPrefix());
         }
         if (!materialEntry.isEmpty()) {
+            if (first) materialEntry.tagPrefix().localizeMaterialTags(materialEntry.material());
             for (TagKey<Item> tag : materialEntry.tagPrefix().getAllItemTags(materialEntry.material())) {
                 TAG_MATERIAL_ENTRY.putIfAbsent(tag, materialEntry);
             }
@@ -154,8 +165,26 @@ public class ItemMaterialData {
         ITEM_MATERIAL_ENTRY.clear();
         FLUID_MATERIAL.clear();
 
-        // Load new data
-        TagsHandler.initExtraUnificationEntries();
+        // Restore vanilla unification entries before adding generated material items.
+        registerMaterialEntry(Items.CLAY_BALL, TagPrefix.ingot, GTMaterials.Clay);
+
+        registerMaterialEntry(Items.BLACK_DYE, TagPrefix.dye, Color.Black);
+        registerMaterialEntry(Items.RED_DYE, TagPrefix.dye, Color.Red);
+        registerMaterialEntry(Items.GREEN_DYE, TagPrefix.dye, Color.Green);
+        registerMaterialEntry(Items.BROWN_DYE, TagPrefix.dye, Color.Brown);
+        registerMaterialEntry(Items.BLUE_DYE, TagPrefix.dye, Color.Blue);
+        registerMaterialEntry(Items.PURPLE_DYE, TagPrefix.dye, Color.Purple);
+        registerMaterialEntry(Items.CYAN_DYE, TagPrefix.dye, Color.Cyan);
+        registerMaterialEntry(Items.LIGHT_GRAY_DYE, TagPrefix.dye, Color.LightGray);
+        registerMaterialEntry(Items.GRAY_DYE, TagPrefix.dye, Color.Gray);
+        registerMaterialEntry(Items.PINK_DYE, TagPrefix.dye, Color.Pink);
+        registerMaterialEntry(Items.LIME_DYE, TagPrefix.dye, Color.Lime);
+        registerMaterialEntry(Items.YELLOW_DYE, TagPrefix.dye, Color.Yellow);
+        registerMaterialEntry(Items.LIGHT_BLUE_DYE, TagPrefix.dye, Color.LightBlue);
+        registerMaterialEntry(Items.MAGENTA_DYE, TagPrefix.dye, Color.Magenta);
+        registerMaterialEntry(Items.ORANGE_DYE, TagPrefix.dye, Color.Orange);
+        registerMaterialEntry(Items.WHITE_DYE, TagPrefix.dye, Color.White);
+
         for (TagPrefix prefix : GTRegistries.TAG_PREFIXES) {
             prefix.getIgnored().forEach((mat, items) -> registerMaterialEntries(items, prefix, mat));
         }

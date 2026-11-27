@@ -80,8 +80,6 @@ public class LangHandler {
         provider.add("metaitem.electric.discharge_mode.enabled", "§eDischarge Mode Enabled");
         provider.add("metaitem.electric.discharge_mode.disabled", "§eDischarge Mode Disabled");
         provider.add("metaitem.electric.discharge_mode.tooltip", "Use while sneaking to toggle discharge mode");
-        provider.add("metaitem.dust.tooltip.purify", "Right click a Cauldron to get clean Dust");
-        provider.add("metaitem.crushed.tooltip.purify", "Right click a Cauldron to get Purified Ore");
         provider.add("metaitem.int_circuit.configuration", "Configuration: %d");
 
         provider.add("metaitem.machine_configuration.mode", "§aConfiguration Mode:§r %s");
@@ -372,7 +370,7 @@ public class LangHandler {
                         §6$§r for untagged
                         §bTags come in the form 'namespace:tag/subtype'.
                         The 'c:' namespace is assumed if one isn't provided.
-                        §bExample: §6*dusts/gold | (gtpm:circuits & !*lv)
+                        §bExample: §6*dusts/gold | (c:circuits & !*lv)
                         This matches all gold dusts or all circuits except LV ones""");
         provider.add("cover.tag_filter.test_slot.info",
                 "Insert a item to test if it matches the filter expression");
@@ -978,12 +976,6 @@ public class LangHandler {
         provider.add("gtpm.tool_action.hammer", "§8Use Hard Hammer to muffle Sounds");
         provider.add("gtpm.tool_action.crowbar", "§8Use Crowbar to remove Covers");
         provider.add("gtpm.tool_action.tape", "§8Use Tape to fix Maintenance Problems");
-        provider.add("gtpm.fluid.liquid_generic", "Liquid %s");
-        provider.add("gtpm.fluid.generic", "%s");
-        provider.add("gtpm.fluid.gas_generic", "%s Gas");
-        provider.add("gtpm.fluid.gas_vapor", "%s Vapor");
-        provider.add("gtpm.fluid.plasma", "%s Plasma");
-        provider.add("gtpm.fluid.molten", "Molten %s");
         provider.add("gtpm.fluid.empty", "Empty");
         provider.add("gtpm.fluid.amount", "§9Amount: %d/%d mB");
         provider.add("gtpm.fluid.temperature", "§cTemperature: %s");
