@@ -54,6 +54,12 @@ import com.modularmc.gtpm.common.machine.storage.QuantumTankMachine;
 import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
+import com.modularmc.registrate.localization.LocalizationDeclaration;
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -74,6 +80,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.IntFunction;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
@@ -85,6 +93,101 @@ import static com.modularmc.gtpm.common.data.models.GTMachineModels.*;
 import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 import static com.modularmc.gtpm.utils.FormattingUtil.toEnglishName;
 
+@TransVariants(keyPrefix = "gtpm",
+               value = {
+                       @Variant(id = "fluid_pipe.max_temperature",
+                                source = "§cTemperature Limit: §f%s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§c温度上限：§f%s")),
+                       @Variant(id = "machine.energy_converter.description",
+                                source = "Converts Energy between EU and FE",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "在EU和FE之间转换能量形式。")),
+                       @Variant(id = "machine.energy_converter.tooltip_conversion_eu",
+                                source = "§aEU Conversion: §f%dA %d EU (%s§f) -> %d Native",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§aEU转换：§f%dA %d EU（%s§f）§7 -> %d FE")),
+                       @Variant(id = "machine.energy_converter.tooltip_conversion_native",
+                                source = "§cNative Conversion: §f%d FE -> %dA %d EU (%s§f)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§cFE转换：§f%d FE -> %dA %d EU （%s§f）")),
+                       @Variant(id = "machine.energy_converter.tooltip_tool_usage",
+                                source = "Starts as §fFE Converter§7, use Soft Mallet to change",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "默认§f转换为FE§r，使用软锤切换。")),
+                       @Variant(id = "machine.large_combustion_engine.tooltip.boost_extreme",
+                                source = "Supply §f80 mB/s§7 of Liquid Oxygen to produce up to §f%s EU/t§7 at §f2x§7 fuel consumption.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "提供§f80 mB/s§7的液态氧，并消耗§f双倍§7燃料以产生高达§f%s§7EU/t的功率。")),
+                       @Variant(id = "machine.large_combustion_engine.tooltip.boost_regular",
+                                source = "Supply §f20 mB/s§7 of Oxygen to produce up to §f%s EU/t§7 at §f2x§7 fuel consumption.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "提供§f20 mB/s§7的氧气，并消耗§f双倍§7燃料以产生高达§f%s§7EU/t的功率。")),
+                       @Variant(id = "machine.laser_hatch.both.tooltip",
+                                source = "§cLaser Cables must be in a straight line!§7",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§c激光传导线缆必须直线摆放！§7")),
+                       @Variant(id = "machine.multiblock.tank.tooltip",
+                                source = "Fill and drain through the controller or tank valves.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "通过控制器或储罐阀门进行吞吐。")),
+                       @Variant(id = "machine.quantum_chest.tooltip",
+                                source = "§7Better than Storage Drawers",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7比储物抽屉好")),
+                       @Variant(id = "machine.quantum_tank.tooltip",
+                                source = "§7Compact place to store all your fluids",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7小小身体，大大肚量")),
+                       @Variant(id = "machine.tank_valve.tooltip",
+                                source = "Use to fill and drain multiblock tanks. Auto outputs when facing down.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "用于吞吐多方块储罐中的流体。正面向下时可自动输出。")),
+                       @Variant(id = "machine.transformer.description",
+                                source = "§7Transforms Energy between voltage tiers",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7转换能量的电压等级")),
+                       @Variant(id = "machine.transformer.tooltip_tool_usage",
+                                source = "Starts as §fTransform Down§7, use Screwdriver to change",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "默认§f降压§r，使用螺丝刀切换。")),
+                       @Variant(id = "machine.transformer.tooltip_transform_down",
+                                source = "§aTransform Down: §f%dA %s EU (%s§f) -> %dA %s EU (%s§f)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§a降压：§f%dA %s EU（%s§f）-> %dA %s EU（%s§f）")),
+                       @Variant(id = "machine.transformer.tooltip_transform_up",
+                                source = "§cTransform Up: §f%dA %s EU (%s§f) -> %dA %s EU (%s§f)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§c升压：§f%dA %s EU（%s§f）-> %dA %s EU（%s§f）")),
+                       @Variant(id = "multiblock.large_boiler.explosion_tooltip",
+                                source = "Will explode if provided Fuel with no Water",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "无水时提供燃料将爆炸")),
+                       @Variant(id = "multiblock.large_boiler.heat_time_tooltip",
+                                source = "§7Takes §f%d seconds §7to boiling up",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7需要§f%d秒§7预热")),
+                       @Variant(id = "multiblock.large_boiler.max_temperature",
+                                source = "Max Temperature: %dK, Steam Production: %dmB/t",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "最高温度：%dK，蒸汽产量：%dmB/t")),
+                       @Variant(id = "multiblock.turbine.efficiency_tooltip",
+                                source = "Each Rotor Holder above %s§7 adds §f10%% efficiency and multiplies EU/t by 2§7.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "转子支架等级超过%s§r时，每级§7增加§f10%%效率，并翻倍输出功率§7。")),
+                       @Variant(id = "universal.tooltip.amperage_in_till",
+                                source = "§eAmperage IN up to: §f%dA",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§e输入电流上限：§f%dA")),
+                       @Variant(id = "universal.tooltip.amperage_out_till",
+                                source = "§eAmperage OUT up to: §f%dA",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§e输出电流上限：§f%dA")),
+                       @Variant(id = "universal.tooltip.base_production_eut",
+                                source = "§eBase Production: §f%d EU/t",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§e基础产能功率：§f%d EU/t")),
+                       @Variant(id = "universal.tooltip.item_storage_total",
+                                source = "§6Item Capacity: §f%d items",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§6物品容量：§f%d物品")),
+                       @Variant(id = "universal.tooltip.terrain_resist",
+                                source = "This Machine will not explode when exposed to the Elements",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "该机器不会在暴露于恶劣天气时爆炸")),
+                       @Variant(id = "universal.tooltip.uses_per_hour_lubricant",
+                                source = "Uses §f%d mB/hr §7of §6Lubricant §7while working",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "工作时消耗§f%d mB/hr§7§6润滑油§7")),
+               })
 public class GTMachineUtils {
 
     public static final int[] ALL_TIERS = GTValues.tiersBetween(ULV, GTCEuAPI.isHighTier() ? MAX : UHV);
@@ -115,6 +218,45 @@ public class GTMachineUtils {
     public static final PartAbility[] DUAL_OUTPUT_HATCH_ABILITIES = new PartAbility[] {
             PartAbility.EXPORT_ITEMS, PartAbility.EXPORT_FLUIDS,
     };
+
+    private static String chineseVoltageName(int tier) {
+        String name = switch (tier) {
+            case ULV -> "超低压";
+            case LV -> "低压";
+            case MV -> "中压";
+            case HV -> "高压";
+            case EV -> "超高压";
+            case IV -> "强导压";
+            case LuV -> "剧差压";
+            case ZPM -> "零点压";
+            case UV -> "极限压";
+            case UHV -> "极高压";
+            case UEV -> "极超压";
+            case UIV -> "极巨压";
+            case UXV -> "极顶压";
+            case OpV -> "过载压";
+            case MAX -> "上限压";
+            default -> throw new IllegalArgumentException("Unknown tier: " + tier);
+        };
+        return VCF[tier].replace("§l", "") + name + "§r";
+    }
+
+    public static String tieredChineseName(int tier, String name) {
+        String prefix = switch (tier) {
+            case ULV -> "原始";
+            case LV -> "基础";
+            case MV, HV, EV -> "进阶";
+            case IV, LuV, ZPM -> "精英";
+            case UV -> "终极";
+            case UHV, UEV, UIV, UXV -> "史诗";
+            case OpV -> "传奇";
+            case MAX -> "MAX";
+            default -> throw new IllegalArgumentException("Unknown tier: " + tier);
+        };
+        String color = tier <= LV ? "" : VCF[tier];
+        String suffix = VLVT[tier];
+        return color + prefix + name + (suffix.startsWith("§") ? suffix : " " + suffix);
+    }
 
     public static MachineDefinition[] registerSimpleMachines(String name, GTRecipeType recipeType,
                                                              Int2IntFunction tankScalingFunction,
@@ -156,6 +298,17 @@ public class GTMachineUtils {
                                                              Int2IntFunction tankScalingFunction,
                                                              boolean hasPollutionDebuff,
                                                              int... tiers) {
+        return registerSimpleMachines(registrate, name, recipeType, tankScalingFunction, hasPollutionDebuff,
+                tier -> null, tiers);
+    }
+
+    public static MachineDefinition[] registerSimpleMachines(GTRegistrate registrate,
+                                                             String name,
+                                                             GTRecipeType recipeType,
+                                                             Int2IntFunction tankScalingFunction,
+                                                             boolean hasPollutionDebuff,
+                                                             IntFunction<@Nullable Consumer<LocalizationDeclaration.Builder>> primaryTooltip,
+                                                             int... tiers) {
         return registerTieredMachines(registrate, name,
                 (info, tier) -> new SimpleTieredMachine(info, tier, tankScalingFunction), (tier, builder) -> {
                     if (hasPollutionDebuff) {
@@ -168,7 +321,17 @@ public class GTMachineUtils {
                         builder.recipeModifier(GTRecipeModifiers.OC_NON_PERFECT);
                     }
                     return builder
-                            .langValue("%s %s %s".formatted(VLVH[tier], toEnglishName(name), VLVT[tier]))
+                            .primaryTooltip(primaryTooltip.apply(tier))
+                            .localization(text -> {
+                                text.source("%s %s %s".formatted(VLVH[tier], toEnglishName(name), VLVT[tier]));
+                                var recipeName = recipeType.getLocalization();
+                                if (recipeName != null) {
+                                    String chinese = recipeName.translations().get(MinecraftLocale.ZH_CN);
+                                    if (chinese != null) {
+                                        text.translation(MinecraftLocale.ZH_CN, tieredChineseName(tier, chinese));
+                                    }
+                                }
+                            })
                             .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(GTPM.id(name), recipeType))
                             .rotationState(RotationState.NON_Y_AXIS)
                             .recipeType(recipeType)
@@ -212,13 +375,33 @@ public class GTMachineUtils {
     public static Pair<MachineDefinition, MachineDefinition> registerSteamMachines(GTRegistrate registrate, String name,
                                                                                    BiFunction<BlockEntityCreationInfo, Boolean, MetaMachine> factory,
                                                                                    BiFunction<Boolean, MachineBuilder<MachineDefinition, ?>, MachineDefinition> builder) {
+        String chinese = switch (name) {
+            case "steam_alloy_smelter" -> "蒸汽合金炉";
+            case "steam_compressor" -> "蒸汽压缩机";
+            case "steam_extractor" -> "蒸汽提取机";
+            case "steam_forge_hammer" -> "蒸汽锻造锤";
+            case "steam_furnace" -> "蒸汽熔炉";
+            case "steam_liquid_boiler" -> "蒸汽液体燃料锅炉";
+            case "steam_macerator" -> "蒸汽研磨机";
+            case "steam_miner" -> "蒸汽采矿机";
+            case "steam_rock_crusher" -> "蒸汽碎岩机";
+            case "steam_solar_boiler" -> "蒸汽太阳能锅炉";
+            case "steam_solid_boiler" -> "蒸汽固体燃料锅炉";
+            default -> null;
+        };
         MachineDefinition lowTier = builder.apply(false,
                 registrate.machine("lp_%s".formatted(name), holder -> factory.apply(holder, false))
-                        .langValue("Low Pressure " + FormattingUtil.toEnglishName(name))
+                        .localization(text -> {
+                            text.source("Low Pressure " + FormattingUtil.toEnglishName(name));
+                            if (chinese != null) text.translation(MinecraftLocale.ZH_CN, "低压" + chinese);
+                        })
                         .tier(0));
         MachineDefinition highTier = builder.apply(true,
                 registrate.machine("hp_%s".formatted(name), holder -> factory.apply(holder, true))
-                        .langValue("High Pressure " + FormattingUtil.toEnglishName(name))
+                        .localization(text -> {
+                            text.source("High Pressure " + FormattingUtil.toEnglishName(name));
+                            if (chinese != null) text.translation(MinecraftLocale.ZH_CN, "高压" + chinese);
+                        })
                         .tier(1));
         return Pair.of(lowTier, highTier);
     }
@@ -247,7 +430,19 @@ public class GTMachineUtils {
         return registerTieredMachines(registrate, name,
                 (holder, tier) -> new FluidHatchPartMachine(holder, tier, io, initialCapacity, slots),
                 (tier, builder) -> {
-                    builder.langValue(VNF[tier] + ' ' + displayName)
+                    builder.localization(text -> {
+                        text.source(VNF[tier] + ' ' + displayName);
+                        String chinese = switch (displayName) {
+                            case "Input Hatch" -> "输入仓";
+                            case "Quadruple Input Hatch" -> "四重输入仓";
+                            case "Nonuple Input Hatch" -> "九重输入仓";
+                            case "Output Hatch" -> "输出仓";
+                            case "Quadruple Output Hatch" -> "四重输出仓";
+                            case "Nonuple Output Hatch" -> "九重输出仓";
+                            default -> null;
+                        };
+                        if (chinese != null) text.translation(MinecraftLocale.ZH_CN, VNF[tier] + "§r" + chinese);
+                    })
                             .rotationState(RotationState.ALL)
                             .colorOverlayTieredHullModel(ioOverlay, pipeOverlay, emissiveOverlay)
                             .abilities(abilities)
@@ -287,8 +482,23 @@ public class GTMachineUtils {
                         })
                         .modelProperty(GTMachineModelProperties.IS_TRANSFORM_UP, false)
                         .model(createTransformerModel(baseAmp))
-                        .langValue("%s %sTransformer".formatted(VCF[tier] + VOLTAGE_NAMES[tier] + ChatFormatting.RESET,
-                                langName.isEmpty() ? "" : langName + " "))
+                        .localization(text -> {
+                            text.source(
+                                    "%s %sTransformer".formatted(VCF[tier] + VOLTAGE_NAMES[tier] + ChatFormatting.RESET,
+                                            langName.isEmpty() ? "" : langName + " "));
+                            String type = switch (langName) {
+                                case "" -> "变压器";
+                                case "Hi-Amp (2x)" -> "进阶变压器";
+                                case "Hi-Amp (4x)" -> "高流变压器";
+                                case "Power" -> "高能变压器";
+                                default -> null;
+                            };
+                            if (type != null) {
+                                text.translation(MinecraftLocale.ZH_CN,
+                                        "%s%s（%s§r）".formatted(chineseVoltageName(tier), type,
+                                                VNF[tier].replace("§l", "")));
+                            }
+                        })
                         .tooltips(Component.translatable("gtpm.machine.transformer.description"),
                                 Component.translatable("gtpm.machine.transformer.tooltip_tool_usage"),
                                 Component.translatable("gtpm.machine.transformer.tooltip_transform_down",
@@ -323,7 +533,17 @@ public class GTMachineUtils {
                 (holder, tier) -> new SimpleGeneratorMachine(holder, tier, hazardStrengthPerOperation * tier,
                         tankScalingFunction),
                 (tier, builder) -> builder
-                        .langValue("%s %s Generator %s".formatted(VLVH[tier], toEnglishName(name), VLVT[tier]))
+                        .localization(text -> {
+                            text.source("%s %s Generator %s".formatted(VLVH[tier], toEnglishName(name), VLVT[tier]));
+                            String chinese = switch (name) {
+                                case "combustion" -> "内燃发电机";
+                                case "steam_turbine" -> "蒸汽轮机";
+                                case "gas_turbine" -> "燃气轮机";
+                                default -> null;
+                            };
+                            if (chinese != null)
+                                text.translation(MinecraftLocale.ZH_CN, tieredChineseName(tier, chinese));
+                        })
                         .editableUI(SimpleGeneratorMachine.EDITABLE_UI_CREATOR.apply(GTPM.id(name), recipeType))
                         .rotationState(RotationState.ALL)
                         .recipeType(recipeType)
@@ -365,9 +585,13 @@ public class GTMachineUtils {
                 (tier, builder) -> builder
                         .rotationState(RotationState.ALL)
                         .model(GTMachineModels.createBatteryBufferModel(batterySlotSize))
-                        .langValue("%s %sx Battery Buffer".formatted(
-                                VCF[tier] + VOLTAGE_NAMES[tier] + ChatFormatting.RESET,
-                                batterySlotSize))
+                        .localization(text -> text
+                                .source("%s %sx Battery Buffer".formatted(
+                                        VCF[tier] + VOLTAGE_NAMES[tier] + ChatFormatting.RESET,
+                                        batterySlotSize))
+                                .translation(MinecraftLocale.ZH_CN,
+                                        "%sx%s电池箱（%s§r）".formatted(batterySlotSize, chineseVoltageName(tier),
+                                                VNF[tier])))
                         .tooltips(
                                 Component.translatable("gtpm.universal.tooltip.item_storage_capacity",
                                         batterySlotSize),
@@ -393,9 +617,13 @@ public class GTMachineUtils {
                         .rotationState(RotationState.ALL)
                         .modelProperty(GTMachineModelProperties.CHARGER_STATE, BatteryBufferMachine.State.IDLE)
                         .model(GTMachineModels.createChargerModel())
-                        .langValue("%s %sx Turbo Charger".formatted(
-                                VCF[tier] + VOLTAGE_NAMES[tier] + ChatFormatting.RESET,
-                                itemSlotSize))
+                        .localization(text -> text
+                                .source("%s %sx Turbo Charger".formatted(
+                                        VCF[tier] + VOLTAGE_NAMES[tier] + ChatFormatting.RESET,
+                                        itemSlotSize))
+                                .translation(MinecraftLocale.ZH_CN,
+                                        "%sx%s闪聚充电箱（%s§r）".formatted(itemSlotSize, chineseVoltageName(tier),
+                                                VNF[tier])))
                         .tooltips(Component.translatable("gtpm.universal.tooltip.item_storage_capacity", itemSlotSize),
                                 Component.translatable("gtpm.universal.tooltip.voltage_in_out",
                                         FormattingUtil.formatNumbers(GTValues.V[tier]),
@@ -422,8 +650,11 @@ public class GTMachineUtils {
                 (holder, tier) -> new ConverterMachine(holder, tier, amperage),
                 (tier, builder) -> builder
                         .rotationState(RotationState.ALL)
-                        .langValue("%s %s搂eA搂r Energy Converter".formatted(VCF[tier] + VN[tier] + ChatFormatting.RESET,
-                                amperage))
+                        .localization(text -> text
+                                .source("%s %s§eA§r Energy Converter".formatted(
+                                        VCF[tier] + VN[tier] + ChatFormatting.RESET,
+                                        amperage))
+                                .translation(MinecraftLocale.ZH_CN, "%d§e安§r%s§r能量转换器".formatted(amperage, VNF[tier])))
                         .modelProperty(GTMachineModelProperties.IS_FE_TO_EU, false)
                         .model(GTMachineModels.createConverterModel(amperage))
                         .tooltips(Component.translatable("gtpm.machine.energy_converter.description"),
@@ -455,8 +686,11 @@ public class GTMachineUtils {
         String name = io == IN ? "target" : "source";
         return registerTieredMachines(registrate, amperage + "a_laser_" + name + "_hatch",
                 (holder, tier) -> new LaserHatchPartMachine(holder, io, tier, amperage), (tier, builder) -> builder
-                        .langValue(VNF[tier] + "搂r " + FormattingUtil.formatNumbers(amperage) + "搂eA搂r Laser " +
-                                FormattingUtil.toEnglishName(name) + " Hatch")
+                        .localization(text -> text
+                                .source(VNF[tier] + "§r " + FormattingUtil.formatNumbers(amperage) + "§eA§r Laser " +
+                                        FormattingUtil.toEnglishName(name) + " Hatch")
+                                .translation(MinecraftLocale.ZH_CN, "%d§e安§r%s§r激光%s仓".formatted(amperage, VNF[tier],
+                                        io == IN ? "靶" : "源")))
                         .rotationState(RotationState.ALL)
                         .tooltips(Component.translatable("gtpm.machine.laser_hatch." + name + ".tooltip"),
                                 Component.translatable("gtpm.machine.laser_hatch.both.tooltip"),
@@ -481,17 +715,19 @@ public class GTMachineUtils {
 
     public static MachineDefinition registerCrate(GTRegistrate registrate, Material material, int capacity,
                                                   String lang) {
+        return crate(registrate, material, capacity).langValue(lang).register();
+    }
+
+    public static MachineBuilder<MachineDefinition, ?> crate(GTRegistrate registrate, Material material, int capacity) {
         final boolean wooden = material.hasProperty(PropertyKey.WOOD);
 
         return registrate.machine(material.getName() + "_crate", holder -> new CrateMachine(holder, material, capacity))
-                .langValue(lang)
                 .rotationState(RotationState.NONE)
                 .tooltips(Component.translatable("gtpm.universal.tooltip.item_storage_capacity", capacity))
                 .modelProperty(GTMachineModelProperties.IS_TAPED, false)
                 .model(GTMachineModels.createCrateModel(wooden))
                 .paintingColor(wooden ? 0xFFFFFF : material.getMaterialRGB())
-                .itemColor((s, t) -> wooden ? 0xFFFFFF : material.getMaterialRGB())
-                .register();
+                .itemColor((s, t) -> wooden ? 0xFFFFFF : material.getMaterialRGB());
     }
 
     public static MachineDefinition registerDrum(Material material, int capacity, String lang) {
@@ -500,13 +736,22 @@ public class GTMachineUtils {
 
     public static MachineDefinition registerDrum(GTRegistrate registrate, Material material, int capacity,
                                                  String lang) {
+        return registerDrum(registrate, material, builder -> builder.langValue(lang), capacity);
+    }
+
+    public static MachineDefinition registerDrum(Material material,
+                                                 Consumer<MachineBuilder<MachineDefinition, ?>> configure, int capacity) {
+        return registerDrum(REGISTRATE, material, configure, capacity);
+    }
+
+    private static MachineDefinition registerDrum(GTRegistrate registrate, Material material,
+                                                  Consumer<MachineBuilder<MachineDefinition, ?>> configure, int capacity) {
         boolean wooden = material.hasProperty(PropertyKey.WOOD);
-        var definition = registrate
+        var builder = registrate
                 .machine(material.getName() + "_drum", MachineDefinition::new,
                         MetaMachineBlock::new,
                         (holder, prop) -> DrumMachineItem.create(holder, prop, material),
                         info -> new DrumMachine(info, material, capacity))
-                .langValue(lang)
                 .rotationState(RotationState.NONE)
                 .simpleModel(GTPM.id("block/machine/template/drum/" + (wooden ? "wooden" : "metal") + "_drum"))
                 .tooltipBuilder((stack, list) -> {
@@ -520,8 +765,9 @@ public class GTMachineUtils {
                         Component.translatable("gtpm.universal.tooltip.fluid_storage_capacity",
                                 FormattingUtil.formatNumbers(capacity)))
                 .paintingColor(wooden ? 0xFFFFFF : material.getMaterialRGB())
-                .itemColor((s, i) -> wooden ? 0xFFFFFF : material.getMaterialRGB())
-                .register();
+                .itemColor((s, i) -> wooden ? 0xFFFFFF : material.getMaterialRGB());
+        configure.accept(builder);
+        var definition = builder.register();
         DRUM_CAPACITY.put(definition, capacity);
         return definition;
     }
@@ -539,7 +785,15 @@ public class GTMachineUtils {
                     MachineDefinition::new,
                     MetaMachineBlock::new, QuantumTankMachineItem::new,
                     (holder) -> new QuantumTankMachine(holder, tier, maxAmount))
-                    .langValue(toEnglishName(name) + " " + LVT[tier])
+                    .localization(text -> {
+                        text.source(toEnglishName(name) + " " + LVT[tier]);
+                        String chinese = switch (name) {
+                            case "quantum_tank" -> "量子缸";
+                            case "super_tank" -> "超级缸";
+                            default -> null;
+                        };
+                        if (chinese != null) text.translation(MinecraftLocale.ZH_CN, chinese + " " + LVT[tier]);
+                    })
                     .blockProp(Block.Properties::dynamicShape)
                     .rotationState(RotationState.ALL)
                     .allowExtendedFacing(true)
@@ -566,7 +820,16 @@ public class GTMachineUtils {
         return registerTieredMachines(registrate, name,
                 (holder, tier) -> new QuantumChestMachine(holder, tier,
                         tier == MAX ? Long.MAX_VALUE : 4_000_000 * (long) Math.pow(2, tier - 1)),
-                (tier, builder) -> builder.langValue(toEnglishName(name) + " " + LVT[tier])
+                (tier, builder) -> builder
+                        .localization(text -> {
+                            text.source(toEnglishName(name) + " " + LVT[tier]);
+                            String chinese = switch (name) {
+                                case "quantum_chest" -> "量子箱";
+                                case "super_chest" -> "超级箱";
+                                default -> null;
+                            };
+                            if (chinese != null) text.translation(MinecraftLocale.ZH_CN, chinese + " " + LVT[tier]);
+                        })
                         .blockProp(Block.Properties::dynamicShape)
                         .rotationState(RotationState.ALL)
                         .allowExtendedFacing(true)
@@ -588,6 +851,9 @@ public class GTMachineUtils {
     //////////////////////////////////////
     // multi register helpers
 
+    static final ResourceLocation MULTIBLOCK_TANK_OVERLAY = GTPM.id("block/multiblock/multiblock_tank");
+    static final ResourceLocation TANK_VALVE_OVERLAY = GTPM.id("block/multiblock/tank_valve");
+
     public static MultiblockMachineDefinition registerMultiblockTank(String name, String displayName, int capacity,
                                                                      Supplier<Block> casing,
                                                                      Supplier<MetaMachineBlock> valve,
@@ -602,9 +868,15 @@ public class GTMachineUtils {
                                                                      Supplier<MetaMachineBlock> valve,
                                                                      @Nullable PropertyFluidFilter filter,
                                                                      BiConsumer<MultiblockMachineBuilder<?, ?>, ResourceLocation> rendererSetup) {
-        MultiblockMachineBuilder<?, ?> builder = registrate
+        var builder = multiblockTank(registrate, name, capacity, casing, filter).langValue(displayName);
+        rendererSetup.accept(builder, MULTIBLOCK_TANK_OVERLAY);
+        return builder.register();
+    }
+
+    static MultiblockMachineBuilder<?, ?> multiblockTank(GTRegistrate registrate, String name, int capacity,
+                                                        Supplier<Block> casing, @Nullable PropertyFluidFilter filter) {
+        return registrate
                 .multiblock(name, holder -> new MultiblockTankMachine(holder, capacity, filter))
-                .langValue(displayName)
                 .tooltips(
                         Component.translatable("gtpm.machine.multiblock.tank.tooltip"),
                         Component.translatable("gtpm.universal.tooltip.fluid_storage_capacity", capacity),
@@ -617,8 +889,6 @@ public class GTMachineUtils {
                                 .appendDefinition()
                                 .build())
                 .appearanceBlock(casing);
-        rendererSetup.accept(builder, GTPM.id("block/multiblock/multiblock_tank"));
-        return builder.register();
     }
 
     public static MachineDefinition registerTankValve(String name, String displayName, boolean isMetal,
@@ -629,14 +899,17 @@ public class GTMachineUtils {
     public static MachineDefinition registerTankValve(GTRegistrate registrate, String name, String displayName,
                                                       boolean isMetal,
                                                       BiConsumer<MachineBuilder<?, ?>, ResourceLocation> rendererSetup) {
-        MachineBuilder<MachineDefinition, ?> builder = registrate
+        var builder = tankValve(registrate, name, isMetal).langValue(displayName);
+        rendererSetup.accept(builder, TANK_VALVE_OVERLAY);
+        return builder.register();
+    }
+
+    static MachineBuilder<MachineDefinition, ?> tankValve(GTRegistrate registrate, String name, boolean isMetal) {
+        return registrate
                 .machine(name, holder -> new TankValvePartMachine(holder, isMetal))
-                .langValue(displayName)
                 .tooltips(Component.translatable("gtpm.machine.tank_valve.tooltip"),
                         Component.translatable("gtpm.part_sharing.disabled"))
                 .rotationState(RotationState.ALL);
-        rendererSetup.accept(builder, GTPM.id("block/multiblock/tank_valve"));
-        return builder.register();
     }
 
     public static MultiblockMachineDefinition[] registerTieredMultis(String name,
@@ -676,11 +949,19 @@ public class GTMachineUtils {
                                                                   Supplier<? extends Block> fireBox,
                                                                   ResourceLocation texture, BoilerFireboxType firebox,
                                                                   int maxTemperature, int heatSpeed) {
+        return largeBoiler(registrate, name, casing, fireBox, texture, firebox, maxTemperature, heatSpeed)
+                .langValue("Large %s Boiler".formatted(FormattingUtil.toEnglishName(name)))
+                .register();
+    }
+
+    static MultiblockMachineBuilder<?, ?> largeBoiler(GTRegistrate registrate, String name,
+                                                      Supplier<? extends Block> casing, Supplier<? extends Block> fireBox,
+                                                      ResourceLocation texture, BoilerFireboxType firebox,
+                                                      int maxTemperature, int heatSpeed) {
         // spotless:off
         return registrate
                 .multiblock("%s_large_boiler".formatted(name),
                         holder -> new LargeBoilerMachine(holder, maxTemperature, heatSpeed))
-                .langValue("Large %s Boiler".formatted(FormattingUtil.toEnglishName(name)))
                 .allowExtendedFacing(false)
                 .rotationState(RotationState.NON_Y_AXIS)
                 .recipeType(GTRecipeTypes.LARGE_BOILER_RECIPES)
@@ -705,8 +986,7 @@ public class GTMachineUtils {
                         Component.translatable("gtpm.multiblock.large_boiler.heat_time_tooltip",
                                 maxTemperature / heatSpeed / 20),
                         Component.translatable("gtpm.multiblock.large_boiler.explosion_tooltip")
-                                .withStyle(ChatFormatting.DARK_RED))
-                .register();
+                                .withStyle(ChatFormatting.DARK_RED));
         // spotless:on
     }
 
@@ -726,6 +1006,13 @@ public class GTMachineUtils {
                                                                             Supplier<? extends Block> intake,
                                                                             ResourceLocation casingTexture,
                                                                             ResourceLocation overlayModel) {
+        return largeCombustionEngine(registrate, name, tier, casing, casingTexture, overlayModel).register();
+    }
+
+    static MultiblockMachineBuilder<?, ?> largeCombustionEngine(GTRegistrate registrate, String name, int tier,
+                                                                Supplier<? extends Block> casing,
+                                                                ResourceLocation casingTexture,
+                                                                ResourceLocation overlayModel) {
         return registrate.multiblock(name, holder -> new LargeCombustionEngineMachine(holder, tier))
                 .rotationState(RotationState.ALL)
                 .recipeType(GTRecipeTypes.COMBUSTION_GENERATOR_FUELS)
@@ -748,8 +1035,7 @@ public class GTMachineUtils {
                                 Component.translatable("gtpm.machine.large_combustion_engine.tooltip.boost_extreme",
                                         V[tier] * 4) :
                                 Component.translatable("gtpm.machine.large_combustion_engine.tooltip.boost_regular",
-                                        V[tier] * 3))
-                .register();
+                                        V[tier] * 3));
     }
 
     public static MultiblockMachineDefinition registerLargeTurbine(String name, int tier, GTRecipeType recipeType,

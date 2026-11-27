@@ -35,6 +35,7 @@ import com.modularmc.registrate.builders.BlockBuilder;
 import com.modularmc.registrate.builders.ItemBuilder;
 import com.modularmc.registrate.localization.DeclarationDefaults;
 import com.modularmc.registrate.localization.LocalizationDeclaration;
+import com.modularmc.registrate.localization.TranslationKey;
 import com.modularmc.registrate.providers.DataGenContext;
 import com.modularmc.registrate.providers.core.ProviderType;
 import com.modularmc.registrate.util.entry.BlockEntry;
@@ -141,6 +142,7 @@ public class MachineBuilder<DEFINITION extends MachineDefinition, TYPE extends M
     @Getter // getter for KJS
     private @Nullable String langValue = null;
     private @Nullable LocalizationDeclaration localization;
+    private @Nullable Consumer<LocalizationDeclaration.Builder> primaryTooltip;
 
     public MachineBuilder(GTRegistrate registrate, String name,
                           Function<ResourceLocation, DEFINITION> definition,
@@ -309,6 +311,12 @@ public class MachineBuilder<DEFINITION extends MachineDefinition, TYPE extends M
         configure.accept(text);
         this.localization = text.build();
         this.langValue = localization.source();
+        return getThis();
+    }
+
+    /** Declares the first tooltip line for this machine. A null declaration leaves the default lookup in place. */
+    public TYPE primaryTooltip(@Nullable Consumer<LocalizationDeclaration.Builder> configure) {
+        this.primaryTooltip = configure;
         return getThis();
     }
 
@@ -626,6 +634,11 @@ public class MachineBuilder<DEFINITION extends MachineDefinition, TYPE extends M
     public DEFINITION register() {
         this.registrate.object(name);
         var definition = createDefinition();
+        if (primaryTooltip != null) {
+            var key = definition.getId();
+            registrate.addLocalization(new TranslationKey(key.getNamespace(),
+                    key.getNamespace() + ".machine." + key.getPath() + ".tooltip"), primaryTooltip);
+        }
 
         definition.setRotationState(rotationState);
         setupStateDefinition(definition);

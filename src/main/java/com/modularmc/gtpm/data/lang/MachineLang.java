@@ -1,9 +1,47 @@
 package com.modularmc.gtpm.data.lang;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
 import com.modularmc.registrate.providers.RegistrateLangProvider;
 
 import static com.modularmc.gtpm.data.lang.LangHandler.*;
 
+@TransVariants(keyPrefix = "gtpm.machine",
+               value = {
+                       @Variant(id = "locked_safe.malfunctioning",
+                                source = "§cMalfunctioning!",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§c故障中！")),
+                       @Variant(id = "locked_safe.requirements",
+                                source = "§7Replacements required:",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7需要更换以下部件：")),
+                       @Variant(id = "workbench.tooltip.0",
+                                source = "Better than Forestry",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "比林业的好")),
+                       @Variant(id = "workbench.tooltip.1",
+                                source = "Has Item Storage, Tool Storage, pulls from adjacent Inventories, and saves Recipes.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "具有物品存储、工具存储、从相邻的存储容器中读取物品和保存配方功能。")),
+                       @Variant(id = "workbench.tab.workbench",
+                                source = "Crafting",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "合成")),
+                       @Variant(id = "workbench.tab.item_list",
+                                source = "Storage",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "存储空间")),
+                       @Variant(id = "workbench.tab.crafting",
+                                source = "Crafting",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "合成")),
+                       @Variant(id = "workbench.tab.container",
+                                source = "Container",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "存储")),
+                       @Variant(id = "workbench.storage_note.0",
+                                source = "(Available items from connected",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "（相邻的物品容器中")),
+                       @Variant(id = "workbench.storage_note.1",
+                                source = "inventories usable for crafting)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可参与合成的物品）")),
+               })
 public class MachineLang {
 
     protected static void init(RegistrateLangProvider provider) {
@@ -52,254 +90,6 @@ public class MachineLang {
         provider.add("gtpm.machine.block_breaker.speed_bonus", "§eSpeed Bonus: §f%d%%");
 
 
-        ///////////////////////////////////////////////////
-        // Standard Machines //
-        // Ones done with more unique tooltips are first /
-        ///////////////////////////////////////////////////
-
-        provider.add("gtpm.machine.lv_macerator.tooltip", "§7Shredding your Ores without Byproducts");
-        provider.add("gtpm.machine.mv_macerator.tooltip", "§7Shredding your Ores without Byproducts");
-        provider.add("gtpm.machine.hv_macerator.tooltip", "§7Shredding your Ores with Byproducts");
-        provider.add("gtpm.machine.ev_macerator.tooltip", "§7Shredding your Ores with Byproducts");
-        provider.add("gtpm.machine.iv_macerator.tooltip", "§7Blend-O-Matic 9001");
-        provider.add("gtpm.machine.luv_macerator.tooltip", "§7Blend-O-Matic 9002");
-        provider.add("gtpm.machine.zpm_macerator.tooltip", "§7Blend-O-Matic 9003");
-        provider.add("gtpm.machine.uv_macerator.tooltip", "§7Shape Eliminator");
-
-        provider.add("gtpm.machine.lv_centrifuge.tooltip", "§7Separating Molecules");
-        provider.add("gtpm.machine.mv_centrifuge.tooltip", "§7Separating Molecules");
-        provider.add("gtpm.machine.hv_centrifuge.tooltip", "§7Separating Molecules");
-        provider.add("gtpm.machine.ev_centrifuge.tooltip", "§7Molecular Separator");
-        provider.add("gtpm.machine.iv_centrifuge.tooltip", "§7Molecular Cyclone");
-        provider.add("gtpm.machine.luv_centrifuge.tooltip", "§7Molecular Cyclone");
-        provider.add("gtpm.machine.zpm_centrifuge.tooltip", "§7Molecular Cyclone");
-        provider.add("gtpm.machine.uv_centrifuge.tooltip", "§7Molecular Tornado");
-
-        provider.add("gtpm.machine.lv_laser_engraver.tooltip", "§7Don't look directly at the Laser");
-        provider.add("gtpm.machine.mv_laser_engraver.tooltip", "§7Don't look directly at the Laser");
-        provider.add("gtpm.machine.hv_laser_engraver.tooltip", "§7Don't look directly at the Laser");
-        provider.add("gtpm.machine.ev_laser_engraver.tooltip", "§7Don't look directly at the Laser");
-        provider.add("gtpm.machine.iv_laser_engraver.tooltip", "§7With the Power of 2.04 MW");
-        provider.add("gtpm.machine.luv_laser_engraver.tooltip", "§7With the Power of 8.16 MW");
-        provider.add("gtpm.machine.zpm_laser_engraver.tooltip", "§7With the Power of 32.64 MW");
-        provider.add("gtpm.machine.uv_laser_engraver.tooltip", "§7Exact Photon Cannon");
-
-        provider.add("gtpm.machine.lv_thermal_centrifuge.tooltip", "§7Separating Ores more precisely");
-        provider.add("gtpm.machine.mv_thermal_centrifuge.tooltip", "§7Separating Ores more precisely");
-        provider.add("gtpm.machine.hv_thermal_centrifuge.tooltip", "§7Separating Ores more precisely");
-        provider.add("gtpm.machine.ev_thermal_centrifuge.tooltip", "§7Separating Ores more precisely");
-        provider.add("gtpm.machine.iv_thermal_centrifuge.tooltip", "§7Blaze Sweatshop T-6350");
-        provider.add("gtpm.machine.luv_thermal_centrifuge.tooltip", "§7Blaze Sweatshop T-6351");
-        provider.add("gtpm.machine.zpm_thermal_centrifuge.tooltip", "§7Blaze Sweatshop T-6352");
-        provider.add("gtpm.machine.uv_thermal_centrifuge.tooltip", "§7Fire Cyclone");
-
-        provider.add("gtpm.machine.lv_electrolyzer.tooltip", "§7Electrolyzing Molecules");
-        provider.add("gtpm.machine.mv_electrolyzer.tooltip", "§7Electrolyzing Molecules");
-        provider.add("gtpm.machine.hv_electrolyzer.tooltip", "§7Electrolyzing Molecules");
-        provider.add("gtpm.machine.ev_electrolyzer.tooltip", "§7Electrolyzing Molecules");
-        provider.add("gtpm.machine.iv_electrolyzer.tooltip", "§7Molecular Disintegrator E-4906");
-        provider.add("gtpm.machine.luv_electrolyzer.tooltip", "§7Molecular Disintegrator E-4907");
-        provider.add("gtpm.machine.zpm_electrolyzer.tooltip", "§7Molecular Disintegrator E-4908");
-        provider.add("gtpm.machine.uv_electrolyzer.tooltip", "§7Atomic Ionizer");
-
-        provider.add("gtpm.machine.lv_lathe.tooltip", "§7Produces Rods more efficiently");
-        provider.add("gtpm.machine.mv_lathe.tooltip", "§7Produces Rods more efficiently");
-        provider.add("gtpm.machine.hv_lathe.tooltip", "§7Produces Rods more efficiently");
-        provider.add("gtpm.machine.ev_lathe.tooltip", "§7Produces Rods more efficiently");
-        provider.add("gtpm.machine.iv_lathe.tooltip", "§7Turn-O-Matic L-5906");
-        provider.add("gtpm.machine.luv_lathe.tooltip", "§7Turn-O-Matic L-5907");
-        provider.add("gtpm.machine.zpm_lathe.tooltip", "§7Turn-O-Matic L-5908");
-        provider.add("gtpm.machine.uv_lathe.tooltip", "§7Rotation Grinder");
-
-        provider.add("gtpm.machine.lv_ore_washer.tooltip", "§7Getting more Byproducts from your Ores");
-        provider.add("gtpm.machine.mv_ore_washer.tooltip", "§7Getting more Byproducts from your Ores");
-        provider.add("gtpm.machine.hv_ore_washer.tooltip", "§7Getting more Byproducts from your Ores");
-        provider.add("gtpm.machine.ev_ore_washer.tooltip", "§7Getting more Byproducts from your Ores");
-        provider.add("gtpm.machine.iv_ore_washer.tooltip", "§7Repurposed Laundry-Washer I-360");
-        provider.add("gtpm.machine.luv_ore_washer.tooltip", "§7Repurposed Laundry-Washer I-361");
-        provider.add("gtpm.machine.zpm_ore_washer.tooltip", "§7Repurposed Laundry-Washer I-362");
-        provider.add("gtpm.machine.uv_ore_washer.tooltip", "§7Miniature Car Wash");
-
-        standardTooltips(provider, "gtpm.machine",
-                "electric_furnace",
-                "Not like using a Commodore 64",
-                "Electron Excitement Processor",
-                "Atom Stimulator");
-
-        standardTooltips(provider, "gtpm.machine",
-                "alloy_smelter",
-                "HighTech combination Smelter",
-                "Alloy Integrator",
-                "Metal Amalgamator");
-
-        standardTooltips(provider, "gtpm.machine",
-                "arc_furnace",
-                "Who needs a Blast Furnace?",
-                "Discharge Heater",
-                "Short Circuit Heater");
-
-        standardTooltips(provider, "gtpm.machine",
-                "assembler",
-                "Avengers, Assemble!",
-                "NOT a Crafting Table",
-                "Assembly Constructor");
-
-        standardTooltips(provider, "gtpm.machine",
-                "autoclave",
-                "Crystallizing your Dusts",
-                "Pressure Cooker",
-                "Encumbrance Unit");
-
-        standardTooltips(provider, "gtpm.machine",
-                "bender",
-                "Boo, he's bad! We want BENDER!!!",
-                "Shape Distorter",
-                "Matter Deformer");
-
-        standardTooltips(provider, "gtpm.machine",
-                "brewery",
-                "Compact and efficient potion brewing",
-                "Brewing your Drinks",
-                "Brew Rusher");
-
-        standardTooltips(provider, "gtpm.machine",
-                "canner",
-                "Puts things into and out of Containers",
-                "Can Operator",
-                "Can Actuator");
-
-        standardTooltips(provider, "gtpm.machine",
-                "chemical_bath",
-                "Bathing Ores in Chemicals to separate them",
-                "Chemical Soaker",
-                "Chemical Dunktron");
-
-        standardTooltips(provider, "gtpm.machine",
-                "chemical_reactor",
-                "Letting Chemicals react with each other",
-                "Chemical Performer",
-                "Reaction Catalyzer");
-
-        standardTooltips(provider, "gtpm.machine",
-                "compressor",
-                "Compress-O-Matic C77",
-                "Singularity Condenser",
-                "Matter Constrictor");
-
-        standardTooltips(provider, "gtpm.machine",
-                "cutter",
-                "Slice'N Dice",
-                "Matter Cleaver",
-                "Object Divider");
-
-        standardTooltips(provider, "gtpm.machine",
-                "distillery",
-                "Extracting most relevant Parts of Fluids",
-                "Condensation Separator",
-                "Fraction Splitter");
-
-        standardTooltips(provider, "gtpm.machine",
-                "electromagnetic_separator",
-                "Separating the magnetic Ores from the rest",
-                "EM Categorizer",
-                "EMF Dispeller");
-
-        standardTooltips(provider, "gtpm.machine",
-                "extractor",
-                "Dejuicer-Device of Doom - D123",
-                "Vacuum Extractinator",
-                "Liquefying Sucker");
-
-        standardTooltips(provider, "gtpm.machine",
-                "extruder",
-                "Universal Machine for Metal Working",
-                "Material Displacer",
-                "Shape Driver");
-
-        standardTooltips(provider, "gtpm.machine",
-                "fermenter",
-                "Fermenting Fluids",
-                "Fermentation Hastener",
-                "Respiration Controller");
-
-        standardTooltips(provider, "gtpm.machine",
-                "fluid_heater",
-                "Heating up your Fluids",
-                "Heat Infuser",
-                "Thermal Imbuer");
-
-        standardTooltips(provider, "gtpm.machine",
-                "fluid_solidifier",
-                "Cools Fluids down to form Solids",
-                "Not an Ice Machine",
-                "Fluid Petrificator");
-
-        standardTooltips(provider, "gtpm.machine",
-                "forge_hammer",
-                "Stop, Hammertime!",
-                "Plate Forger",
-                "Impact Modulator");
-
-        standardTooltips(provider, "gtpm.machine",
-                "forming_press",
-                "Imprinting Images into things",
-                "Object Layerer",
-                "Surface Shifter");
-
-        standardTooltips(provider, "gtpm.machine",
-                "mixer",
-                "Will it Blend?",
-                "Matter Organizer",
-                "Material Homogenizer");
-
-        standardTooltips(provider, "gtpm.machine",
-                "packer",
-                "Puts things into and Grabs things out of Boxes",
-                "Boxinator",
-                "Amazon Warehouse");
-
-        standardTooltips(provider, "gtpm.machine",
-                "polarizer",
-                "Bipolarising your Magnets",
-                "Magnetism Inducer",
-                "Magnetic Field Rearranger");
-
-        standardTooltips(provider, "gtpm.machine",
-                "sifter",
-                "Stay calm and keep sifting",
-                "Sponsored by TFC",
-                "Pulsation Filter");
-
-        standardTooltips(provider, "gtpm.machine",
-                "wiremill",
-                "Produces Wires more efficiently",
-                "Ingot Elongator",
-                "Wire Transfigurator");
-
-        standardTooltips(provider, "gtpm.machine",
-                "circuit_assembler",
-                "Pick-n-Place all over the place",
-                "Electronics Manufacturer",
-                "Computation Factory");
-
-        standardTooltips(provider, "gtpm.machine",
-                "mass_fabricator",
-                "UUM Matter * Fabrication Squared",
-                "Genesis Factory",
-                "Existence Initiator");
-
-        standardTooltips(provider, "gtpm.machine",
-                "replicator",
-                "Producing the Purest of Elements",
-                "Matter Paster",
-                "Elemental Composer");
-
-        standardTooltips(provider, "gtpm.machine",
-                "scanner",
-                "Scans Materials and other things",
-                "Anomaly Detector",
-                "Electron Microscope");
-
         provider.add("gtpm.creative_tooltip.1", "§7You just need");
         provider.add("gtpm.creative_tooltip.2", " Creative Mode");
         provider.add("gtpm.creative_tooltip.3", "§7 to use this");
@@ -346,47 +136,6 @@ public class MachineLang {
         provider.add("gtpm.machine.quantum_tank.tooltip", "§7Compact place to store all your fluids");
 
         provider.add("gtpm.machine.buffer.tooltip", "A Small Buffer to store Items and Fluids");
-        // Gas Collector
-        provider.add("gtpm.machine.lv_gas_collector.tooltip",
-                "§7Collects Gas from the air depending on the dimension");
-        provider.add("gtpm.machine.mv_gas_collector.tooltip",
-                "§7Collects Gas from the air depending on the dimension");
-        provider.add("gtpm.machine.hv_gas_collector.tooltip",
-                "§7Collects Gas from the air depending on the dimension");
-        provider.add("gtpm.machine.ev_gas_collector.tooltip",
-                "§7Collects Gas from the air depending on the dimension");
-        provider.add("gtpm.machine.iv_gas_collector.tooltip",
-                "§7Collects Gas from the atmosphere depending on the dimension");
-        provider.add("gtpm.machine.luv_gas_collector.tooltip",
-                "§7Collects Gas from the atmosphere depending on the dimension");
-        provider.add("gtpm.machine.zpm_gas_collector.tooltip",
-                "§7Collects Gas from the atmosphere depending on the dimension");
-        provider.add("gtpm.machine.uv_gas_collector.tooltip",
-                "§7Collects Gas from the solar system depending on the dimension");
-        provider.add("gtpm.machine.uhv_gas_collector.tooltip",
-                "§7Collects Gas from the solar system depending on the dimension");
-        provider.add("gtpm.machine.uev_gas_collector.tooltip",
-                "§7Collects Gas from the solar system depending on the dimension");
-        provider.add("gtpm.machine.uiv_gas_collector.tooltip",
-                "§7Collects Gas from the solar system depending on the dimension");
-        provider.add("gtpm.machine.uxv_gas_collector.tooltip",
-                "§7Collects Gas from the solar system depending on the dimension");
-        provider.add("gtpm.machine.opv_gas_collector.tooltip",
-                "§7Collects Gas from the universe depending on the dimension");
-        // Rock Breaker
-        provider.add("gtpm.machine.lv_rock_crusher.tooltip", "§7Place Water and Lava horizontally adjacent");
-        provider.add("gtpm.machine.mv_rock_crusher.tooltip", "§7Place Water and Lava horizontally adjacent");
-        provider.add("gtpm.machine.hv_rock_crusher.tooltip", "§7Place Water and Lava horizontally adjacent");
-        provider.add("gtpm.machine.ev_rock_crusher.tooltip", "§7Place Water and Lava horizontally adjacent");
-        provider.add("gtpm.machine.iv_rock_crusher.tooltip", "§7Cryogenic Magma Solidifier R-8200");
-        provider.add("gtpm.machine.luv_rock_crusher.tooltip", "§7Cryogenic Magma Solidifier R-9200");
-        provider.add("gtpm.machine.zpm_rock_crusher.tooltip", "§7Cryogenic Magma Solidifier R-10200");
-        provider.add("gtpm.machine.uv_rock_crusher.tooltip", "§7Volcanic Formation Chamber");
-        provider.add("gtpm.machine.uhv_rock_crusher.tooltip", "§7Volcanic Formation Chamber");
-        provider.add("gtpm.machine.uev_rock_crusher.tooltip", "§7Volcanic Formation Chamber");
-        provider.add("gtpm.machine.uiv_rock_crusher.tooltip", "§7Volcanic Formation Chamber");
-        provider.add("gtpm.machine.uxv_rock_crusher.tooltip", "§7Volcanic Formation Chamber");
-        provider.add("gtpm.machine.opv_rock_crusher.tooltip", "§7Volcanic Formation Chamber");
         // Fisher
         provider.add("gtpm.machine.fisher.tooltip", "Costs string to fish. Consumes one string each time.");
         provider.add("gtpm.machine.fisher.speed", "Catches something every %d ticks");
@@ -601,11 +350,6 @@ public class MachineLang {
         // Parallel
         provider.add("gtpm.multiblock.parallelizable.tooltip", "Can parallelize with Parallel Control Hatches.");
 
-        provider.add("gtpm.machine.parallel_hatch_mk5.tooltip", "Allows to run up to 4 recipes in parallel.");
-        provider.add("gtpm.machine.parallel_hatch_mk6.tooltip", "Allows to run up to 16 recipes in parallel.");
-        provider.add("gtpm.machine.parallel_hatch_mk7.tooltip", "Allows to run up to 64 recipes in parallel.");
-        provider.add("gtpm.machine.parallel_hatch_mk8.tooltip",
-                "Allows to run up to 256 recipes in parallel.");
         // Hatch Limits - Mostly for GCYM Multiblocks that are Hardcoded into GTCEU
         provider.add("gtpm.multiblock.exact_hatch_1.tooltip", "§fAccepts Exactly §6One §fEnergy Hatch.");
         // More tooltips
@@ -645,9 +389,6 @@ public class MachineLang {
         provider.add("gtpm.machine.central_monitor.tooltip", "But can it run Doom?");
         provider.add("gtpm.machine.processing_array.tooltip", "When a few Machines just doesn't cut it");
         provider.add("gtpm.machine.advanced_processing_array.tooltip", "Parallelize the World");
-        provider.add("gtpm.machine.mv_fluid_drilling_rig.tooltip", "Oil Extraction Pump");
-        provider.add("gtpm.machine.hv_fluid_drilling_rig.tooltip", "Does not perform Fracking");
-        provider.add("gtpm.machine.ev_fluid_drilling_rig.tooltip", "Well Drainer");
         provider.add("gtpm.machine.cleanroom.tooltip", "Keeping those pesky particles out");
         provider.add("gtpm.machine.charcoal_pile.tooltip", "Underground fuel bakery");
 
@@ -988,18 +729,5 @@ public class MachineLang {
         provider.add("gtpm.creative.computation.average", "Average Requested CWUt");
         provider.add("gtpm.creative.activity.on", "Active");
         provider.add("gtpm.creative.activity.off", "Not active");
-    }
-
-    public static void standardTooltips(RegistrateLangProvider provider, String root, String machine,
-                                        String lowTier,
-                                        String midTier, String highTier) {
-        provider.add("%s.%s_%s.tooltip".formatted(root, "lv", machine), "§7%s".formatted(lowTier));
-        provider.add("%s.%s_%s.tooltip".formatted(root, "mv", machine), "§7%s".formatted(lowTier));
-        provider.add("%s.%s_%s.tooltip".formatted(root, "hv", machine), "§7%s".formatted(lowTier));
-        provider.add("%s.%s_%s.tooltip".formatted(root, "ev", machine), "§7%s".formatted(lowTier));
-        provider.add("%s.%s_%s.tooltip".formatted(root, "iv", machine), "§7%s".formatted(midTier));
-        provider.add("%s.%s_%s.tooltip".formatted(root, "luv", machine), "§7%s".formatted(midTier));
-        provider.add("%s.%s_%s.tooltip".formatted(root, "zpm", machine), "§7%s".formatted(midTier));
-        provider.add("%s.%s_%s.tooltip".formatted(root, "uv", machine), "§7%s".formatted(highTier));
     }
 }

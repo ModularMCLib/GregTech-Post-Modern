@@ -22,6 +22,11 @@ import com.modularmc.gtpm.common.machine.multiblock.part.ParallelHatchPartMachin
 import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -40,20 +45,69 @@ import static com.modularmc.gtpm.common.data.machines.GTMachineUtils.registerTie
 import static com.modularmc.gtpm.common.data.models.GTMachineModels.*;
 import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 
+@TransVariants(keyPrefix = "gtpm",
+               value = {
+                       @Variant(id = "machine.available_recipe_map_2.tooltip",
+                                source = "Available Recipe Types: %s, %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可用配方类型：%s，%s")),
+                       @Variant(id = "machine.available_recipe_map_1.tooltip",
+                                source = "Available Recipe Types: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可用配方类型：%s")),
+                       @Variant(id = "machine.available_recipe_map_3.tooltip",
+                                source = "Available Recipe Types: %s, %s, %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可用配方类型：%s，%s，%s")),
+                       @Variant(id = "machine.available_recipe_map_4.tooltip",
+                                source = "Available Recipe Types: %s, %s, %s, %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "可用配方类型：%s，%s，%s，%s")),
+                       @Variant(id = "multiblock.steam.duration_modifier",
+                                source = "Takes §f1.5x §7base duration to process, not affected by number of items.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "处理耗时为基础的§f1.5§7倍，不受物品数量影响。")),
+                       @Variant(id = "multiblock.require_steam_parts",
+                                source = "Requires Steam Hatches and Buses!",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "需要蒸汽仓与输入/输出总线（蒸汽）！")),
+               })
 public class GCYMMachines {
 
     public static void init() {}
 
+    @TransVariants(keyPrefix = "gtpm.machine",
+                   value = {
+                           @Variant(id = "parallel_hatch_mk5.tooltip",
+                                    source = "Allows to run up to 4 recipes in parallel.",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                                text = "允许同时处理至多4个配方。")),
+                           @Variant(id = "parallel_hatch_mk6.tooltip",
+                                    source = "Allows to run up to 16 recipes in parallel.",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                                text = "允许同时处理至多16个配方。")),
+                           @Variant(id = "parallel_hatch_mk7.tooltip",
+                                    source = "Allows to run up to 64 recipes in parallel.",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                                text = "允许同时处理至多64个配方。")),
+                           @Variant(id = "parallel_hatch_mk8.tooltip",
+                                    source = "Allows to run up to 256 recipes in parallel.",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                                text = "允许同时处理至多256个配方。")),
+                   })
     public static final MachineDefinition[] PARALLEL_HATCH = registerTieredMachines("parallel_hatch",
             ParallelHatchPartMachine::new,
             (tier, builder) -> builder
-                    .langValue(switch (tier) {
-                        case 5 -> "Elite";
-                        case 6 -> "Master";
-                        case 7 -> "Ultimate";
-                        case 8 -> "Super";
-                        default -> "Simple"; // Should never be hit.
-                    } + " Parallel Control Hatch")
+                    .localization(text -> text.source(switch (tier) {
+                        case IV -> "Elite Parallel Control Hatch";
+                        case LuV -> "Master Parallel Control Hatch";
+                        case ZPM -> "Ultimate Parallel Control Hatch";
+                        case UV -> "Super Parallel Control Hatch";
+                        default -> throw new IllegalArgumentException("Unsupported parallel control hatch tier: " + tier);
+                    }).translation(MinecraftLocale.ZH_CN, switch (tier) {
+                        case IV -> "§9IV§r并行控制仓";
+                        case LuV -> "§dLuV§r并行控制仓";
+                        case ZPM -> "§cZPM§r并行控制仓";
+                        case UV -> "§3UV§r并行控制仓";
+                        default -> throw new IllegalArgumentException("Unsupported parallel control hatch tier: " + tier);
+                    }))
                     .rotationState(RotationState.ALL)
                     .abilities(PartAbility.PARALLEL_HATCH)
                     .modelProperty(IS_FORMED, false)
@@ -70,7 +124,9 @@ public class GCYMMachines {
 
     public final static MultiblockMachineDefinition LARGE_MACERATION_TOWER = REGISTRATE
             .multiblock("large_maceration_tower", LargeMacerationTowerMachine::new)
-            .langValue("Large Maceration Tower")
+            .localization(text -> text
+                    .source("Large Maceration Tower")
+                    .translation(MinecraftLocale.ZH_CN, "大型研磨塔"))
             .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
                     MACERATOR_RECIPES.getName()))
@@ -87,7 +143,9 @@ public class GCYMMachines {
 
     public final static MultiblockMachineDefinition LARGE_CHEMICAL_BATH = REGISTRATE
             .multiblock("large_chemical_bath", LargeChemicalBathMachine::new)
-            .langValue("Large Chemical Bath")
+            .localization(text -> text
+                    .source("Large Chemical Bath")
+                    .translation(MinecraftLocale.ZH_CN, "大型化学浸洗机"))
             .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtpm.machine.available_recipe_map_2.tooltip",
                     ORE_WASHER_RECIPES.getName(), CHEMICAL_BATH_RECIPES.getName()))
@@ -107,7 +165,9 @@ public class GCYMMachines {
 
     public final static MultiblockMachineDefinition LARGE_CENTRIFUGE = REGISTRATE
             .multiblock("large_centrifuge", WorkableElectricMultiblockMachine::new)
-            .langValue("Large Centrifugal Unit")
+            .localization(text -> text
+                    .source("Large Centrifugal Unit")
+                    .translation(MinecraftLocale.ZH_CN, "大型离心机组"))
             .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtpm.machine.available_recipe_map_2.tooltip",
                     CENTRIFUGE_RECIPES.getName(), THERMAL_CENTRIFUGE_RECIPES.getName()))
@@ -124,7 +184,9 @@ public class GCYMMachines {
 
     public final static MultiblockMachineDefinition LARGE_MIXER = REGISTRATE
             .multiblock("large_mixer", LargeMixerMachine::new)
-            .langValue("Large Mixing Vessel")
+            .localization(text -> text
+                    .source("Large Mixing Vessel")
+                    .translation(MinecraftLocale.ZH_CN, "大型搅拌罐"))
             .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
                     MIXER_RECIPES.getName()))
@@ -144,7 +206,9 @@ public class GCYMMachines {
 
     public final static MultiblockMachineDefinition LARGE_ELECTROLYZER = REGISTRATE
             .multiblock("large_electrolyzer", WorkableElectricMultiblockMachine::new)
-            .langValue("Large Electrolysis Chamber")
+            .localization(text -> text
+                    .source("Large Electrolysis Chamber")
+                    .translation(MinecraftLocale.ZH_CN, "大型电解槽"))
             .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
                     ELECTROLYZER_RECIPES.getName()))
@@ -161,7 +225,9 @@ public class GCYMMachines {
 
     public final static MultiblockMachineDefinition LARGE_ELECTROMAGNET = REGISTRATE
             .multiblock("large_electromagnet", WorkableElectricMultiblockMachine::new)
-            .langValue("Large Electromagnet")
+            .localization(text -> text
+                    .source("Large Electromagnet")
+                    .translation(MinecraftLocale.ZH_CN, "大型电磁工厂"))
             .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtpm.machine.available_recipe_map_2.tooltip",
                     ELECTROMAGNETIC_SEPARATOR_RECIPES.getName(),
@@ -179,7 +245,9 @@ public class GCYMMachines {
 
     public final static MultiblockMachineDefinition LARGE_PACKER = REGISTRATE
             .multiblock("large_packer", WorkableElectricMultiblockMachine::new)
-            .langValue("Large Packaging Machine")
+            .localization(text -> text
+                    .source("Large Packaging Machine")
+                    .translation(MinecraftLocale.ZH_CN, "大型打包机"))
             .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
                     Component.translatable("gtpm.packer")))
@@ -196,7 +264,9 @@ public class GCYMMachines {
 
     public final static MultiblockMachineDefinition LARGE_ASSEMBLER = REGISTRATE
             .multiblock("large_assembler", WorkableElectricMultiblockMachine::new)
-            .langValue("Large Assembling Factory")
+            .localization(text -> text
+                    .source("Large Assembling Factory")
+                    .translation(MinecraftLocale.ZH_CN, "大型组装厂"))
             .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
                     Component.translatable("gtpm.assembler")))
@@ -217,7 +287,9 @@ public class GCYMMachines {
 
     public final static MultiblockMachineDefinition LARGE_CIRCUIT_ASSEMBLER = REGISTRATE
             .multiblock("large_circuit_assembler", WorkableElectricMultiblockMachine::new)
-            .langValue("Large Circuit Assembling Facility")
+            .localization(text -> text
+                    .source("Large Circuit Assembling Facility")
+                    .translation(MinecraftLocale.ZH_CN, "大型电路组装设施"))
             .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
                     CIRCUIT_ASSEMBLER_RECIPES.getName()))
@@ -238,7 +310,9 @@ public class GCYMMachines {
 
     public final static MultiblockMachineDefinition LARGE_ARC_SMELTER = REGISTRATE
             .multiblock("large_arc_smelter", WorkableElectricMultiblockMachine::new)
-            .langValue("Large Arc Smelter")
+            .localization(text -> text
+                    .source("Large Arc Smelter")
+                    .translation(MinecraftLocale.ZH_CN, "大型电弧炉"))
             .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
                     ARC_FURNACE_RECIPES.getName()))
@@ -255,7 +329,9 @@ public class GCYMMachines {
 
     public final static MultiblockMachineDefinition LARGE_ENGRAVING_LASER = REGISTRATE
             .multiblock("large_engraving_laser", WorkableElectricMultiblockMachine::new)
-            .langValue("Large Engraving Laser")
+            .localization(text -> text
+                    .source("Large Engraving Laser")
+                    .translation(MinecraftLocale.ZH_CN, "大型激光蚀刻机"))
             .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
                     LASER_ENGRAVER_RECIPES.getName()))
@@ -275,7 +351,9 @@ public class GCYMMachines {
 
     public final static MultiblockMachineDefinition LARGE_SIFTING_FUNNEL = REGISTRATE
             .multiblock("large_sifting_funnel", WorkableElectricMultiblockMachine::new)
-            .langValue("Large Sifting Funnel")
+            .localization(text -> text
+                    .source("Large Sifting Funnel")
+                    .translation(MinecraftLocale.ZH_CN, "大型筛选漏斗"))
             .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
                     SIFTER_RECIPES.getName()))
@@ -292,7 +370,9 @@ public class GCYMMachines {
 
     public final static MultiblockMachineDefinition BLAST_ALLOY_SMELTER = REGISTRATE
             .multiblock("alloy_blast_smelter", CoilWorkableElectricMultiblockMachine::new)
-            .langValue("Alloy Blast Smelter")
+            .localization(text -> text
+                    .source("Alloy Blast Smelter")
+                    .translation(MinecraftLocale.ZH_CN, "合金冶炼炉"))
             .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
                     ALLOY_BLAST_RECIPES.getName()))
             .tooltips(Component.translatable("gtpm.machine.electric_blast_furnace.tooltip.0"),
@@ -323,7 +403,9 @@ public class GCYMMachines {
 
     public final static MultiblockMachineDefinition LARGE_AUTOCLAVE = REGISTRATE
             .multiblock("large_autoclave", WorkableElectricMultiblockMachine::new)
-            .langValue("Large Crystallization Chamber")
+            .localization(text -> text
+                    .source("Large Crystallization Chamber")
+                    .translation(MinecraftLocale.ZH_CN, "大型高压结晶室"))
             .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
                     AUTOCLAVE_RECIPES.getName()))
@@ -340,7 +422,9 @@ public class GCYMMachines {
 
     public final static MultiblockMachineDefinition LARGE_MATERIAL_PRESS = REGISTRATE
             .multiblock("large_material_press", WorkableElectricMultiblockMachine::new)
-            .langValue("Large Material Press")
+            .localization(text -> text
+                    .source("Large Material Press")
+                    .translation(MinecraftLocale.ZH_CN, "大型挤压机"))
             .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtpm.machine.available_recipe_map_4.tooltip",
                     BENDER_RECIPES.getName(), COMPRESSOR_RECIPES.getName(),
@@ -358,7 +442,9 @@ public class GCYMMachines {
 
     public final static MultiblockMachineDefinition LARGE_BREWER = REGISTRATE
             .multiblock("large_brewer", WorkableElectricMultiblockMachine::new)
-            .langValue("Large Brewing Vat")
+            .localization(text -> text
+                    .source("Large Brewing Vat")
+                    .translation(MinecraftLocale.ZH_CN, "大型酿造厂"))
             .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtpm.machine.available_recipe_map_3.tooltip",
                     BREWING_RECIPES.getName(), FERMENTING_RECIPES.getName(),
@@ -376,7 +462,9 @@ public class GCYMMachines {
 
     public final static MultiblockMachineDefinition LARGE_CUTTER = REGISTRATE
             .multiblock("large_cutter", WorkableElectricMultiblockMachine::new)
-            .langValue("Large Cutting Saw")
+            .localization(text -> text
+                    .source("Large Cutting Saw")
+                    .translation(MinecraftLocale.ZH_CN, "大型切割机"))
             .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtpm.machine.available_recipe_map_2.tooltip",
                     CUTTER_RECIPES.getName(), LATHE_RECIPES.getName()))
@@ -393,7 +481,9 @@ public class GCYMMachines {
 
     public final static MultiblockMachineDefinition LARGE_DISTILLERY = REGISTRATE
             .multiblock("large_distillery", DistillationTowerMachine::new)
-            .langValue("Large Fractionating Distillery")
+            .localization(text -> text
+                    .source("Large Fractionating Distillery")
+                    .translation(MinecraftLocale.ZH_CN, "大型分馏蒸馏厂"))
             .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtpm.machine.available_recipe_map_2.tooltip",
                     DISTILLATION_RECIPES.getName(), DISTILLERY_RECIPES.getName()))
@@ -413,7 +503,9 @@ public class GCYMMachines {
 
     public final static MultiblockMachineDefinition LARGE_EXTRACTOR = REGISTRATE
             .multiblock("large_extractor", WorkableElectricMultiblockMachine::new)
-            .langValue("Large Extraction Machine")
+            .localization(text -> text
+                    .source("Large Extraction Machine")
+                    .translation(MinecraftLocale.ZH_CN, "大型提取机"))
             .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtpm.machine.available_recipe_map_2.tooltip",
                     EXTRACTOR_RECIPES.getName(), CANNER_RECIPES.getName()))
@@ -430,7 +522,9 @@ public class GCYMMachines {
 
     public final static MultiblockMachineDefinition LARGE_EXTRUDER = REGISTRATE
             .multiblock("large_extruder", WorkableElectricMultiblockMachine::new)
-            .langValue("Large Extrusion Machine")
+            .localization(text -> text
+                    .source("Large Extrusion Machine")
+                    .translation(MinecraftLocale.ZH_CN, "大型压模机"))
             .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
                     EXTRUDER_RECIPES.getName()))
@@ -447,7 +541,9 @@ public class GCYMMachines {
 
     public final static MultiblockMachineDefinition LARGE_SOLIDIFIER = REGISTRATE
             .multiblock("large_solidifier", WorkableElectricMultiblockMachine::new)
-            .langValue("Large Solidification Array")
+            .localization(text -> text
+                    .source("Large Solidification Array")
+                    .translation(MinecraftLocale.ZH_CN, "大型固化阵列"))
             .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
                     FLUID_SOLIDFICATION_RECIPES.getName()))
@@ -464,7 +560,9 @@ public class GCYMMachines {
 
     public final static MultiblockMachineDefinition LARGE_WIREMILL = REGISTRATE
             .multiblock("large_wiremill", WorkableElectricMultiblockMachine::new)
-            .langValue("Large Wire Factory")
+            .localization(text -> text
+                    .source("Large Wire Factory")
+                    .translation(MinecraftLocale.ZH_CN, "大型线材工厂"))
             .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
                     WIREMILL_RECIPES.getName()))
@@ -482,7 +580,9 @@ public class GCYMMachines {
     // spotless:off
     public static final MultiblockMachineDefinition ROTARY_HEARTH_FURNACE = REGISTRATE
             .multiblock("rotary_hearth_furnace", CoilWorkableElectricMultiblockMachine::new)
-            .langValue("Rotary Hearth Furnace")
+            .localization(text -> text
+                    .source("Rotary Hearth Furnace")
+                    .translation(MinecraftLocale.ZH_CN, "转底炉"))
             .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
                     BLAST_RECIPES.getName()))
@@ -511,7 +611,9 @@ public class GCYMMachines {
 
     public final static MultiblockMachineDefinition MEGA_VACUUM_FREEZER = REGISTRATE
             .multiblock("mega_vacuum_freezer", WorkableElectricMultiblockMachine::new)
-            .langValue("Bulk Blast Chiller")
+            .localization(text -> text
+                    .source("Bulk Blast Chiller")
+                    .translation(MinecraftLocale.ZH_CN, "巨型真空冷冻机"))
             .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
                     VACUUM_RECIPES.getName()))
