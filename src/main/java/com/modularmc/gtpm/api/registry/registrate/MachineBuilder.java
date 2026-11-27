@@ -60,6 +60,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
 
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.Reference2IntMap;
 import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
 import lombok.Getter;
@@ -119,7 +120,7 @@ public class MachineBuilder<DEFINITION extends MachineDefinition, TYPE extends M
     private BiFunction<ItemStack, Integer, Integer> itemColor = ((itemStack, tintIndex) -> tintIndex == 2 ?
             GTValues.VC[tier] : tintIndex == 1 ? paintingColor : -1);
     private PartAbility[] abilities = new PartAbility[0];
-    private final List<Component> tooltips = new ArrayList<>();
+    private final List<Component> tooltips = new ObjectArrayList<>();
     private @Nullable BiConsumer<ItemStack, List<Component>> tooltipBuilder;
     private RecipeModifier recipeModifier = new RecipeModifierList(GTRecipeModifiers.OC_NON_PERFECT);
     private boolean alwaysTryModifyRecipe;
@@ -503,7 +504,9 @@ public class MachineBuilder<DEFINITION extends MachineDefinition, TYPE extends M
     }
 
     public TYPE tooltips(List<? extends @Nullable Component> components) {
-        tooltips.addAll(components.stream().filter(Objects::nonNull).toList());
+        for (Component component : components) {
+            if (component != null) tooltips.add(component);
+        }
         return getThis();
     }
 

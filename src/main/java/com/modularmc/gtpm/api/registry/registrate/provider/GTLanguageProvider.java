@@ -9,14 +9,15 @@ import com.modularmc.registrate.providers.RegistrateLangProvider;
 
 import net.minecraft.data.PackOutput;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+
 import java.util.function.Consumer;
 
 /** Stages language callbacks in order so an addon can replace its generated defaults. */
 public final class GTLanguageProvider extends RegistrateLangProvider {
 
-    private final Map<String, Consumer<RegistrateLangProvider>> submissions = new LinkedHashMap<>();
+    private final Object2ObjectMap<String, Consumer<RegistrateLangProvider>> submissions = new Object2ObjectLinkedOpenHashMap<>();
 
     public GTLanguageProvider(GTRegistrate owner, PackOutput output) {
         super(owner, output);
