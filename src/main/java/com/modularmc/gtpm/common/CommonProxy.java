@@ -97,7 +97,7 @@ import com.modularmc.gtpm.common.machine.owner.MachineOwner;
 import com.modularmc.gtpm.common.machine.storage.QuantumTankMachine;
 import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.data.GregTechDatagen;
-import com.modularmc.gtpm.data.lang.MaterialLangGenerator;
+import com.modularmc.gtpm.data.lang.MaterialTagLangGenerator;
 import com.modularmc.gtpm.data.loot.ChestGenHooks;
 import com.modularmc.gtpm.data.pack.GTDynamicDataPack;
 import com.modularmc.gtpm.data.pack.GTDynamicResourcePack;
@@ -304,10 +304,9 @@ public class CommonProxy {
     private static void postInitMaterials(Registry<Material> registry) {
         // Register all material manager registries, for materials with mod ids.
         GTRegistries.MATERIALS.getUsedNamespaces().forEach(namespace -> {
-            // Force the material lang generator to be at index 0, so that addons' lang generators can override it.
             GTRegistrate registrate = GTRegistrate.createIgnoringListenerErrors(namespace);
             registrate.addDataGeneratorFirst(ProviderType.LANG,
-                    provider -> MaterialLangGenerator.generate(provider, namespace));
+                    provider -> MaterialTagLangGenerator.generate(provider, namespace));
 
             ModList.get().getModContainerById(namespace)
                     .map(ModContainer::getEventBus)

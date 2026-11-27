@@ -15,6 +15,8 @@ import com.modularmc.gtpm.api.item.tool.GTToolType;
 import com.modularmc.gtpm.common.data.GTElements;
 import com.modularmc.gtpm.common.data.GTMedicalConditions;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+
 import static com.modularmc.gtpm.api.GTValues.*;
 import static com.modularmc.gtpm.api.data.chemical.material.info.MaterialFlags.*;
 import static com.modularmc.gtpm.api.data.chemical.material.info.MaterialIconSet.*;
@@ -24,11 +26,15 @@ public class ElementMaterials {
 
     public static void register() {
         Actinium = new Material.Builder(GTPM.id("actinium"))
+                .localization(text -> text.source("Actinium")
+                        .translation(MinecraftLocale.ZH_CN, "锕"))
                 .color(0xC3D1FF).secondaryColor(0x397090).iconSet(METALLIC)
                 .element(GTElements.Ac)
                 .buildAndRegister();
 
         Aluminium = new Material.Builder(GTPM.id("aluminium"))
+                .localization(text -> text.source("Aluminium")
+                        .translation(MinecraftLocale.ZH_CN, "铝"))
                 .ingot()
                 .liquid(new FluidBuilder().temperature(933))
                 .ore()
@@ -45,6 +51,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Americium = new Material.Builder(GTPM.id("americium"))
+                .localization(text -> text.source("Americium")
+                        .translation(MinecraftLocale.ZH_CN, "镅"))
                 .ingot(3)
                 .liquid(new FluidBuilder().temperature(1449))
                 .plasma()
@@ -55,6 +63,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Antimony = new Material.Builder(GTPM.id("antimony"))
+                .localization(text -> text.source("Antimony")
+                        .translation(MinecraftLocale.ZH_CN, "锑"))
                 .ingot()
                 .liquid(new FluidBuilder().temperature(904))
                 .color(0xeaeaff).secondaryColor(0x8181bd).iconSet(SHINY)
@@ -63,12 +73,16 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Argon = new Material.Builder(GTPM.id("argon"))
+                .localization(text -> text.source("Argon")
+                        .translation(MinecraftLocale.ZH_CN, "氩"))
                 .gas().plasma()
                 .color(0x00FF00)
                 .element(GTElements.Ar)
                 .buildAndRegister();
 
         Arsenic = new Material.Builder(GTPM.id("arsenic"))
+                .localization(text -> text.source("Arsenic")
+                        .translation(MinecraftLocale.ZH_CN, "砷"))
                 .dust()
                 .gas(new FluidBuilder()
                         .state(FluidState.GAS)
@@ -79,22 +93,30 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Astatine = new Material.Builder(GTPM.id("astatine"))
+                .localization(text -> text.source("Astatine")
+                        .translation(MinecraftLocale.ZH_CN, "砹"))
                 .color(0x65204f).secondaryColor(0x17212b)
                 .element(GTElements.At)
                 .buildAndRegister();
 
         Barium = new Material.Builder(GTPM.id("barium"))
+                .localization(text -> text.source("Barium")
+                        .translation(MinecraftLocale.ZH_CN, "钡"))
                 .dust()
                 .color(0xede192).secondaryColor(0xa7ad4d).iconSet(METALLIC)
                 .element(GTElements.Ba)
                 .buildAndRegister();
 
         Berkelium = new Material.Builder(GTPM.id("berkelium"))
+                .localization(text -> text.source("Berkelium")
+                        .translation(MinecraftLocale.ZH_CN, "锫"))
                 .color(0x645A88).iconSet(RADIOACTIVE)
                 .element(GTElements.Bk)
                 .buildAndRegister();
 
         Beryllium = new Material.Builder(GTPM.id("beryllium"))
+                .localization(text -> text.source("Beryllium")
+                        .translation(MinecraftLocale.ZH_CN, "铍"))
                 .ingot()
                 .liquid(new FluidBuilder().temperature(1560))
                 .ore()
@@ -105,6 +127,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Bismuth = new Material.Builder(GTPM.id("bismuth"))
+                .localization(text -> text.source("Bismuth")
+                        .translation(MinecraftLocale.ZH_CN, "铋"))
                 .ingot(1)
                 .liquid(new FluidBuilder().temperature(545))
                 .color(0x5fdddd).secondaryColor(0x517385).iconSet(METALLIC)
@@ -112,40 +136,54 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Bohrium = new Material.Builder(GTPM.id("bohrium"))
+                .localization(text -> text.source("Bohrium")
+                        .translation(MinecraftLocale.ZH_CN, "𬭛"))
                 .color(0xde67ff).secondaryColor(0xDC57FF).iconSet(RADIOACTIVE)
                 .element(GTElements.Bh)
                 .buildAndRegister();
 
         Boron = new Material.Builder(GTPM.id("boron"))
+                .localization(text -> text.source("Boron")
+                        .translation(MinecraftLocale.ZH_CN, "硼"))
                 .dust()
                 .color(0xbffdbf).secondaryColor(0x6d7058)
                 .element(GTElements.B)
                 .buildAndRegister();
 
         Bromine = new Material.Builder(GTPM.id("bromine"))
+                .localization(text -> text.source("Bromine")
+                        .translation(MinecraftLocale.ZH_CN, "溴"))
                 .liquid(new FluidBuilder().attribute(FluidAttributes.ACID))
                 .color(0x912200).secondaryColor(0x080101).iconSet(SHINY)
                 .element(GTElements.Br)
                 .buildAndRegister();
 
         Caesium = new Material.Builder(GTPM.id("caesium"))
+                .localization(text -> text.source("Caesium")
+                        .translation(MinecraftLocale.ZH_CN, "铯"))
                 .dust()
                 .color(0xd1821c).secondaryColor(0x231f14).iconSet(SHINY)
                 .element(GTElements.Cs)
                 .buildAndRegister();
 
         Calcium = new Material.Builder(GTPM.id("calcium"))
+                .localization(text -> text.source("Calcium")
+                        .translation(MinecraftLocale.ZH_CN, "钙"))
                 .dust()
                 .color(0xFFF5DE).secondaryColor(0xa4a4a4).iconSet(METALLIC)
                 .element(GTElements.Ca)
                 .buildAndRegister();
 
         Californium = new Material.Builder(GTPM.id("californium"))
+                .localization(text -> text.source("Californium")
+                        .translation(MinecraftLocale.ZH_CN, "锎"))
                 .color(0xA85A12).iconSet(RADIOACTIVE)
                 .element(GTElements.Cf)
                 .buildAndRegister();
 
         Carbon = new Material.Builder(GTPM.id("carbon"))
+                .localization(text -> text.source("Carbon")
+                        .translation(MinecraftLocale.ZH_CN, "碳"))
                 .dust()
                 .liquid(new FluidBuilder().temperature(4600))
                 .color(0x333030).secondaryColor(0x221c1c)
@@ -153,6 +191,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Cadmium = new Material.Builder(GTPM.id("cadmium"))
+                .localization(text -> text.source("Cadmium")
+                        .translation(MinecraftLocale.ZH_CN, "镉"))
                 .dust()
                 .color(0x636377).secondaryColor(0x431a34).iconSet(SHINY)
                 .element(GTElements.Cd)
@@ -160,6 +200,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Cerium = new Material.Builder(GTPM.id("cerium"))
+                .localization(text -> text.source("Cerium")
+                        .translation(MinecraftLocale.ZH_CN, "铈"))
                 .dust()
                 .liquid(new FluidBuilder().temperature(1068))
                 .color(0x87917D).secondaryColor(0x5e6458).iconSet(METALLIC)
@@ -167,12 +209,16 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Chlorine = new Material.Builder(GTPM.id("chlorine"))
+                .localization(text -> text.source("Chlorine")
+                        .translation(MinecraftLocale.ZH_CN, "氯"))
                 .gas(new FluidBuilder().state(FluidState.GAS).customStill())
                 .element(GTElements.Cl)
                 // TODO hazard
                 .buildAndRegister();
 
         Chromium = new Material.Builder(GTPM.id("chromium"))
+                .localization(text -> text.source("Chromium")
+                        .translation(MinecraftLocale.ZH_CN, "铬"))
                 .ingot(3)
                 .liquid(new FluidBuilder().temperature(2180))
                 .color(0xf3e0ea).secondaryColor(0x441f2e).iconSet(SHINY)
@@ -185,6 +231,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Cobalt = new Material.Builder(GTPM.id("cobalt"))
+                .localization(text -> text.source("Cobalt")
+                        .translation(MinecraftLocale.ZH_CN, "钴"))
                 .ingot()
                 .liquid(new FluidBuilder().temperature(1768))
                 .ore() // leave for TiCon ore processing
@@ -196,12 +244,16 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Copernicium = new Material.Builder(GTPM.id("copernicium"))
+                .localization(text -> text.source("Copernicium")
+                        .translation(MinecraftLocale.ZH_CN, "鿔"))
                 .color(0x565c5d).secondaryColor(0xffd34b).iconSet(RADIOACTIVE)
                 .element(GTElements.Cn)
                 // .radioactiveHazard(1)
                 .buildAndRegister();
 
         Copper = new Material.Builder(GTPM.id("copper"))
+                .localization(text -> text.source("Copper")
+                        .translation(MinecraftLocale.ZH_CN, "铜"))
                 .ingot(1)
                 .liquid(new FluidBuilder().temperature(1358))
                 .ore()
@@ -214,12 +266,16 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Curium = new Material.Builder(GTPM.id("curium"))
+                .localization(text -> text.source("Curium")
+                        .translation(MinecraftLocale.ZH_CN, "锔"))
                 .color(0x7B544E).iconSet(RADIOACTIVE)
                 .element(GTElements.Cm)
                 // .radioactiveHazard(1)
                 .buildAndRegister();
 
         Darmstadtium = new Material.Builder(GTPM.id("darmstadtium"))
+                .localization(text -> text.source("Darmstadtium")
+                        .translation(MinecraftLocale.ZH_CN, "𫟼"))
                 .ingot().fluid()
                 .color(0x578062).iconSet(RADIOACTIVE)
                 .appendFlags(EXT2_METAL, GENERATE_ROTOR, GENERATE_DENSE, GENERATE_SMALL_GEAR)
@@ -227,33 +283,45 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Deuterium = new Material.Builder(GTPM.id("deuterium"))
+                .localization(text -> text.source("Deuterium")
+                        .translation(MinecraftLocale.ZH_CN, "氘"))
                 .gas(new FluidBuilder().state(FluidState.GAS).customStill())
                 .element(GTElements.D)
                 .buildAndRegister();
 
         Dubnium = new Material.Builder(GTPM.id("dubnium"))
+                .localization(text -> text.source("Dubnium")
+                        .translation(MinecraftLocale.ZH_CN, "𬭊"))
                 .color(0xc7ddde).secondaryColor(0x00f3ff).iconSet(RADIOACTIVE)
                 .element(GTElements.Db)
                 .buildAndRegister();
 
         Dysprosium = new Material.Builder(GTPM.id("dysprosium"))
+                .localization(text -> text.source("Dysprosium")
+                        .translation(MinecraftLocale.ZH_CN, "镝"))
                 .color(0x6a664b).secondaryColor(0x423307)
                 .iconSet(METALLIC)
                 .element(GTElements.Dy)
                 .buildAndRegister();
 
         Einsteinium = new Material.Builder(GTPM.id("einsteinium"))
+                .localization(text -> text.source("Einsteinium")
+                        .translation(MinecraftLocale.ZH_CN, "锿"))
                 .color(0xCE9F00).iconSet(RADIOACTIVE)
                 .element(GTElements.Es)
                 .buildAndRegister();
 
         Erbium = new Material.Builder(GTPM.id("erbium"))
+                .localization(text -> text.source("Erbium")
+                        .translation(MinecraftLocale.ZH_CN, "铒"))
                 .color(0xeccbdb).secondaryColor(0x5d625a)
                 .iconSet(METALLIC)
                 .element(GTElements.Er)
                 .buildAndRegister();
 
         Europium = new Material.Builder(GTPM.id("europium"))
+                .localization(text -> text.source("Europium")
+                        .translation(MinecraftLocale.ZH_CN, "铕"))
                 .ingot()
                 .liquid(new FluidBuilder().temperature(1099))
                 .color(0x20FFFF).secondaryColor(0x429393).iconSet(METALLIC)
@@ -268,34 +336,46 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Fermium = new Material.Builder(GTPM.id("fermium"))
+                .localization(text -> text.source("Fermium")
+                        .translation(MinecraftLocale.ZH_CN, "镄"))
                 .color(0xc99fe7).secondaryColor(0x890085).iconSet(METALLIC)
                 .element(GTElements.Fm)
                 // .radioactiveHazard(1)
                 .buildAndRegister();
 
         Flerovium = new Material.Builder(GTPM.id("flerovium"))
+                .localization(text -> text.source("Flerovium")
+                        .translation(MinecraftLocale.ZH_CN, "𫓧"))
                 .color(0x2a384e).secondaryColor(0xd2ff00)
                 .iconSet(RADIOACTIVE)
                 .element(GTElements.Fl)
                 .buildAndRegister();
 
         Fluorine = new Material.Builder(GTPM.id("fluorine"))
+                .localization(text -> text.source("Fluorine")
+                        .translation(MinecraftLocale.ZH_CN, "氟"))
                 .gas(new FluidBuilder().state(FluidState.GAS).customStill())
                 .element(GTElements.F)
                 .hazard(HazardProperty.HazardTrigger.SKIN_CONTACT, GTMedicalConditions.CHEMICAL_BURNS, false)
                 .buildAndRegister();
 
         Francium = new Material.Builder(GTPM.id("francium"))
+                .localization(text -> text.source("Francium")
+                        .translation(MinecraftLocale.ZH_CN, "钫"))
                 .color(0xAAAAAA).secondaryColor(0x0000ff).iconSet(RADIOACTIVE)
                 .element(GTElements.Fr)
                 .buildAndRegister();
 
         Gadolinium = new Material.Builder(GTPM.id("gadolinium"))
+                .localization(text -> text.source("Gadolinium")
+                        .translation(MinecraftLocale.ZH_CN, "钆"))
                 .color(0x828a7a).secondaryColor(0x363420).iconSet(METALLIC)
                 .element(GTElements.Gd)
                 .buildAndRegister();
 
         Gallium = new Material.Builder(GTPM.id("gallium"))
+                .localization(text -> text.source("Gallium")
+                        .translation(MinecraftLocale.ZH_CN, "镓"))
                 .ingot()
                 .liquid(new FluidBuilder().temperature(303))
                 .color(0x7a84ca).secondaryColor(0x13132e).iconSet(SHINY)
@@ -304,11 +384,15 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Germanium = new Material.Builder(GTPM.id("germanium"))
+                .localization(text -> text.source("Germanium")
+                        .translation(MinecraftLocale.ZH_CN, "锗"))
                 .color(0x4a4a4a).secondaryColor(0x2d2612).iconSet(SHINY)
                 .element(GTElements.Ge)
                 .buildAndRegister();
 
         Gold = new Material.Builder(GTPM.id("gold"))
+                .localization(text -> text.source("Gold")
+                        .translation(MinecraftLocale.ZH_CN, "金"))
                 .ingot()
                 .liquid(new FluidBuilder().temperature(1337))
                 .ore()
@@ -321,29 +405,39 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Hafnium = new Material.Builder(GTPM.id("hafnium"))
+                .localization(text -> text.source("Hafnium")
+                        .translation(MinecraftLocale.ZH_CN, "铪"))
                 .color(0x99999A).secondaryColor(0x2b4a3a).iconSet(SHINY)
                 .element(GTElements.Hf)
                 .buildAndRegister();
 
         Hassium = new Material.Builder(GTPM.id("hassium"))
+                .localization(text -> text.source("Hassium")
+                        .translation(MinecraftLocale.ZH_CN, "𬭶"))
                 .color(0x738786).secondaryColor(0x62ffd5)
                 .iconSet(RADIOACTIVE)
                 .element(GTElements.Hs)
                 .buildAndRegister();
 
         Holmium = new Material.Builder(GTPM.id("holmium"))
+                .localization(text -> text.source("Holmium")
+                        .translation(MinecraftLocale.ZH_CN, "钬"))
                 .color(0xf6fc9c).secondaryColor(0xa3a3a3)
                 .iconSet(METALLIC)
                 .element(GTElements.Ho)
                 .buildAndRegister();
 
         Hydrogen = new Material.Builder(GTPM.id("hydrogen"))
+                .localization(text -> text.source("Hydrogen")
+                        .translation(MinecraftLocale.ZH_CN, "氢"))
                 .gas()
                 .color(0x0000B5)
                 .element(GTElements.H)
                 .buildAndRegister();
 
         Helium = new Material.Builder(GTPM.id("helium"))
+                .localization(text -> text.source("Helium")
+                        .translation(MinecraftLocale.ZH_CN, "氦"))
                 .gas(new FluidBuilder().state(FluidState.GAS).customStill())
                 .plasma()
                 .liquid(new FluidBuilder()
@@ -356,6 +450,8 @@ public class ElementMaterials {
         Helium.getProperty(PropertyKey.FLUID).setPrimaryKey(FluidStorageKeys.GAS);
 
         Helium3 = new Material.Builder(GTPM.id("helium_3"))
+                .localization(text -> text.source("Helium 3")
+                        .translation(MinecraftLocale.ZH_CN, "氦-3"))
                 .gas(new FluidBuilder()
                         .customStill()
                         .translation("gtpm.fluid.generic"))
@@ -363,6 +459,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Indium = new Material.Builder(GTPM.id("indium"))
+                .localization(text -> text.source("Indium")
+                        .translation(MinecraftLocale.ZH_CN, "铟"))
                 .ingot()
                 .liquid(new FluidBuilder().temperature(430))
                 .color(0x5c3588).secondaryColor(0x2b0b4a).iconSet(SHINY)
@@ -370,12 +468,16 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Iodine = new Material.Builder(GTPM.id("iodine"))
+                .localization(text -> text.source("Iodine")
+                        .translation(MinecraftLocale.ZH_CN, "碘"))
                 .dust()
                 .color(0x3e4467).secondaryColor(0x021e40).iconSet(SHINY)
                 .element(GTElements.I)
                 .buildAndRegister();
 
         Iridium = new Material.Builder(GTPM.id("iridium"))
+                .localization(text -> text.source("Iridium")
+                        .translation(MinecraftLocale.ZH_CN, "铱"))
                 .ingot(3)
                 .liquid(new FluidBuilder().temperature(2719))
                 .color(0x99fede).secondaryColor(0x6cd1cf).iconSet(METALLIC)
@@ -389,6 +491,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Iron = new Material.Builder(GTPM.id("iron"))
+                .localization(text -> text.source("Iron")
+                        .translation(MinecraftLocale.ZH_CN, "铁"))
                 .ingot()
                 .liquid(new FluidBuilder().temperature(1811))
                 .plasma()
@@ -405,6 +509,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Krypton = new Material.Builder(GTPM.id("krypton"))
+                .localization(text -> text.source("Krypton")
+                        .translation(MinecraftLocale.ZH_CN, "氪"))
                 .gas(new FluidBuilder()
                         .customStill()
                         .translation("gtpm.fluid.generic"))
@@ -413,6 +519,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Lanthanum = new Material.Builder(GTPM.id("lanthanum"))
+                .localization(text -> text.source("Lanthanum")
+                        .translation(MinecraftLocale.ZH_CN, "镧"))
                 .dust()
                 .liquid(new FluidBuilder().temperature(1193))
                 .color(0xd17d50).secondaryColor(0x4a3560).iconSet(METALLIC)
@@ -420,12 +528,16 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Lawrencium = new Material.Builder(GTPM.id("lawrencium"))
+                .localization(text -> text.source("Lawrencium")
+                        .translation(MinecraftLocale.ZH_CN, "铹"))
                 .color(0x5D7575)
                 .iconSet(RADIOACTIVE)
                 .element(GTElements.Lr)
                 .buildAndRegister();
 
         Lead = new Material.Builder(GTPM.id("lead"))
+                .localization(text -> text.source("Lead")
+                        .translation(MinecraftLocale.ZH_CN, "铅"))
                 .ingot(1)
                 .liquid(new FluidBuilder().temperature(600))
                 .ore()
@@ -439,6 +551,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Lithium = new Material.Builder(GTPM.id("lithium"))
+                .localization(text -> text.source("Lithium")
+                        .translation(MinecraftLocale.ZH_CN, "锂"))
                 .dust()
                 .liquid(new FluidBuilder().temperature(454))
                 .ore()
@@ -447,11 +561,15 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Livermorium = new Material.Builder(GTPM.id("livermorium"))
+                .localization(text -> text.source("Livermorium")
+                        .translation(MinecraftLocale.ZH_CN, "𫟷"))
                 .color(0x939393).secondaryColor(0xff5e5e).iconSet(RADIOACTIVE)
                 .element(GTElements.Lv)
                 .buildAndRegister();
 
         Lutetium = new Material.Builder(GTPM.id("lutetium"))
+                .localization(text -> text.source("Lutetium")
+                        .translation(MinecraftLocale.ZH_CN, "镥"))
                 .dust()
                 .liquid(new FluidBuilder().temperature(1925))
                 .color(0x00ccff).secondaryColor(0x4c687a).iconSet(METALLIC)
@@ -459,6 +577,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Magnesium = new Material.Builder(GTPM.id("magnesium"))
+                .localization(text -> text.source("Magnesium")
+                        .translation(MinecraftLocale.ZH_CN, "镁"))
                 .dust()
                 .liquid(new FluidBuilder().temperature(923))
                 .color(0xd6e3ff).secondaryColor(0x594d19).iconSet(FINE)
@@ -466,11 +586,15 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Mendelevium = new Material.Builder(GTPM.id("mendelevium"))
+                .localization(text -> text.source("Mendelevium")
+                        .translation(MinecraftLocale.ZH_CN, "钔"))
                 .color(0x1D4ACF).iconSet(RADIOACTIVE)
                 .element(GTElements.Md)
                 .buildAndRegister();
 
         Manganese = new Material.Builder(GTPM.id("manganese"))
+                .localization(text -> text.source("Manganese")
+                        .translation(MinecraftLocale.ZH_CN, "锰"))
                 .ingot()
                 .liquid(new FluidBuilder().temperature(1519))
                 .color(0x88a669).secondaryColor(0xCDE1B9)
@@ -480,11 +604,15 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Meitnerium = new Material.Builder(GTPM.id("meitnerium"))
+                .localization(text -> text.source("Meitnerium")
+                        .translation(MinecraftLocale.ZH_CN, "鿏"))
                 .color(0x4f3c82).secondaryColor(0x6e90ff).iconSet(RADIOACTIVE)
                 .element(GTElements.Mt)
                 .buildAndRegister();
 
         Mercury = new Material.Builder(GTPM.id("mercury"))
+                .localization(text -> text.source("Mercury")
+                        .translation(MinecraftLocale.ZH_CN, "汞"))
                 .fluid()
                 .color(0xE6DCDC).iconSet(DULL)
                 .element(GTElements.Hg)
@@ -492,6 +620,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Molybdenum = new Material.Builder(GTPM.id("molybdenum"))
+                .localization(text -> text.source("Molybdenum")
+                        .translation(MinecraftLocale.ZH_CN, "钼"))
                 .ingot()
                 .liquid(new FluidBuilder().temperature(2896))
                 .ore()
@@ -502,11 +632,15 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Moscovium = new Material.Builder(GTPM.id("moscovium"))
+                .localization(text -> text.source("Moscovium")
+                        .translation(MinecraftLocale.ZH_CN, "镆"))
                 .color(0x2a1b40).secondaryColor(0xbd91ff).iconSet(RADIOACTIVE)
                 .element(GTElements.Mc)
                 .buildAndRegister();
 
         Neodymium = new Material.Builder(GTPM.id("neodymium"))
+                .localization(text -> text.source("Neodymium")
+                        .translation(MinecraftLocale.ZH_CN, "钕"))
                 .ingot().fluid().ore()
                 .color(0x6c5863).secondaryColor(0x2c1919).iconSet(METALLIC)
                 .appendFlags(STD_METAL, GENERATE_ROD, GENERATE_BOLT_SCREW)
@@ -516,18 +650,24 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Neon = new Material.Builder(GTPM.id("neon"))
+                .localization(text -> text.source("Neon")
+                        .translation(MinecraftLocale.ZH_CN, "氖"))
                 .gas()
                 .color(0xFAB4B4)
                 .element(GTElements.Ne)
                 .buildAndRegister();
 
         Neptunium = new Material.Builder(GTPM.id("neptunium"))
+                .localization(text -> text.source("Neptunium")
+                        .translation(MinecraftLocale.ZH_CN, "镎"))
                 .color(0x284D7B).iconSet(RADIOACTIVE)
                 .element(GTElements.Np)
                 // .radioactiveHazard(1)
                 .buildAndRegister();
 
         Nickel = new Material.Builder(GTPM.id("nickel"))
+                .localization(text -> text.source("Nickel")
+                        .translation(MinecraftLocale.ZH_CN, "镍"))
                 .ingot()
                 .liquid(new FluidBuilder().temperature(1728))
                 .plasma()
@@ -540,11 +680,15 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Nihonium = new Material.Builder(GTPM.id("nihonium"))
+                .localization(text -> text.source("Nihonium")
+                        .translation(MinecraftLocale.ZH_CN, "鿭"))
                 .color(0x323957).secondaryColor(0xbfabff).iconSet(RADIOACTIVE)
                 .element(GTElements.Nh)
                 .buildAndRegister();
 
         Niobium = new Material.Builder(GTPM.id("niobium"))
+                .localization(text -> text.source("Niobium")
+                        .translation(MinecraftLocale.ZH_CN, "铌"))
                 .ingot().fluid()
                 .color(0xb494b4).secondaryColor(0x4b3f4d).iconSet(BRIGHT)
                 .element(GTElements.Nb)
@@ -553,23 +697,31 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Nitrogen = new Material.Builder(GTPM.id("nitrogen"))
+                .localization(text -> text.source("Nitrogen")
+                        .translation(MinecraftLocale.ZH_CN, "氮"))
                 .gas().plasma()
                 .color(0x00BFC1)
                 .element(GTElements.N)
                 .buildAndRegister();
 
         Nobelium = new Material.Builder(GTPM.id("nobelium"))
+                .localization(text -> text.source("Nobelium")
+                        .translation(MinecraftLocale.ZH_CN, "锘"))
                 .color(0x3e4758).secondaryColor(0x43deff)
                 .iconSet(RADIOACTIVE)
                 .element(GTElements.No)
                 .buildAndRegister();
 
         Oganesson = new Material.Builder(GTPM.id("oganesson"))
+                .localization(text -> text.source("Oganesson")
+                        .translation(MinecraftLocale.ZH_CN, "鿫"))
                 .color(0x443936).secondaryColor(0xff1dbd).iconSet(RADIOACTIVE)
                 .element(GTElements.Og)
                 .buildAndRegister();
 
         Osmium = new Material.Builder(GTPM.id("osmium"))
+                .localization(text -> text.source("Osmium")
+                        .translation(MinecraftLocale.ZH_CN, "锇"))
                 .ingot(4)
                 .liquid(new FluidBuilder().temperature(3306))
                 .color(0x54afff).secondaryColor(0x6e6eff).iconSet(METALLIC)
@@ -584,6 +736,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Oxygen = new Material.Builder(GTPM.id("oxygen"))
+                .localization(text -> text.source("Oxygen")
+                        .translation(MinecraftLocale.ZH_CN, "氧"))
                 .gas()
                 .liquid(new FluidBuilder()
                         .temperature(85)
@@ -597,6 +751,8 @@ public class ElementMaterials {
         Oxygen.getProperty(PropertyKey.FLUID).setPrimaryKey(FluidStorageKeys.GAS);
 
         Palladium = new Material.Builder(GTPM.id("palladium"))
+                .localization(text -> text.source("Palladium")
+                        .translation(MinecraftLocale.ZH_CN, "钯"))
                 .ingot().fluid().ore()
                 .color(0xbd92b5).secondaryColor(0x535b14).iconSet(SHINY)
                 .appendFlags(EXT_METAL, GENERATE_FOIL, GENERATE_FINE_WIRE)
@@ -607,12 +763,16 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Phosphorus = new Material.Builder(GTPM.id("phosphorus"))
+                .localization(text -> text.source("Phosphorus")
+                        .translation(MinecraftLocale.ZH_CN, "磷"))
                 .dust()
                 .color(0x77332c).secondaryColor(0x220202)
                 .element(GTElements.P)
                 .buildAndRegister();
 
         Polonium = new Material.Builder(GTPM.id("polonium"))
+                .localization(text -> text.source("Polonium")
+                        .translation(MinecraftLocale.ZH_CN, "钋"))
                 .color(0x163b27).secondaryColor(0x00ff78)
                 .iconSet(RADIOACTIVE)
                 .element(GTElements.Po)
@@ -620,6 +780,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Platinum = new Material.Builder(GTPM.id("platinum"))
+                .localization(text -> text.source("Platinum")
+                        .translation(MinecraftLocale.ZH_CN, "铂"))
                 .ingot()
                 .liquid(new FluidBuilder().temperature(2041))
                 .ore()
@@ -632,6 +794,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Plutonium239 = new Material.Builder(GTPM.id("plutonium_239"))
+                .localization(text -> text.source("Plutonium 239")
+                        .translation(MinecraftLocale.ZH_CN, "钚-239"))
                 .ingot(3)
                 .liquid(new FluidBuilder().temperature(913))
                 .ore(true)
@@ -641,6 +805,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Plutonium241 = new Material.Builder(GTPM.id("plutonium_241"))
+                .localization(text -> text.source("Plutonium 241")
+                        .translation(MinecraftLocale.ZH_CN, "钚-241"))
                 .ingot(3)
                 .liquid(new FluidBuilder().temperature(913))
                 .color(0xff4c4c).secondaryColor(0x222730).iconSet(RADIOACTIVE)
@@ -650,6 +816,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Potassium = new Material.Builder(GTPM.id("potassium"))
+                .localization(text -> text.source("Potassium")
+                        .translation(MinecraftLocale.ZH_CN, "钾"))
                 .dust(1)
                 .liquid(new FluidBuilder().temperature(337))
                 .color(0xd2e1f2).secondaryColor(0x6189b8).iconSet(METALLIC)
@@ -657,11 +825,15 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Praseodymium = new Material.Builder(GTPM.id("praseodymium"))
+                .localization(text -> text.source("Praseodymium")
+                        .translation(MinecraftLocale.ZH_CN, "镨"))
                 .color(0x718060).secondaryColor(0x3f3447).iconSet(METALLIC)
                 .element(GTElements.Pr)
                 .buildAndRegister();
 
         Promethium = new Material.Builder(GTPM.id("promethium"))
+                .localization(text -> text.source("Promethium")
+                        .translation(MinecraftLocale.ZH_CN, "钷"))
                 .color(0x814947).secondaryColor(0xd0ff71)
                 .iconSet(RADIOACTIVE)
                 .element(GTElements.Pm)
@@ -669,12 +841,16 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Protactinium = new Material.Builder(GTPM.id("protactinium"))
+                .localization(text -> text.source("Protactinium")
+                        .translation(MinecraftLocale.ZH_CN, "镤"))
                 .color(0xA78B6D).iconSet(RADIOACTIVE)
                 .element(GTElements.Pa)
                 // .radioactiveHazard(1)
                 .buildAndRegister();
 
         Radon = new Material.Builder(GTPM.id("radon"))
+                .localization(text -> text.source("Radon")
+                        .translation(MinecraftLocale.ZH_CN, "氡"))
                 .gas()
                 .color(0xFF39FF)
                 .element(GTElements.Rn)
@@ -682,17 +858,23 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Radium = new Material.Builder(GTPM.id("radium"))
+                .localization(text -> text.source("Radium")
+                        .translation(MinecraftLocale.ZH_CN, "镭"))
                 .color(0x838361).secondaryColor(0x89ff21).iconSet(RADIOACTIVE)
                 .element(GTElements.Ra)
                 // .radioactiveHazard(1)
                 .buildAndRegister();
 
         Rhenium = new Material.Builder(GTPM.id("rhenium"))
+                .localization(text -> text.source("Rhenium")
+                        .translation(MinecraftLocale.ZH_CN, "铼"))
                 .color(0xcbcfd7).secondaryColor(0x37393d).iconSet(SHINY)
                 .element(GTElements.Re)
                 .buildAndRegister();
 
         Rhodium = new Material.Builder(GTPM.id("rhodium"))
+                .localization(text -> text.source("Rhodium")
+                        .translation(MinecraftLocale.ZH_CN, "铑"))
                 .ingot().fluid()
                 .color(0xfd46b1).secondaryColor(0xDC0C58).iconSet(BRIGHT)
                 .appendFlags(EXT2_METAL, GENERATE_GEAR, GENERATE_FINE_WIRE)
@@ -703,16 +885,22 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Roentgenium = new Material.Builder(GTPM.id("roentgenium"))
+                .localization(text -> text.source("Roentgenium")
+                        .translation(MinecraftLocale.ZH_CN, "𬬭"))
                 .color(0x388c48).secondaryColor(0x198a92).iconSet(RADIOACTIVE)
                 .element(GTElements.Rg)
                 .buildAndRegister();
 
         Rubidium = new Material.Builder(GTPM.id("rubidium"))
+                .localization(text -> text.source("Rubidium")
+                        .translation(MinecraftLocale.ZH_CN, "铷"))
                 .color(0xde0f0f).secondaryColor(0x3a1f1f).iconSet(SHINY)
                 .element(GTElements.Rb)
                 .buildAndRegister();
 
         Ruthenium = new Material.Builder(GTPM.id("ruthenium"))
+                .localization(text -> text.source("Ruthenium")
+                        .translation(MinecraftLocale.ZH_CN, "钌"))
                 .ingot().fluid()
                 .color(0xa2cde0).secondaryColor(0x3c7285).iconSet(SHINY)
                 .flags(GENERATE_FOIL, GENERATE_GEAR)
@@ -723,11 +911,15 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Rutherfordium = new Material.Builder(GTPM.id("rutherfordium"))
+                .localization(text -> text.source("Rutherfordium")
+                        .translation(MinecraftLocale.ZH_CN, "𬬻"))
                 .color(0x6b6157).secondaryColor(0xFFF6A1).iconSet(RADIOACTIVE)
                 .element(GTElements.Rf)
                 .buildAndRegister();
 
         Samarium = new Material.Builder(GTPM.id("samarium"))
+                .localization(text -> text.source("Samarium")
+                        .translation(MinecraftLocale.ZH_CN, "钐"))
                 .ingot()
                 .liquid(new FluidBuilder().temperature(1345))
                 .color(0xc2c289).secondaryColor(0x235254).iconSet(METALLIC)
@@ -739,22 +931,30 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Scandium = new Material.Builder(GTPM.id("scandium"))
+                .localization(text -> text.source("Scandium")
+                        .translation(MinecraftLocale.ZH_CN, "钪"))
                 .color(0xb1b2ac).secondaryColor(0x1c3433)
                 .iconSet(METALLIC)
                 .element(GTElements.Sc)
                 .buildAndRegister();
 
         Seaborgium = new Material.Builder(GTPM.id("seaborgium"))
+                .localization(text -> text.source("Seaborgium")
+                        .translation(MinecraftLocale.ZH_CN, "𬭳"))
                 .color(0x19C5FF).secondaryColor(0xff19b2).iconSet(RADIOACTIVE)
                 .element(GTElements.Sg)
                 .buildAndRegister();
 
         Selenium = new Material.Builder(GTPM.id("selenium"))
+                .localization(text -> text.source("Selenium")
+                        .translation(MinecraftLocale.ZH_CN, "硒"))
                 .color(0xffdf77).secondaryColor(0x055d28).iconSet(SHINY)
                 .element(GTElements.Se)
                 .buildAndRegister();
 
         Silicon = new Material.Builder(GTPM.id("silicon"))
+                .localization(text -> text.source("Silicon")
+                        .translation(MinecraftLocale.ZH_CN, "硅"))
                 .ingot().fluid()
                 .color(0x707078).secondaryColor(0x10293b).iconSet(METALLIC)
                 .flags(GENERATE_FOIL)
@@ -763,6 +963,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Silver = new Material.Builder(GTPM.id("silver"))
+                .localization(text -> text.source("Silver")
+                        .translation(MinecraftLocale.ZH_CN, "银"))
                 .ingot()
                 .liquid(new FluidBuilder().temperature(1235))
                 .ore()
@@ -773,17 +975,23 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Sodium = new Material.Builder(GTPM.id("sodium"))
+                .localization(text -> text.source("Sodium")
+                        .translation(MinecraftLocale.ZH_CN, "钠"))
                 .dust()
                 .color(0x7c80ff).secondaryColor(0x2b30a3).iconSet(METALLIC)
                 .element(GTElements.Na)
                 .buildAndRegister();
 
         Strontium = new Material.Builder(GTPM.id("strontium"))
+                .localization(text -> text.source("Strontium")
+                        .translation(MinecraftLocale.ZH_CN, "锶"))
                 .color(0x7a7953).secondaryColor(0x4c0b06).iconSet(METALLIC)
                 .element(GTElements.Sr)
                 .buildAndRegister();
 
         Sulfur = new Material.Builder(GTPM.id("sulfur"))
+                .localization(text -> text.source("Sulfur")
+                        .translation(MinecraftLocale.ZH_CN, "硫"))
                 .dust().ore()
                 .color(0xfdff31).secondaryColor(0xffb400)
                 .flags(FLAMMABLE)
@@ -791,6 +999,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Tantalum = new Material.Builder(GTPM.id("tantalum"))
+                .localization(text -> text.source("Tantalum")
+                        .translation(MinecraftLocale.ZH_CN, "钽"))
                 .ingot()
                 .liquid(new FluidBuilder().temperature(3290))
                 .color(0xa8a7c6).secondaryColor(0x1f2b20).iconSet(METALLIC)
@@ -799,29 +1009,39 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Technetium = new Material.Builder(GTPM.id("technetium"))
+                .localization(text -> text.source("Technetium")
+                        .translation(MinecraftLocale.ZH_CN, "锝"))
                 .color(0x7430e1).secondaryColor(0x7430e1).iconSet(RADIOACTIVE)
                 .element(GTElements.Tc)
                 // .radioactiveHazard(1)
                 .buildAndRegister();
 
         Tellurium = new Material.Builder(GTPM.id("tellurium"))
+                .localization(text -> text.source("Tellurium")
+                        .translation(MinecraftLocale.ZH_CN, "碲"))
                 .color(0x8fea66).secondaryColor(0x00bfff)
                 .iconSet(RADIOACTIVE)
                 .element(GTElements.Te)
                 .buildAndRegister();
 
         Tennessine = new Material.Builder(GTPM.id("tennessine"))
+                .localization(text -> text.source("Tennessine")
+                        .translation(MinecraftLocale.ZH_CN, "鿬"))
                 .color(0x785cc4).secondaryColor(0x7959d4).iconSet(RADIOACTIVE)
                 .element(GTElements.Ts)
                 .buildAndRegister();
 
         Terbium = new Material.Builder(GTPM.id("terbium"))
+                .localization(text -> text.source("Terbium")
+                        .translation(MinecraftLocale.ZH_CN, "铽"))
                 .color(0xcedab4).secondaryColor(0x263640)
                 .iconSet(METALLIC)
                 .element(GTElements.Tb)
                 .buildAndRegister();
 
         Thorium = new Material.Builder(GTPM.id("thorium"))
+                .localization(text -> text.source("Thorium")
+                        .translation(MinecraftLocale.ZH_CN, "钍"))
                 .ingot()
                 .liquid(new FluidBuilder().temperature(2023))
                 .ore()
@@ -831,18 +1051,24 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Thallium = new Material.Builder(GTPM.id("thallium"))
+                .localization(text -> text.source("Thallium")
+                        .translation(MinecraftLocale.ZH_CN, "铊"))
                 .color(0x5d6b8e).secondaryColor(0x815b63).iconSet(SHINY)
                 .element(GTElements.Tl)
                 // .poison(PoisonProperty.PoisonType.CONTACT)
                 .buildAndRegister();
 
         Thulium = new Material.Builder(GTPM.id("thulium"))
+                .localization(text -> text.source("Thulium")
+                        .translation(MinecraftLocale.ZH_CN, "铥"))
                 .color(0x467681).secondaryColor(0x682c2c)
                 .iconSet(METALLIC)
                 .element(GTElements.Tm)
                 .buildAndRegister();
 
         Tin = new Material.Builder(GTPM.id("tin"))
+                .localization(text -> text.source("Tin")
+                        .translation(MinecraftLocale.ZH_CN, "锡"))
                 .ingot(1)
                 .liquid(new FluidBuilder().temperature(505))
                 .plasma()
@@ -856,6 +1082,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Titanium = new Material.Builder(GTPM.id("titanium")) // todo Ore? Look at EBF recipe here if we do Ti ores
+                .localization(text -> text.source("Titanium")
+                        .translation(MinecraftLocale.ZH_CN, "钛"))
                 .ingot(3).fluid()
                 .color(0xed8eea).secondaryColor(0xff64bc).iconSet(METALLIC)
                 .appendFlags(EXT2_METAL, GENERATE_ROTOR, GENERATE_SMALL_GEAR, GENERATE_GEAR, GENERATE_FRAME)
@@ -872,6 +1100,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Tritium = new Material.Builder(GTPM.id("tritium"))
+                .localization(text -> text.source("Tritium")
+                        .translation(MinecraftLocale.ZH_CN, "氚"))
                 .gas(new FluidBuilder().state(FluidState.GAS).customStill())
                 .color(0xff316b).secondaryColor(0xd00000)
                 .iconSet(METALLIC)
@@ -880,6 +1110,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Tungsten = new Material.Builder(GTPM.id("tungsten"))
+                .localization(text -> text.source("Tungsten")
+                        .translation(MinecraftLocale.ZH_CN, "钨"))
                 .ingot(3)
                 .liquid(new FluidBuilder().temperature(3695))
                 .color(0x3b3a32).secondaryColor(0x2a2800).iconSet(METALLIC)
@@ -895,6 +1127,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Uranium238 = new Material.Builder(GTPM.id("uranium_238"))
+                .localization(text -> text.source("Uranium 238")
+                        .translation(MinecraftLocale.ZH_CN, "铀-238"))
                 .ingot(3)
                 .liquid(new FluidBuilder().temperature(1405))
                 .color(0x1d891d).secondaryColor(0x33342c).iconSet(RADIOACTIVE)
@@ -904,6 +1138,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Uranium235 = new Material.Builder(GTPM.id("uranium_235"))
+                .localization(text -> text.source("Uranium 235")
+                        .translation(MinecraftLocale.ZH_CN, "铀-235"))
                 .ingot(3)
                 .liquid(new FluidBuilder().temperature(1405))
                 .color(0x46FA46).secondaryColor(0x33342c).iconSet(RADIOACTIVE)
@@ -913,6 +1149,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Vanadium = new Material.Builder(GTPM.id("vanadium"))
+                .localization(text -> text.source("Vanadium")
+                        .translation(MinecraftLocale.ZH_CN, "钒"))
                 .ingot().fluid()
                 .color(0x696d76).secondaryColor(0x240808).iconSet(METALLIC)
                 .element(GTElements.V)
@@ -920,17 +1158,23 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Xenon = new Material.Builder(GTPM.id("xenon"))
+                .localization(text -> text.source("Xenon")
+                        .translation(MinecraftLocale.ZH_CN, "氙"))
                 .gas()
                 .color(0x00FFFF)
                 .element(GTElements.Xe)
                 .buildAndRegister();
 
         Ytterbium = new Material.Builder(GTPM.id("ytterbium"))
+                .localization(text -> text.source("Ytterbium")
+                        .translation(MinecraftLocale.ZH_CN, "镱"))
                 .color(0xA7A7A7).iconSet(METALLIC)
                 .element(GTElements.Yb)
                 .buildAndRegister();
 
         Yttrium = new Material.Builder(GTPM.id("yttrium"))
+                .localization(text -> text.source("Yttrium")
+                        .translation(MinecraftLocale.ZH_CN, "钇"))
                 .ingot().fluid()
                 .color(0x7d8072).secondaryColor(0x15161a).iconSet(METALLIC)
                 .element(GTElements.Y)
@@ -938,6 +1182,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Zinc = new Material.Builder(GTPM.id("zinc"))
+                .localization(text -> text.source("Zinc")
+                        .translation(MinecraftLocale.ZH_CN, "锌"))
                 .ingot(1)
                 .liquid(new FluidBuilder().temperature(693))
                 .color(0xEBEBFA).secondaryColor(0x232c30).iconSet(METALLIC)
@@ -946,11 +1192,15 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Zirconium = new Material.Builder(GTPM.id("zirconium"))
+                .localization(text -> text.source("Zirconium")
+                        .translation(MinecraftLocale.ZH_CN, "锆"))
                 .color(0xb99b7e).secondaryColor(0x271813).iconSet(METALLIC)
                 .element(GTElements.Zr)
                 .buildAndRegister();
 
         Naquadah = new Material.Builder(GTPM.id("naquadah"))
+                .localization(text -> text.source("Naquadah")
+                        .translation(MinecraftLocale.ZH_CN, "硅岩"))
                 .ingot(4)
                 .liquid(new FluidBuilder().customStill())
                 .ore()
@@ -966,6 +1216,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         NaquadahEnriched = new Material.Builder(GTPM.id("enriched_naquadah"))
+                .localization(text -> text.source("Enriched Naquadah")
+                        .translation(MinecraftLocale.ZH_CN, "富集硅岩"))
                 .ingot(4)
                 .liquid(new FluidBuilder().customStill())
                 .color(0x3C3C3C, false).secondaryColor(0x122f06).iconSet(METALLIC)
@@ -977,6 +1229,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Naquadria = new Material.Builder(GTPM.id("naquadria"))
+                .localization(text -> text.source("Naquadria")
+                        .translation(MinecraftLocale.ZH_CN, "超能硅岩"))
                 .ingot(3)
                 .liquid(new FluidBuilder().customStill())
                 .color(0x1E1E1E, false).secondaryColor(0x59b3ff).iconSet(RADIOACTIVE)
@@ -989,6 +1243,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Neutronium = new Material.Builder(GTPM.id("neutronium"))
+                .localization(text -> text.source("Neutronium")
+                        .translation(MinecraftLocale.ZH_CN, "中子素"))
                 .ingot(6)
                 .liquid(new FluidBuilder().temperature(100_000))
                 .color(0xFFFFFF).secondaryColor(0x000000)
@@ -1002,6 +1258,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Tritanium = new Material.Builder(GTPM.id("tritanium"))
+                .localization(text -> text.source("Tritanium")
+                        .translation(MinecraftLocale.ZH_CN, "三钛"))
                 .ingot(6)
                 .liquid(new FluidBuilder().temperature(25_000))
                 .color(0xc35769).secondaryColor(0x210840).iconSet(METALLIC)
@@ -1013,6 +1271,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Duranium = new Material.Builder(GTPM.id("duranium"))
+                .localization(text -> text.source("Duranium")
+                        .translation(MinecraftLocale.ZH_CN, "铿铀"))
                 .ingot(5)
                 .liquid(new FluidBuilder().temperature(7500))
                 .color(0xf3e7a9).secondaryColor(0x9c9487).iconSet(BRIGHT)
@@ -1024,6 +1284,8 @@ public class ElementMaterials {
                 .buildAndRegister();
 
         Trinium = new Material.Builder(GTPM.id("trinium"))
+                .localization(text -> text.source("Trinium")
+                        .translation(MinecraftLocale.ZH_CN, "凯金"))
                 .ingot(7).fluid()
                 .color(0x81808a).secondaryColor(0x351d4b).iconSet(SHINY)
                 .flags(GENERATE_FOIL, GENERATE_BOLT_SCREW, GENERATE_GEAR, GENERATE_SPRING)

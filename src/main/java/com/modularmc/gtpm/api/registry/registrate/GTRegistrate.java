@@ -20,6 +20,7 @@ import com.modularmc.gtpm.api.registry.registrate.provider.GTLanguageProvider;
 import com.modularmc.registrate.AbstractRegistrate;
 import com.modularmc.registrate.builders.base.Builder;
 import com.modularmc.registrate.builders.base.NoConfigBuilder;
+import com.modularmc.registrate.localization.LocalizationDeclaration;
 import com.modularmc.registrate.localization.MinecraftLocale;
 import com.modularmc.registrate.providers.RegistrateLangProvider;
 import com.modularmc.registrate.providers.core.GeneratorType;
@@ -47,6 +48,7 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 import com.mojang.serialization.MapCodec;
+import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
@@ -63,6 +65,7 @@ public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
     private static final Map<String, GTRegistrate> EXISTING_REGISTRATES = new ConcurrentHashMap<>();
 
     private final AtomicBoolean registered = new AtomicBoolean(false);
+    private final Map<String, LocalizationDeclaration> defaultLocalizations = new Object2ObjectLinkedOpenHashMap<>();
     private @Nullable PackOutput languageOutput;
 
     protected GTRegistrate(String modId) {
@@ -132,12 +135,23 @@ public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
         super.onData(event);
     }
 
+    /**
+     * Records the first default for a material or one of its tags during registration in a DataGen run.
+     * Language callbacks can replace the default before RegistrateLib resolves the declarations.
+     */
+    @ApiStatus.Internal
+    public void addDefaultLocalization(String key, Supplier<LocalizationDeclaration> declaration) {
+        defaultLocalizations.computeIfAbsent(key, ignored -> declaration.get());
+    }
+
     @Override
     public <T> void genData(GeneratorType<? extends T> type, T generator) {
         if (type == ProviderType.LANG && generator instanceof RegistrateLangProvider language &&
                 languageOutput != null) {
             // Preserve addon replacements before Registrate-Lib checks for conflicting declarations.
             var staged = new GTLanguageProvider(this, languageOutput);
+            defaultLocalizations.forEach((key, declaration) ->
+                    GTLanguageProvider.addLocalization(staged, this, key, declaration));
             super.genData(ProviderType.LANG, staged);
             staged.submitTo(language);
             return;

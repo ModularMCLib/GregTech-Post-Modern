@@ -3,7 +3,10 @@ package com.modularmc.gtpm.api.data.chemical.material.registry;
 import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.data.chemical.material.IMaterialRegistry;
 import com.modularmc.gtpm.api.data.chemical.material.Material;
+import com.modularmc.gtpm.api.registry.registrate.GTRegistrate;
 import com.modularmc.gtpm.common.data.GTMaterials;
+
+import com.modularmc.registrate.localization.LocalizationDeclaration;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.MappedRegistry;
@@ -75,8 +78,16 @@ public final class MaterialRegistry extends MappedRegistry<Material> implements 
                     "Materials cannot be registered in the PostMaterialEvent (or after)! Must be added in the RegisterEvent. Skipping material %s..."
                             .formatted(key.location()));
         }
+        var entry = super.register(id, key, value, registrationInfo);
         usedNamespaces.add(key.location().getNamespace());
-        return super.register(id, key, value, registrationInfo);
+        if (GTPM.isDataGen()) {
+            var registrate = GTRegistrate.createIgnoringListenerErrors(value.getModid());
+            registrate.addDefaultLocalization(value.getUnlocalizedName(), () -> {
+                var name = value.getLocalization();
+                return name != null ? name : LocalizationDeclaration.sourceText(value.getDefaultTranslation());
+            });
+        }
+        return entry;
     }
 
     /**

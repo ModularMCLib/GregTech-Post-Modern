@@ -11,6 +11,11 @@ import com.modularmc.gtpm.api.registry.GTRegistries;
 import com.modularmc.gtpm.common.data.materials.*;
 import com.modularmc.gtpm.utils.memoization.GTMemoizer;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
@@ -455,16 +460,67 @@ public class GTMaterials {
     public static Material Andradite;
     public static Material AnnealedCopper;
     public static Material Asbestos;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "ash_dust",
+                                    source = "Ashes",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "灰烬")),
+                           @Variant(id = "small_ash_dust",
+                                    source = "Small Pile of Ashes",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆灰烬")),
+                           @Variant(id = "tiny_ash_dust",
+                                    source = "Tiny Pile of Ashes",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮灰烬")),
+                   })
     public static Material Ash;
     public static Material Hematite;
     public static Material BatteryAlloy;
     public static Material BlueTopaz;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "bone_dust",
+                                    source = "Bone Meal",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "骨粉")),
+                           @Variant(id = "small_bone_dust",
+                                    source = "Small Pile of Bone Meal",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆骨粉")),
+                           @Variant(id = "tiny_bone_dust",
+                                    source = "Tiny Pile of Bone Meal",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮骨粉")),
+                   })
     public static Material Bone;
     public static Material Brass;
     public static Material Bronze;
     public static Material Goethite;
     public static Material Calcite;
     public static Material Cassiterite;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "cassiterite_sand_dust",
+                                    source = "Cassiterite Sand",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "锡石矿砂")),
+                           @Variant(id = "crushed_cassiterite_sand_ore",
+                                    source = "Ground Cassiterite Sand",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "粉碎锡石矿砂")),
+                           @Variant(id = "impure_cassiterite_sand_dust",
+                                    source = "Impure Pile of Cassiterite Sand",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "含杂锡石矿砂")),
+                           @Variant(id = "pure_cassiterite_sand_dust",
+                                    source = "Purified Pile of Cassiterite Sand",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "纯净锡石矿砂")),
+                           @Variant(id = "purified_cassiterite_sand_ore",
+                                    source = "Purified Cassiterite Sand",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "纯净锡石矿砂")),
+                           @Variant(id = "refined_cassiterite_sand_ore",
+                                    source = "Refined Cassiterite Sand",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "精炼锡石矿砂")),
+                           @Variant(id = "small_cassiterite_sand_dust",
+                                    source = "Small Pile of Cassiterite Sand",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆锡石矿砂")),
+                           @Variant(id = "tiny_cassiterite_sand_dust",
+                                    source = "Tiny Pile of Cassiterite Sand",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮锡石矿砂")),
+                   })
     public static Material CassiteriteSand;
     public static Material Chalcopyrite;
     public static Material Charcoal;
@@ -475,6 +531,18 @@ public class GTMaterials {
     public static Material Cobaltite;
     public static Material Cooperite;
     public static Material Cupronickel;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "dark_ash_dust",
+                                    source = "Dark Ashes",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "黑色灰烬")),
+                           @Variant(id = "small_dark_ash_dust",
+                                    source = "Small Pile of Dark Ashes",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆黑色灰烬")),
+                           @Variant(id = "tiny_dark_ash_dust",
+                                    source = "Tiny Pile of Dark Ashes",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮黑色灰烬")),
+                   })
     public static Material DarkAsh;
     public static Material Diamond;
     public static Material Electrum;
@@ -483,6 +551,18 @@ public class GTMaterials {
     public static Material Garnierite;
     public static Material GreenSapphire;
     public static Material Grossular;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "ice_dust",
+                                    source = "Crushed Ice",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "碎冰")),
+                           @Variant(id = "small_ice_dust",
+                                    source = "Small Pile of Crushed Ice",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆碎冰")),
+                           @Variant(id = "tiny_ice_dust",
+                                    source = "Tiny Pile of Crushed Ice",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮碎冰")),
+                   })
     public static Material Ice;
     public static Material Ilmenite;
     public static Material Rutile;
@@ -508,11 +588,47 @@ public class GTMaterials {
     public static Material Pyrite;
     public static Material Pyrolusite;
     public static Material Pyrope;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "impure_rock_salt_dust",
+                                    source = "Impure Pile of Rock Salt",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "含杂岩盐")),
+                           @Variant(id = "pure_rock_salt_dust",
+                                    source = "Purified Pile of Rock Salt",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "纯净岩盐")),
+                           @Variant(id = "rock_salt_dust",
+                                    source = "Rock Salt",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "岩盐")),
+                           @Variant(id = "small_rock_salt_dust",
+                                    source = "Small Pile of Rock Salt",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆岩盐")),
+                           @Variant(id = "tiny_rock_salt_dust",
+                                    source = "Tiny Pile of Rock Salt",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮岩盐")),
+                   })
     public static Material RockSalt;
     public static Material RTMAlloy;
     public static Material Ruridit;
     public static Material Rubber;
     public static Material Ruby;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "impure_salt_dust",
+                                    source = "Impure Pile of Salt",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "含杂盐")),
+                           @Variant(id = "pure_salt_dust",
+                                    source = "Purified Pile of Salt",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "纯净盐")),
+                           @Variant(id = "salt_dust",
+                                    source = "Salt",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "盐")),
+                           @Variant(id = "small_salt_dust",
+                                    source = "Small Pile of Salt",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆盐")),
+                           @Variant(id = "tiny_salt_dust",
+                                    source = "Tiny Pile of Salt",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮盐")),
+                   })
     public static Material Salt;
     public static Material Saltpeter;
     public static Material Sapphire;
@@ -566,6 +682,18 @@ public class GTMaterials {
     public static Material SodiumBisulfate;
     public static Material FerriteMixture;
     public static Material Magnesia;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "platinum_group_sludge_dust",
+                                    source = "Platinum Group Sludge",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "铂系矿泥")),
+                           @Variant(id = "small_platinum_group_sludge_dust",
+                                    source = "Small Clump of Platinum Group Sludge",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆铂系矿泥")),
+                           @Variant(id = "tiny_platinum_group_sludge_dust",
+                                    source = "Tiny Clump of Platinum Group Sludge",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮铂系矿泥")),
+                   })
     public static Material PlatinumGroupSludge;
     public static Material Realgar;
     public static Material SodiumBicarbonate;
@@ -585,11 +713,50 @@ public class GTMaterials {
     public static Material Pentlandite;
     public static Material Spodumene;
     public static Material Lepidolite;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "glauconite_sand_dust",
+                                    source = "Glauconite Sand",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "海绿石砂")),
+                           @Variant(id = "small_glauconite_sand_dust",
+                                    source = "Small Pile of Glauconite Sand",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆海绿石砂")),
+                           @Variant(id = "tiny_glauconite_sand_dust",
+                                    source = "Tiny Pile of Glauconite Sand",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮海绿石砂")),
+                   })
     public static Material GlauconiteSand;
     public static Material Malachite;
     public static Material Mica;
     public static Material Barite;
     public static Material Alunite;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "crushed_talc_ore_ore",
+                                    source = "Ground Talc",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "精研滑石")),
+                           @Variant(id = "impure_talc_dust",
+                                    source = "Impure Pile of Talc",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "含杂滑石")),
+                           @Variant(id = "pure_talc_dust",
+                                    source = "Purified Pile of Talc",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "纯净滑石")),
+                           @Variant(id = "purified_talc_ore",
+                                    source = "Purified Talc",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "纯净滑石")),
+                           @Variant(id = "refined_talc_ore",
+                                    source = "Refined Talc",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "精炼滑石")),
+                           @Variant(id = "small_talc_dust",
+                                    source = "Small Pile of Talc",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆滑石")),
+                           @Variant(id = "talc_dust",
+                                    source = "Talc",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "滑石")),
+                           @Variant(id = "tiny_talc_dust",
+                                    source = "Tiny Pile of Talc",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮滑石")),
+                   })
     public static Material Talc;
     public static Material Soapstone;
     public static Material Kyanite;
@@ -632,7 +799,31 @@ public class GTMaterials {
     public static Material UraniumRhodiumDinaquadide;
     public static Material EnrichedNaquadahTriniumEuropiumDuranide;
     public static Material RutheniumTriniumAmericiumNeutronate;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "platinum_raw_dust",
+                                    source = "Raw Platinum Powder",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "粗铂粉")),
+                           @Variant(id = "small_platinum_raw_dust",
+                                    source = "Small Pile of Raw Platinum Powder",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆粗铂粉")),
+                           @Variant(id = "tiny_platinum_raw_dust",
+                                    source = "Tiny Pile of Raw Platinum Powder",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮粗铂粉")),
+                   })
     public static Material PlatinumRaw;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "inert_metal_mixture_dust",
+                                    source = "Inert Metal Mixture",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "惰性金属混合物")),
+                           @Variant(id = "small_inert_metal_mixture_dust",
+                                    source = "Small Pile of Inert Metal Mixture",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆惰性金属混合物")),
+                           @Variant(id = "tiny_inert_metal_mixture_dust",
+                                    source = "Tiny Pile of Inert Metal Mixture",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮惰性金属混合物")),
+                   })
     public static Material InertMetalMixture;
     public static Material RhodiumSulfate;
     public static Material RutheniumTetroxide;
@@ -688,6 +879,24 @@ public class GTMaterials {
     public static Material Epoxy;
     public static Material Polycaprolactam;
     public static Material Polytetrafluoroethylene;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "chipped_sugar_gem",
+                                    source = "Small Sugar Cubes",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小块方糖")),
+                           @Variant(id = "flawed_sugar_gem",
+                                    source = "Tiny Sugar Cube",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小颗方糖")),
+                           @Variant(id = "small_sugar_dust",
+                                    source = "Small Pile of Sugar",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆糖")),
+                           @Variant(id = "sugar_gem",
+                                    source = "Sugar Cube",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "方糖")),
+                           @Variant(id = "tiny_sugar_dust",
+                                    source = "Tiny Pile of Sugar",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮糖")),
+                   })
     public static Material Sugar;
     public static Material Methane;
     public static Material Epichlorohydrin;
@@ -742,8 +951,44 @@ public class GTMaterials {
     public static Material NitrosylChloride;
     public static Material CyclohexanoneOxime;
     public static Material Caprolactam;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "platinum_sludge_residue_dust",
+                                    source = "Platinum Sludge Residue",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "铂泥渣")),
+                           @Variant(id = "small_platinum_sludge_residue_dust",
+                                    source = "Small Pile of Platinum Sludge Residue",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆铂泥渣")),
+                           @Variant(id = "tiny_platinum_sludge_residue_dust",
+                                    source = "Tiny Pile of Platinum Sludge Residue",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮铂泥渣")),
+                   })
     public static Material PlatinumSludgeResidue;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "palladium_raw_dust",
+                                    source = "Raw Palladium Powder",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "粗钯粉")),
+                           @Variant(id = "small_palladium_raw_dust",
+                                    source = "Small Pile of Raw Palladium Powder",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆粗钯粉")),
+                           @Variant(id = "tiny_palladium_raw_dust",
+                                    source = "Tiny Pile of Raw Palladium Powder",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮粗钯粉")),
+                   })
     public static Material PalladiumRaw;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "rarest_metal_mixture_dust",
+                                    source = "Rarest Metal Mixture",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "稀有金属混合物")),
+                           @Variant(id = "small_rarest_metal_mixture_dust",
+                                    source = "Small Pile of Rarest Metal Mixture",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆稀有金属混合物")),
+                           @Variant(id = "tiny_rarest_metal_mixture_dust",
+                                    source = "Tiny Pile of Rarest Metal Mixture",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮稀有金属混合物")),
+                   })
     public static Material RarestMetalMixture;
     public static Material AmmoniumChloride;
     public static Material AcidicOsmiumSolution;
@@ -836,8 +1081,29 @@ public class GTMaterials {
     public static Material HighOctaneGasoline;
     public static Material CoalGas;
     public static Material CoalTar;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "small_gunpowder_dust",
+                                    source = "Small Pile of Gunpowder",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆火药")),
+                           @Variant(id = "tiny_gunpowder_dust",
+                                    source = "Tiny Pile of Gunpowder",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮火药")),
+                   })
     public static Material Gunpowder;
     public static Material Oilsands;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "rare_earth_dust",
+                                    source = "Rare Earth",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "稀土")),
+                           @Variant(id = "small_rare_earth_dust",
+                                    source = "Small Pile of Rare Earth",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆稀土")),
+                           @Variant(id = "tiny_rare_earth_dust",
+                                    source = "Tiny Pile of Rare Earth",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮稀土")),
+                   })
     public static Material RareEarth;
     public static Material Stone;
     public static Material Lava;
@@ -852,10 +1118,91 @@ public class GTMaterials {
     public static Material Andesite;
     public static Material Milk;
     public static Material Cocoa;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "small_wheat_dust",
+                                    source = "Small Pile of Flour",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆面粉")),
+                           @Variant(id = "tiny_wheat_dust",
+                                    source = "Tiny Pile of Flour",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮面粉")),
+                           @Variant(id = "wheat_dust",
+                                    source = "Flour",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "面粉")),
+                   })
     public static Material Wheat;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "meat_dust",
+                                    source = "Mince Meat",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "肉末")),
+                           @Variant(id = "small_meat_dust",
+                                    source = "Small Pile of Mince Meat",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆肉末")),
+                           @Variant(id = "tiny_meat_dust",
+                                    source = "Tiny Pile of Mince Meat",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮肉末")),
+                   })
     public static Material Meat;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "long_wood_rod",
+                                    source = "Long Wood Stick",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "长木棍")),
+                           @Variant(id = "small_wood_dust",
+                                    source = "Small Pile of Wood Pulp",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆木浆")),
+                           @Variant(id = "tiny_wood_dust",
+                                    source = "Tiny Pile of Wood Pulp",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮木浆")),
+                           @Variant(id = "wood_bolt",
+                                    source = "Short Wood Stick",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "短木棍")),
+                           @Variant(id = "wood_dust",
+                                    source = "Wood Pulp",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "木浆")),
+                           @Variant(id = "wood_plate",
+                                    source = "Wood Plank",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "木板")),
+                   })
     public static Material Wood;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "long_treated_wood_rod",
+                                    source = "Long Treated Wood Stick",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "长防腐木棍")),
+                           @Variant(id = "small_treated_wood_dust",
+                                    source = "Small Pile of Treated Wood Pulp",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆防腐木浆")),
+                           @Variant(id = "tiny_treated_wood_dust",
+                                    source = "Tiny Pile of Treated Wood Pulp",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮防腐木浆")),
+                           @Variant(id = "treated_wood_bolt",
+                                    source = "Short Treated Wood Stick",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "短防腐木棍")),
+                           @Variant(id = "treated_wood_dust",
+                                    source = "Treated Wood Pulp",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "防腐木浆")),
+                           @Variant(id = "treated_wood_plate",
+                                    source = "Treated Wood Plank",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "防腐木板")),
+                           @Variant(id = "treated_wood_rod",
+                                    source = "Treated Wood Stick",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "防腐木棍")),
+                   })
     public static Material TreatedWood;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "paper_dust",
+                                    source = "Chad",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "纸屑")),
+                           @Variant(id = "small_paper_dust",
+                                    source = "Small Pile of Chad",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆纸屑")),
+                           @Variant(id = "tiny_paper_dust",
+                                    source = "Tiny Pile of Chad",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮纸屑")),
+                   })
     public static Material Paper;
     public static Material FishOil;
     public static Material RubySlurry;
@@ -900,6 +1247,27 @@ public class GTMaterials {
     /**
      * Second Degree Compounds
      */
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "chipped_glass_gem",
+                                    source = "Chipped Glass Crystal",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "破碎的玻璃晶体")),
+                           @Variant(id = "exquisite_glass_gem",
+                                    source = "Exquisite Glass Crystal",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "精致的玻璃晶体")),
+                           @Variant(id = "flawed_glass_gem",
+                                    source = "Flawed Glass Crystal",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "有瑕的玻璃晶体")),
+                           @Variant(id = "flawless_glass_gem",
+                                    source = "Flawless Glass Crystal",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "无瑕的玻璃晶体")),
+                           @Variant(id = "glass_gem",
+                                    source = "Glass Crystal",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "玻璃晶体")),
+                           @Variant(id = "glass_plate",
+                                    source = "Glass Pane",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "玻璃板")),
+                   })
     public static Material Glass;
     public static Material Perlite;
     public static Material Borax;
@@ -908,6 +1276,15 @@ public class GTMaterials {
     public static Material Amethyst;
     public static Material EchoShard;
     public static Material Lapis;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "small_blaze_dust",
+                                    source = "Small Pile of Blaze Powder",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆烈焰粉")),
+                           @Variant(id = "tiny_blaze_dust",
+                                    source = "Tiny Pile of Blaze Powder",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮烈焰粉")),
+                   })
     public static Material Blaze;
     public static Material Apatite;
     public static Material BlackSteel;
@@ -922,10 +1299,88 @@ public class GTMaterials {
     public static Material RedGranite;
     public static Material Blackstone;
     public static Material VanadiumMagnetite;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "quartz_sand_dust",
+                                    source = "Quartz Sand",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "石英砂")),
+                           @Variant(id = "small_quartz_sand_dust",
+                                    source = "Small Pile of Quartz Sand",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆石英砂")),
+                           @Variant(id = "tiny_quartz_sand_dust",
+                                    source = "Tiny Pile of Quartz Sand",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮石英砂")),
+                   })
     public static Material QuartzSand;
     public static Material Pollucite;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "bentonite_dust",
+                                    source = "Bentonite",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "膨润土")),
+                           @Variant(id = "crushed_bentonite_ore",
+                                    source = "Ground Bentonite",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "精研膨润土")),
+                           @Variant(id = "impure_bentonite_dust",
+                                    source = "Impure Pile of Bentonite",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "含杂膨润土")),
+                           @Variant(id = "pure_bentonite_dust",
+                                    source = "Purified Pile of Bentonite",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "纯净膨润土")),
+                           @Variant(id = "purified_bentonite_ore",
+                                    source = "Purified Bentonite",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "纯净膨润土")),
+                           @Variant(id = "refined_bentonite_ore",
+                                    source = "Refined Bentonite",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "精炼膨润土")),
+                           @Variant(id = "small_bentonite_dust",
+                                    source = "Small Pile of Bentonite",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆膨润土")),
+                           @Variant(id = "tiny_bentonite_dust",
+                                    source = "Tiny Pile of Bentonite",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮膨润土")),
+                   })
     public static Material Bentonite;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "fullers_earth_dust",
+                                    source = "Fullers Earth",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "漂白土")),
+                           @Variant(id = "small_fullers_earth_dust",
+                                    source = "Small Pile of Fullers Earth",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆漂白土")),
+                           @Variant(id = "tiny_fullers_earth_dust",
+                                    source = "Tiny Pile of Fullers Earth",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮漂白土")),
+                   })
     public static Material FullersEarth;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "crushed_pitchblende_ore",
+                                    source = "Ground Pitchblende",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "精研沥青铀矿")),
+                           @Variant(id = "impure_pitchblende_dust",
+                                    source = "Impure Pile of Pitchblende",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "含杂沥青铀矿")),
+                           @Variant(id = "pitchblende_dust",
+                                    source = "Pitchblende",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "沥青铀矿")),
+                           @Variant(id = "pure_pitchblende_dust",
+                                    source = "Purified Pile of Pitchblende",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "纯净沥青铀矿")),
+                           @Variant(id = "purified_pitchblende_ore",
+                                    source = "Purified Pitchblende",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "纯净沥青铀矿")),
+                           @Variant(id = "refined_pitchblende_ore",
+                                    source = "Refined Pitchblende",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "精炼沥青铀矿")),
+                           @Variant(id = "small_pitchblende_dust",
+                                    source = "Small Pile of Pitchblende",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆沥青铀矿")),
+                           @Variant(id = "tiny_pitchblende_dust",
+                                    source = "Tiny Pile of Pitchblende",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮沥青铀矿")),
+                   })
     public static Material Pitchblende;
     public static Material Monazite;
     public static Material Mirabilite;
@@ -937,6 +1392,15 @@ public class GTMaterials {
     public static Material SteelMagnetic;
     public static Material VanadiumSteel;
     public static Material Potin;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "borosilicate_glass_ingot",
+                                    source = "Borosilicate Glass Bar",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "硼硅玻璃条")),
+                           @Variant(id = "fine_borosilicate_glass_wire",
+                                    source = "Borosilicate Glass Fibers",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "硼硅玻璃纤维")),
+                   })
     public static Material BorosilicateGlass;
     public static Material NaquadahAlloy;
     public static Material SulfuricNickelSolution;
@@ -969,10 +1433,46 @@ public class GTMaterials {
     public static Material RedSteel;
     public static Material BlueSteel;
     public static Material Basalt;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "granitic_mineral_sand_dust",
+                                    source = "Granitic Mineral Sand",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "花岗岩矿砂")),
+                           @Variant(id = "small_granitic_mineral_sand_dust",
+                                    source = "Small Pile of Granitic Mineral Sand",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆花岗岩矿砂")),
+                           @Variant(id = "tiny_granitic_mineral_sand_dust",
+                                    source = "Tiny Pile of Granitic Mineral Sand",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮花岗岩矿砂")),
+                   })
     public static Material GraniticMineralSand;
     public static Material Redrock;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "garnet_sand_dust",
+                                    source = "Garnet Sand",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "石榴石砂")),
+                           @Variant(id = "small_garnet_sand_dust",
+                                    source = "Small Pile of Garnet Sand",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆石榴石砂")),
+                           @Variant(id = "tiny_garnet_sand_dust",
+                                    source = "Tiny Pile of Garnet Sand",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮石榴石砂")),
+                   })
     public static Material GarnetSand;
     public static Material HSSG;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "iridium_metal_residue_dust",
+                                    source = "Iridium Metal Residue",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "铱金属渣")),
+                           @Variant(id = "small_iridium_metal_residue_dust",
+                                    source = "Small Pile of Iridium Metal Residue",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆铱金属渣")),
+                           @Variant(id = "tiny_iridium_metal_residue_dust",
+                                    source = "Tiny Pile of Iridium Metal Residue",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮铱金属渣")),
+                   })
     public static Material IridiumMetalResidue;
     public static Material Granite;
     public static Material Brick;
@@ -984,6 +1484,18 @@ public class GTMaterials {
      */
     public static Material RedAlloy;
     public static Material BlueAlloy;
+    @TransVariants(keyPrefix = "item.gtpm",
+                   value = {
+                           @Variant(id = "basaltic_mineral_sand_dust",
+                                    source = "Basaltic Mineral Sand",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "玄武岩矿砂")),
+                           @Variant(id = "small_basaltic_mineral_sand_dust",
+                                    source = "Small Pile of Basaltic Mineral Sand",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小堆玄武岩矿砂")),
+                           @Variant(id = "tiny_basaltic_mineral_sand_dust",
+                                    source = "Tiny Pile of Basaltic Mineral Sand",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小撮玄武岩矿砂")),
+                   })
     public static Material BasalticMineralSand;
     public static Material HSSE;
     public static Material HSSS;

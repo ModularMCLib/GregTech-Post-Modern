@@ -22,6 +22,8 @@ import com.modularmc.gtpm.utils.FormattingUtil;
 import com.modularmc.gtpm.utils.GTMath;
 import com.modularmc.gtpm.utils.TagUtil;
 
+import com.modularmc.registrate.localization.LocalizationDeclaration;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
@@ -45,6 +47,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 
 import static com.modularmc.gtpm.utils.FormattingUtil.toEnglishName;
@@ -152,6 +155,13 @@ public class Material {
         flags = new MaterialFlags();
     }
 
+    protected Material(ResourceLocation resourceLocation, Consumer<LocalizationDeclaration.Builder> configure) {
+        this(resourceLocation);
+        var text = new LocalizationDeclaration.Builder();
+        configure.accept(text);
+        materialInfo.localization = text.build();
+    }
+
     protected void registerMaterial() {
         GTRegistries.register(GTRegistries.MATERIALS, this.getResourceLocation(), this);
     }
@@ -162,7 +172,13 @@ public class Material {
 
     @ApiStatus.Internal
     public String getDefaultTranslation() {
+        if (materialInfo.localization != null) return materialInfo.localization.source();
         return materialInfo.overriddenName != null ? materialInfo.overriddenName : toEnglishName(getName());
+    }
+
+    @ApiStatus.Internal
+    public @Nullable LocalizationDeclaration getLocalization() {
+        return materialInfo.localization;
     }
 
     public String getModid() {
@@ -636,6 +652,15 @@ public class Material {
          */
         public Builder langValue(String name) {
             materialInfo.setOverriddenName(name);
+            materialInfo.localization = null;
+            return this;
+        }
+
+        /** Configures the material name declaration used by RegistrateLib during data generation. */
+        public Builder localization(Consumer<LocalizationDeclaration.Builder> configure) {
+            var text = new LocalizationDeclaration.Builder();
+            configure.accept(text);
+            materialInfo.localization = text.build();
             return this;
         }
         /*
@@ -1902,6 +1927,8 @@ public class Material {
         @Setter
         @Getter
         private String overriddenName;
+
+        private @Nullable LocalizationDeclaration localization;
 
         /**
          * The colors of this Material.

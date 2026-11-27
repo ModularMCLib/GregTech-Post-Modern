@@ -1,6 +1,10 @@
 package com.modularmc.gtpm.api.data.chemical.material;
 
+import com.modularmc.registrate.localization.LocalizationDeclaration;
+
 import net.minecraft.resources.ResourceLocation;
+
+import java.util.function.Consumer;
 
 /**
  * MarkerMaterial is type of material used for generic things like material re-registration and use in recipes.
@@ -18,6 +22,11 @@ public final class MarkerMaterial extends Material {
         this.resourceLocation = resourceLocation;
         // TODO
         // OreDictUnifier.registerMarkerMaterial(this);
+    }
+
+    MarkerMaterial(ResourceLocation resourceLocation, Consumer<LocalizationDeclaration.Builder> configure) {
+        super(resourceLocation, configure);
+        this.resourceLocation = resourceLocation;
     }
 
     @Override

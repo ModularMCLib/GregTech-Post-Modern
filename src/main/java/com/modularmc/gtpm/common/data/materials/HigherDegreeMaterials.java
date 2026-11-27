@@ -7,6 +7,8 @@ import com.modularmc.gtpm.api.data.chemical.material.properties.BlastProperty.Ga
 import com.modularmc.gtpm.api.data.chemical.material.properties.ToolProperty;
 import com.modularmc.gtpm.api.fluids.FluidBuilder;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+
 import static com.modularmc.gtpm.api.GTValues.*;
 import static com.modularmc.gtpm.api.data.chemical.material.info.MaterialFlags.*;
 import static com.modularmc.gtpm.api.data.chemical.material.info.MaterialIconSet.*;
@@ -16,6 +18,8 @@ public class HigherDegreeMaterials {
 
     public static void register() {
         Electrotine = new Material.Builder(GTPM.id("electrotine"))
+                .localization(text -> text.source("Electrotine")
+                        .translation(MinecraftLocale.ZH_CN, "蓝石"))
                 .dust().ore(5, 1, true)
                 .color(0x83cbf5).secondaryColor(0x004585).iconSet(SHINY)
                 .flags(DISABLE_DECOMPOSITION)
@@ -23,6 +27,8 @@ public class HigherDegreeMaterials {
                 .buildAndRegister();
 
         EnderEye = new Material.Builder(GTPM.id("ender_eye"))
+                .localization(text -> text.source("Ender Eye")
+                        .translation(MinecraftLocale.ZH_CN, "末影之眼"))
                 .gem(1)
                 .color(0xb5e45a).secondaryColor(0x001430).iconSet(SHINY)
                 .flags(GENERATE_PLATE, NO_SMASHING, NO_SMELTING, DECOMPOSITION_BY_CENTRIFUGING)
@@ -30,12 +36,16 @@ public class HigherDegreeMaterials {
                 .buildAndRegister();
 
         Diatomite = new Material.Builder(GTPM.id("diatomite"))
+                .localization(text -> text.source("Diatomite")
+                        .translation(MinecraftLocale.ZH_CN, "硅藻土"))
                 .dust(1).ore()
                 .color(0xfffafa)
                 .components(Flint, 8, Hematite, 1, Sapphire, 1)
                 .buildAndRegister();
 
         RedSteel = new Material.Builder(GTPM.id("red_steel"))
+                .localization(text -> text.source("Red Steel")
+                        .translation(MinecraftLocale.ZH_CN, "红钢"))
                 .ingot(3).fluid()
                 .color(0xa09191).secondaryColor(0x500404).iconSet(METALLIC)
                 .appendFlags(EXT_METAL, GENERATE_GEAR, GENERATE_BOLT_SCREW, GENERATE_LONG_ROD)
@@ -47,6 +57,8 @@ public class HigherDegreeMaterials {
                 .buildAndRegister();
 
         BlueSteel = new Material.Builder(GTPM.id("blue_steel"))
+                .localization(text -> text.source("Blue Steel")
+                        .translation(MinecraftLocale.ZH_CN, "蓝钢"))
                 .ingot(3).fluid()
                 .color(0x779ac6).secondaryColor(0x191948).iconSet(METALLIC)
                 .appendFlags(EXT_METAL, GENERATE_FRAME, GENERATE_GEAR, GENERATE_BOLT_SCREW, GENERATE_LONG_ROD)
@@ -58,6 +70,8 @@ public class HigherDegreeMaterials {
                 .buildAndRegister();
 
         Basalt = new Material.Builder(GTPM.id("basalt"))
+                .localization(text -> text.source("Basalt")
+                        .translation(MinecraftLocale.ZH_CN, "玄武岩"))
                 .dust(1)
                 .color(0x5c5c5c).secondaryColor(0x1b2632).iconSet(ROUGH)
                 .flags(NO_SMASHING, DECOMPOSITION_BY_CENTRIFUGING)
@@ -65,6 +79,8 @@ public class HigherDegreeMaterials {
                 .buildAndRegister();
 
         GraniticMineralSand = new Material.Builder(GTPM.id("granitic_mineral_sand"))
+                .localization(text -> text.source("Granitic Mineral Sand")
+                        .translation(MinecraftLocale.ZH_CN, "花岗岩矿砂"))
                 .dust(1).ore()
                 .color(0xd69077).secondaryColor(0x71352c).iconSet(SAND)
                 .components(Magnetite, 1, Deepslate, 1)
@@ -72,6 +88,8 @@ public class HigherDegreeMaterials {
                 .buildAndRegister();
 
         Redrock = new Material.Builder(GTPM.id("redrock"))
+                .localization(text -> text.source("Redrock")
+                        .translation(MinecraftLocale.ZH_CN, "红岩"))
                 .dust(1)
                 .color(0xffa49e).secondaryColor(0x52362a).iconSet(ROUGH)
                 .flags(NO_SMASHING, DECOMPOSITION_BY_CENTRIFUGING)
@@ -79,6 +97,8 @@ public class HigherDegreeMaterials {
                 .buildAndRegister();
 
         GarnetSand = new Material.Builder(GTPM.id("garnet_sand"))
+                .localization(text -> text.source("Garnet Sand")
+                        .translation(MinecraftLocale.ZH_CN, "石榴石砂"))
                 .dust(1).ore()
                 .color(0xcc4c25).secondaryColor(0x510b04).iconSet(SAND)
                 .flags(DECOMPOSITION_BY_CENTRIFUGING)
@@ -86,6 +106,8 @@ public class HigherDegreeMaterials {
                 .buildAndRegister();
 
         HSSG = new Material.Builder(GTPM.id("hssg"))
+                .localization(text -> text.source("HSS-G")
+                        .translation(MinecraftLocale.ZH_CN, "高速钢-G"))
                 .ingot(3).fluid()
                 .color(0x9cbabe).secondaryColor(0x032550).iconSet(METALLIC)
                 .appendFlags(EXT2_METAL, GENERATE_SMALL_GEAR, GENERATE_FRAME, GENERATE_SPRING, GENERATE_FINE_WIRE,
@@ -99,6 +121,8 @@ public class HigherDegreeMaterials {
                 .buildAndRegister();
 
         RedAlloy = new Material.Builder(GTPM.id("red_alloy"))
+                .localization(text -> text.source("Red Alloy")
+                        .translation(MinecraftLocale.ZH_CN, "红色合金"))
                 .ingot(0)
                 .liquid(new FluidBuilder().temperature(1400))
                 .color(0xc55252).secondaryColor(0xC80000).iconSet(METALLIC)
@@ -109,6 +133,8 @@ public class HigherDegreeMaterials {
                 .buildAndRegister();
 
         BasalticMineralSand = new Material.Builder(GTPM.id("basaltic_mineral_sand"))
+                .localization(text -> text.source("Basaltic Mineral Sand")
+                        .translation(MinecraftLocale.ZH_CN, "玄武岩矿砂"))
                 .dust(1).ore()
                 .color(0x5c5c5c).secondaryColor(0x283228).iconSet(SAND)
                 .components(Magnetite, 1, Basalt, 1)
@@ -116,6 +142,8 @@ public class HigherDegreeMaterials {
                 .buildAndRegister();
 
         HSSE = new Material.Builder(GTPM.id("hsse"))
+                .localization(text -> text.source("HSS-E")
+                        .translation(MinecraftLocale.ZH_CN, "高速钢-E"))
                 .ingot(4).fluid()
                 .color(0x9d9cbe).secondaryColor(0x2b0350).iconSet(METALLIC)
                 .appendFlags(EXT2_METAL, GENERATE_FRAME, GENERATE_RING, GENERATE_GEAR)
@@ -129,6 +157,8 @@ public class HigherDegreeMaterials {
                 .buildAndRegister();
 
         HSSS = new Material.Builder(GTPM.id("hsss"))
+                .localization(text -> text.source("HSS-S")
+                        .translation(MinecraftLocale.ZH_CN, "高速钢-S"))
                 .ingot(4).fluid()
                 .color(0xa482bf).secondaryColor(0x66000e).iconSet(METALLIC)
                 .appendFlags(EXT2_METAL, GENERATE_SMALL_GEAR, GENERATE_RING, GENERATE_FRAME, GENERATE_ROTOR,
@@ -141,6 +171,8 @@ public class HigherDegreeMaterials {
                 .buildAndRegister();
 
         IridiumMetalResidue = new Material.Builder(GTPM.id("iridium_metal_residue"))
+                .localization(text -> text.source("Iridium Metal Residue")
+                        .translation(MinecraftLocale.ZH_CN, "铱金属渣"))
                 .dust()
                 .color(0x484a5e).secondaryColor(0x3e1c38).iconSet(METALLIC)
                 .flags(DISABLE_DECOMPOSITION)
@@ -148,6 +180,8 @@ public class HigherDegreeMaterials {
                 .buildAndRegister();
 
         Granite = new Material.Builder(GTPM.id("granite"))
+                .localization(text -> text.source("Granite")
+                        .translation(MinecraftLocale.ZH_CN, "花岗岩"))
                 .dust()
                 .color(0xd69077).secondaryColor(0x71352c).iconSet(ROUGH)
                 .flags(DECOMPOSITION_BY_CENTRIFUGING)
@@ -155,6 +189,8 @@ public class HigherDegreeMaterials {
                 .buildAndRegister();
 
         Brick = new Material.Builder(GTPM.id("brick"))
+                .localization(text -> text.source("Brick")
+                        .translation(MinecraftLocale.ZH_CN, "砖"))
                 .dust()
                 .color(0xc76245).secondaryColor(0x2d1610).iconSet(ROUGH)
                 .flags(EXCLUDE_BLOCK_CRAFTING_RECIPES, NO_SMELTING, DECOMPOSITION_BY_CENTRIFUGING)
@@ -162,6 +198,8 @@ public class HigherDegreeMaterials {
                 .buildAndRegister();
 
         Fireclay = new Material.Builder(GTPM.id("fireclay"))
+                .localization(text -> text.source("Fireclay")
+                        .translation(MinecraftLocale.ZH_CN, "耐火黏土"))
                 .dust()
                 .color(0xffeab6).secondaryColor(0x84581c).iconSet(ROUGH)
                 .flags(DECOMPOSITION_BY_CENTRIFUGING, NO_SMELTING)
@@ -169,6 +207,8 @@ public class HigherDegreeMaterials {
                 .buildAndRegister();
 
         Diorite = new Material.Builder(GTPM.id("diorite"))
+                .localization(text -> text.source("Diorite")
+                        .translation(MinecraftLocale.ZH_CN, "闪长岩"))
                 .dust()
                 .color(0xe9e9e9).secondaryColor(0x7b7b7b)
                 .iconSet(ROUGH)
@@ -177,6 +217,8 @@ public class HigherDegreeMaterials {
                 .buildAndRegister();
 
         BlueAlloy = new Material.Builder(GTPM.id("blue_alloy"))
+                .localization(text -> text.source("Blue Alloy")
+                        .translation(MinecraftLocale.ZH_CN, "蓝色合金"))
                 .ingot()
                 .liquid(new FluidBuilder().temperature(1400))
                 .color(0x64B4FF).secondaryColor(0x3c7dba).iconSet(METALLIC)
@@ -186,6 +228,8 @@ public class HigherDegreeMaterials {
                 .buildAndRegister();
 
         RadAway = new Material.Builder(GTPM.id("rad_away"))
+                .localization(text -> text.source("Rad Away")
+                        .translation(MinecraftLocale.ZH_CN, "消辐宁"))
                 .dust()
                 .color(0xe3a1d7).secondaryColor(0x9845a3).iconSet(ROUGH)
                 .flags(DISABLE_DECOMPOSITION)
@@ -193,6 +237,8 @@ public class HigherDegreeMaterials {
                 .buildAndRegister();
 
         Blackstone = new Material.Builder(GTPM.id("blackstone"))
+                .localization(text -> text.source("Blackstone")
+                        .translation(MinecraftLocale.ZH_CN, "黑石"))
                 .dust()
                 .color(0x3c3947).secondaryColor(0x160f10).iconSet(ROUGH)
                 .flags(NO_SMASHING)
