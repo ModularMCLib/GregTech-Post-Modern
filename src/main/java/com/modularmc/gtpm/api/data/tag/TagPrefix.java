@@ -5,6 +5,7 @@ import com.modularmc.gtpm.api.GTValues;
 import com.modularmc.gtpm.api.block.MaterialBlock;
 import com.modularmc.gtpm.api.block.OreBlock;
 import com.modularmc.gtpm.api.data.chemical.material.ItemMaterialData;
+import com.modularmc.gtpm.api.data.chemical.material.MarkerMaterial;
 import com.modularmc.gtpm.api.data.chemical.material.Material;
 import com.modularmc.gtpm.api.data.chemical.material.info.MaterialFlags;
 import com.modularmc.gtpm.api.data.chemical.material.info.MaterialIconType;
@@ -1535,9 +1536,7 @@ public class TagPrefix {
             // Ore variants share a material tag across all host rocks.
             TagPrefix prefix = id.getPath().startsWith("ores/") ? ore : this;
             GTRegistration.REGISTRATE.addDefaultLocalization(itemTagTranslationKey(id),
-                    () -> material.formatLocalization(prefix.localization != null &&
-                            prefix.localization.source().equals(prefix.langValue) ?
-                            prefix.localization : LocalizationDeclaration.sourceText(prefix.langValue)));
+                    () -> prefix.materialTagLocalization(material));
         }
 
         if (this == crushed) {
@@ -1547,6 +1546,17 @@ public class TagPrefix {
                 if (!washFluid.isNull()) CustomTags.localizeChemicalBathTag(washFluid);
             }
         }
+    }
+
+    private LocalizationDeclaration materialTagLocalization(Material material) {
+        // Chemical dye materials already carry the full dye name. Color markers carry only the color.
+        if (this == dye && !(material instanceof MarkerMaterial)) {
+            var name = material.getLocalization();
+            return name != null ? name : LocalizationDeclaration.sourceText(material.getDefaultTranslation());
+        }
+        var template = localization != null && localization.source().equals(langValue) ?
+                localization : LocalizationDeclaration.sourceText(langValue);
+        return material.formatLocalization(template);
     }
 
     private static String itemTagTranslationKey(ResourceLocation id) {
