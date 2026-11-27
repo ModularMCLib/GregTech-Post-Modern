@@ -33,6 +33,8 @@ import com.modularmc.gtpm.data.model.builder.MachineModelBuilder;
 import com.modularmc.registrate.AbstractRegistrate;
 import com.modularmc.registrate.builders.BlockBuilder;
 import com.modularmc.registrate.builders.ItemBuilder;
+import com.modularmc.registrate.localization.DeclarationDefaults;
+import com.modularmc.registrate.localization.LocalizationDeclaration;
 import com.modularmc.registrate.providers.DataGenContext;
 import com.modularmc.registrate.providers.core.ProviderType;
 import com.modularmc.registrate.util.entry.BlockEntry;
@@ -137,6 +139,7 @@ public class MachineBuilder<DEFINITION extends MachineDefinition, TYPE extends M
     private @Nullable EditableMachineUI editableUI;
     @Getter // getter for KJS
     private @Nullable String langValue = null;
+    private @Nullable LocalizationDeclaration localization;
 
     public MachineBuilder(GTRegistrate registrate, String name,
                           Function<ResourceLocation, DEFINITION> definition,
@@ -295,6 +298,16 @@ public class MachineBuilder<DEFINITION extends MachineDefinition, TYPE extends M
 
     public TYPE langValue(@Nullable String langValue) {
         this.langValue = langValue;
+        this.localization = null;
+        return getThis();
+    }
+
+    /** Declares the machine block name before registration. */
+    public TYPE localization(Consumer<LocalizationDeclaration.Builder> configure) {
+        var text = new LocalizationDeclaration.Builder();
+        configure.accept(text);
+        this.localization = text.build();
+        this.langValue = localization.source();
         return getThis();
     }
 
@@ -617,8 +630,18 @@ public class MachineBuilder<DEFINITION extends MachineDefinition, TYPE extends M
             simpleModel(registrate.makeResourceLocation("block/machine/template/" + name));
         }
         var blockBuilder = BlockBuilderWrapper.makeBlockBuilder(getThis(), definition);
-        if (this.langValue != null) {
+        if (localization != null) {
+            var declaration = localization;
+            var defaults = new DeclarationDefaults(declaration.domains(), declaration.type(), declaration.glossary(),
+                    declaration.glossaryIds(), declaration.unitIds());
+            blockBuilder.localization(text -> {
+                text.source(declaration.source()).defaults(defaults);
+                declaration.translations().forEach(text::translation);
+            });
+        } else if (langValue != null) {
             blockBuilder.lang(langValue);
+        }
+        if (langValue != null) {
             definition.setLangValue(langValue);
         }
         if (this.blockBuilder != null) {

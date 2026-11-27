@@ -6,6 +6,7 @@ import com.modularmc.registrate.AbstractRegistrate;
 import com.modularmc.registrate.builders.BlockBuilder;
 import com.modularmc.registrate.builders.BlockEntityBuilder;
 import com.modularmc.registrate.builders.base.BuilderCallback;
+import com.modularmc.registrate.localization.LocalizationDeclaration;
 import com.modularmc.registrate.providers.DataGenContext;
 import com.modularmc.registrate.providers.core.GeneratorType;
 import com.modularmc.registrate.providers.core.ProviderType;
@@ -20,6 +21,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class GTBlockBuilder<T extends Block, P> extends BlockBuilder<T, P> {
@@ -105,6 +107,11 @@ public class GTBlockBuilder<T extends Block, P> extends BlockBuilder<T, P> {
     @Override
     public GTBlockBuilder<T, P> lang(String name) {
         return (GTBlockBuilder<T, P>) super.lang(name);
+    }
+
+    @Override
+    public GTBlockBuilder<T, P> localization(Consumer<LocalizationDeclaration.Builder> configure) {
+        return (GTBlockBuilder<T, P>) super.localization(configure);
     }
 
     @Override
