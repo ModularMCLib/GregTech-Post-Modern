@@ -18,7 +18,6 @@ public class LangHandler {
 
     public static void init(RegistrateLangProvider provider) {
         AdvancementLang.init(provider);
-        BlockLang.init(provider);
         IntegrationLang.init(provider);
         ItemLang.init(provider);
         MachineLang.init(provider);

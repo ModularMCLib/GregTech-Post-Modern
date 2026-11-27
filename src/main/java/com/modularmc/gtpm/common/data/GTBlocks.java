@@ -7,6 +7,7 @@ import com.modularmc.gtpm.api.addon.AddonFinder;
 import com.modularmc.gtpm.api.addon.events.MaterialCasingCollectionEvent;
 import com.modularmc.gtpm.api.block.*;
 import com.modularmc.gtpm.api.data.chemical.material.ItemMaterialData;
+import com.modularmc.gtpm.api.data.chemical.material.MarkerMaterials;
 import com.modularmc.gtpm.api.data.chemical.material.Material;
 import com.modularmc.gtpm.api.data.chemical.material.properties.PropertyKey;
 import com.modularmc.gtpm.api.data.chemical.material.stack.MaterialEntry;
@@ -27,10 +28,17 @@ import com.modularmc.gtpm.common.pipelike.laser.LaserPipeType;
 import com.modularmc.gtpm.common.pipelike.optical.OpticalPipeType;
 import com.modularmc.gtpm.core.mixins.BlockPropertiesAccessor;
 import com.modularmc.gtpm.data.recipe.CustomTags;
+import com.modularmc.gtpm.utils.FormattingUtil;
 import com.modularmc.gtpm.utils.TagUtil;
 import com.modularmc.gtpm.utils.memoization.GTMemoizer;
 
 import com.modularmc.registrate.builders.BlockBuilder;
+import com.modularmc.registrate.localization.LocalizationDeclaration;
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
 import com.modularmc.registrate.providers.core.ProviderType;
 import com.modularmc.registrate.util.entry.BlockEntry;
 import com.modularmc.registrate.util.nullness.NonNullBiConsumer;
@@ -81,14 +89,43 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectSortedMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import static com.modularmc.gtpm.api.GTValues.*;
 import static com.modularmc.gtpm.common.data.GCYMBlocks.*;
 import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 
+@TransVariants(keyPrefix = "tile.gtpm",
+               value = {
+                       @Variant(id = "brittle_charcoal.name",
+                                source = "Brittle Charcoal",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "脆木炭块")),
+                       @Variant(id = "foam.name",
+                                source = "Foam",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "建筑泡沫")),
+                       @Variant(id = "petrified_foam.name",
+                                source = "Petrified Foam",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "石化建筑泡沫")),
+                       @Variant(id = "reinforced_foam.name",
+                                source = "Reinforced Foam",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "强化建筑泡沫")),
+                       @Variant(id = "reinforced_stone.name",
+                                source = "Reinforced Stone",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "防爆石")),
+                       @Variant(id = "seal.name",
+                                source = "Sealed Block",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "密封方块")),
+                       @Variant(id = "brittle_charcoal.tooltip.0",
+                                source = "Produced by the Charcoal Pile Igniter.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "产自木炭堆点火器。")),
+                       @Variant(id = "brittle_charcoal.tooltip.1",
+                                source = "Mine this to get Charcoal.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "挖掘可掉落木炭。")),
+               })
 @SuppressWarnings({ "removal", "unchecked" })
 public class GTBlocks {
 
@@ -101,7 +138,13 @@ public class GTBlocks {
     //////////////////////////////////////
     // ***** Procedural Blocks *****//
 
+    @Trans(key = "block.gtpm.normal_laser_pipe.tooltip",
+           source = "§7Transmitting power with §fno loss§7 in straight lines",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§f无损§7传递能量，仅限直线摆放"))
     public static final BlockEntry<LaserPipeBlock>[] LASER_PIPES = new BlockEntry[LaserPipeType.values().length];
+    @Trans(key = "block.gtpm.normal_optical_pipe.tooltip",
+           source = "§7Transmitting §fComputation§7 or §fResearch Data§7",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7传递§f算力§7或§f研究数据§7"))
     public static final BlockEntry<OpticalPipeBlock>[] OPTICAL_PIPES = new BlockEntry[OpticalPipeType.values().length];
     public static final BlockEntry<DuctPipeBlock>[] DUCT_PIPES = new BlockEntry[DuctPipeType.VALUES.length];
 
@@ -125,6 +168,8 @@ public class GTBlocks {
         var type = LaserPipeType.values()[index];
         var entry = REGISTRATE
                 .block("%s_laser_pipe".formatted(type.getSerializedName()), (p) -> new LaserPipeBlock(p, type))
+                .localization(text -> text.source("Normal Laser Pipe")
+                        .translation(MinecraftLocale.ZH_CN, "标准激光管道"))
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .properties(p -> p.dynamicShape().noOcclusion().forceSolidOn())
                 .gtBlockstate(GTModels::createPipeBlockModel)
@@ -154,7 +199,8 @@ public class GTBlocks {
         var type = OpticalPipeType.values()[index];
         var entry = REGISTRATE
                 .block("%s_optical_pipe".formatted(type.getSerializedName()), (p) -> new OpticalPipeBlock(p, type))
-                .lang("Optical Fiber Cable")
+                .localization(text -> text.source("Optical Fiber Cable")
+                        .translation(MinecraftLocale.ZH_CN, "光缆"))
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .properties(p -> p.dynamicShape().noOcclusion().forceSolidOn())
                 .gtBlockstate(GTModels::createPipeBlockModel)
@@ -183,6 +229,14 @@ public class GTBlocks {
         var type = DuctPipeType.VALUES[index];
         var entry = REGISTRATE
                 .block("%s_duct_pipe".formatted(type.getSerializedName()), (p) -> new DuctPipeBlock(p, type))
+                .localization(text -> {
+                    switch (type) {
+                        case SMALL -> text.source("Small Duct Pipe").translation(MinecraftLocale.ZH_CN, "小型风管");
+                        case NORMAL -> text.source("Normal Duct Pipe").translation(MinecraftLocale.ZH_CN, "标准风管");
+                        case LARGE -> text.source("Large Duct Pipe").translation(MinecraftLocale.ZH_CN, "大型风管");
+                        case HUGE -> text.source("Huge Duct Pipe").translation(MinecraftLocale.ZH_CN, "巨型风管");
+                    }
+                })
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .properties(p -> p.dynamicShape().noOcclusion().forceSolidOn())
                 .gtBlockstate(GTModels::createPipeBlockModel)
@@ -201,6 +255,9 @@ public class GTBlocks {
     public static final BlockEntry<LongDistancePipeBlock> LD_ITEM_PIPE = REGISTRATE
             .block("long_distance_item_pipeline",
                     properties -> new LongDistancePipeBlock(properties, LDItemPipeType.INSTANCE))
+            .localization(text -> text
+                    .source("Long Distance Item Pipeline")
+                    .translation(MinecraftLocale.ZH_CN, "长距离物品管道"))
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .exBlockstate(GTModels.cubeAllModel(GTPM.id("block/pipe/ld_item_pipe/block")))
             .tag(CustomTags.MINEABLE_WITH_CONFIG_VALID_PICKAXE_WRENCH, BlockTags.NEEDS_STONE_TOOL)
@@ -211,6 +268,9 @@ public class GTBlocks {
     public static final BlockEntry<LongDistancePipeBlock> LD_FLUID_PIPE = REGISTRATE
             .block("long_distance_fluid_pipeline",
                     properties -> new LongDistancePipeBlock(properties, LDFluidPipeType.INSTANCE))
+            .localization(text -> text
+                    .source("Long Distance Fluid Pipeline")
+                    .translation(MinecraftLocale.ZH_CN, "长距离流体管道"))
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .exBlockstate(GTModels.cubeAllModel(GTPM.id("block/pipe/ld_fluid_pipe/block")))
             .tag(CustomTags.MINEABLE_WITH_CONFIG_VALID_PICKAXE_WRENCH, BlockTags.NEEDS_STONE_TOOL)
@@ -226,33 +286,61 @@ public class GTBlocks {
 
     // Multiblock Machine Casing Blocks
     public static final BlockEntry<Block> CASING_WOOD_WALL = createSidedCasingBlock("wood_wall",
-            GTPM.id("block/casings/wood_wall"));
+            GTPM.id("block/casings/wood_wall"),
+            text -> text.source("Wood Wall")
+                    .translation(MinecraftLocale.ZH_CN, "木壁"));
     public static final BlockEntry<Block> CASING_COKE_BRICKS = createBrickCasingBlock("coke_oven_bricks",
-            GTPM.id("block/casings/solid/machine_coke_bricks"));
+            GTPM.id("block/casings/solid/machine_coke_bricks"),
+            text -> text.source("Coke Oven Bricks")
+                    .translation(MinecraftLocale.ZH_CN, "焦炉砖块"));
     public static final BlockEntry<Block> CASING_PRIMITIVE_BRICKS = createBrickCasingBlock("firebricks",
-            GTPM.id("block/casings/solid/machine_primitive_bricks"));
+            GTPM.id("block/casings/solid/machine_primitive_bricks"),
+            text -> text.source("Firebricks")
+                    .translation(MinecraftLocale.ZH_CN, "耐火砖块"));
     public static final BlockEntry<Block> CASING_BRONZE_BRICKS = createCasingBlock("steam_machine_casing",
-            GTPM.id("block/casings/solid/machine_casing_bronze_plated_bricks"));
+            GTPM.id("block/casings/solid/machine_casing_bronze_plated_bricks"),
+            text -> text.source("Steam Machine Casing")
+                    .translation(MinecraftLocale.ZH_CN, "蒸汽机械方块"));
     public static final BlockEntry<Block> CASING_INVAR_HEATPROOF = createCasingBlock("heatproof_machine_casing",
-            GTPM.id("block/casings/solid/machine_casing_heatproof"));
+            GTPM.id("block/casings/solid/machine_casing_heatproof"),
+            text -> text.source("Heat Proof Invar Machine Casing")
+                    .translation(MinecraftLocale.ZH_CN, "殷钢隔热机械方块"));
     public static final BlockEntry<Block> CASING_ALUMINIUM_FROSTPROOF = createCasingBlock("frostproof_machine_casing",
-            GTPM.id("block/casings/solid/machine_casing_frost_proof"));
+            GTPM.id("block/casings/solid/machine_casing_frost_proof"),
+            text -> text.source("Frost Proof Aluminium Machine Casing")
+                    .translation(MinecraftLocale.ZH_CN, "铝制防冻机械方块"));
     public static final BlockEntry<Block> CASING_STEEL_SOLID = createCasingBlock("solid_machine_casing",
-            GTPM.id("block/casings/solid/machine_casing_solid_steel"));
+            GTPM.id("block/casings/solid/machine_casing_solid_steel"),
+            text -> text.source("Solid Machine Casing")
+                    .translation(MinecraftLocale.ZH_CN, "脱氧钢机械方块"));
     public static final BlockEntry<Block> CASING_STAINLESS_CLEAN = createCasingBlock("clean_machine_casing",
-            GTPM.id("block/casings/solid/machine_casing_clean_stainless_steel"));
+            GTPM.id("block/casings/solid/machine_casing_clean_stainless_steel"),
+            text -> text.source("Clean Stainless Steel Casing")
+                    .translation(MinecraftLocale.ZH_CN, "洁净不锈钢机械方块"));
     public static final BlockEntry<Block> CASING_TITANIUM_STABLE = createCasingBlock("stable_machine_casing",
-            GTPM.id("block/casings/solid/machine_casing_stable_titanium"));
+            GTPM.id("block/casings/solid/machine_casing_stable_titanium"),
+            text -> text.source("Stable Titanium Machine Casing")
+                    .translation(MinecraftLocale.ZH_CN, "加强钛机械方块"));
     public static final BlockEntry<Block> CASING_TUNGSTENSTEEL_ROBUST = createCasingBlock("robust_machine_casing",
-            GTPM.id("block/casings/solid/machine_casing_robust_tungstensteel"));
+            GTPM.id("block/casings/solid/machine_casing_robust_tungstensteel"),
+            text -> text.source("Robust Tungstensteel Machine Casing")
+                    .translation(MinecraftLocale.ZH_CN, "强化钨钢机械方块"));
     public static final BlockEntry<Block> CASING_PTFE_INERT = createCasingBlock("inert_machine_casing",
-            GTPM.id("block/casings/solid/machine_casing_inert_ptfe"));
+            GTPM.id("block/casings/solid/machine_casing_inert_ptfe"),
+            text -> text.source("Chemically Inert PTFE Machine Casing")
+                    .translation(MinecraftLocale.ZH_CN, "聚四氟乙烯化学惰性机械方块"));
     public static final BlockEntry<Block> CASING_HSSE_STURDY = createCasingBlock("sturdy_machine_casing",
-            GTPM.id("block/casings/solid/machine_casing_sturdy_hsse"));
+            GTPM.id("block/casings/solid/machine_casing_sturdy_hsse"),
+            text -> text.source("Sturdy HSS-E Machine Casing")
+                    .translation(MinecraftLocale.ZH_CN, "坚固高速钢-E机械方块"));
     public static final BlockEntry<Block> CASING_PALLADIUM_SUBSTATION = createCasingBlock("palladium_substation_casing",
-            GTPM.id("block/casings/solid/machine_casing_palladium_substation"));
+            GTPM.id("block/casings/solid/machine_casing_palladium_substation"),
+            text -> text.source("Palladium Substation Casing")
+                    .translation(MinecraftLocale.ZH_CN, "镀钯变电站机械方块"));
     public static final BlockEntry<TransparentBlock> CASING_TEMPERED_GLASS = createGlassCasingBlock("tempered_glass",
-            GTPM.id("block/casings/transparent/tempered_glass"), () -> RenderType::translucent);
+            GTPM.id("block/casings/transparent/tempered_glass"), () -> RenderType::translucent,
+            text -> text.source("Tempered Glass")
+                    .translation(MinecraftLocale.ZH_CN, "钢化玻璃"));
     public static final ImmutableMap<Material, BlockEntry<Block>> MATERIALS_TO_CASINGS;
 
     static {
@@ -284,48 +372,87 @@ public class GTBlocks {
 
     // Assembly Line
     public static final BlockEntry<Block> CASING_GRATE = createCasingBlock("assembly_line_grating",
-            GTPM.id("block/casings/pipe/machine_casing_grate"));
+            GTPM.id("block/casings/pipe/machine_casing_grate"),
+            text -> text.source("Assembly Line Grating")
+                    .translation(MinecraftLocale.ZH_CN, "装配线格栅"));
     public static final BlockEntry<Block> CASING_ASSEMBLY_CONTROL = createCasingBlock("assembly_line_casing",
-            GTPM.id("block/casings/mechanic/machine_casing_assembly_control"));
+            GTPM.id("block/casings/mechanic/machine_casing_assembly_control"),
+            text -> text.source("Assembly Line Casing")
+                    .translation(MinecraftLocale.ZH_CN, "装配线外壳"));
     public static final BlockEntry<TransparentBlock> CASING_LAMINATED_GLASS = createGlassCasingBlock("laminated_glass",
-            GTPM.id("block/casings/transparent/laminated_glass"), () -> RenderType::cutoutMipped);
+            GTPM.id("block/casings/transparent/laminated_glass"), () -> RenderType::cutoutMipped,
+            text -> text.source("Laminated Glass")
+                    .translation(MinecraftLocale.ZH_CN, "夹层玻璃"));
     public static final BlockEntry<ActiveBlock> CASING_ASSEMBLY_LINE = createActiveCasing("assembly_line_unit",
-            "block/variant/assembly_line");
+            "block/variant/assembly_line",
+            text -> text.source("Assembly Control Casing")
+                    .translation(MinecraftLocale.ZH_CN, "装配线控制外壳"));
 
     // Gear Boxes
     public static final BlockEntry<Block> CASING_BRONZE_GEARBOX = createCasingBlock("bronze_gearbox",
-            GTPM.id("block/casings/gearbox/machine_casing_gearbox_bronze"));
+            GTPM.id("block/casings/gearbox/machine_casing_gearbox_bronze"),
+            text -> text.source("Bronze Gearbox Casing")
+                    .translation(MinecraftLocale.ZH_CN, "青铜齿轮箱机械方块"));
     public static final BlockEntry<Block> CASING_STEEL_GEARBOX = createCasingBlock("steel_gearbox",
-            GTPM.id("block/casings/gearbox/machine_casing_gearbox_steel"));
+            GTPM.id("block/casings/gearbox/machine_casing_gearbox_steel"),
+            text -> text.source("Steel Gearbox Casing")
+                    .translation(MinecraftLocale.ZH_CN, "钢齿轮箱机械方块"));
     public static final BlockEntry<Block> CASING_STAINLESS_STEEL_GEARBOX = createCasingBlock("stainless_steel_gearbox",
-            GTPM.id("block/casings/gearbox/machine_casing_gearbox_stainless_steel"));
+            GTPM.id("block/casings/gearbox/machine_casing_gearbox_stainless_steel"),
+            text -> text.source("Stainless Steel Gearbox Casing")
+                    .translation(MinecraftLocale.ZH_CN, "不锈钢齿轮箱机械方块"));
     public static final BlockEntry<Block> CASING_TITANIUM_GEARBOX = createCasingBlock("titanium_gearbox",
-            GTPM.id("block/casings/gearbox/machine_casing_gearbox_titanium"));
+            GTPM.id("block/casings/gearbox/machine_casing_gearbox_titanium"),
+            text -> text.source("Titanium Gearbox Casing")
+                    .translation(MinecraftLocale.ZH_CN, "钛齿轮箱机械方块"));
     public static final BlockEntry<Block> CASING_TUNGSTENSTEEL_GEARBOX = createCasingBlock("tungstensteel_gearbox",
-            GTPM.id("block/casings/gearbox/machine_casing_gearbox_tungstensteel"));
+            GTPM.id("block/casings/gearbox/machine_casing_gearbox_tungstensteel"),
+            text -> text.source("Tungstensteel Gearbox Casing")
+                    .translation(MinecraftLocale.ZH_CN, "钨钢齿轮箱机械方块"));
 
     // Turbine Casings
     public static final BlockEntry<Block> CASING_STEEL_TURBINE = createCasingBlock("steel_turbine_casing",
-            GTPM.id("block/casings/mechanic/machine_casing_turbine_steel"));
+            GTPM.id("block/casings/mechanic/machine_casing_turbine_steel"),
+            text -> text.source("Magnalium Turbine Casing")
+                    .translation(MinecraftLocale.ZH_CN, "镁铝合金涡轮机械方块"));
     public static final BlockEntry<Block> CASING_TITANIUM_TURBINE = createCasingBlock("titanium_turbine_casing",
-            GTPM.id("block/casings/mechanic/machine_casing_turbine_titanium"));
+            GTPM.id("block/casings/mechanic/machine_casing_turbine_titanium"),
+            text -> text.source("Titanium Turbine Casing")
+                    .translation(MinecraftLocale.ZH_CN, "钛涡轮机械方块"));
     public static final BlockEntry<Block> CASING_STAINLESS_TURBINE = createCasingBlock("stainless_steel_turbine_casing",
-            GTPM.id("block/casings/mechanic/machine_casing_turbine_stainless_steel"));
+            GTPM.id("block/casings/mechanic/machine_casing_turbine_stainless_steel"),
+            text -> text.source("Stainless Turbine Casing")
+                    .translation(MinecraftLocale.ZH_CN, "不锈钢涡轮机械方块"));
     public static final BlockEntry<Block> CASING_TUNGSTENSTEEL_TURBINE = createCasingBlock(
-            "tungstensteel_turbine_casing", GTPM.id("block/casings/mechanic/machine_casing_turbine_tungstensteel"));
+            "tungstensteel_turbine_casing", GTPM.id("block/casings/mechanic/machine_casing_turbine_tungstensteel"),
+            text -> text.source("Tungstensteel Turbine Casing")
+                    .translation(MinecraftLocale.ZH_CN, "钨钢涡轮机械方块"));
 
     // Pipe casings
     public static final BlockEntry<Block> CASING_BRONZE_PIPE = createCasingBlock("bronze_pipe_casing",
-            GTPM.id("block/casings/pipe/machine_casing_pipe_bronze"));
+            GTPM.id("block/casings/pipe/machine_casing_pipe_bronze"),
+            text -> text.source("Bronze Pipe Casing")
+                    .translation(MinecraftLocale.ZH_CN, "青铜管道方块"));
     public static final BlockEntry<Block> CASING_STEEL_PIPE = createCasingBlock("steel_pipe_casing",
-            GTPM.id("block/casings/pipe/machine_casing_pipe_steel"));
+            GTPM.id("block/casings/pipe/machine_casing_pipe_steel"),
+            text -> text.source("Steel Pipe Casing")
+                    .translation(MinecraftLocale.ZH_CN, "钢管道方块"));
     public static final BlockEntry<Block> CASING_TITANIUM_PIPE = createCasingBlock("titanium_pipe_casing",
-            GTPM.id("block/casings/pipe/machine_casing_pipe_titanium"));
+            GTPM.id("block/casings/pipe/machine_casing_pipe_titanium"),
+            text -> text.source("Titanium Pipe Casing")
+                    .translation(MinecraftLocale.ZH_CN, "钛管道方块"));
     public static final BlockEntry<Block> CASING_TUNGSTENSTEEL_PIPE = createCasingBlock("tungstensteel_pipe_casing",
-            GTPM.id("block/casings/pipe/machine_casing_pipe_tungstensteel"));
+            GTPM.id("block/casings/pipe/machine_casing_pipe_tungstensteel"),
+            text -> text.source("Tungstensteel Pipe Casing")
+                    .translation(MinecraftLocale.ZH_CN, "钨钢管道方块"));
     public static final BlockEntry<Block> CASING_POLYTETRAFLUOROETHYLENE_PIPE = createCasingBlock("ptfe_pipe_casing",
-            GTPM.id("block/casings/pipe/machine_casing_pipe_polytetrafluoroethylene"));
+            GTPM.id("block/casings/pipe/machine_casing_pipe_polytetrafluoroethylene"),
+            text -> text.source("PTFE Pipe Casing")
+                    .translation(MinecraftLocale.ZH_CN, "聚四氟乙烯管道方块"));
     public static final BlockEntry<MinerPipeBlock> MINER_PIPE = REGISTRATE.block("miner_pipe", MinerPipeBlock::new)
+            .localization(text -> text
+                    .source("Miner Pipe")
+                    .translation(MinecraftLocale.ZH_CN, "采矿管道"))
             .initialProperties(() -> Blocks.BEDROCK)
             .properties(BlockBehaviour.Properties::noOcclusion)
             .addLayer(() -> RenderType::cutoutMipped)
@@ -337,6 +464,9 @@ public class GTBlocks {
     // The Pump Deck
     public static final BlockEntry<Block> CASING_PUMP_DECK = REGISTRATE
             .block("pump_deck", Block::new)
+            .localization(text -> text
+                    .source("Pump Deck")
+                    .translation(MinecraftLocale.ZH_CN, "水泵盖板"))
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .properties(p -> p.sound(SoundType.WOOD).mapColor(MapColor.WOOD))
             .blockstate(() -> GTModels.createSidedCasingModel(GTPM.id("block/casings/pump_deck")))
@@ -375,64 +505,159 @@ public class GTBlocks {
     public static final BlockEntry<Block> HERMETIC_CASING_UV = createHermeticCasing(UV);
     public static final BlockEntry<Block> HERMETIC_CASING_UHV = createHermeticCasing(UHV);
 
-    public static final BlockEntry<Block> BRONZE_HULL = createSteamCasing("bronze_machine_casing", "bronze");
-    public static final BlockEntry<Block> BRONZE_BRICKS_HULL = createSteamCasing("bronze_brick_casing", "bricked_bronze");
-    public static final BlockEntry<Block> STEEL_HULL = createSteamCasing("steel_machine_casing", "steel");
-    public static final BlockEntry<Block> STEEL_BRICKS_HULL = createSteamCasing("steel_brick_casing", "bricked_steel");
+    @Trans(key = "block.gtpm.bronze_machine_casing.tooltip",
+           source = "§7For your first Steam Machines",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7用来制作你的第一批蒸汽机器"))
+    public static final BlockEntry<Block> BRONZE_HULL = createSteamCasing("bronze_machine_casing", "bronze",
+            text -> text.source("Bronze Machine Casing")
+                    .translation(MinecraftLocale.ZH_CN, "青铜机器外壳"));
+    @Trans(key = "block.gtpm.bronze_brick_casing.tooltip",
+           source = "§7For your first Steam Machines",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7用来制作你的第一批蒸汽机器"))
+    public static final BlockEntry<Block> BRONZE_BRICKS_HULL = createSteamCasing("bronze_brick_casing", "bricked_bronze",
+            text -> text.source("Bricked Bronze Casing")
+                    .translation(MinecraftLocale.ZH_CN, "砖砌青铜外壳"));
+    @Trans(key = "block.gtpm.steel_machine_casing.tooltip",
+           source = "§7For improved Steam Machines",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7用来制作更高等级的蒸汽机器"))
+    public static final BlockEntry<Block> STEEL_HULL = createSteamCasing("steel_machine_casing", "steel",
+            text -> text.source("Solid Steel Machine Casing")
+                    .translation(MinecraftLocale.ZH_CN, "牢固机械方块"));
+    @Trans(key = "block.gtpm.steel_brick_casing.tooltip",
+           source = "§7For improved Steam Machines",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7用来制作更高等级的蒸汽机器"))
+    public static final BlockEntry<Block> STEEL_BRICKS_HULL = createSteamCasing("steel_brick_casing", "bricked_steel",
+            text -> text.source("Bricked Wrought Iron Casing")
+                    .translation(MinecraftLocale.ZH_CN, "砖砌锻铁外壳"));
 
     // Heating Coils
-    public static final BlockEntry<CoilBlock> COIL_CUPRONICKEL = createCoilBlock(CoilBlock.CoilType.CUPRONICKEL);
-    public static final BlockEntry<CoilBlock> COIL_KANTHAL = createCoilBlock(CoilBlock.CoilType.KANTHAL);
-    public static final BlockEntry<CoilBlock> COIL_NICHROME = createCoilBlock(CoilBlock.CoilType.NICHROME);
-    public static final BlockEntry<CoilBlock> COIL_RTMALLOY = createCoilBlock(CoilBlock.CoilType.RTMALLOY);
-    public static final BlockEntry<CoilBlock> COIL_HSSG = createCoilBlock(CoilBlock.CoilType.HSSG);
-    public static final BlockEntry<CoilBlock> COIL_NAQUADAH = createCoilBlock(CoilBlock.CoilType.NAQUADAH);
-    public static final BlockEntry<CoilBlock> COIL_TRINIUM = createCoilBlock(CoilBlock.CoilType.TRINIUM);
-    public static final BlockEntry<CoilBlock> COIL_TRITANIUM = createCoilBlock(CoilBlock.CoilType.TRITANIUM);
+    public static final BlockEntry<CoilBlock> COIL_CUPRONICKEL = createCoilBlock(CoilBlock.CoilType.CUPRONICKEL,
+            text -> text.source("Cupronickel Coil Block")
+                    .translation(MinecraftLocale.ZH_CN, "白铜线圈方块"));
+    public static final BlockEntry<CoilBlock> COIL_KANTHAL = createCoilBlock(CoilBlock.CoilType.KANTHAL,
+            text -> text.source("Kanthal Coil Block")
+                    .translation(MinecraftLocale.ZH_CN, "坎塔尔合金线圈方块"));
+    public static final BlockEntry<CoilBlock> COIL_NICHROME = createCoilBlock(CoilBlock.CoilType.NICHROME,
+            text -> text.source("Nichrome Coil Block")
+                    .translation(MinecraftLocale.ZH_CN, "镍铬合金线圈方块"));
+    public static final BlockEntry<CoilBlock> COIL_RTMALLOY = createCoilBlock(CoilBlock.CoilType.RTMALLOY,
+            text -> text.source("RTM Alloy Coil Block")
+                    .translation(MinecraftLocale.ZH_CN, "钌钨钼合金线圈方块"));
+    public static final BlockEntry<CoilBlock> COIL_HSSG = createCoilBlock(CoilBlock.CoilType.HSSG,
+            text -> text.source("HSS-G Coil Block")
+                    .translation(MinecraftLocale.ZH_CN, "高速钢-G线圈方块"));
+    public static final BlockEntry<CoilBlock> COIL_NAQUADAH = createCoilBlock(CoilBlock.CoilType.NAQUADAH,
+            text -> text.source("Naquadah Coil Block")
+                    .translation(MinecraftLocale.ZH_CN, "硅岩线圈方块"));
+    public static final BlockEntry<CoilBlock> COIL_TRINIUM = createCoilBlock(CoilBlock.CoilType.TRINIUM,
+            text -> text.source("Trinium Coil Block")
+                    .translation(MinecraftLocale.ZH_CN, "凯金线圈方块"));
+    public static final BlockEntry<CoilBlock> COIL_TRITANIUM = createCoilBlock(CoilBlock.CoilType.TRITANIUM,
+            text -> text.source("Tritanium Coil Block")
+                    .translation(MinecraftLocale.ZH_CN, "三钛线圈方块"));
 
     // PSS batteries
-    public static final BlockEntry<BatteryBlock> BATTERY_EMPTY_TIER_I = createBatteryBlock(BatteryBlock.BatteryPartType.EMPTY_TIER_I);
-    public static final BlockEntry<BatteryBlock> BATTERY_LAPOTRONIC_EV = createBatteryBlock(BatteryBlock.BatteryPartType.EV_LAPOTRONIC);
-    public static final BlockEntry<BatteryBlock> BATTERY_LAPOTRONIC_IV = createBatteryBlock(BatteryBlock.BatteryPartType.IV_LAPOTRONIC);
-    public static final BlockEntry<BatteryBlock> BATTERY_EMPTY_TIER_II = createBatteryBlock(BatteryBlock.BatteryPartType.EMPTY_TIER_II);
-    public static final BlockEntry<BatteryBlock> BATTERY_LAPOTRONIC_LuV = createBatteryBlock(BatteryBlock.BatteryPartType.LuV_LAPOTRONIC);
-    public static final BlockEntry<BatteryBlock> BATTERY_LAPOTRONIC_ZPM = createBatteryBlock(BatteryBlock.BatteryPartType.ZPM_LAPOTRONIC);
-    public static final BlockEntry<BatteryBlock> BATTERY_EMPTY_TIER_III = createBatteryBlock(BatteryBlock.BatteryPartType.EMPTY_TIER_III);
-    public static final BlockEntry<BatteryBlock> BATTERY_LAPOTRONIC_UV = createBatteryBlock(BatteryBlock.BatteryPartType.UV_LAPOTRONIC);
-    public static final BlockEntry<BatteryBlock> BATTERY_ULTIMATE_UHV = createBatteryBlock(BatteryBlock.BatteryPartType.UHV_ULTIMATE);
+    public static final BlockEntry<BatteryBlock> BATTERY_EMPTY_TIER_I = createBatteryBlock(BatteryBlock.BatteryPartType.EMPTY_TIER_I,
+            text -> text.source("Empty Tier I Capacitor")
+                    .translation(MinecraftLocale.ZH_CN, "空电容（Tier I）"));
+    public static final BlockEntry<BatteryBlock> BATTERY_LAPOTRONIC_EV = createBatteryBlock(BatteryBlock.BatteryPartType.EV_LAPOTRONIC,
+            text -> text.source("EV Lapotronic Capacitor")
+                    .translation(MinecraftLocale.ZH_CN, "兰波顿电容（§5EV§r）"));
+    public static final BlockEntry<BatteryBlock> BATTERY_LAPOTRONIC_IV = createBatteryBlock(BatteryBlock.BatteryPartType.IV_LAPOTRONIC,
+            text -> text.source("IV Lapotronic Capacitor")
+                    .translation(MinecraftLocale.ZH_CN, "兰波顿电容（§1IV§r）"));
+    public static final BlockEntry<BatteryBlock> BATTERY_EMPTY_TIER_II = createBatteryBlock(BatteryBlock.BatteryPartType.EMPTY_TIER_II,
+            text -> text.source("Empty Tier II Capacitor")
+                    .translation(MinecraftLocale.ZH_CN, "空电容（Tier II）"));
+    public static final BlockEntry<BatteryBlock> BATTERY_LAPOTRONIC_LuV = createBatteryBlock(BatteryBlock.BatteryPartType.LuV_LAPOTRONIC,
+            text -> text.source("LuV Lapotronic Capacitor")
+                    .translation(MinecraftLocale.ZH_CN, "兰波顿电容（§dLuV§r）"));
+    public static final BlockEntry<BatteryBlock> BATTERY_LAPOTRONIC_ZPM = createBatteryBlock(BatteryBlock.BatteryPartType.ZPM_LAPOTRONIC,
+            text -> text.source("ZPM Lapotronic Capacitor")
+                    .translation(MinecraftLocale.ZH_CN, "兰波顿电容（§cZPM§r）"));
+    public static final BlockEntry<BatteryBlock> BATTERY_EMPTY_TIER_III = createBatteryBlock(BatteryBlock.BatteryPartType.EMPTY_TIER_III,
+            text -> text.source("Empty Tier III Capacitor")
+                    .translation(MinecraftLocale.ZH_CN, "空电容（Tier III）"));
+    public static final BlockEntry<BatteryBlock> BATTERY_LAPOTRONIC_UV = createBatteryBlock(BatteryBlock.BatteryPartType.UV_LAPOTRONIC,
+            text -> text.source("UV Lapotronic Capacitor")
+                    .translation(MinecraftLocale.ZH_CN, "兰波顿电容（§3UV§r）"));
+    public static final BlockEntry<BatteryBlock> BATTERY_ULTIMATE_UHV = createBatteryBlock(BatteryBlock.BatteryPartType.UHV_ULTIMATE,
+            text -> text.source("UHV Ultimate Capacitor")
+                    .translation(MinecraftLocale.ZH_CN, "终极电容（§4UHV§r）"));
 
     // Intake casing
-    public static final BlockEntry<ActiveBlock> CASING_ENGINE_INTAKE = createActiveCasing("engine_intake_casing", "block/variant/engine_intake");
-    public static final BlockEntry<ActiveBlock> CASING_EXTREME_ENGINE_INTAKE = createActiveCasing("extreme_engine_intake_casing", "block/variant/extreme_engine_intake");
+    public static final BlockEntry<ActiveBlock> CASING_ENGINE_INTAKE = createActiveCasing("engine_intake_casing", "block/variant/engine_intake",
+            text -> text.source("Engine Intake Casing")
+                    .translation(MinecraftLocale.ZH_CN, "引擎进气机械方块"));
+    public static final BlockEntry<ActiveBlock> CASING_EXTREME_ENGINE_INTAKE = createActiveCasing("extreme_engine_intake_casing", "block/variant/extreme_engine_intake",
+            text -> text.source("Extreme Engine Intake Casing")
+                    .translation(MinecraftLocale.ZH_CN, "极限引擎进气机械方块"));
 
     // Fusion
     public static final Map<IFusionCasingType, Supplier<FusionCasingBlock>> ALL_FUSION_CASINGS = new HashMap<>();
-    public static final BlockEntry<FusionCasingBlock> SUPERCONDUCTING_COIL = createFusionCasing(FusionCasingBlock.CasingType.SUPERCONDUCTING_COIL);
-    public static final BlockEntry<FusionCasingBlock> FUSION_COIL = createFusionCasing(FusionCasingBlock.CasingType.FUSION_COIL);
-    public static final BlockEntry<FusionCasingBlock> FUSION_CASING = createFusionCasing(FusionCasingBlock.CasingType.FUSION_CASING);
-    public static final BlockEntry<FusionCasingBlock> FUSION_CASING_MK2 = createFusionCasing(FusionCasingBlock.CasingType.FUSION_CASING_MK2);
-    public static final BlockEntry<FusionCasingBlock> FUSION_CASING_MK3 = createFusionCasing(FusionCasingBlock.CasingType.FUSION_CASING_MK3);
+    public static final BlockEntry<FusionCasingBlock> SUPERCONDUCTING_COIL = createFusionCasing(FusionCasingBlock.CasingType.SUPERCONDUCTING_COIL,
+            text -> text.source("Superconducting Coil Block")
+                    .translation(MinecraftLocale.ZH_CN, "超导线圈方块"));
+    public static final BlockEntry<FusionCasingBlock> FUSION_COIL = createFusionCasing(FusionCasingBlock.CasingType.FUSION_COIL,
+            text -> text.source("Fusion Coil Block")
+                    .translation(MinecraftLocale.ZH_CN, "聚变线圈方块"));
+    public static final BlockEntry<FusionCasingBlock> FUSION_CASING = createFusionCasing(FusionCasingBlock.CasingType.FUSION_CASING,
+            text -> text.source("Fusion Machine Casing")
+                    .translation(MinecraftLocale.ZH_CN, "聚变机械方块"));
+    public static final BlockEntry<FusionCasingBlock> FUSION_CASING_MK2 = createFusionCasing(FusionCasingBlock.CasingType.FUSION_CASING_MK2,
+            text -> text.source("Fusion Machine Casing MK II")
+                    .translation(MinecraftLocale.ZH_CN, "聚变机械方块 MK-II"));
+    public static final BlockEntry<FusionCasingBlock> FUSION_CASING_MK3 = createFusionCasing(FusionCasingBlock.CasingType.FUSION_CASING_MK3,
+            text -> text.source("Fusion Machine Casing MK III")
+                    .translation(MinecraftLocale.ZH_CN, "聚变机械方块 MK-III"));
     public static final BlockEntry<TransparentBlock> FUSION_GLASS = createGlassCasingBlock("fusion_glass",
-            GTPM.id("block/casings/transparent/fusion_glass"), () -> RenderType::cutoutMipped);
+            GTPM.id("block/casings/transparent/fusion_glass"), () -> RenderType::cutoutMipped,
+            text -> text.source("Fusion Glass")
+                    .translation(MinecraftLocale.ZH_CN, "聚变玻璃"));
 
     // Cleanroom
-    public static final BlockEntry<Block> PLASTCRETE = createCasingBlock("plascrete", GTPM.id("block/casings/cleanroom/plascrete"));
-    public static final BlockEntry<Block> FILTER_CASING = createCleanroomFilter(CleanroomFilterType.FILTER_CASING);
-    public static final BlockEntry<Block> FILTER_CASING_STERILE = createCleanroomFilter(CleanroomFilterType.FILTER_CASING_STERILE);
-    public static final BlockEntry<TransparentBlock> CLEANROOM_GLASS = createGlassCasingBlock("cleanroom_glass", GTPM.id("block/casings/transparent/cleanroom_glass"), () -> RenderType::cutoutMipped);
+    public static final BlockEntry<Block> PLASTCRETE = createCasingBlock("plascrete", GTPM.id("block/casings/cleanroom/plascrete"),
+            text -> text.source("Plascrete")
+                    .translation(MinecraftLocale.ZH_CN, "塑料混凝土"));
+    @Trans(key = "block.gtpm.filter_casing.tooltip",
+           source = "Creates a §aParticle-Free§7 environment",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "创建一个§a无尘§7环境"))
+    public static final BlockEntry<Block> FILTER_CASING = createCleanroomFilter(CleanroomFilterType.FILTER_CASING,
+            text -> text.source("Filter Casing")
+                    .translation(MinecraftLocale.ZH_CN, "过滤器机械方块"));
+    @Trans(key = "block.gtpm.sterilizing_filter_casing.tooltip",
+           source = "Creates a §aSterilized§7 environment",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "创造一个§a无菌§7环境"))
+    public static final BlockEntry<Block> FILTER_CASING_STERILE = createCleanroomFilter(CleanroomFilterType.FILTER_CASING_STERILE,
+            text -> text.source("Sterilizing Filter Casing")
+                    .translation(MinecraftLocale.ZH_CN, "除菌过滤器机械方块"));
+    public static final BlockEntry<TransparentBlock> CLEANROOM_GLASS = createGlassCasingBlock("cleanroom_glass", GTPM.id("block/casings/transparent/cleanroom_glass"), () -> RenderType::cutoutMipped,
+            text -> text.source("Cleanroom Glass")
+                    .translation(MinecraftLocale.ZH_CN, "超净间玻璃"));
 
     // Fireboxes
     public static final Map<BoilerFireboxType, BlockEntry<ActiveBlock>> ALL_FIREBOXES = new HashMap<>();
-    public static final BlockEntry<ActiveBlock> FIREBOX_BRONZE = createFireboxCasing(BoilerFireboxType.BRONZE_FIREBOX);
-    public static final BlockEntry<ActiveBlock> FIREBOX_STEEL = createFireboxCasing(BoilerFireboxType.STEEL_FIREBOX);
-    public static final BlockEntry<ActiveBlock> FIREBOX_TITANIUM = createFireboxCasing(BoilerFireboxType.TITANIUM_FIREBOX);
-    public static final BlockEntry<ActiveBlock> FIREBOX_TUNGSTENSTEEL = createFireboxCasing(BoilerFireboxType.TUNGSTENSTEEL_FIREBOX);
+    public static final BlockEntry<ActiveBlock> FIREBOX_BRONZE = createFireboxCasing(BoilerFireboxType.BRONZE_FIREBOX,
+            text -> text.source("Bronze Firebox Casing")
+                    .translation(MinecraftLocale.ZH_CN, "青铜燃烧室"));
+    public static final BlockEntry<ActiveBlock> FIREBOX_STEEL = createFireboxCasing(BoilerFireboxType.STEEL_FIREBOX,
+            text -> text.source("Steel Firebox Casing")
+                    .translation(MinecraftLocale.ZH_CN, "钢制燃烧室"));
+    public static final BlockEntry<ActiveBlock> FIREBOX_TITANIUM = createFireboxCasing(BoilerFireboxType.TITANIUM_FIREBOX,
+            text -> text.source("Titanium Firebox Casing")
+                    .translation(MinecraftLocale.ZH_CN, "钛燃烧室"));
+    public static final BlockEntry<ActiveBlock> FIREBOX_TUNGSTENSTEEL = createFireboxCasing(BoilerFireboxType.TUNGSTENSTEEL_FIREBOX,
+            text -> text.source("Tungstensteel Firebox Casing")
+                    .translation(MinecraftLocale.ZH_CN, "钨钢燃烧室"));
 
     // spotless:on
 
     // HPCA, AT
     public static final BlockEntry<Block> COMPUTER_CASING = REGISTRATE
             .block("computer_casing", Block::new)
+            .localization(text -> text
+                    .source("Computer Casing")
+                    .translation(MinecraftLocale.ZH_CN, "计算机外壳"))
             .onRegister(block -> COMPUTER_CASINGS.put(1, block))
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
@@ -445,6 +670,9 @@ public class GTBlocks {
             .register();
     public static final BlockEntry<Block> ADVANCED_COMPUTER_CASING = REGISTRATE
             .block("advanced_computer_casing", Block::new)
+            .localization(text -> text
+                    .source("Advanced Computer Casing")
+                    .translation(MinecraftLocale.ZH_CN, "高级计算机外壳"))
             .onRegister(block -> COMPUTER_CASINGS.put(2, block))
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
@@ -458,6 +686,9 @@ public class GTBlocks {
             .register();
     public static final BlockEntry<Block> COMPUTER_HEAT_VENT = REGISTRATE
             .block("computer_heat_vent", Block::new)
+            .localization(text -> text
+                    .source("Computer Heat Vent")
+                    .translation(MinecraftLocale.ZH_CN, "计算机散热口"))
             .onRegister(block -> COMPUTER_HEAT_VENTS.put(1, block))
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
@@ -471,11 +702,15 @@ public class GTBlocks {
             .build()
             .register();
     public static final BlockEntry<Block> HIGH_POWER_CASING = createCasingBlock("high_power_casing",
-            GTPM.id("block/casings/hpca/high_power_casing"));
+            GTPM.id("block/casings/hpca/high_power_casing"),
+            text -> text.source("High Power Casing")
+                    .translation(MinecraftLocale.ZH_CN, "高能机械方块"));
 
     @SuppressWarnings("SameParameterValue")
-    private static BlockEntry<Block> createSidedCasingBlock(String name, ResourceLocation texture) {
+    private static BlockEntry<Block> createSidedCasingBlock(String name, ResourceLocation texture,
+                                                            Consumer<LocalizationDeclaration.Builder> localization) {
         return REGISTRATE.block(name, Block::new)
+                .localization(localization)
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
                 .blockstate(() -> GTModels.createSidedCasingModel(texture))
@@ -485,8 +720,10 @@ public class GTBlocks {
                 .register();
     }
 
-    private static BlockEntry<Block> createBrickCasingBlock(String name, ResourceLocation texture) {
+    private static BlockEntry<Block> createBrickCasingBlock(String name, ResourceLocation texture,
+                                                            Consumer<LocalizationDeclaration.Builder> localization) {
         return REGISTRATE.block(name, Block::new)
+                .localization(localization)
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
                 .exBlockstate(GTModels.cubeAllModel(texture))
@@ -497,8 +734,10 @@ public class GTBlocks {
     }
 
     private static BlockEntry<TransparentBlock> createGlassCasingBlock(String name, ResourceLocation texture,
-                                                                       Supplier<Supplier<RenderType>> type) {
+                                                                       Supplier<Supplier<RenderType>> type,
+                                                                       Consumer<LocalizationDeclaration.Builder> localization) {
         return REGISTRATE.block(name, TransparentBlock::new)
+                .localization(localization)
                 .initialProperties(() -> Blocks.GLASS)
                 .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
                 .addLayer(type)
@@ -515,12 +754,29 @@ public class GTBlocks {
                 () -> RenderType::solid);
     }
 
+    static BlockEntry<Block> createCasingBlock(String name, ResourceLocation texture,
+                                               Consumer<LocalizationDeclaration.Builder> localization) {
+        return createCasingBlock(name, Block::new, texture, () -> Blocks.IRON_BLOCK, () -> RenderType::solid,
+                localization);
+    }
+
     public static BlockEntry<Block> createCasingBlock(String name,
                                                       NonNullFunction<BlockBehaviour.Properties, Block> blockSupplier,
                                                       ResourceLocation texture,
                                                       NonNullSupplier<? extends Block> properties,
                                                       Supplier<Supplier<RenderType>> type) {
-        return REGISTRATE.block(name, blockSupplier)
+        return createCasingBlock(name, blockSupplier, texture, properties, type, null);
+    }
+
+    private static BlockEntry<Block> createCasingBlock(String name,
+                                                       NonNullFunction<BlockBehaviour.Properties, Block> blockSupplier,
+                                                       ResourceLocation texture,
+                                                       NonNullSupplier<? extends Block> properties,
+                                                       Supplier<Supplier<RenderType>> type,
+                                                       @Nullable Consumer<LocalizationDeclaration.Builder> localization) {
+        var builder = REGISTRATE.block(name, blockSupplier);
+        if (localization != null) builder.localization(localization);
+        return builder
                 .initialProperties(properties)
                 .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
                 .addLayer(type)
@@ -536,7 +792,9 @@ public class GTBlocks {
         var entry = REGISTRATE
                 .block("%s_machine_casing".formatted(tierName), Block::new)
                 .onRegister(block -> MACHINE_CASINGS.put(tier, block))
-                .lang("%s Machine Casing".formatted(GTValues.VN[tier]))
+                .localization(text -> text
+                        .source("%s Machine Casing".formatted(GTValues.VN[tier]))
+                        .translation(MinecraftLocale.ZH_CN, GTValues.VNF[tier] + "§r机械方块"))
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
                 .blockstate(() -> GTModels.createMachineCasingModel(tierName))
@@ -556,7 +814,9 @@ public class GTBlocks {
                 .block("%s_hermetic_casing".formatted(tierName), Block::new)
                 .addLayer(() -> RenderType::cutoutMipped)
                 .onRegister(block -> HERMETIC_CASINGS.put(tier, block))
-                .lang("Hermetic Casing %s".formatted(GTValues.LVT[tier]))
+                .localization(text -> text
+                        .source("Hermetic Casing %s".formatted(GTValues.LVT[tier]))
+                        .translation(MinecraftLocale.ZH_CN, "密封机械方块 " + GTValues.LVT[tier]))
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
                 .blockstate(() -> GTModels.createHermeticCasingModel(tierName))
@@ -570,8 +830,10 @@ public class GTBlocks {
         return entry;
     }
 
-    private static BlockEntry<Block> createSteamCasing(String name, String material) {
+    private static BlockEntry<Block> createSteamCasing(String name, String material,
+                                                       Consumer<LocalizationDeclaration.Builder> localization) {
         return REGISTRATE.block(name, Block::new)
+                .localization(localization)
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .blockstate(() -> GTModels.createSteamCasingModel(material))
                 .tag(CustomTags.MINEABLE_WITH_CONFIG_VALID_PICKAXE_WRENCH)
@@ -580,9 +842,11 @@ public class GTBlocks {
                 .register();
     }
 
-    private static BlockEntry<CoilBlock> createCoilBlock(ICoilType coilType) {
+    private static BlockEntry<CoilBlock> createCoilBlock(ICoilType coilType,
+                                                         Consumer<LocalizationDeclaration.Builder> localization) {
         var coilBlock = REGISTRATE
                 .block("%s_coil_block".formatted(coilType.getName()), p -> new CoilBlock(p, coilType))
+                .localization(localization)
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
                 .addLayer(() -> RenderType::cutoutMipped)
@@ -595,9 +859,11 @@ public class GTBlocks {
         return coilBlock;
     }
 
-    private static BlockEntry<BatteryBlock> createBatteryBlock(IBatteryData batteryData) {
+    private static BlockEntry<BatteryBlock> createBatteryBlock(IBatteryData batteryData,
+                                                               Consumer<LocalizationDeclaration.Builder> localization) {
         var batteryBlock = REGISTRATE.block("%s_battery".formatted(batteryData.getBatteryName()),
                 p -> new BatteryBlock(p, batteryData))
+                .localization(localization)
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .properties(p -> p.isValidSpawn((state, level, pos, entityType) -> false))
                 .blockstate(() -> GTModels.createBatteryBlockModel(batteryData))
@@ -610,9 +876,11 @@ public class GTBlocks {
         return batteryBlock;
     }
 
-    private static BlockEntry<FusionCasingBlock> createFusionCasing(IFusionCasingType casingType) {
+    private static BlockEntry<FusionCasingBlock> createFusionCasing(IFusionCasingType casingType,
+                                                                    Consumer<LocalizationDeclaration.Builder> localization) {
         var casingBlock = REGISTRATE
                 .block(casingType.getSerializedName(), p -> new FusionCasingBlock(p, casingType))
+                .localization(localization)
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .properties(properties -> properties.strength(5.0f, 10.0f).sound(SoundType.METAL))
                 .addLayer(() -> RenderType::cutoutMipped)
@@ -626,8 +894,10 @@ public class GTBlocks {
         return casingBlock;
     }
 
-    private static BlockEntry<Block> createCleanroomFilter(IFilterType filterType) {
+    private static BlockEntry<Block> createCleanroomFilter(IFilterType filterType,
+                                                           Consumer<LocalizationDeclaration.Builder> localization) {
         var filterBlock = REGISTRATE.block(filterType.getSerializedName(), Block::new)
+                .localization(localization)
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .properties(properties -> properties.strength(2.0f, 8.0f).sound(SoundType.METAL)
                         .isValidSpawn((blockState, blockGetter, blockPos, entityType) -> false))
@@ -641,7 +911,14 @@ public class GTBlocks {
     }
 
     protected static BlockEntry<ActiveBlock> createActiveCasing(String name, String baseModelPath) {
-        return REGISTRATE.block(name, ActiveBlock::new)
+        return createActiveCasing(name, baseModelPath, null);
+    }
+
+    static BlockEntry<ActiveBlock> createActiveCasing(String name, String baseModelPath,
+                                                      @Nullable Consumer<LocalizationDeclaration.Builder> localization) {
+        var builder = REGISTRATE.block(name, ActiveBlock::new);
+        if (localization != null) builder.localization(localization);
+        return builder
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .addLayer(() -> RenderType::cutoutMipped)
                 .blockstate(() -> GTModels.createActiveModel(GTPM.id(baseModelPath)))
@@ -652,9 +929,11 @@ public class GTBlocks {
                 .register();
     }
 
-    private static BlockEntry<ActiveBlock> createFireboxCasing(BoilerFireboxType type) {
+    private static BlockEntry<ActiveBlock> createFireboxCasing(BoilerFireboxType type,
+                                                               Consumer<LocalizationDeclaration.Builder> localization) {
         var block = REGISTRATE
                 .block("%s_casing".formatted(type.name()), ActiveBlock::new)
+                .localization(localization)
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
                 .addLayer(() -> RenderType::cutoutMipped)
@@ -673,7 +952,9 @@ public class GTBlocks {
 
     public static final BlockEntry<PowderbarrelBlock> POWDERBARREL = REGISTRATE
             .block("powderbarrel", PowderbarrelBlock::new)
-            .lang("Powderbarrel")
+            .localization(text -> text
+                    .source("Powderbarrel")
+                    .translation(MinecraftLocale.ZH_CN, "火药桶"))
             .properties(p -> p.destroyTime(0.5F).sound(SoundType.WOOD).mapColor(MapColor.STONE)
                     .pushReaction(PushReaction.BLOCK))
             .tag(BlockTags.MINEABLE_WITH_AXE)
@@ -682,7 +963,9 @@ public class GTBlocks {
 
     public static final BlockEntry<IndustrialTNTBlock> INDUSTRIAL_TNT = REGISTRATE
             .block("industrial_tnt", IndustrialTNTBlock::new)
-            .lang("Industrial TNT")
+            .localization(text -> text
+                    .source("Industrial TNT")
+                    .translation(MinecraftLocale.ZH_CN, "工业TNT"))
             .properties(p -> p.mapColor(MapColor.FIRE).instabreak().sound(SoundType.GRASS).ignitedByLava())
             .tag(BlockTags.MINEABLE_WITH_AXE)
             .blockstate(() -> (ctx, prov) -> prov.simpleBlock(ctx.get(), prov.models().cubeBottomTop(ctx.getName(),
@@ -695,7 +978,9 @@ public class GTBlocks {
     public static final BlockEntry<SaplingBlock> RUBBER_SAPLING = REGISTRATE
             .block("rubber_sapling", GTBlocks::makeSaplingBlock)
             .initialProperties(() -> Blocks.OAK_SAPLING)
-            .lang("Rubber Sapling")
+            .localization(text -> text
+                    .source("Rubber Sapling")
+                    .translation(MinecraftLocale.ZH_CN, "橡胶树苗"))
             .blockstate(() -> GTModels::createCrossBlockState)
             .addLayer(() -> RenderType::cutout)
             .tag(BlockTags.SAPLINGS)
@@ -728,7 +1013,9 @@ public class GTBlocks {
                                             .setProperties(StatePropertiesPredicate.Builder.properties()
                                                     .hasProperty(RubberLogBlock.NATURAL, true)))
                                     .when(LootItemRandomChanceCondition.randomChance(0.85F))))))
-            .lang("Rubber Log")
+            .localization(text -> text
+                    .source("Rubber Log")
+                    .translation(MinecraftLocale.ZH_CN, "橡胶原木"))
             .tag(BlockTags.LOGS_THAT_BURN, BlockTags.OVERWORLD_NATURAL_LOGS)
             .blockstate(() -> (ctx, provider) -> provider.logBlock(ctx.get()))
             .item()
@@ -758,7 +1045,9 @@ public class GTBlocks {
     public static final BlockEntry<LeavesBlock> RUBBER_LEAVES = REGISTRATE
             .block("rubber_leaves", LeavesBlock::new)
             .initialProperties(() -> Blocks.OAK_LEAVES)
-            .lang("Rubber Leaves")
+            .localization(text -> text
+                    .source("Rubber Leaves")
+                    .translation(MinecraftLocale.ZH_CN, "橡胶树叶"))
             .blockstate(() -> (ctx, prov) -> {
                 prov.simpleBlock(ctx.get(), prov.models().leaves(ctx.getName(), prov.blockTexture(ctx.get())));
             })
@@ -781,7 +1070,9 @@ public class GTBlocks {
     public static final BlockEntry<RotatedPillarBlock> STRIPPED_RUBBER_LOG = REGISTRATE
             .block("stripped_rubber_log", RotatedPillarBlock::new)
             .initialProperties(() -> Blocks.STRIPPED_SPRUCE_LOG)
-            .lang("Stripped Rubber Log")
+            .localization(text -> text
+                    .source("Stripped Rubber Log")
+                    .translation(MinecraftLocale.ZH_CN, "去皮橡胶原木"))
             .blockstate(() -> (ctx, provider) -> provider.logBlock(ctx.get()))
             .tag(BlockTags.LOGS_THAT_BURN, BlockTags.MINEABLE_WITH_AXE)
             .item()
@@ -791,7 +1082,9 @@ public class GTBlocks {
     public static final BlockEntry<RubberWoodBlock> RUBBER_WOOD = REGISTRATE
             .block("rubber_wood", RubberWoodBlock::new)
             .initialProperties(() -> Blocks.SPRUCE_WOOD)
-            .lang("Rubber Wood")
+            .localization(text -> text
+                    .source("Rubber Wood")
+                    .translation(MinecraftLocale.ZH_CN, "橡胶木"))
             .blockstate(() -> (ctx, provider) -> provider.axisBlock(ctx.get(),
                     provider.blockTexture(GTBlocks.RUBBER_LOG.get()), provider.blockTexture(GTBlocks.RUBBER_LOG.get())))
             .tag(BlockTags.LOGS_THAT_BURN, BlockTags.MINEABLE_WITH_AXE)
@@ -802,7 +1095,9 @@ public class GTBlocks {
     public static final BlockEntry<RotatedPillarBlock> STRIPPED_RUBBER_WOOD = REGISTRATE
             .block("stripped_rubber_wood", RotatedPillarBlock::new)
             .initialProperties(() -> Blocks.STRIPPED_SPRUCE_WOOD)
-            .lang("Stripped Rubber Wood")
+            .localization(text -> text
+                    .source("Stripped Rubber Wood")
+                    .translation(MinecraftLocale.ZH_CN, "去皮橡胶木"))
             .blockstate(() -> (ctx, provider) -> provider.axisBlock(ctx.get(), provider.blockTexture(ctx.get()),
                     provider.blockTexture(ctx.get())))
             .tag(BlockTags.LOGS_THAT_BURN, BlockTags.MINEABLE_WITH_AXE)
@@ -814,7 +1109,9 @@ public class GTBlocks {
     public static final BlockEntry<Block> RUBBER_PLANK = REGISTRATE
             .block("rubber_planks", Block::new)
             .initialProperties(() -> Blocks.SPRUCE_PLANKS)
-            .lang("Rubber Planks")
+            .localization(text -> text
+                    .source("Rubber Planks")
+                    .translation(MinecraftLocale.ZH_CN, "橡胶木板"))
             .tag(BlockTags.PLANKS, BlockTags.MINEABLE_WITH_AXE)
             .item()
             .tag(ItemTags.PLANKS)
@@ -824,7 +1121,9 @@ public class GTBlocks {
     public static final BlockEntry<SlabBlock> RUBBER_SLAB = REGISTRATE
             .block("rubber_slab", SlabBlock::new)
             .initialProperties(() -> Blocks.SPRUCE_SLAB)
-            .lang("Rubber Slab")
+            .localization(text -> text
+                    .source("Rubber Slab")
+                    .translation(MinecraftLocale.ZH_CN, "橡胶木台阶"))
             .blockstate(
                     () -> (ctx, prov) -> prov.slabBlock(ctx.getEntry(), prov.blockTexture(GTBlocks.RUBBER_PLANK.get()),
                             prov.blockTexture(GTBlocks.RUBBER_PLANK.get())))
@@ -837,7 +1136,9 @@ public class GTBlocks {
     public static final BlockEntry<FenceBlock> RUBBER_FENCE = REGISTRATE
             .block("rubber_fence", FenceBlock::new)
             .initialProperties(() -> Blocks.SPRUCE_FENCE)
-            .lang("Rubber Fence")
+            .localization(text -> text
+                    .source("Rubber Fence")
+                    .translation(MinecraftLocale.ZH_CN, "橡胶木栅栏"))
             .blockstate(() -> (ctx, prov) -> prov.fenceBlock(ctx.getEntry(), prov.blockTexture(RUBBER_PLANK.get())))
             .tag(BlockTags.WOODEN_FENCES, BlockTags.MINEABLE_WITH_AXE)
             .item()
@@ -850,7 +1151,6 @@ public class GTBlocks {
     public static final BlockEntry<StandingSignBlock> RUBBER_SIGN = REGISTRATE
             .block("rubber_sign", (p) -> new StandingSignBlock(RUBBER_TYPE, p))
             .initialProperties(() -> Blocks.SPRUCE_SIGN)
-            .lang("Rubber Sign")
             .blockstate(() -> (ctx, prov) -> prov.signBlock(ctx.get(), GTBlocks.RUBBER_WALL_SIGN.get(),
                     prov.blockTexture(GTBlocks.RUBBER_PLANK.get())))
             .tag(BlockTags.STANDING_SIGNS, BlockTags.MINEABLE_WITH_AXE)
@@ -864,7 +1164,9 @@ public class GTBlocks {
     public static final BlockEntry<WallSignBlock> RUBBER_WALL_SIGN = REGISTRATE
             .block("rubber_wall_sign", (p) -> new WallSignBlock(RUBBER_TYPE, p))
             .initialProperties(() -> Blocks.SPRUCE_WALL_SIGN)
-            .lang("Rubber Wall Sign")
+            .localization(text -> text
+                    .source("Rubber Wall Sign")
+                    .translation(MinecraftLocale.ZH_CN, "墙上的橡胶木告示牌"))
             .setData(ProviderType.BLOCKSTATE, NonNullBiConsumer.noop())
             .tag(BlockTags.WALL_SIGNS, BlockTags.MINEABLE_WITH_AXE)
             .loot((table, block) -> table.dropOther(block, RUBBER_SIGN.asItem()))
@@ -873,7 +1175,6 @@ public class GTBlocks {
     public static final BlockEntry<CeilingHangingSignBlock> RUBBER_HANGING_SIGN = REGISTRATE
             .block("rubber_hanging_sign", (p) -> new CeilingHangingSignBlock(RUBBER_TYPE, p))
             .initialProperties(() -> Blocks.SPRUCE_HANGING_SIGN)
-            .lang("Rubber Hanging Sign")
             .blockstate(() -> (ctx, prov) -> {
                 ModelFile model = prov.models().sign(ctx.getName(), prov.blockTexture(GTBlocks.RUBBER_PLANK.get()));
                 prov.simpleBlock(ctx.get(), model);
@@ -890,7 +1191,9 @@ public class GTBlocks {
     public static final BlockEntry<WallHangingSignBlock> RUBBER_WALL_HANGING_SIGN = REGISTRATE
             .block("rubber_wall_hanging_sign", (p) -> new WallHangingSignBlock(RUBBER_TYPE, p))
             .initialProperties(() -> Blocks.SPRUCE_WALL_HANGING_SIGN)
-            .lang("Rubber Wall Hanging Sign")
+            .localization(text -> text
+                    .source("Rubber Wall Hanging Sign")
+                    .translation(MinecraftLocale.ZH_CN, "墙上的悬挂式橡胶木告示牌"))
             .blockstate(() -> (ctx, prov) -> {
                 ModelFile model = prov.models().sign(ctx.getName(), prov.blockTexture(GTBlocks.RUBBER_PLANK.get()));
                 prov.simpleBlock(ctx.get(), model);
@@ -903,7 +1206,9 @@ public class GTBlocks {
             .block("rubber_pressure_plate",
                     (p) -> new PressurePlateBlock(RUBBER_SET, p))
             .initialProperties(() -> Blocks.SPRUCE_PRESSURE_PLATE)
-            .lang("Rubber Pressure Plate")
+            .localization(text -> text
+                    .source("Rubber Pressure Plate")
+                    .translation(MinecraftLocale.ZH_CN, "橡胶木压力板"))
             .tag(BlockTags.WOODEN_PRESSURE_PLATES, BlockTags.MINEABLE_WITH_AXE)
             .blockstate(() -> (ctx, prov) -> prov.pressurePlateBlock(ctx.getEntry(),
                     prov.blockTexture(GTBlocks.RUBBER_PLANK.get())))
@@ -914,7 +1219,9 @@ public class GTBlocks {
     public static final BlockEntry<TrapDoorBlock> RUBBER_TRAPDOOR = REGISTRATE
             .block("rubber_trapdoor", (p) -> new TrapDoorBlock(RUBBER_SET, p))
             .initialProperties(() -> Blocks.SPRUCE_TRAPDOOR)
-            .lang("Rubber Trapdoor")
+            .localization(text -> text
+                    .source("Rubber Trapdoor")
+                    .translation(MinecraftLocale.ZH_CN, "橡胶木活板门"))
             .blockstate(() -> (ctx, prov) -> prov.trapdoorBlock(ctx.get(), prov.blockTexture(ctx.get()), true))
             .tag(BlockTags.WOODEN_TRAPDOORS, BlockTags.MINEABLE_WITH_AXE)
             .item()
@@ -925,7 +1232,9 @@ public class GTBlocks {
     public static final BlockEntry<StairBlock> RUBBER_STAIRS = REGISTRATE
             .block("rubber_stairs", (p) -> new StairBlock(RUBBER_PLANK.getDefaultState(), p))
             .initialProperties(() -> Blocks.SPRUCE_STAIRS)
-            .lang("Rubber Stairs")
+            .localization(text -> text
+                    .source("Rubber Stairs")
+                    .translation(MinecraftLocale.ZH_CN, "橡胶木楼梯"))
             .tag(BlockTags.STAIRS, BlockTags.MINEABLE_WITH_AXE)
             .blockstate(() -> (ctx, prov) -> prov.stairsBlock(ctx.getEntry(),
                     prov.blockTexture(GTBlocks.RUBBER_PLANK.get())))
@@ -936,7 +1245,9 @@ public class GTBlocks {
     public static final BlockEntry<ButtonBlock> RUBBER_BUTTON = REGISTRATE
             .block("rubber_button", (p) -> new ButtonBlock(RUBBER_SET, 30, p))
             .initialProperties(() -> Blocks.SPRUCE_BUTTON)
-            .lang("Rubber Button")
+            .localization(text -> text
+                    .source("Rubber Button")
+                    .translation(MinecraftLocale.ZH_CN, "橡胶木按钮"))
             .tag(BlockTags.WOODEN_BUTTONS, BlockTags.MINEABLE_WITH_AXE)
             .blockstate(() -> (ctx, prov) -> prov.buttonBlock(ctx.getEntry(), prov.blockTexture(RUBBER_PLANK.get())))
             .item()
@@ -948,7 +1259,9 @@ public class GTBlocks {
     public static final BlockEntry<FenceGateBlock> RUBBER_FENCE_GATE = REGISTRATE
             .block("rubber_fence_gate", (p) -> new FenceGateBlock(RUBBER_TYPE, p))
             .initialProperties(() -> Blocks.SPRUCE_FENCE_GATE)
-            .lang("Rubber Fence Gate")
+            .localization(text -> text
+                    .source("Rubber Fence Gate")
+                    .translation(MinecraftLocale.ZH_CN, "橡胶木栅栏门"))
             .tag(BlockTags.FENCE_GATES, BlockTags.MINEABLE_WITH_AXE)
             .blockstate(() -> (ctx, prov) -> prov.fenceGateBlock(ctx.getEntry(),
                     prov.blockTexture(GTBlocks.RUBBER_PLANK.get())))
@@ -959,7 +1272,9 @@ public class GTBlocks {
     public static final BlockEntry<DoorBlock> RUBBER_DOOR = REGISTRATE
             .block("rubber_door", (p) -> new DoorBlock(RUBBER_SET, p))
             .initialProperties(() -> Blocks.SPRUCE_DOOR)
-            .lang("Rubber Door")
+            .localization(text -> text
+                    .source("Rubber Door")
+                    .translation(MinecraftLocale.ZH_CN, "橡胶木门"))
             .loot((table, block) -> table.add(block, table.createDoorTable(block)))
             .addLayer(() -> RenderType::cutout)
             .blockstate(() -> (ctx, prov) -> prov.doorBlock(ctx.getEntry(), GTPM.id("block/rubber_door_bottom"),
@@ -979,7 +1294,9 @@ public class GTBlocks {
     public static final BlockEntry<Block> TREATED_WOOD_PLANK = REGISTRATE
             .block("treated_wood_planks", Block::new)
             .initialProperties(() -> Blocks.OAK_PLANKS)
-            .lang("Treated Wood Planks")
+            .localization(text -> text
+                    .source("Treated Wood Planks")
+                    .translation(MinecraftLocale.ZH_CN, "防腐木板"))
             .properties(p -> p.mapColor(MapColor.TERRACOTTA_GRAY))
             .tag(TagUtil.createBlockTag("treated_wood")) // matches IE treated wood tag
             .tag(BlockTags.MINEABLE_WITH_AXE)
@@ -991,7 +1308,9 @@ public class GTBlocks {
     public static final BlockEntry<SlabBlock> TREATED_WOOD_SLAB = REGISTRATE
             .block("treated_wood_slab", SlabBlock::new)
             .initialProperties(() -> Blocks.SPRUCE_SLAB)
-            .lang("Treated Wood Slab")
+            .localization(text -> text
+                    .source("Treated Wood Slab")
+                    .translation(MinecraftLocale.ZH_CN, "防腐木台阶"))
             .blockstate(
                     (ctx, prov) -> prov.slabBlock(ctx.getEntry(), prov.blockTexture(GTBlocks.TREATED_WOOD_PLANK.get()),
                             prov.blockTexture(GTBlocks.TREATED_WOOD_PLANK.get())))
@@ -1004,7 +1323,9 @@ public class GTBlocks {
     public static final BlockEntry<FenceBlock> TREATED_WOOD_FENCE = REGISTRATE
             .block("treated_wood_fence", FenceBlock::new)
             .initialProperties(() -> Blocks.SPRUCE_FENCE)
-            .lang("Treated Wood Fence")
+            .localization(text -> text
+                    .source("Treated Wood Fence")
+                    .translation(MinecraftLocale.ZH_CN, "防腐木栅栏"))
             .blockstate(
                     () -> (ctx, prov) -> prov.fenceBlock(ctx.getEntry(), prov.blockTexture(TREATED_WOOD_PLANK.get())))
             .tag(BlockTags.WOODEN_FENCES, BlockTags.MINEABLE_WITH_AXE)
@@ -1018,7 +1339,6 @@ public class GTBlocks {
     public static final BlockEntry<StandingSignBlock> TREATED_WOOD_SIGN = REGISTRATE
             .block("treated_wood_sign", (p) -> new StandingSignBlock(TREATED_WOOD_TYPE, p))
             .initialProperties(() -> Blocks.SPRUCE_SIGN)
-            .lang("Treated Wood Sign")
             .blockstate(() -> (ctx, prov) -> prov.signBlock(ctx.get(), GTBlocks.TREATED_WOOD_WALL_SIGN.get(),
                     prov.blockTexture(GTBlocks.TREATED_WOOD_PLANK.get())))
             .tag(BlockTags.STANDING_SIGNS, BlockTags.MINEABLE_WITH_AXE)
@@ -1031,7 +1351,9 @@ public class GTBlocks {
     public static final BlockEntry<WallSignBlock> TREATED_WOOD_WALL_SIGN = REGISTRATE
             .block("treated_wood_wall_sign", (p) -> new WallSignBlock(TREATED_WOOD_TYPE, p))
             .initialProperties(() -> Blocks.SPRUCE_WALL_SIGN)
-            .lang("Treated Wood Wall Sign")
+            .localization(text -> text
+                    .source("Treated Wood Wall Sign")
+                    .translation(MinecraftLocale.ZH_CN, "墙上的防腐木告示牌"))
             .setData(ProviderType.BLOCKSTATE, NonNullBiConsumer.noop())
             .tag(BlockTags.WALL_SIGNS, BlockTags.MINEABLE_WITH_AXE)
             .loot((table, block) -> table.dropOther(block, TREATED_WOOD_SIGN.asItem()))
@@ -1039,7 +1361,6 @@ public class GTBlocks {
     public static final BlockEntry<CeilingHangingSignBlock> TREATED_WOOD_HANGING_SIGN = REGISTRATE
             .block("treated_wood_hanging_sign", (p) -> new CeilingHangingSignBlock(TREATED_WOOD_TYPE, p))
             .initialProperties(() -> Blocks.SPRUCE_HANGING_SIGN)
-            .lang("Treated Wood Hanging Sign")
             .blockstate(() -> (ctx, prov) -> {
                 ModelFile model = prov.models().sign(ctx.getName(),
                         prov.blockTexture(GTBlocks.TREATED_WOOD_PLANK.get()));
@@ -1056,7 +1377,9 @@ public class GTBlocks {
     public static final BlockEntry<WallHangingSignBlock> TREATED_WOOD_WALL_HANGING_SIGN = REGISTRATE
             .block("treated_wood_wall_hanging_sign", (p) -> new WallHangingSignBlock(TREATED_WOOD_TYPE, p))
             .initialProperties(() -> Blocks.SPRUCE_WALL_HANGING_SIGN)
-            .lang("Treated Wood Wall Hanging Sign")
+            .localization(text -> text
+                    .source("Treated Wood Wall Hanging Sign")
+                    .translation(MinecraftLocale.ZH_CN, "墙上的悬挂式防腐木告示牌"))
             .blockstate(() -> (ctx, prov) -> {
                 ModelFile model = prov.models().sign(ctx.getName(),
                         prov.blockTexture(GTBlocks.TREATED_WOOD_PLANK.get()));
@@ -1069,7 +1392,9 @@ public class GTBlocks {
             .block("treated_wood_pressure_plate",
                     (p) -> new PressurePlateBlock(TREATED_WOOD_SET, p))
             .initialProperties(() -> Blocks.SPRUCE_PRESSURE_PLATE)
-            .lang("Treated Wood Pressure Plate")
+            .localization(text -> text
+                    .source("Treated Wood Pressure Plate")
+                    .translation(MinecraftLocale.ZH_CN, "防腐木压力板"))
             .tag(BlockTags.WOODEN_PRESSURE_PLATES, BlockTags.MINEABLE_WITH_AXE)
             .blockstate(() -> (ctx, prov) -> prov.pressurePlateBlock(ctx.getEntry(),
                     prov.blockTexture(GTBlocks.TREATED_WOOD_PLANK.get())))
@@ -1080,7 +1405,9 @@ public class GTBlocks {
     public static final BlockEntry<TrapDoorBlock> TREATED_WOOD_TRAPDOOR = REGISTRATE
             .block("treated_wood_trapdoor", (p) -> new TrapDoorBlock(TREATED_WOOD_SET, p))
             .initialProperties(() -> Blocks.SPRUCE_TRAPDOOR)
-            .lang("Treated Wood Trapdoor")
+            .localization(text -> text
+                    .source("Treated Wood Trapdoor")
+                    .translation(MinecraftLocale.ZH_CN, "防腐木活板门"))
             .blockstate(() -> (ctx, prov) -> prov.trapdoorBlock(ctx.get(), prov.blockTexture(ctx.get()), true))
             .tag(BlockTags.WOODEN_TRAPDOORS, BlockTags.MINEABLE_WITH_AXE)
             .item()
@@ -1091,7 +1418,9 @@ public class GTBlocks {
     public static final BlockEntry<StairBlock> TREATED_WOOD_STAIRS = REGISTRATE
             .block("treated_wood_stairs", (p) -> new StairBlock(TREATED_WOOD_PLANK.getDefaultState(), p))
             .initialProperties(() -> Blocks.SPRUCE_STAIRS)
-            .lang("Treated Wood Stairs")
+            .localization(text -> text
+                    .source("Treated Wood Stairs")
+                    .translation(MinecraftLocale.ZH_CN, "防腐木楼梯"))
             .tag(BlockTags.STAIRS, BlockTags.MINEABLE_WITH_AXE)
             .blockstate(() -> (ctx, prov) -> prov.stairsBlock(ctx.getEntry(),
                     prov.blockTexture(GTBlocks.TREATED_WOOD_PLANK.get())))
@@ -1102,7 +1431,9 @@ public class GTBlocks {
     public static final BlockEntry<ButtonBlock> TREATED_WOOD_BUTTON = REGISTRATE
             .block("treated_wood_button", (p) -> new ButtonBlock(TREATED_WOOD_SET, 30, p))
             .initialProperties(() -> Blocks.SPRUCE_BUTTON)
-            .lang("Treated Wood Button")
+            .localization(text -> text
+                    .source("Treated Wood Button")
+                    .translation(MinecraftLocale.ZH_CN, "防腐木按钮"))
             .tag(BlockTags.WOODEN_BUTTONS)
             .blockstate(
                     () -> (ctx, prov) -> prov.buttonBlock(ctx.getEntry(), prov.blockTexture(TREATED_WOOD_PLANK.get())))
@@ -1115,7 +1446,9 @@ public class GTBlocks {
     public static final BlockEntry<FenceGateBlock> TREATED_WOOD_FENCE_GATE = REGISTRATE
             .block("treated_wood_fence_gate", (p) -> new FenceGateBlock(TREATED_WOOD_TYPE, p))
             .initialProperties(() -> Blocks.SPRUCE_FENCE_GATE)
-            .lang("Treated Wood Fence Gate")
+            .localization(text -> text
+                    .source("Treated Wood Fence Gate")
+                    .translation(MinecraftLocale.ZH_CN, "防腐木栅栏门"))
             .tag(BlockTags.FENCE_GATES)
             .blockstate(() -> (ctx, prov) -> prov.fenceGateBlock(ctx.getEntry(),
                     prov.blockTexture(GTBlocks.TREATED_WOOD_PLANK.get())))
@@ -1126,7 +1459,9 @@ public class GTBlocks {
     public static final BlockEntry<DoorBlock> TREATED_WOOD_DOOR = REGISTRATE
             .block("treated_wood_door", (p) -> new DoorBlock(TREATED_WOOD_SET, p))
             .initialProperties(() -> Blocks.SPRUCE_DOOR)
-            .lang("Treated Wood Door")
+            .localization(text -> text
+                    .source("Treated Wood Door")
+                    .translation(MinecraftLocale.ZH_CN, "防腐木门"))
             .loot((table, block) -> table.add(block, table.createDoorTable(block)))
             .addLayer(() -> RenderType::cutout)
             .blockstate(() -> (ctx, prov) -> prov.doorBlock(ctx.getEntry(), GTPM.id("block/treated_wood_door_bottom"),
@@ -1140,55 +1475,120 @@ public class GTBlocks {
 
     // Decoration Stuff
     public static final BlockEntry<Block> ACID_HAZARD_SIGN_BLOCK = createCasingBlock("acid_hazard_sign_block",
-            GTPM.id("block/casings/signs/machine_casing_acidhazard"));
+            GTPM.id("block/casings/signs/machine_casing_acidhazard"),
+            text -> text.source("Acid Hazard Sign Block")
+                    .translation(MinecraftLocale.ZH_CN, "强酸危害警示方块"));
     public static final BlockEntry<Block> ANTIMATTER_HAZARD_SIGN_BLOCK = createCasingBlock(
-            "antimatter_hazard_sign_block", GTPM.id("block/casings/signs/machine_casing_antimatterhazard"));
+            "antimatter_hazard_sign_block", GTPM.id("block/casings/signs/machine_casing_antimatterhazard"),
+            text -> text.source("Antimatter Hazard Sign Block")
+                    .translation(MinecraftLocale.ZH_CN, "反物质危害警示方块"));
     public static final BlockEntry<Block> BIO_HAZARD_SIGN_BLOCK = createCasingBlock("bio_hazard_sign_block",
-            GTPM.id("block/casings/signs/machine_casing_biohazard"));
+            GTPM.id("block/casings/signs/machine_casing_biohazard"),
+            text -> text.source("Bio Hazard Sign Block")
+                    .translation(MinecraftLocale.ZH_CN, "生化危害警示方块"));
     public static final BlockEntry<Block> BOSS_HAZARD_SIGN_BLOCK = createCasingBlock("boss_hazard_sign_block",
-            GTPM.id("block/casings/signs/machine_casing_bosshazard"));
+            GTPM.id("block/casings/signs/machine_casing_bosshazard"),
+            text -> text.source("Boss Hazard Sign Block")
+                    .translation(MinecraftLocale.ZH_CN, "Boss危害警示方块"));
     public static final BlockEntry<Block> CAUSALITY_HAZARD_SIGN_BLOCK = createCasingBlock("causality_hazard_sign_block",
-            GTPM.id("block/casings/signs/machine_casing_causalityhazard"));
+            GTPM.id("block/casings/signs/machine_casing_causalityhazard"),
+            text -> text.source("Causality Hazard Sign Block")
+                    .translation(MinecraftLocale.ZH_CN, "因果律危害警示方块"));
     public static final BlockEntry<Block> EXPLOSION_HAZARD_SIGN_BLOCK = createCasingBlock("explosion_hazard_sign_block",
-            GTPM.id("block/casings/signs/machine_casing_explosionhazard"));
+            GTPM.id("block/casings/signs/machine_casing_explosionhazard"),
+            text -> text.source("Explosion Hazard Sign Block")
+                    .translation(MinecraftLocale.ZH_CN, "爆炸危害警示方块"));
     public static final BlockEntry<Block> FIRE_HAZARD_SIGN_BLOCK = createCasingBlock("fire_hazard_sign_block",
-            GTPM.id("block/casings/signs/machine_casing_firehazard"));
+            GTPM.id("block/casings/signs/machine_casing_firehazard"),
+            text -> text.source("Fire Hazard Sign Block")
+                    .translation(MinecraftLocale.ZH_CN, "易燃危害警示方块"));
     public static final BlockEntry<Block> FROST_HAZARD_SIGN_BLOCK = createCasingBlock("frost_hazard_sign_block",
-            GTPM.id("block/casings/signs/machine_casing_frosthazard"));
+            GTPM.id("block/casings/signs/machine_casing_frosthazard"),
+            text -> text.source("Frost Hazard Sign Block")
+                    .translation(MinecraftLocale.ZH_CN, "低温危害警示方块"));
     public static final BlockEntry<Block> GENERIC_HAZARD_SIGN_BLOCK = createCasingBlock("generic_hazard_sign_block",
-            GTPM.id("block/casings/signs/machine_casing_generichazard"));
+            GTPM.id("block/casings/signs/machine_casing_generichazard"),
+            text -> text.source("Generic Hazard Sign Block")
+                    .translation(MinecraftLocale.ZH_CN, "泛用危害警示方块"));
     public static final BlockEntry<Block> GREGIFICATION_HAZARD_SIGN_BLOCK = createCasingBlock(
-            "gregification_hazard_sign_block", GTPM.id("block/casings/signs/machine_casing_gregificationhazard"));
+            "gregification_hazard_sign_block", GTPM.id("block/casings/signs/machine_casing_gregificationhazard"),
+            text -> text.source("Gregification Hazard Sign Block")
+                    .translation(MinecraftLocale.ZH_CN, "格雷化危害警示方块"));
     public static final BlockEntry<Block> HIGH_PRESSURE_HAZARD_SIGN_BLOCK = createCasingBlock(
-            "high_pressure_hazard_sign_block", GTPM.id("block/casings/signs/machine_casing_highpressurehazard"));
+            "high_pressure_hazard_sign_block", GTPM.id("block/casings/signs/machine_casing_highpressurehazard"),
+            text -> text.source("High Pressure Hazard Sign Block")
+                    .translation(MinecraftLocale.ZH_CN, "高压力危害警示方块"));
     public static final BlockEntry<Block> HIGH_VOLTAGE_HAZARD_SIGN_BLOCK = createCasingBlock(
-            "high_voltage_hazard_sign_block", GTPM.id("block/casings/signs/machine_casing_highvoltagehazard"));
+            "high_voltage_hazard_sign_block", GTPM.id("block/casings/signs/machine_casing_highvoltagehazard"),
+            text -> text.source("High Voltage Hazard Sign Block")
+                    .translation(MinecraftLocale.ZH_CN, "高压电危害警示方块"));
     public static final BlockEntry<Block> HIGH_TEMPERATURE_HAZARD_SIGN_BLOCK = createCasingBlock(
-            "high_temperature_hazard_sign_block", GTPM.id("block/casings/signs/machine_casing_hightemperaturehazard"));
+            "high_temperature_hazard_sign_block", GTPM.id("block/casings/signs/machine_casing_hightemperaturehazard"),
+            text -> text.source("High Temperature Hazard Sign Block")
+                    .translation(MinecraftLocale.ZH_CN, "高温危害警示方块"));
     public static final BlockEntry<Block> LASER_HAZARD_SIGN_BLOCK = createCasingBlock("laser_hazard_sign_block",
-            GTPM.id("block/casings/signs/machine_casing_laserhazard"));
+            GTPM.id("block/casings/signs/machine_casing_laserhazard"),
+            text -> text.source("Laser Hazard Sign Block")
+                    .translation(MinecraftLocale.ZH_CN, "激光危害警示方块"));
     public static final BlockEntry<Block> MAGIC_HAZARD_SIGN_BLOCK = createCasingBlock("magic_hazard_sign_block",
-            GTPM.id("block/casings/signs/machine_casing_magichazard"));
+            GTPM.id("block/casings/signs/machine_casing_magichazard"),
+            text -> text.source("Magic Hazard Sign Block")
+                    .translation(MinecraftLocale.ZH_CN, "魔力危害警示方块"));
     public static final BlockEntry<Block> MAGNETIC_HAZARD_SIGN_BLOCK = createCasingBlock("magnetic_hazard_sign_block",
-            GTPM.id("block/casings/signs/machine_casing_magneticfieldhazard"));
+            GTPM.id("block/casings/signs/machine_casing_magneticfieldhazard"),
+            text -> text.source("Magnetic Hazard Sign Block")
+                    .translation(MinecraftLocale.ZH_CN, "强磁危害警示方块"));
     public static final BlockEntry<Block> MOB_INFESTATION_HAZARD_SIGN_BLOCK = createCasingBlock(
-            "mob_infestation_hazard_sign_block", GTPM.id("block/casings/signs/machine_casing_mobhazard"));
+            "mob_infestation_hazard_sign_block", GTPM.id("block/casings/signs/machine_casing_mobhazard"),
+            text -> text.source("Mob Infestation Hazard Sign Block")
+                    .translation(MinecraftLocale.ZH_CN, "怪物侵袭危害警示方块"));
     public static final BlockEntry<Block> MOB_SPAWNER_HAZARD_SIGN_BLOCK = createCasingBlock(
-            "mob_spawner_hazard_sign_block", GTPM.id("block/casings/signs/machine_casing_mobspawnhazard"));
+            "mob_spawner_hazard_sign_block", GTPM.id("block/casings/signs/machine_casing_mobspawnhazard"),
+            text -> text.source("Mob Spawner Hazard Sign Block")
+                    .translation(MinecraftLocale.ZH_CN, "刷怪笼危害警示方块"));
     public static final BlockEntry<Block> NOISE_HAZARD_SIGN_BLOCK = createCasingBlock("noise_hazard_sign_block",
-            GTPM.id("block/casings/signs/machine_casing_noisehazard"));
+            GTPM.id("block/casings/signs/machine_casing_noisehazard"),
+            text -> text.source("Noise Hazard Sign Block")
+                    .translation(MinecraftLocale.ZH_CN, "噪声危害警示方块"));
     public static final BlockEntry<Block> RADIOACTIVE_HAZARD_SIGN_BLOCK = createCasingBlock(
-            "radioactive_hazard_sign_block", GTPM.id("block/casings/signs/machine_casing_radioactivehazard"));
+            "radioactive_hazard_sign_block", GTPM.id("block/casings/signs/machine_casing_radioactivehazard"),
+            text -> text.source("Radioactive Hazard Sign Block")
+                    .translation(MinecraftLocale.ZH_CN, "辐射危害警示方块"));
     public static final BlockEntry<Block> SPATIAL_STORAGE_HAZARD_SIGN_BLOCK = createCasingBlock(
-            "spatial_storage_hazard_sign_block", GTPM.id("block/casings/signs/machine_casing_spatialhazard"));
+            "spatial_storage_hazard_sign_block", GTPM.id("block/casings/signs/machine_casing_spatialhazard"),
+            text -> text.source("Spatial Storage Hazard Sign Block")
+                    .translation(MinecraftLocale.ZH_CN, "空间存储危害警示方块"));
     public static final BlockEntry<Block> TURRET_HAZARD_SIGN_BLOCK = createCasingBlock("turret_hazard_sign_block",
-            GTPM.id("block/casings/signs/machine_casing_turrethazard"));
+            GTPM.id("block/casings/signs/machine_casing_turrethazard"),
+            text -> text.source("Turret Hazard Sign Block")
+                    .translation(MinecraftLocale.ZH_CN, "炮塔危害警示方块"));
     public static final BlockEntry<Block> VOID_HAZARD_SIGN_BLOCK = createCasingBlock("void_hazard_sign_block",
-            GTPM.id("block/casings/signs/machine_casing_voidhazard"));
+            GTPM.id("block/casings/signs/machine_casing_voidhazard"),
+            text -> text.source("Void Hazard Sign Block")
+                    .translation(MinecraftLocale.ZH_CN, "虚空危害警示方块"));
+    @TransVariants(keyPrefix = "block.gtpm.yellow_stripes_block",
+                   value = {
+                           @Variant(id = "a",
+                                    source = "Yellow Stripes Block",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "黄色路障方块")),
+                           @Variant(id = "b",
+                                    source = "Yellow Stripes Block",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "黄色路障方块")),
+                           @Variant(id = "c",
+                                    source = "Yellow Stripes Block",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "黄色路障方块")),
+                           @Variant(id = "d",
+                                    source = "Yellow Stripes Block",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "黄色路障方块")),
+                   })
     public static final BlockEntry<Block> YELLOW_STRIPES_BLOCK_A = createCasingBlock("yellow_stripes_block_a",
-            GTPM.id("block/casings/signs/machine_casing_stripes_a"));
+            GTPM.id("block/casings/signs/machine_casing_stripes_a"),
+            text -> text.source("Yellow Stripes Block A")
+                    .translation(MinecraftLocale.ZH_CN, "黄色路障方块A"));
     public static final BlockEntry<Block> YELLOW_STRIPES_BLOCK_B = createCasingBlock("yellow_stripes_block_b",
-            GTPM.id("block/casings/signs/machine_casing_stripes_b"));
+            GTPM.id("block/casings/signs/machine_casing_stripes_b"),
+            text -> text.source("Yellow Stripes Block B")
+                    .translation(MinecraftLocale.ZH_CN, "黄色路障方块B"));
 
     public static Table<StoneBlockType, StoneTypes, BlockEntry<Block>> STONE_BLOCKS;
     public static Map<TagPrefix, Supplier<BlockState>> COBBLE_BLOCKS = new HashMap<>();
@@ -1203,7 +1603,9 @@ public class GTBlocks {
             .properties(p -> p.strength(0.5f).explosionResistance(8.0f).sound(SoundType.STONE))
             .loot((table, block) -> table.add(block,
                     table.createSingleItemTable(Items.CHARCOAL, UniformGenerator.between(1.0F, 3.0F))))
-            .lang("Brittle Charcoal")
+            .localization(text -> text
+                    .source("Brittle Charcoal")
+                    .translation(MinecraftLocale.ZH_CN, "脆木炭块"))
             .defaultBlockstate()
             .tag(BlockTags.MINEABLE_WITH_SHOVEL)
             .item((b, p) -> new BlockItem(b, p) {
@@ -1224,10 +1626,26 @@ public class GTBlocks {
         ImmutableTable.Builder<StoneBlockType, StoneTypes, BlockEntry<Block>> builder = ImmutableTable.builder();
         for (StoneTypes strata : StoneTypes.values()) {
             if (!strata.generateBlocks) continue;
+            String chineseName = switch (strata) {
+                case RED_GRANITE -> "红花岗岩";
+                case MARBLE -> "大理岩";
+                case CONCRETE_LIGHT -> "淡色混凝土";
+                case CONCRETE_DARK -> "深色混凝土";
+                default -> null;
+            };
+            String sourceName = FormattingUtil.toEnglishName(strata.getSerializedName());
             for (StoneBlockType type : StoneBlockType.values()) {
                 String blockId = type.blockId.formatted(strata.getSerializedName());
                 if (BuiltInRegistries.BLOCK.containsKey(ResourceLocation.parse(blockId))) continue;
                 var entry = REGISTRATE.block(blockId, Block::new)
+                        .localization(text -> {
+                            text.source(type.namePattern.source().formatted(sourceName));
+                            if (chineseName != null) {
+                                text.translation(MinecraftLocale.ZH_CN,
+                                        type.namePattern.translations().get(MinecraftLocale.ZH_CN)
+                                                .formatted(chineseName));
+                            }
+                        })
                         .initialProperties(() -> Blocks.STONE)
                         .properties(p -> p.strength(type.hardness, type.resistance).mapColor(strata.mapColor))
                         .transform(type == StoneBlockType.STONE ?
@@ -1282,6 +1700,9 @@ public class GTBlocks {
 
     public static final BlockEntry<FoamBlock> FOAM = REGISTRATE
             .block("foam", p -> new FoamBlock(p, false))
+            .localization(text -> text
+                    .source("Foam")
+                    .translation(MinecraftLocale.ZH_CN, "建筑泡沫"))
             .properties(p -> p.strength(0.5F, 0.3F)
                     .randomTicks()
                     .sound(SoundType.SNOW)
@@ -1292,12 +1713,18 @@ public class GTBlocks {
 
     public static final BlockEntry<FoamBlock> REINFORCED_FOAM = REGISTRATE
             .block("reinforced_foam", p -> new FoamBlock(p, true))
+            .localization(text -> text
+                    .source("Reinforced Foam")
+                    .translation(MinecraftLocale.ZH_CN, "强化建筑泡沫"))
             .initialProperties(FOAM)
             .simpleItem()
             .register();
 
     public static final BlockEntry<Block> PETRIFIED_FOAM = REGISTRATE
             .block("petrified_foam", Block::new)
+            .localization(text -> text
+                    .source("Petrified Foam")
+                    .translation(MinecraftLocale.ZH_CN, "石化建筑泡沫"))
             .initialProperties(() -> Blocks.STONE)
             .properties(p -> p.strength(1.0F, 4.0F).sound(SoundType.SNOW))
             .tag(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.NEEDS_STONE_TOOL)
@@ -1305,6 +1732,9 @@ public class GTBlocks {
             .register();
     public static final BlockEntry<Block> REINFORCED_STONE = REGISTRATE
             .block("reinforced_stone", Block::new)
+            .localization(text -> text
+                    .source("Reinforced Stone")
+                    .translation(MinecraftLocale.ZH_CN, "防爆石"))
             .initialProperties(() -> Blocks.STONE)
             .properties(p -> p.strength(4.0F, 16.0F))
             .tag(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.NEEDS_IRON_TOOL)
@@ -1312,6 +1742,19 @@ public class GTBlocks {
             .register();
 
     // Lamps
+    private static Consumer<LocalizationDeclaration.Builder> colorName(DyeColor color,
+                                                                       String sourcePattern,
+                                                                       String translationPattern) {
+        Material marker = MarkerMaterials.Color.COLORS.get(color);
+        return text -> {
+            text.source(sourcePattern.formatted(FormattingUtil.toEnglishName(color.getName())));
+            if (marker != null && marker.getLocalization() != null) {
+                String chinese = marker.getLocalization().translations().get(MinecraftLocale.ZH_CN);
+                if (chinese != null) text.translation(MinecraftLocale.ZH_CN, translationPattern.formatted(chinese));
+            }
+        };
+    }
+
     public static final Map<DyeColor, BlockEntry<LampBlock>> LAMPS;
     public static final Map<DyeColor, BlockEntry<LampBlock>> BORDERLESS_LAMPS;
     static {
@@ -1320,6 +1763,7 @@ public class GTBlocks {
         for (DyeColor dyeColor : colors) {
             lampBuilder.put(dyeColor,
                     REGISTRATE.block("%s_lamp".formatted(dyeColor.getName()), (p) -> new LampBlock(p, dyeColor, true))
+                            .localization(colorName(dyeColor, "%s Lamp", "%s灯"))
                             .initialProperties(() -> Blocks.GLASS)
                             .properties(p -> p.strength(0.3f, 8.0f).sound(SoundType.GLASS))
                             .addLayer(() -> RenderType::cutout)
@@ -1333,6 +1777,7 @@ public class GTBlocks {
         for (DyeColor dyeColor : colors) {
             borderlessLampBuilder.put(dyeColor, REGISTRATE
                     .block("%s_borderless_lamp".formatted(dyeColor.getName()), (p) -> new LampBlock(p, dyeColor, false))
+                    .localization(colorName(dyeColor, "%s Borderless Lamp", "%s无框灯"))
                     .initialProperties(() -> Blocks.GLASS)
                     .properties(p -> p.strength(0.3f, 8.0f).sound(SoundType.GLASS))
                     .blockstate(() -> GTModels.lampModel(dyeColor, false))
@@ -1353,6 +1798,7 @@ public class GTBlocks {
         ImmutableMap.Builder<DyeColor, BlockEntry<Block>> metalsheetBuilder = new ImmutableMap.Builder<>();
         for (DyeColor dyeColor : colors) {
             metalsheetBuilder.put(dyeColor, REGISTRATE.block("%s_metal_sheet".formatted(dyeColor.getName()), Block::new)
+                    .localization(colorName(dyeColor, "%s Metal Sheet", "%s金属板方块"))
                     .initialProperties(() -> Blocks.IRON_BLOCK)
                     .properties(p -> p.strength(2.0F, 5.0F).mapColor(dyeColor))
                     .tag(CustomTags.MINEABLE_WITH_CONFIG_VALID_PICKAXE_WRENCH)
@@ -1368,6 +1814,7 @@ public class GTBlocks {
         for (DyeColor dyeColor : colors) {
             largeMetalsheetBuilder.put(dyeColor,
                     REGISTRATE.block("%s_large_metal_sheet".formatted(dyeColor.getName()), Block::new)
+                            .localization(colorName(dyeColor, "%s Large Metal Sheet", "%s粗纹金属板方块"))
                             .initialProperties(() -> Blocks.IRON_BLOCK)
                             .properties(p -> p.strength(2.0F, 5.0F).mapColor(dyeColor))
                             .tag(CustomTags.MINEABLE_WITH_CONFIG_VALID_PICKAXE_WRENCH)
@@ -1383,6 +1830,7 @@ public class GTBlocks {
         ImmutableMap.Builder<DyeColor, BlockEntry<Block>> studsBuilder = new ImmutableMap.Builder<>();
         for (DyeColor dyeColor : colors) {
             studsBuilder.put(dyeColor, REGISTRATE.block("%s_studs".formatted(dyeColor.getName()), Block::new)
+                    .localization(colorName(dyeColor, "%s Studs", "%s橡胶混凝土"))
                     .initialProperties(() -> Blocks.WHITE_WOOL)
                     .properties(p -> p.strength(1.5F, 2.5F).mapColor(dyeColor))
                     .tag(BlockTags.MINEABLE_WITH_PICKAXE, Tags.Blocks.NEEDS_WOOD_TOOL)
