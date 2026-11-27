@@ -15,6 +15,7 @@ import com.modularmc.gtpm.api.multiblock.structurepredicate.PredicateType;
 import com.modularmc.gtpm.api.multiblock.structurepredicate.StructurePredicate;
 import com.modularmc.gtpm.api.multiblock.structurepredicate.StructurePredicateType;
 import com.modularmc.gtpm.api.registry.GTRegistries;
+import com.modularmc.gtpm.api.registry.registrate.provider.GTLanguageProvider;
 
 import com.modularmc.registrate.AbstractRegistrate;
 import com.modularmc.registrate.builders.base.Builder;
@@ -136,16 +137,9 @@ public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
         if (type == ProviderType.LANG && generator instanceof RegistrateLangProvider language &&
                 languageOutput != null) {
             // Preserve addon replacements before Registrate-Lib checks for conflicting declarations.
-            var translations = new LinkedHashMap<String, String>();
-            var staged = new RegistrateLangProvider(this, languageOutput) {
-
-                @Override
-                public void add(String key, String value) {
-                    translations.put(key, value);
-                }
-            };
+            var staged = new GTLanguageProvider(this, languageOutput);
             super.genData(ProviderType.LANG, staged);
-            translations.forEach(language::add);
+            staged.submitTo(language);
             return;
         }
         super.genData(type, generator);
