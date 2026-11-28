@@ -9,6 +9,10 @@ import com.modularmc.gtpm.api.machine.property.GTMachineModelProperties;
 import com.modularmc.gtpm.api.recipe.GTRecipe;
 import com.modularmc.gtpm.config.ConfigHolder;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -16,6 +20,9 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 import java.util.ArrayList;
 
+@Trans(key = "gtpm.multiblock.universal.has_problems_header",
+       source = "Fix the following issues in a Maintenance Hatch:",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "在维护仓中修复以下问题："))
 public interface IMaintenanceMachine extends IMultiPart {
 
     BooleanProperty MAINTENANCE_TAPED_PROPERTY = GTMachineModelProperties.IS_TAPED;

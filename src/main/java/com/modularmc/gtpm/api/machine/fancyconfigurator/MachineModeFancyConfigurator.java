@@ -12,6 +12,11 @@ import com.modularmc.gtpm.api.gui.texture.TextTexture;
 import com.modularmc.gtpm.api.machine.feature.IRecipeLogicMachine;
 import com.modularmc.gtpm.common.data.GTItems;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 
 import net.minecraft.network.chat.Component;
@@ -24,6 +29,15 @@ import java.util.List;
  * <p>
  * The page updates the client field; the owning UI synchronizes the change.
  */
+@TransVariants(keyPrefix = "gtpm.gui.machinemode",
+               value = {
+                       @Variant(id = "tab_tooltip",
+                                source = "Change active Machine Mode",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "更改当前机器模式")),
+                       @Variant(id = "title",
+                                source = "Active Machine Mode",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "当前机器模式")),
+               })
 public class MachineModeFancyConfigurator implements IFancyUIProvider {
 
     private static final int PAGE_WIDTH = 140;

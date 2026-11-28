@@ -4,6 +4,11 @@ import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.machine.MetaMachine;
 import com.modularmc.gtpm.config.ConfigHolder;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -20,6 +25,16 @@ import org.jetbrains.annotations.UnmodifiableView;
 import java.util.*;
 import java.util.function.Function;
 
+@TransVariants(keyPrefix = "behavior.portable_scanner",
+               value = {
+                       @Variant(id = "machine_ownership",
+                                source = "§2Machine Owner Type: %s§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§2机器所有者类型：%s§r")),
+                       @Variant(id = "player_name",
+                                source = "§2Player Name: %s§r, §7Player Online: %s§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§2玩家姓名：%s§r，§7玩家在线：%s§r")),
+               })
 public abstract sealed class MachineOwner permits PlayerOwner, FTBOwner, ArgonautsOwner {
 
     private static Function<UUID, MachineOwner> machineOwnerGenerator;

@@ -3,6 +3,10 @@ package com.modularmc.gtpm.api.machine.fancyconfigurator;
 import com.modularmc.gtpm.api.gui.fancy.ConfiguratorPanel;
 import com.modularmc.gtpm.api.machine.feature.IVoidable;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.network.chat.Component;
 
 import java.util.List;
@@ -13,6 +17,9 @@ import java.util.List;
  * <p>
  * The selector updates the client field; the owning UI synchronizes the change.
  */
+@Trans(key = "gtpm.gui.multiblock.voiding_mode",
+       source = "Voiding Mode:",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "销毁模式："))
 public final class VoidingModeConfigurator {
 
     private VoidingModeConfigurator() {}

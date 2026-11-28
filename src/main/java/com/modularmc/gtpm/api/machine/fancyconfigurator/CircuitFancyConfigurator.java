@@ -16,6 +16,11 @@ import com.modularmc.gtpm.common.item.behavior.IntCircuitBehaviour;
 import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.data.lang.LangHandler;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
@@ -36,6 +41,30 @@ import java.util.List;
  * The configurator keeps the client-visible circuit slot responsive locally, then sends GTM machine actions for the
  * authoritative server write when the opened holder currently resolves to a remote machine.
  */
+@TransVariants(keyPrefix = "gtpm.gui",
+               value = {
+                       @Variant(id = "circuit.title",
+                                source = "Circuit Settings",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "电路设置")),
+                       @Variant(id = "configurator_slot.tooltip.0",
+                                source = "§fConfigurator Slot§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§f配置器槽§r")),
+                       @Variant(id = "configurator_slot.tooltip.1",
+                                source = "§7Place a §6Programmed Circuit§7 in this slot to",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§7在此插槽放置一个§6编程电路§7以")),
+                       @Variant(id = "configurator_slot.tooltip.2",
+                                source = "§7change its configured value.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7更改其配置值。")),
+                       @Variant(id = "configurator_slot.tooltip.3",
+                                source = "§7Hold §6Shift§7 when clicking buttons to change by §65.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§7按住§6Shift§7时点击按钮，一次加减§6§75个编号")),
+                       @Variant(id = "configurator_slot.tooltip.4",
+                                source = "§aA Programmed Circuit in this slot is also valid for recipe inputs.§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§a此插槽中的编程电路也视为一个配方输入。§r")),
+               })
 public class CircuitFancyConfigurator implements IFancyConfigurator, IFancyCustomMouseWheelAction,
                                       IFancyCustomMiddleClickAction {
 

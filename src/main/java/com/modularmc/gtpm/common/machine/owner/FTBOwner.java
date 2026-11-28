@@ -1,5 +1,9 @@
 package com.modularmc.gtpm.common.machine.owner;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.network.chat.Component;
 
 import dev.ftb.mods.ftbteams.api.FTBTeamsAPI;
@@ -14,6 +18,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+@Trans(key = "gtpm.ownership.name.ftb",
+       source = "FTB Teams",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "FTB团队"))
 public non-sealed class FTBOwner extends MachineOwner {
 
     private static final Component displayName = Component.translatable("gtpm.ownership.name.ftb");
@@ -106,4 +113,9 @@ public non-sealed class FTBOwner extends MachineOwner {
     public boolean equals(Object object) {
         return object instanceof FTBOwner && super.equals(object);
     }
+
+    @Trans(key = "behavior.portable_scanner.team_name",
+           source = "§2Team Name: %s§r",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§2团队名称：%s§r"))
+    private static final class BehaviorTranslations {}
 }

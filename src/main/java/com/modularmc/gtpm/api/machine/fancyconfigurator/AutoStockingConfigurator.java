@@ -10,6 +10,11 @@ import com.modularmc.gtpm.common.data.GTItems;
 import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.integration.ae2.machine.feature.multiblock.AutoStockingPart;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Button.State;
 
@@ -24,6 +29,18 @@ import javax.annotation.ParametersAreNonnullByDefault;
  * <p>
  * The page updates managed fields; the owning UI synchronizes their changes.
  */
+@TransVariants(keyPrefix = "gtpm.gui",
+               value = {
+                       @Variant(id = "adv_stocking_config.ticks_per_cycle",
+                                source = "Delay between item list updates",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "物品列表更新之间的延迟")),
+                       @Variant(id = "adv_stocking_config.title",
+                                source = "Configure Automatic Stocking",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "配置库存自动拉取")),
+                       @Variant(id = "title.adv_stocking_config.ticks_per_cycle",
+                                source = "Ticks Per Cycle",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "每次输出间隔Tick")),
+               })
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public final class AutoStockingConfigurator implements IFancyConfigurator {

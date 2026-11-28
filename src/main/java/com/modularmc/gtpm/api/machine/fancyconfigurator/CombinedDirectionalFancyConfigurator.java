@@ -20,6 +20,11 @@ import com.modularmc.gtpm.client.gui.fancy.DirectionalSceneFactory;
 import com.modularmc.gtpm.common.machine.trait.AutoOutputTrait;
 import com.modularmc.gtpm.data.lang.LangHandler;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
@@ -38,6 +43,62 @@ import java.util.List;
 /**
  * Fancy side page that composes directional machine controls around one shared scene.
  */
+@TransVariants(keyPrefix = "gtpm.gui",
+               value = {
+                       @Variant(id = "auto_output.name",
+                                source = "auto",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "自动")),
+                       @Variant(id = "directional_setting.tab_tooltip",
+                                source = "Change Directional Setting",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "更改方向设置")),
+                       @Variant(id = "directional_setting.title",
+                                source = "Directional Setting",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "方向设置")),
+                       @Variant(id = "fluid_auto_output.disabled",
+                                source = "Fluid Auto Output: §cDisabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "流体自动输出：§c已禁用")),
+                       @Variant(id = "fluid_auto_output.enabled",
+                                source = "Fluid Auto Output: §aEnabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "流体自动输出：§a已启用")),
+                       @Variant(id = "fluid_auto_output.other_direction.0",
+                                source = "Fluid Auto Output: §6Other Direction",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "流体自动输出：§6其他面")),
+                       @Variant(id = "fluid_auto_output.other_direction.1",
+                                source = "§7The machine's fluid output is set to another direction.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§7本机器的流体输出口不在当前面。")),
+                       @Variant(id = "fluid_auto_output.other_direction.2",
+                                source = "§7Click to move the output to the currently selected side.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7单击将输出口移动至当前面。")),
+                       @Variant(id = "fluid_auto_output.unselected.0",
+                                source = "Fluid Auto Output",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "流体自动输出")),
+                       @Variant(id = "fluid_auto_output.unselected.1",
+                                source = "§7Select a side of the machine to configure its output.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7选择机器的一面来配置输出。")),
+                       @Variant(id = "item_auto_output.disabled",
+                                source = "Item Auto Output: §cDisabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "物品自动输出：§c已禁用")),
+                       @Variant(id = "item_auto_output.enabled",
+                                source = "Item Auto Output: §aEnabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "物品自动输出：§a已启用")),
+                       @Variant(id = "item_auto_output.other_direction.0",
+                                source = "Item Auto Output: §6Other Direction",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "物品自动输出：§6其他面")),
+                       @Variant(id = "item_auto_output.other_direction.1",
+                                source = "§7The machine's item output is set to another direction.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§7本机器的物品输出口不在当前面。")),
+                       @Variant(id = "item_auto_output.other_direction.2",
+                                source = "§7Click to move the output to the currently selected side.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7单击将输出口移动至当前面。")),
+                       @Variant(id = "item_auto_output.unselected.0",
+                                source = "Item Auto Output",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "物品自动输出")),
+                       @Variant(id = "item_auto_output.unselected.1",
+                                source = "§7Select a side of the machine to configure its output.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7选择机器的一面来配置输出。")),
+               })
 public final class CombinedDirectionalFancyConfigurator implements IFancyUIProvider {
 
     public static final int PAGE_WIDTH = 168;

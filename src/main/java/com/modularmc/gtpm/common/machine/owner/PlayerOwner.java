@@ -1,5 +1,9 @@
 package com.modularmc.gtpm.common.machine.owner;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.network.chat.Component;
 import net.neoforged.neoforge.common.UsernameCache;
 
@@ -10,6 +14,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+@Trans(key = "gtpm.ownership.name.player",
+       source = "Player",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "玩家"))
 public non-sealed class PlayerOwner extends MachineOwner {
 
     private static final Component displayName = Component.translatable("gtpm.ownership.name.player");

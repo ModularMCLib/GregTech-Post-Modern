@@ -6,6 +6,11 @@ import com.modularmc.gtpm.api.gui.texture.IGuiTexture;
 import com.modularmc.gtpm.api.machine.multiblock.MultiblockControllerMachine;
 import com.modularmc.gtpm.api.machine.multiblock.MultiblockControllerMachine.StructureCheckStatus;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Button.State;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 
@@ -16,6 +21,15 @@ import it.unimi.dsi.fastutil.objects.ObjectList;
 import lombok.RequiredArgsConstructor;
 
 /** Requests a full formation check from the opened controller's main page. */
+@TransVariants(keyPrefix = "gtpm.multiblock",
+               value = {
+                       @Variant(id = "check_structure",
+                                source = "Check structure",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "检测结构")),
+                       @Variant(id = "check_structure.recheck",
+                                source = "Shift-click to recheck the structure",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "Shift 点击重新检测结构")),
+               })
 @RequiredArgsConstructor
 public final class StructureCheckConfigurator implements IFancyConfiguratorButton {
 

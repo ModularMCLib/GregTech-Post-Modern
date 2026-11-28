@@ -2,6 +2,10 @@ package com.modularmc.gtpm.common.machine.owner;
 
 import com.modularmc.gtpm.GTPM;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.network.chat.Component;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
@@ -14,6 +18,9 @@ import org.jetbrains.annotations.UnmodifiableView;
 
 import java.util.*;
 
+@Trans(key = "gtpm.ownership.name.argonauts",
+       source = "Argonauts Guild",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "Argonauts公会"))
 public non-sealed class ArgonautsOwner extends MachineOwner {
 
     private static final Component displayName = Component.translatable("gtpm.ownership.name.argonauts");
@@ -91,4 +98,9 @@ public non-sealed class ArgonautsOwner extends MachineOwner {
     public boolean equals(Object object) {
         return object instanceof ArgonautsOwner && super.equals(object);
     }
+
+    @Trans(key = "behavior.portable_scanner.guild_name",
+           source = "§2Guild Name: %s§r",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§2公会名称：%s§r"))
+    private static final class BehaviorTranslations {}
 }

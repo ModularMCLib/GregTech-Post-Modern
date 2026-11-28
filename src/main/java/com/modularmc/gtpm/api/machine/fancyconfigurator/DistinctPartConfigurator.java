@@ -5,6 +5,11 @@ import com.modularmc.gtpm.api.gui.fancy.ConfiguratorPanel;
 import com.modularmc.gtpm.api.gui.fancy.IFancyConfiguratorButton;
 import com.modularmc.gtpm.api.machine.feature.multiblock.DistinctPart;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -17,6 +22,18 @@ import java.util.List;
  * <p>
  * The button updates the annotated distinct field; the owning UI synchronizes the change.
  */
+@TransVariants(keyPrefix = "gtpm.multiblock.universal",
+               value = {
+                       @Variant(id = "distinct",
+                                source = "Distinct Buses:",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "总线隔离：")),
+                       @Variant(id = "distinct.no",
+                                source = "No",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "否")),
+                       @Variant(id = "distinct.yes",
+                                source = "Yes",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "是")),
+               })
 public final class DistinctPartConfigurator {
 
     private DistinctPartConfigurator() {}

@@ -5,6 +5,11 @@ import com.modularmc.gtpm.api.gui.fancy.ConfiguratorPanel;
 import com.modularmc.gtpm.api.gui.fancy.IFancyConfiguratorButton;
 import com.modularmc.gtpm.api.machine.feature.multiblock.BatchModeMachine;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.network.chat.Component;
 
 import java.util.List;
@@ -15,6 +20,15 @@ import java.util.List;
  * <p>
  * The button updates the client field; the owning UI synchronizes the change.
  */
+@TransVariants(keyPrefix = "gtpm.machine",
+               value = {
+                       @Variant(id = "batch_disabled",
+                                source = "Batching Disabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "批处理已禁用")),
+                       @Variant(id = "batch_enabled",
+                                source = "Batching Enabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "批处理已启用")),
+               })
 public final class BatchModeConfigurator {
 
     private BatchModeConfigurator() {}
