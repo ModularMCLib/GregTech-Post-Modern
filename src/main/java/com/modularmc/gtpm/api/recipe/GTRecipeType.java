@@ -10,11 +10,12 @@ import com.modularmc.gtpm.api.recipe.chance.boost.ChanceBoostFunction;
 import com.modularmc.gtpm.api.recipe.lookup.RecipeAdditionHandler;
 import com.modularmc.gtpm.api.recipe.lookup.RecipeDB;
 import com.modularmc.gtpm.api.recipe.ui.GTRecipeTypeUI;
+import com.modularmc.gtpm.api.registry.GTRegistries;
+import com.modularmc.gtpm.api.registry.registrate.GTRegistrate;
 import com.modularmc.gtpm.api.registry.registrate.provider.GTLanguageProvider;
 import com.modularmc.gtpm.api.sound.SoundEntry;
 import com.modularmc.gtpm.api.sync_system.FieldCodecs;
 import com.modularmc.gtpm.common.recipe.condition.ResearchCondition;
-import com.modularmc.gtpm.common.registry.GTRegistration;
 import com.modularmc.gtpm.data.recipe.builder.GTRecipeBuilder;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
@@ -53,6 +54,8 @@ public class GTRecipeType implements RecipeType<GTRecipeDefinition> {
     }
 
     public static final String LANGUAGE_KEY_PATH = "recipe_type";
+
+    private final GTRegistrate registrate;
 
     @Getter
     @Setter(onMethod_ = { @ApiStatus.Internal })
@@ -127,10 +130,12 @@ public class GTRecipeType implements RecipeType<GTRecipeDefinition> {
     @Getter
     private int clientMinRecipeConditions;
 
-    public GTRecipeType(ResourceLocation registryName, String group, RecipeType<?>... proxyRecipes) {
-        this.registryName = registryName;
+    @ApiStatus.Internal
+    public GTRecipeType(GTRegistrate registrate, String name, String group, RecipeType<?>... proxyRecipes) {
+        this.registrate = registrate;
+        this.registryName = registrate.makeResourceLocation(name);
         this.group = group;
-        this.category = GTRecipeCategory.registerDefault(this);
+        this.category = new GTRecipeCategory(this);
         recipeBuilder = new GTRecipeBuilder(registryName, this);
         // must be linked to stop json contents from shuffling
         Map<RecipeType<?>, List<RecipeHolder<GTRecipe>>> map = new Object2ObjectLinkedOpenHashMap<>();
@@ -138,18 +143,21 @@ public class GTRecipeType implements RecipeType<GTRecipeDefinition> {
             map.put(proxyRecipe, new ArrayList<>());
         }
         this.proxyRecipes = map;
-        if (GTPM.isDataGen()) {
-            GTRegistration.REGISTRATE.addDataGeneratorFirst(ProviderType.LANG, provider -> {
-                if (BuiltInRegistries.RECIPE_TYPE.get(registryName) != this) return;
+    }
 
-                String key = getTranslationKey();
-                if (localization == null) {
-                    provider.add(key, FormattingUtil.toEnglishName(registryName.getPath()));
-                } else {
-                    GTLanguageProvider.addLocalization(provider, GTRegistration.REGISTRATE, key, localization);
+    /** Publishes this type, its default category and its serializer through the GT registry lifecycle. */
+    public GTRecipeType register() {
+        GTRegistries.register(GTRegistries.RECIPE_CATEGORIES, category.registryKey, category);
+        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, registryName, this);
+        serializer = GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, registryName, new GTRecipeSerializer());
+        if (GTPM.isDataGen() && localization != null) {
+            registrate.addDataGeneratorFirst(ProviderType.LANG, provider -> {
+                if (BuiltInRegistries.RECIPE_TYPE.get(registryName) == this) {
+                    GTLanguageProvider.addLocalization(provider, registrate, getTranslationKey(), localization);
                 }
             });
         }
+        return this;
     }
 
     /** Declares the recipe browser name during recipe type registration. */

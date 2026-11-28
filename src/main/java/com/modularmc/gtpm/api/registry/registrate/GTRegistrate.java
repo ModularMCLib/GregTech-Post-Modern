@@ -16,6 +16,8 @@ import com.modularmc.gtpm.api.multiblock.structurepredicate.PredicateRegistry;
 import com.modularmc.gtpm.api.multiblock.structurepredicate.PredicateType;
 import com.modularmc.gtpm.api.multiblock.structurepredicate.StructurePredicate;
 import com.modularmc.gtpm.api.multiblock.structurepredicate.StructurePredicateType;
+import com.modularmc.gtpm.api.recipe.GTRecipeType;
+import com.modularmc.gtpm.api.recipe.category.GTRecipeCategory;
 import com.modularmc.gtpm.api.registry.GTRegistries;
 import com.modularmc.gtpm.api.registry.registrate.provider.GTLanguageProvider;
 
@@ -41,6 +43,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.bus.api.IEventBus;
@@ -233,6 +236,19 @@ public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
     public DatapackKeyBuilder<BedrockFluidDefinition> bedrockFluid(String name) {
         return new DatapackKeyBuilder<>(this,
                 ResourceKey.create(GTRegistries.BEDROCK_FLUID_REGISTRY, makeResourceLocation(name)));
+    }
+
+    /** Starts a recipe type declaration in this mod's namespace. */
+    public GTRecipeType recipeType(String name, String group, RecipeType<?>... proxyRecipes) {
+        return new GTRecipeType(this, name, group, proxyRecipes);
+    }
+
+    /** Starts a category with a name independent of the recipe type's default category. */
+    public GTRegistryEntryBuilder<GTRecipeCategory> recipeCategory(String name, GTRecipeType recipeType) {
+        var id = makeResourceLocation(name);
+        var category = new GTRecipeCategory(id, recipeType);
+        return new GTRegistryEntryBuilder<>(this, GTRegistries.RECIPE_CATEGORIES, id, category,
+                category.getLanguageKey());
     }
 
     public SoundEntryBuilder sound(String name) {

@@ -1,0 +1,51 @@
+package com.modularmc.gtpm.api.registry.registrate;
+
+import com.modularmc.gtpm.api.registry.GTRegistries;
+
+import com.modularmc.registrate.localization.LocalizationDeclaration;
+import com.modularmc.registrate.localization.TranslationKey;
+
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+
+import org.jspecify.annotations.Nullable;
+
+import java.util.function.Consumer;
+
+/** Registers a definition that other GT declarations can reference before the registry event. */
+public final class GTRegistryEntryBuilder<T> {
+
+    private final GTRegistrate registrate;
+    private final Registry<? super T> registry;
+    private final ResourceLocation id;
+    private final T value;
+    private final String translationKey;
+    private @Nullable Consumer<LocalizationDeclaration.Builder> localization;
+
+    GTRegistryEntryBuilder(GTRegistrate registrate, Registry<? super T> registry, ResourceLocation id, T value,
+                           String translationKey) {
+        this.registrate = registrate;
+        this.registry = registry;
+        this.id = id;
+        this.value = value;
+        this.translationKey = translationKey;
+    }
+
+    public GTRegistryEntryBuilder<T> configure(Consumer<? super T> configure) {
+        configure.accept(value);
+        return this;
+    }
+
+    public GTRegistryEntryBuilder<T> localization(Consumer<LocalizationDeclaration.Builder> configure) {
+        localization = configure;
+        return this;
+    }
+
+    public T register() {
+        GTRegistries.register(registry, id, value);
+        if (localization != null) {
+            registrate.addLocalization(new TranslationKey(registrate.getModid(), translationKey), localization);
+        }
+        return value;
+    }
+}

@@ -56,12 +56,6 @@ public class GTRecipeCategory {
         this.languageKey = registryKey.toLanguageKey("recipe_category");
     }
 
-    public static GTRecipeCategory registerDefault(@NotNull GTRecipeType recipeType) {
-        GTRecipeCategory category = new GTRecipeCategory(recipeType);
-        GTRegistries.register(GTRegistries.RECIPE_CATEGORIES, category.registryKey, category);
-        return category;
-    }
-
     public IGuiTexture getIcon() {
         if (icon == null) {
             if (recipeType.getIconSupplier() != null) icon = GuiTextures.itemStack(recipeType.getIconSupplier().get());

@@ -16,7 +16,6 @@ import com.modularmc.gtpm.api.recipe.RecipeCondition;
 import com.modularmc.gtpm.api.recipe.content.Content;
 import com.modularmc.gtpm.api.recipe.ingredient.SizedIngredientExtensions;
 import com.modularmc.gtpm.api.recipe.ui.GTRecipeTypeUI.RecipeUISize;
-import com.modularmc.gtpm.api.registry.GTRegistries;
 import com.modularmc.gtpm.api.sound.ExistingSoundEntry;
 import com.modularmc.gtpm.common.machine.multiblock.electric.FusionReactorMachine;
 import com.modularmc.gtpm.common.machine.trait.customlogic.*;
@@ -58,6 +57,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.modularmc.gtpm.api.gui.texture.ProgressTexture.FillDirection.*;
+import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 
 @Trans(key = "gtpm.recipe.byproduct_tier",
        source = "Byproducts from %s§r+",
@@ -74,7 +74,7 @@ public class GTRecipeTypes {
     //////////////////////////////////////
     // ********* Steam **********//
     //////////////////////////////////////
-    public final static GTRecipeType STEAM_BOILER_RECIPES = register("steam_boiler", STEAM)
+    public final static GTRecipeType STEAM_BOILER_RECIPES = REGISTRATE.recipeType("steam_boiler", STEAM)
             .localization(text -> text
                     .source("Steam Boiler")
                     .translation(MinecraftLocale.ZH_CN, "蒸汽锅炉"))
@@ -89,12 +89,13 @@ public class GTRecipeTypes {
                     GTRecipeTypes.LARGE_BOILER_RECIPES.copyFrom(builder).duration(duration).save(provider);
                 }
             })
-            .setSound(GTSoundEntries.FURNACE);
+            .setSound(GTSoundEntries.FURNACE)
+            .register();
 
     //////////////////////////////////////
     // ********* Common *********//
     //////////////////////////////////////
-    public final static GTRecipeType FURNACE_RECIPES = register("electric_furnace", ELECTRIC, RecipeType.SMELTING)
+    public final static GTRecipeType FURNACE_RECIPES = REGISTRATE.recipeType("electric_furnace", ELECTRIC, RecipeType.SMELTING)
             .localization(text -> text
                     .source("Electric Furnace")
                     .translation(MinecraftLocale.ZH_CN, "电炉"))
@@ -103,9 +104,10 @@ public class GTRecipeTypes {
             .setSlotOverlay(false, false, GuiTextures.FURNACE_OVERLAY_1)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT))
             .setSteamProgressBar(GuiTextures.PROGRESS_BAR_ARROW_STEAM, LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.FURNACE);
+            .setSound(GTSoundEntries.FURNACE)
+            .register();
 
-    public final static GTRecipeType ALLOY_SMELTER_RECIPES = register("alloy_smelter", ELECTRIC)
+    public final static GTRecipeType ALLOY_SMELTER_RECIPES = REGISTRATE.recipeType("alloy_smelter", ELECTRIC)
             .localization(text -> text
                     .source("Alloy Smelter")
                     .translation(MinecraftLocale.ZH_CN, "合金炉"))
@@ -114,9 +116,10 @@ public class GTRecipeTypes {
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT))
             .setIconSupplier(() -> GTMachines.ALLOY_SMELTER[GTValues.LV].asStack())
             .setSteamProgressBar(GuiTextures.PROGRESS_BAR_ARROW_STEAM, LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.FURNACE);
+            .setSound(GTSoundEntries.FURNACE)
+            .register();
 
-    public final static GTRecipeType ARC_FURNACE_RECIPES = register("arc_furnace", ELECTRIC)
+    public final static GTRecipeType ARC_FURNACE_RECIPES = REGISTRATE.recipeType("arc_furnace", ELECTRIC)
             .localization(text -> text
                     .source("Arc Furnace")
                     .translation(MinecraftLocale.ZH_CN, "电弧炉"))
@@ -131,9 +134,10 @@ public class GTRecipeTypes {
                     recipeBuilder.inputFluids(GTMaterials.Oxygen.getFluid(recipeBuilder.duration));
                 }
             })
-            .addCustomRecipeLogic(ArcFurnaceLogic.INSTANCE);
+            .addCustomRecipeLogic(ArcFurnaceLogic.INSTANCE)
+            .register();
 
-    public final static GTRecipeType ASSEMBLER_RECIPES = register("assembler", ELECTRIC)
+    public final static GTRecipeType ASSEMBLER_RECIPES = REGISTRATE.recipeType("assembler", ELECTRIC)
             .localization(text -> text
                     .source("Assembler")
                     .translation(MinecraftLocale.ZH_CN, "组装机"))
@@ -141,9 +145,10 @@ public class GTRecipeTypes {
             .setEUIO(IO.IN)
             .setSlotOverlay(false, false, GuiTextures.SLOT)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_ASSEMBLER, LEFT_TO_RIGHT))
-            .setSound(GTSoundEntries.ASSEMBLER);
+            .setSound(GTSoundEntries.ASSEMBLER)
+            .register();
 
-    public final static GTRecipeType AUTOCLAVE_RECIPES = register("autoclave", ELECTRIC)
+    public final static GTRecipeType AUTOCLAVE_RECIPES = REGISTRATE.recipeType("autoclave", ELECTRIC)
             .localization(text -> text
                     .source("Autoclave")
                     .translation(MinecraftLocale.ZH_CN, "高压釜"))
@@ -152,9 +157,10 @@ public class GTRecipeTypes {
             .setSlotOverlay(false, false, GuiTextures.DUST_OVERLAY)
             .setSlotOverlay(true, false, GuiTextures.CRYSTAL_OVERLAY)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_CRYSTALLIZATION, LEFT_TO_RIGHT))
-            .setSound(GTSoundEntries.FURNACE);
+            .setSound(GTSoundEntries.FURNACE)
+            .register();
 
-    public final static GTRecipeType BENDER_RECIPES = register("bender", ELECTRIC)
+    public final static GTRecipeType BENDER_RECIPES = REGISTRATE.recipeType("bender", ELECTRIC)
             .localization(text -> text
                     .source("Bender")
                     .translation(MinecraftLocale.ZH_CN, "卷板机"))
@@ -163,9 +169,10 @@ public class GTRecipeTypes {
             .setSlotOverlay(false, false, false, GuiTextures.BENDER_OVERLAY)
             .setSlotOverlay(false, false, true, GuiTextures.INT_CIRCUIT_OVERLAY)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_BENDING, LEFT_TO_RIGHT))
-            .setSound(GTSoundEntries.MOTOR);
+            .setSound(GTSoundEntries.MOTOR)
+            .register();
 
-    public final static GTRecipeType BREWING_RECIPES = register("brewery", ELECTRIC)
+    public final static GTRecipeType BREWING_RECIPES = REGISTRATE.recipeType("brewery", ELECTRIC)
             .localization(text -> text
                     .source("Brewery")
                     .translation(MinecraftLocale.ZH_CN, "酿造室"))
@@ -175,9 +182,10 @@ public class GTRecipeTypes {
             .setSlotOverlay(false, false, GuiTextures.BREWER_OVERLAY)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, LEFT_TO_RIGHT))
             .addCustomRecipeLogic(BreweryLogic.INSTANCE)
-            .setSound(GTSoundEntries.CHEMICAL);
+            .setSound(GTSoundEntries.CHEMICAL)
+            .register();
 
-    public final static GTRecipeType MACERATOR_RECIPES = register("macerator", ELECTRIC)
+    public final static GTRecipeType MACERATOR_RECIPES = REGISTRATE.recipeType("macerator", ELECTRIC)
             .localization(text -> text
                     .source("Macerator")
                     .translation(MinecraftLocale.ZH_CN, "研磨机"))
@@ -191,9 +199,10 @@ public class GTRecipeTypes {
             .setSteamProgressBar(GuiTextures.PROGRESS_BAR_MACERATE_STEAM, LEFT_TO_RIGHT)
             .addCustomRecipeLogic(MaceratorLogic.INSTANCE)
             .setSound(GTSoundEntries.MACERATOR)
-            .addDataInfo(data -> LocalizationUtils.format("gtpm.recipe.byproduct_tier", GTValues.VNF[GTValues.HV]));
+            .addDataInfo(data -> LocalizationUtils.format("gtpm.recipe.byproduct_tier", GTValues.VNF[GTValues.HV]))
+            .register();
 
-    public final static GTRecipeType CANNER_RECIPES = register("canner", ELECTRIC)
+    public final static GTRecipeType CANNER_RECIPES = REGISTRATE.recipeType("canner", ELECTRIC)
             .localization(text -> text
                     .source("Canner")
                     .translation(MinecraftLocale.ZH_CN, "装罐机"))
@@ -206,9 +215,10 @@ public class GTRecipeTypes {
             .setSlotOverlay(true, true, GuiTextures.DARK_CANISTER_OVERLAY)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_CANNER, LEFT_TO_RIGHT))
             .addCustomRecipeLogic(CannerLogic.INSTANCE)
-            .setSound(GTSoundEntries.BATH);
+            .setSound(GTSoundEntries.BATH)
+            .register();
 
-    public final static GTRecipeType CENTRIFUGE_RECIPES = register("centrifuge", ELECTRIC)
+    public final static GTRecipeType CENTRIFUGE_RECIPES = REGISTRATE.recipeType("centrifuge", ELECTRIC)
             .localization(text -> text
                     .source("Centrifuge")
                     .translation(MinecraftLocale.ZH_CN, "离心机"))
@@ -219,9 +229,10 @@ public class GTRecipeTypes {
             .setSlotOverlay(false, false, true, GuiTextures.CANISTER_OVERLAY)
             .setSlotOverlay(false, true, true, GuiTextures.CENTRIFUGE_OVERLAY)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_EXTRACT, LEFT_TO_RIGHT))
-            .setSound(GTSoundEntries.CENTRIFUGE);
+            .setSound(GTSoundEntries.CENTRIFUGE)
+            .register();
 
-    public final static GTRecipeType CHEMICAL_BATH_RECIPES = register("chemical_bath", ELECTRIC)
+    public final static GTRecipeType CHEMICAL_BATH_RECIPES = REGISTRATE.recipeType("chemical_bath", ELECTRIC)
             .localization(text -> text
                     .source("Chemical Bath")
                     .translation(MinecraftLocale.ZH_CN, "化学浸洗机"))
@@ -231,9 +242,10 @@ public class GTRecipeTypes {
             .setSlotOverlay(true, false, false, GuiTextures.DUST_OVERLAY)
             .setSlotOverlay(true, false, true, GuiTextures.DUST_OVERLAY)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_MIXER, LEFT_TO_RIGHT))
-            .setSound(GTSoundEntries.BATH);
+            .setSound(GTSoundEntries.BATH)
+            .register();
 
-    public final static GTRecipeType CHEMICAL_RECIPES = register("chemical_reactor", ELECTRIC)
+    public final static GTRecipeType CHEMICAL_RECIPES = REGISTRATE.recipeType("chemical_reactor", ELECTRIC)
             .localization(text -> text
                     .source("Chemical Reactor")
                     .translation(MinecraftLocale.ZH_CN, "化学反应釜"))
@@ -249,9 +261,10 @@ public class GTRecipeTypes {
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, LEFT_TO_RIGHT))
             .setSound(GTValues.FOOLS.getAsBoolean() ? GTSoundEntries.SCIENCE : GTSoundEntries.CHEMICAL)
             .onRecipeBuild((recipeBuilder, provider) -> GTRecipeTypes.LARGE_CHEMICAL_RECIPES.copyFrom(recipeBuilder)
-                    .save(provider));
+                    .save(provider))
+            .register();
 
-    public final static GTRecipeType COMPRESSOR_RECIPES = register("compressor", ELECTRIC)
+    public final static GTRecipeType COMPRESSOR_RECIPES = REGISTRATE.recipeType("compressor", ELECTRIC)
             .localization(text -> text
                     .source("Compressor")
                     .translation(MinecraftLocale.ZH_CN, "压缩机"))
@@ -262,9 +275,10 @@ public class GTRecipeTypes {
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_COMPRESS, LEFT_TO_RIGHT))
             .setIconSupplier(() -> GTMachines.COMPRESSOR[GTValues.LV].asStack())
             .setSteamProgressBar(GuiTextures.PROGRESS_BAR_COMPRESS_STEAM, LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.COMPRESSOR);
+            .setSound(GTSoundEntries.COMPRESSOR)
+            .register();
 
-    public final static GTRecipeType CUTTER_RECIPES = register("cutter", ELECTRIC)
+    public final static GTRecipeType CUTTER_RECIPES = REGISTRATE.recipeType("cutter", ELECTRIC)
             .localization(text -> text
                     .source("Cutter")
                     .translation(MinecraftLocale.ZH_CN, "切割机"))
@@ -299,9 +313,10 @@ public class GTRecipeTypes {
                     recipeBuilder.inputFluids(GTMaterials.Lubricant.getFluid((int) GTMath.clamp(
                             recipeBuilder.duration * recipeBuilder.EUt() / 1280, 1, 250)));
                 }
-            });
+            })
+            .register();
 
-    public final static GTRecipeType DISTILLERY_RECIPES = register("distillery", ELECTRIC)
+    public final static GTRecipeType DISTILLERY_RECIPES = REGISTRATE.recipeType("distillery", ELECTRIC)
             .localization(text -> text
                     .source("Distillery")
                     .translation(MinecraftLocale.ZH_CN, "蒸馏室"))
@@ -312,9 +327,10 @@ public class GTRecipeTypes {
             .setSlotOverlay(true, false, GuiTextures.DUST_OVERLAY)
             .setSlotOverlay(false, false, GuiTextures.INT_CIRCUIT_OVERLAY)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, LEFT_TO_RIGHT))
-            .setSound(GTSoundEntries.BOILER);
+            .setSound(GTSoundEntries.BOILER)
+            .register();
 
-    public final static GTRecipeType ELECTROLYZER_RECIPES = register("electrolyzer", ELECTRIC)
+    public final static GTRecipeType ELECTROLYZER_RECIPES = REGISTRATE.recipeType("electrolyzer", ELECTRIC)
             .localization(text -> text
                     .source("Electrolyzer")
                     .translation(MinecraftLocale.ZH_CN, "电解机"))
@@ -324,9 +340,10 @@ public class GTRecipeTypes {
             .setSlotOverlay(false, false, true, GuiTextures.CANISTER_OVERLAY)
             .setSlotOverlay(false, true, true, GuiTextures.LIGHTNING_OVERLAY_2)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_EXTRACT, LEFT_TO_RIGHT))
-            .setSound(GTSoundEntries.ELECTROLYZER);
+            .setSound(GTSoundEntries.ELECTROLYZER)
+            .register();
 
-    public final static GTRecipeType ELECTROMAGNETIC_SEPARATOR_RECIPES = register("electromagnetic_separator", ELECTRIC)
+    public final static GTRecipeType ELECTROMAGNETIC_SEPARATOR_RECIPES = REGISTRATE.recipeType("electromagnetic_separator", ELECTRIC)
             .localization(text -> text
                     .source("Electromagnetic Separator")
                     .translation(MinecraftLocale.ZH_CN, "电磁选矿机"))
@@ -334,9 +351,10 @@ public class GTRecipeTypes {
             .setSlotOverlay(false, false, GuiTextures.CRUSHED_ORE_OVERLAY)
             .setSlotOverlay(true, false, GuiTextures.DUST_OVERLAY)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_MAGNET, LEFT_TO_RIGHT))
-            .setSound(GTSoundEntries.ARC);
+            .setSound(GTSoundEntries.ARC)
+            .register();
 
-    public final static GTRecipeType EXTRACTOR_RECIPES = register("extractor", ELECTRIC)
+    public final static GTRecipeType EXTRACTOR_RECIPES = REGISTRATE.recipeType("extractor", ELECTRIC)
             .localization(text -> text
                     .source("Extractor")
                     .translation(MinecraftLocale.ZH_CN, "提取机"))
@@ -346,9 +364,10 @@ public class GTRecipeTypes {
             .setSlotOverlay(false, false, GuiTextures.EXTRACTOR_OVERLAY)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_EXTRACT, LEFT_TO_RIGHT))
             .setIconSupplier(() -> GTMachines.EXTRACTOR[GTValues.LV].asStack())
-            .setSteamProgressBar(GuiTextures.PROGRESS_BAR_EXTRACT_STEAM, LEFT_TO_RIGHT);
+            .setSteamProgressBar(GuiTextures.PROGRESS_BAR_EXTRACT_STEAM, LEFT_TO_RIGHT)
+            .register();
 
-    public final static GTRecipeType EXTRUDER_RECIPES = register("extruder", ELECTRIC)
+    public final static GTRecipeType EXTRUDER_RECIPES = REGISTRATE.recipeType("extruder", ELECTRIC)
             .localization(text -> text
                     .source("Extruder")
                     .translation(MinecraftLocale.ZH_CN, "压模器"))
@@ -356,9 +375,10 @@ public class GTRecipeTypes {
             .setEUIO(IO.IN)
             .setSlotOverlay(false, false, true, GuiTextures.MOLD_OVERLAY)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_EXTRUDER, LEFT_TO_RIGHT))
-            .setSound(GTSoundEntries.COMPRESSOR);
+            .setSound(GTSoundEntries.COMPRESSOR)
+            .register();
 
-    public final static GTRecipeType FERMENTING_RECIPES = register("fermenter", ELECTRIC)
+    public final static GTRecipeType FERMENTING_RECIPES = REGISTRATE.recipeType("fermenter", ELECTRIC)
             .localization(text -> text
                     .source("Fermenter")
                     .translation(MinecraftLocale.ZH_CN, "发酵槽"))
@@ -368,9 +388,10 @@ public class GTRecipeTypes {
             .setSlotOverlay(false, false, true, GuiTextures.DUST_OVERLAY)
             .setSlotOverlay(true, false, true, GuiTextures.DUST_OVERLAY)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT))
-            .setSound(GTSoundEntries.CHEMICAL);
+            .setSound(GTSoundEntries.CHEMICAL)
+            .register();
 
-    public final static GTRecipeType FLUID_HEATER_RECIPES = register("fluid_heater", ELECTRIC)
+    public final static GTRecipeType FLUID_HEATER_RECIPES = REGISTRATE.recipeType("fluid_heater", ELECTRIC)
             .localization(text -> text
                     .source("Fluid Heater")
                     .translation(MinecraftLocale.ZH_CN, "流体加热器"))
@@ -380,18 +401,20 @@ public class GTRecipeTypes {
             .setSlotOverlay(true, true, GuiTextures.HEATING_OVERLAY_2)
             .setSlotOverlay(false, false, GuiTextures.INT_CIRCUIT_OVERLAY)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT))
-            .setSound(GTSoundEntries.BOILER);
+            .setSound(GTSoundEntries.BOILER)
+            .register();
 
-    public final static GTRecipeType FLUID_SOLIDFICATION_RECIPES = register("fluid_solidifier", ELECTRIC)
+    public final static GTRecipeType FLUID_SOLIDFICATION_RECIPES = REGISTRATE.recipeType("fluid_solidifier", ELECTRIC)
             .localization(text -> text
                     .source("Fluid Solidifier")
                     .translation(MinecraftLocale.ZH_CN, "流体固化器"))
             .setMaxIOSize(1, 1, 1, 0).setEUIO(IO.IN)
             .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT))
-            .setSound(GTSoundEntries.COOLING);
+            .setSound(GTSoundEntries.COOLING)
+            .register();
 
-    public final static GTRecipeType FORGE_HAMMER_RECIPES = register("forge_hammer", ELECTRIC)
+    public final static GTRecipeType FORGE_HAMMER_RECIPES = REGISTRATE.recipeType("forge_hammer", ELECTRIC)
             .localization(text -> text
                     .source("Forge Hammer")
                     .translation(MinecraftLocale.ZH_CN, "锻造锤"))
@@ -401,18 +424,20 @@ public class GTRecipeTypes {
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_HAMMER, UP_TO_DOWN))
             .setIconSupplier(() -> GTMachines.FORGE_HAMMER[GTValues.LV].asStack())
             .setSteamProgressBar(GuiTextures.PROGRESS_BAR_HAMMER_STEAM, UP_TO_DOWN)
-            .setSound(GTSoundEntries.FORGE_HAMMER);
+            .setSound(GTSoundEntries.FORGE_HAMMER)
+            .register();
 
-    public final static GTRecipeType FORMING_PRESS_RECIPES = register("forming_press", ELECTRIC)
+    public final static GTRecipeType FORMING_PRESS_RECIPES = REGISTRATE.recipeType("forming_press", ELECTRIC)
             .localization(text -> text
                     .source("Forming Press")
                     .translation(MinecraftLocale.ZH_CN, "冲压机床"))
             .setMaxIOSize(6, 1, 0, 0).setEUIO(IO.IN)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_COMPRESS, LEFT_TO_RIGHT))
             .addCustomRecipeLogic(FormingPressLogic.INSTANCE)
-            .setSound(GTSoundEntries.COMPRESSOR);
+            .setSound(GTSoundEntries.COMPRESSOR)
+            .register();
 
-    public final static GTRecipeType LATHE_RECIPES = register("lathe", ELECTRIC)
+    public final static GTRecipeType LATHE_RECIPES = REGISTRATE.recipeType("lathe", ELECTRIC)
             .localization(text -> text
                     .source("Lathe")
                     .translation(MinecraftLocale.ZH_CN, "车床"))
@@ -421,9 +446,10 @@ public class GTRecipeTypes {
             .setSlotOverlay(true, false, false, GuiTextures.PIPE_OVERLAY_2)
             .setSlotOverlay(true, false, true, GuiTextures.DUST_OVERLAY)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_LATHE, LEFT_TO_RIGHT))
-            .setSound(GTSoundEntries.CUT);
+            .setSound(GTSoundEntries.CUT)
+            .register();
 
-    public final static GTRecipeType MIXER_RECIPES = register("mixer", ELECTRIC)
+    public final static GTRecipeType MIXER_RECIPES = REGISTRATE.recipeType("mixer", ELECTRIC)
             .localization(text -> text
                     .source("Mixer")
                     .translation(MinecraftLocale.ZH_CN, "搅拌机"))
@@ -431,9 +457,10 @@ public class GTRecipeTypes {
             .setSlotOverlay(false, false, GuiTextures.DUST_OVERLAY)
             .setSlotOverlay(true, false, GuiTextures.DUST_OVERLAY)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_MIXER, LEFT_TO_RIGHT))
-            .setSound(GTSoundEntries.MIXER);
+            .setSound(GTSoundEntries.MIXER)
+            .register();
 
-    public final static GTRecipeType ORE_WASHER_RECIPES = register("ore_washer", ELECTRIC)
+    public final static GTRecipeType ORE_WASHER_RECIPES = REGISTRATE.recipeType("ore_washer", ELECTRIC)
             .localization(text -> text
                     .source("Ore Washer")
                     .translation(MinecraftLocale.ZH_CN, "洗矿厂"))
@@ -443,9 +470,10 @@ public class GTRecipeTypes {
             .setSlotOverlay(false, false, GuiTextures.CRUSHED_ORE_OVERLAY)
             .setSlotOverlay(true, false, GuiTextures.DUST_OVERLAY)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT))
-            .setSound(GTSoundEntries.BATH);
+            .setSound(GTSoundEntries.BATH)
+            .register();
 
-    public final static GTRecipeType PACKER_RECIPES = register("packer", ELECTRIC)
+    public final static GTRecipeType PACKER_RECIPES = REGISTRATE.recipeType("packer", ELECTRIC)
             .localization(text -> text
                     .source("Packer")
                     .translation(MinecraftLocale.ZH_CN, "打包机"))
@@ -455,36 +483,40 @@ public class GTRecipeTypes {
             .setSlotOverlay(false, false, true, GuiTextures.BOX_OVERLAY)
             .setSlotOverlay(true, false, GuiTextures.BOXED_OVERLAY)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_UNPACKER, LEFT_TO_RIGHT))
-            .setSound(GTSoundEntries.ASSEMBLER);
+            .setSound(GTSoundEntries.ASSEMBLER)
+            .register();
 
-    public final static GTRecipeType POLARIZER_RECIPES = register("polarizer", ELECTRIC)
+    public final static GTRecipeType POLARIZER_RECIPES = REGISTRATE.recipeType("polarizer", ELECTRIC)
             .localization(text -> text
                     .source("Polarizer")
                     .translation(MinecraftLocale.ZH_CN, "两极磁化机"))
             .setMaxIOSize(1, 1, 0, 0)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_MAGNET, LEFT_TO_RIGHT))
-            .setSound(GTSoundEntries.ARC);
+            .setSound(GTSoundEntries.ARC)
+            .register();
 
-    public final static GTRecipeType LASER_ENGRAVER_RECIPES = register("laser_engraver", ELECTRIC)
+    public final static GTRecipeType LASER_ENGRAVER_RECIPES = REGISTRATE.recipeType("laser_engraver", ELECTRIC)
             .localization(text -> text
                     .source("Laser Engraver")
                     .translation(MinecraftLocale.ZH_CN, "激光蚀刻机"))
             .setMaxIOSize(2, 1, 0, 0).setEUIO(IO.IN)
             .setSlotOverlay(false, false, true, GuiTextures.LENS_OVERLAY)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT))
-            .setSound(GTSoundEntries.ELECTROLYZER);
+            .setSound(GTSoundEntries.ELECTROLYZER)
+            .register();
 
-    public final static GTRecipeType SIFTER_RECIPES = register("sifter", ELECTRIC)
+    public final static GTRecipeType SIFTER_RECIPES = REGISTRATE.recipeType("sifter", ELECTRIC)
             .localization(text -> text
                     .source("Sifter")
                     .translation(MinecraftLocale.ZH_CN, "筛选机"))
             .setMaxIOSize(1, 6, 0, 0)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_SIFT, UP_TO_DOWN))
-            .setSound(new ExistingSoundEntry(SoundEvents.SAND_PLACE, SoundSource.BLOCKS));
+            .setSound(new ExistingSoundEntry(SoundEvents.SAND_PLACE, SoundSource.BLOCKS))
+            .register();
 
-    public final static GTRecipeType THERMAL_CENTRIFUGE_RECIPES = register("thermal_centrifuge", ELECTRIC)
+    public final static GTRecipeType THERMAL_CENTRIFUGE_RECIPES = REGISTRATE.recipeType("thermal_centrifuge", ELECTRIC)
             .localization(text -> text
                     .source("Thermal Centrifuge")
                     .translation(MinecraftLocale.ZH_CN, "热力离心机"))
@@ -493,9 +525,10 @@ public class GTRecipeTypes {
             .setSlotOverlay(false, false, GuiTextures.CRUSHED_ORE_OVERLAY)
             .setSlotOverlay(true, false, GuiTextures.DUST_OVERLAY)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT))
-            .setSound(GTSoundEntries.CENTRIFUGE);
+            .setSound(GTSoundEntries.CENTRIFUGE)
+            .register();
 
-    public final static GTRecipeType WIREMILL_RECIPES = register("wiremill", ELECTRIC)
+    public final static GTRecipeType WIREMILL_RECIPES = REGISTRATE.recipeType("wiremill", ELECTRIC)
             .localization(text -> text
                     .source("Wiremill")
                     .translation(MinecraftLocale.ZH_CN, "线材轧机"))
@@ -503,9 +536,10 @@ public class GTRecipeTypes {
             .setEUIO(IO.IN)
             .setSlotOverlay(false, false, GuiTextures.WIREMILL_OVERLAY)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_WIREMILL, LEFT_TO_RIGHT))
-            .setSound(GTSoundEntries.MOTOR);
+            .setSound(GTSoundEntries.MOTOR)
+            .register();
 
-    public final static GTRecipeType CIRCUIT_ASSEMBLER_RECIPES = register("circuit_assembler", ELECTRIC)
+    public final static GTRecipeType CIRCUIT_ASSEMBLER_RECIPES = REGISTRATE.recipeType("circuit_assembler", ELECTRIC)
             .localization(text -> text
                     .source("Circuit Assembler")
                     .translation(MinecraftLocale.ZH_CN, "电路组装机"))
@@ -528,9 +562,10 @@ public class GTRecipeTypes {
                     recipeBuilder.inputFluids(
                             GTMaterials.Tin.getFluid(Math.max(1, GTValues.L * recipeBuilder.getSolderMultiplier())));
                 }
-            });
+            })
+            .register();
 
-    public final static GTRecipeType GAS_COLLECTOR_RECIPES = register("gas_collector", ELECTRIC)
+    public final static GTRecipeType GAS_COLLECTOR_RECIPES = REGISTRATE.recipeType("gas_collector", ELECTRIC)
             .localization(text -> text
                     .source("Gas Collector")
                     .translation(MinecraftLocale.ZH_CN, "集气室"))
@@ -539,17 +574,19 @@ public class GTRecipeTypes {
             .setSlotOverlay(true, true, GuiTextures.CENTRIFUGE_OVERLAY)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_GAS_COLLECTOR, LEFT_TO_RIGHT))
             .setOffsetVoltageText(true)
-            .setSound(GTSoundEntries.COOLING);
+            .setSound(GTSoundEntries.COOLING)
+            .register();
 
-    public final static GTRecipeType AIR_SCRUBBER_RECIPES = register("air_scrubber", ELECTRIC)
+    public final static GTRecipeType AIR_SCRUBBER_RECIPES = REGISTRATE.recipeType("air_scrubber", ELECTRIC)
             .localization(text -> text
                     .source("Air Scrubber")
                     .translation(MinecraftLocale.ZH_CN, "空气净化器"))
             .setMaxIOSize(1, 3, 1, 3).setEUIO(IO.IN)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_GAS_COLLECTOR, LEFT_TO_RIGHT))
-            .setSound(GTSoundEntries.COOLING);
+            .setSound(GTSoundEntries.COOLING)
+            .register();
 
-    public static final GTRecipeType RESEARCH_STATION_RECIPES = register("research_station", ELECTRIC)
+    public static final GTRecipeType RESEARCH_STATION_RECIPES = REGISTRATE.recipeType("research_station", ELECTRIC)
             .localization(text -> text
                     .source("Research Station")
                     .translation(MinecraftLocale.ZH_CN, "研究站"))
@@ -559,9 +596,10 @@ public class GTRecipeTypes {
             .setSlotOverlay(true, false, GuiTextures.RESEARCH_STATION_OVERLAY)
             .setScanner(true)
             .setMaxTooltips(4)
-            .setSound(GTValues.FOOLS.getAsBoolean() ? GTSoundEntries.SCIENCE : GTSoundEntries.COMPUTATION);
+            .setSound(GTValues.FOOLS.getAsBoolean() ? GTSoundEntries.SCIENCE : GTSoundEntries.COMPUTATION)
+            .register();
 
-    public final static GTRecipeType ROCK_BREAKER_RECIPES = register("rock_breaker", ELECTRIC)
+    public final static GTRecipeType ROCK_BREAKER_RECIPES = REGISTRATE.recipeType("rock_breaker", ELECTRIC)
             .localization(text -> text
                     .source("Rock Breaker")
                     .translation(MinecraftLocale.ZH_CN, "碎岩机"))
@@ -573,9 +611,10 @@ public class GTRecipeTypes {
             .setIconSupplier(() -> GTMachines.ROCK_CRUSHER[GTValues.LV].asStack())
             .setSteamProgressBar(GuiTextures.PROGRESS_BAR_MACERATE_STEAM, LEFT_TO_RIGHT)
             .setUiBuilder(GTRecipeTypes::addRockBreakerFluidSlots)
-            .setSound(GTSoundEntries.FIRE);
+            .setSound(GTSoundEntries.FIRE)
+            .register();
 
-    public static final GTRecipeType SCANNER_RECIPES = register("scanner", ELECTRIC)
+    public static final GTRecipeType SCANNER_RECIPES = REGISTRATE.recipeType("scanner", ELECTRIC)
             .localization(text -> text
                     .source("Scanner")
                     .translation(MinecraftLocale.ZH_CN, "扫描仪"))
@@ -585,21 +624,23 @@ public class GTRecipeTypes {
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT))
             .addCustomRecipeLogic(new ResearchManager.DataStickCopyScannerLogic())
             .setScanner(true)
-            .setSound(GTSoundEntries.ELECTROLYZER);
+            .setSound(GTSoundEntries.ELECTROLYZER)
+            .register();
 
     //////////////////////////////////////
     // ******* Generator *******//
     //////////////////////////////////////
-    public final static GTRecipeType COMBUSTION_GENERATOR_FUELS = register("combustion_generator", GENERATOR)
+    public final static GTRecipeType COMBUSTION_GENERATOR_FUELS = REGISTRATE.recipeType("combustion_generator", GENERATOR)
             .localization(text -> text
                     .source("Combustion Generator")
                     .translation(MinecraftLocale.ZH_CN, "内燃发电机"))
             .setMaxIOSize(0, 0, 1, 0).setEUIO(IO.OUT)
             .setSlotOverlay(false, true, true, GuiTextures.FURNACE_OVERLAY_2)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, LEFT_TO_RIGHT))
-            .setSound(GTSoundEntries.COMBUSTION);
+            .setSound(GTSoundEntries.COMBUSTION)
+            .register();
 
-    public final static GTRecipeType GAS_TURBINE_FUELS = register("gas_turbine", GENERATOR)
+    public final static GTRecipeType GAS_TURBINE_FUELS = REGISTRATE.recipeType("gas_turbine", GENERATOR)
             .localization(text -> text
                     .source("Gas Turbine")
                     .translation(MinecraftLocale.ZH_CN, "燃气轮机"))
@@ -607,9 +648,10 @@ public class GTRecipeTypes {
             .setEUIO(IO.OUT)
             .setSlotOverlay(false, true, true, GuiTextures.DARK_CANISTER_OVERLAY)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_GAS_COLLECTOR, LEFT_TO_RIGHT))
-            .setSound(GTSoundEntries.TURBINE);
+            .setSound(GTSoundEntries.TURBINE)
+            .register();
 
-    public final static GTRecipeType STEAM_TURBINE_FUELS = register("steam_turbine", GENERATOR)
+    public final static GTRecipeType STEAM_TURBINE_FUELS = REGISTRATE.recipeType("steam_turbine", GENERATOR)
             .localization(text -> text
                     .source("Steam Turbine")
                     .translation(MinecraftLocale.ZH_CN, "蒸汽涡轮"))
@@ -617,21 +659,23 @@ public class GTRecipeTypes {
             .setEUIO(IO.OUT)
             .setSlotOverlay(false, true, true, GuiTextures.CENTRIFUGE_OVERLAY)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_GAS_COLLECTOR, LEFT_TO_RIGHT))
-            .setSound(GTSoundEntries.TURBINE);
+            .setSound(GTSoundEntries.TURBINE)
+            .register();
 
-    public final static GTRecipeType PLASMA_GENERATOR_FUELS = register("plasma_generator", GENERATOR)
+    public final static GTRecipeType PLASMA_GENERATOR_FUELS = REGISTRATE.recipeType("plasma_generator", GENERATOR)
             .localization(text -> text
                     .source("Plasma Generator")
                     .translation(MinecraftLocale.ZH_CN, "等离子燃料"))
             .setMaxIOSize(0, 0, 1, 1).setEUIO(IO.OUT)
             .setSlotOverlay(false, true, true, GuiTextures.CENTRIFUGE_OVERLAY)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_GAS_COLLECTOR, LEFT_TO_RIGHT))
-            .setSound(GTSoundEntries.TURBINE);
+            .setSound(GTSoundEntries.TURBINE)
+            .register();
 
     //////////////////////////////////////
     // ******* Multiblock *******//
     //////////////////////////////////////
-    public final static GTRecipeType LARGE_BOILER_RECIPES = register("large_boiler", MULTIBLOCK)
+    public final static GTRecipeType LARGE_BOILER_RECIPES = REGISTRATE.recipeType("large_boiler", MULTIBLOCK)
             .localization(text -> text
                     .source("Large Boiler")
                     .translation(MinecraftLocale.ZH_CN, "大型锅炉"))
@@ -639,27 +683,30 @@ public class GTRecipeTypes {
             .setProgressBar(GuiTextures.progressBar(
                     (ResourceTexture) GuiTextures.PROGRESS_BAR_BOILER_FUEL.get(true), DOWN_TO_UP))
             .setMaxTooltips(1)
-            .setSound(GTSoundEntries.FURNACE);
+            .setSound(GTSoundEntries.FURNACE)
+            .register();
 
-    public final static GTRecipeType COKE_OVEN_RECIPES = register("coke_oven", MULTIBLOCK)
+    public final static GTRecipeType COKE_OVEN_RECIPES = REGISTRATE.recipeType("coke_oven", MULTIBLOCK)
             .localization(text -> text
                     .source("Coke Oven")
                     .translation(MinecraftLocale.ZH_CN, "焦炉"))
             .setMaxIOSize(1, 1, 0, 1)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT))
             .setMaxTooltips(1)
-            .setSound(GTSoundEntries.FIRE);
+            .setSound(GTSoundEntries.FIRE)
+            .register();
 
-    public final static GTRecipeType PRIMITIVE_BLAST_FURNACE_RECIPES = register("primitive_blast_furnace", MULTIBLOCK)
+    public final static GTRecipeType PRIMITIVE_BLAST_FURNACE_RECIPES = REGISTRATE.recipeType("primitive_blast_furnace", MULTIBLOCK)
             .localization(text -> text
                     .source("Primitive Blast Furnace")
                     .translation(MinecraftLocale.ZH_CN, "土高炉"))
             .setMaxIOSize(3, 3, 0, 0)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT))
             .setMaxTooltips(1)
-            .setSound(GTSoundEntries.FIRE);
+            .setSound(GTSoundEntries.FIRE)
+            .register();
 
-    public final static GTRecipeType BLAST_RECIPES = register("electric_blast_furnace", MULTIBLOCK)
+    public final static GTRecipeType BLAST_RECIPES = REGISTRATE.recipeType("electric_blast_furnace", MULTIBLOCK)
             .localization(text -> text
                     .source("Electric Blast Furnace")
                     .translation(MinecraftLocale.ZH_CN, "电力高炉"))
@@ -679,9 +726,10 @@ public class GTRecipeTypes {
                 return "";
             })
             .setUiBuilder((recipe, root, rootSize) -> addHeatingCoilSlot(recipe, root, rootSize, 32))
-            .setSound(GTSoundEntries.FURNACE);
+            .setSound(GTSoundEntries.FURNACE)
+            .register();
 
-    public final static GTRecipeType DISTILLATION_RECIPES = register("distillation_tower", MULTIBLOCK)
+    public final static GTRecipeType DISTILLATION_RECIPES = REGISTRATE.recipeType("distillation_tower", MULTIBLOCK)
             .localization(text -> text
                     .source("Distillation Tower")
                     .translation(MinecraftLocale.ZH_CN, "蒸馏塔"))
@@ -761,17 +809,19 @@ public class GTRecipeTypes {
                         builder.save(provider);
                     }
                 }
-            });
+            })
+            .register();
 
-    public final static GTRecipeType PYROLYSE_RECIPES = register("pyrolyse_oven", MULTIBLOCK)
+    public final static GTRecipeType PYROLYSE_RECIPES = REGISTRATE.recipeType("pyrolyse_oven", MULTIBLOCK)
             .localization(text -> text
                     .source("Pyrolyse Oven")
                     .translation(MinecraftLocale.ZH_CN, "热解炉"))
             .setMaxIOSize(2, 1, 1, 1)
             .setEUIO(IO.IN)
-            .setSound(GTSoundEntries.FIRE);
+            .setSound(GTSoundEntries.FIRE)
+            .register();
 
-    public final static GTRecipeType CRACKING_RECIPES = register("cracker", MULTIBLOCK)
+    public final static GTRecipeType CRACKING_RECIPES = REGISTRATE.recipeType("cracker", MULTIBLOCK)
             .localization(text -> text
                     .source("Cracker")
                     .translation(MinecraftLocale.ZH_CN, "裂化机"))
@@ -781,9 +831,10 @@ public class GTRecipeTypes {
             .setSlotOverlay(true, true, GuiTextures.CRACKING_OVERLAY_2)
             .setSlotOverlay(false, false, GuiTextures.CIRCUIT_OVERLAY)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_CRACKING, LEFT_TO_RIGHT))
-            .setSound(GTSoundEntries.FIRE);
+            .setSound(GTSoundEntries.FIRE)
+            .register();
 
-    public final static GTRecipeType IMPLOSION_RECIPES = register("implosion_compressor", MULTIBLOCK)
+    public final static GTRecipeType IMPLOSION_RECIPES = REGISTRATE.recipeType("implosion_compressor", MULTIBLOCK)
             .localization(text -> text
                     .source("Implosion Compressor")
                     .translation(MinecraftLocale.ZH_CN, "聚爆压缩机"))
@@ -792,18 +843,20 @@ public class GTRecipeTypes {
             .setSlotOverlay(false, false, true, GuiTextures.IMPLOSION_OVERLAY_1)
             .setSlotOverlay(false, false, false, GuiTextures.IMPLOSION_OVERLAY_2)
             .setSlotOverlay(true, false, true, GuiTextures.DUST_OVERLAY)
-            .setSound(new ExistingSoundEntry(SoundEvents.GENERIC_EXPLODE.value(), SoundSource.BLOCKS));
+            .setSound(new ExistingSoundEntry(SoundEvents.GENERIC_EXPLODE.value(), SoundSource.BLOCKS))
+            .register();
 
-    public final static GTRecipeType VACUUM_RECIPES = register("vacuum_freezer", MULTIBLOCK)
+    public final static GTRecipeType VACUUM_RECIPES = REGISTRATE.recipeType("vacuum_freezer", MULTIBLOCK)
             .localization(text -> text
                     .source("Vacuum Freezer")
                     .translation(MinecraftLocale.ZH_CN, "真空冷冻机"))
             .setMaxIOSize(1, 1, 2, 1)
             .setEUIO(IO.IN)
             .prepareBuilder(recipeBuilder -> recipeBuilder.EUt(GTValues.VA[GTValues.MV]))
-            .setSound(GTSoundEntries.COOLING);
+            .setSound(GTSoundEntries.COOLING)
+            .register();
 
-    public final static GTRecipeType ASSEMBLY_LINE_RECIPES = register("assembly_line", MULTIBLOCK)
+    public final static GTRecipeType ASSEMBLY_LINE_RECIPES = REGISTRATE.recipeType("assembly_line", MULTIBLOCK)
             .localization(text -> text
                     .source("Assembly Line")
                     .translation(MinecraftLocale.ZH_CN, "装配线"))
@@ -811,9 +864,10 @@ public class GTRecipeTypes {
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT))
             .setSound(GTSoundEntries.ASSEMBLER)
             .setHasResearchSlot(true)
-            .onRecipeBuild(ResearchManager::createDefaultResearchRecipe);
+            .onRecipeBuild(ResearchManager::createDefaultResearchRecipe)
+            .register();
 
-    public static final GTRecipeType LARGE_CHEMICAL_RECIPES = register("large_chemical_reactor", MULTIBLOCK)
+    public static final GTRecipeType LARGE_CHEMICAL_RECIPES = REGISTRATE.recipeType("large_chemical_reactor", MULTIBLOCK)
             .localization(text -> text
                     .source("Large Chemical Reactor")
                     .translation(MinecraftLocale.ZH_CN, "大型化学反应釜"))
@@ -827,9 +881,10 @@ public class GTRecipeTypes {
             .setSlotOverlay(true, true, GuiTextures.VIAL_OVERLAY_2)
             .setSound(GTValues.FOOLS.getAsBoolean() ? GTSoundEntries.SCIENCE : GTSoundEntries.CHEMICAL)
             .setProgressBar(GuiTextures.progressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, LEFT_TO_RIGHT))
-            .setSmallRecipeMap(CHEMICAL_RECIPES);
+            .setSmallRecipeMap(CHEMICAL_RECIPES)
+            .register();
 
-    public static final GTRecipeType FUSION_RECIPES = register("fusion_reactor", MULTIBLOCK)
+    public static final GTRecipeType FUSION_RECIPES = REGISTRATE.recipeType("fusion_reactor", MULTIBLOCK)
             .localization(text -> text
                     .source("Fusion Reactor")
                     .translation(MinecraftLocale.ZH_CN, "核聚变反应堆"))
@@ -839,13 +894,15 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.ARC)
             .setOffsetVoltageText(true)
             .setMaxTooltips(4)
-            .setUiBuilder(FusionReactorMachine::addEUToStartLabel);
+            .setUiBuilder(FusionReactorMachine::addEUToStartLabel)
+            .register();
 
-    public static final GTRecipeType DUMMY_RECIPES = register("dummy", DUMMY)
+    public static final GTRecipeType DUMMY_RECIPES = REGISTRATE.recipeType("dummy", DUMMY)
             .localization(text -> text
                     .source("Dummy")
                     .translation(MinecraftLocale.ZH_CN, "占位符"))
-            .setXEIVisible(false);
+            .setXEIVisible(false)
+            .register();
 
     private static void addRockBreakerFluidSlots(GTRecipeDefinition recipe, UIElement root,
                                                  RecipeUISize rootSize) {
@@ -911,18 +968,6 @@ public class GTRecipeTypes {
             layout.width(width);
             layout.height(height);
         });
-    }
-
-    protected static GTRecipeType register(String name, String group, RecipeType<?>... proxyRecipes) {
-        return register(GTPM.id(name), group, proxyRecipes);
-    }
-
-    public static GTRecipeType register(ResourceLocation id, String group, RecipeType<?>... proxyRecipes) {
-        var recipeType = new GTRecipeType(id, group, proxyRecipes);
-        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, recipeType.registryName, recipeType);
-        recipeType.setSerializer(GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, recipeType.registryName,
-                new GTRecipeSerializer()));
-        return recipeType;
     }
 
     public static void init() {

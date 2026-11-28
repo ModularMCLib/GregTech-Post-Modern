@@ -18,7 +18,7 @@ import net.minecraft.client.resources.language.I18n;
 
 import static com.modularmc.gtpm.api.gui.texture.ProgressTexture.FillDirection.LEFT_TO_RIGHT;
 import static com.modularmc.gtpm.common.data.GTRecipeTypes.MULTIBLOCK;
-import static com.modularmc.gtpm.common.data.GTRecipeTypes.register;
+import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 
 @TransVariants(keyPrefix = "gtpm.recipe",
                value = {
@@ -34,7 +34,7 @@ public class GCYMRecipeTypes {
     //////////////////////////////////////
     // ******* Multiblock *******//
     //////////////////////////////////////
-    public final static GTRecipeType ALLOY_BLAST_RECIPES = register("alloy_blast_smelter", MULTIBLOCK)
+    public final static GTRecipeType ALLOY_BLAST_RECIPES = REGISTRATE.recipeType("alloy_blast_smelter", MULTIBLOCK)
             .localization(text -> text
                     .source("Alloy Blast Smelter")
                     .translation(MinecraftLocale.ZH_CN, "合金冶炼炉"))
@@ -64,7 +64,8 @@ public class GCYMRecipeTypes {
             })
             .setUiBuilder(
                     (recipe, root, rootSize) -> GTRecipeTypes.addHeatingCoilSlot(recipe, root, rootSize, 40))
-            .setSound(GTSoundEntries.ARC);
+            .setSound(GTSoundEntries.ARC)
+            .register();
 
     public static void init() {}
 }

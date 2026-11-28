@@ -38,6 +38,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 import static com.modularmc.gtpm.common.data.GTRecipeTypes.ELECTRIC;
+import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 
 @EventBusSubscriber(modid = GTPM.MOD_ID)
 public class TestUtils {
@@ -84,9 +85,10 @@ public class TestUtils {
 
     private static void registerTestRecipeType(String name, int maxInputs, int maxOutputs, int maxFluidInputs,
                                                int maxFluidOutputs) {
-        GTRecipeTypes.register(GTPM.id(name), ELECTRIC)
+        REGISTRATE.recipeType(name, ELECTRIC)
                 .setEUIO(IO.IN)
-                .setMaxIOSize(maxInputs, maxOutputs, maxFluidInputs, maxFluidOutputs);
+                .setMaxIOSize(maxInputs, maxOutputs, maxFluidInputs, maxFluidOutputs)
+                .register();
     }
 
     /**
