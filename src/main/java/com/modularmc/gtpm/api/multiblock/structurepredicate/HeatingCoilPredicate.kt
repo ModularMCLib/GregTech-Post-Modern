@@ -63,7 +63,7 @@ enum class HeatingCoilPredicate : CategoryPredicate {
 	}
 
 	companion object {
-		val TYPE: StructurePredicateType<HeatingCoilPredicate> by lazy { REGISTRATE.structurePredicate("coil", CODEC) }
+		val TYPE: StructurePredicateType<HeatingCoilPredicate> by lazy { REGISTRATE.structurePredicate("coil").codec(CODEC).register() }
 
 		@JvmField
 		val CODEC: MapCodec<HeatingCoilPredicate> = MapCodec.unit(INSTANCE)

@@ -18,8 +18,8 @@ import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 public class FrequencyModifier extends PlacementModifier {
 
     public static final PlacementModifierType<FrequencyModifier> FREQUENCY_MODIFIER = REGISTRATE
-            .<PlacementModifierType<FrequencyModifier>>registryEntry("frequency",
-                    BuiltInRegistries.PLACEMENT_MODIFIER_TYPE, () -> FrequencyModifier.CODEC)
+            .registryEntry("frequency", BuiltInRegistries.PLACEMENT_MODIFIER_TYPE)
+            .<PlacementModifierType<FrequencyModifier>>definition(() -> FrequencyModifier.CODEC)
             .register();
 
     public static final MapCodec<FrequencyModifier> CODEC = ExtraCodecs.POSITIVE_FLOAT.fieldOf("chance")

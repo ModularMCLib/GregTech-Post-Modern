@@ -15,9 +15,9 @@ public class GTRecipeCapabilities {
     public final static RecipeCapability<Integer> CWU = CWURecipeCapability.CAP;
 
     public static void init() {
-        REGISTRATE.recipeCapability(ITEM).register();
-        REGISTRATE.recipeCapability(FLUID).register();
-        REGISTRATE.recipeCapability(EU).register();
-        REGISTRATE.recipeCapability(CWU).register();
+        REGISTRATE.recipeCapability(ITEM.name).definition(ITEM).register();
+        REGISTRATE.recipeCapability(FLUID.name).definition(FLUID).register();
+        REGISTRATE.recipeCapability(EU.name).definition(EU).register();
+        REGISTRATE.recipeCapability(CWU.name).definition(CWU).register();
     }
 }

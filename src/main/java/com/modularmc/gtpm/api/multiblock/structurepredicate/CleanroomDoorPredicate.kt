@@ -33,7 +33,7 @@ enum class CleanroomDoorPredicate : StructurePredicate {
 	override fun blockCandidates(): ObjectList<Block> = ObjectList.of(Blocks.IRON_DOOR)
 
 	companion object {
-		val TYPE: StructurePredicateType<CleanroomDoorPredicate> by lazy { REGISTRATE.structurePredicate("cleanroom_doors", CODEC) }
+		val TYPE: StructurePredicateType<CleanroomDoorPredicate> by lazy { REGISTRATE.structurePredicate("cleanroom_doors").codec(CODEC).register() }
 
 		@JvmField
 		val CODEC: MapCodec<CleanroomDoorPredicate> = MapCodec.unit(INSTANCE)

@@ -23,7 +23,7 @@ enum class AirPredicate : StructurePredicate {
 	override fun hasAir(): Boolean = true
 
 	companion object {
-		val TYPE: StructurePredicateType<AirPredicate> by lazy { REGISTRATE.structurePredicate("air", CODEC) }
+		val TYPE: StructurePredicateType<AirPredicate> by lazy { REGISTRATE.structurePredicate("air").codec(CODEC).register() }
 
 		@JvmField
 		val CODEC: MapCodec<AirPredicate> = MapCodec.unit(INSTANCE)

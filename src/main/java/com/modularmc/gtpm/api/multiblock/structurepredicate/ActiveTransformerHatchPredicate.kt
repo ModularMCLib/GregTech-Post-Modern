@@ -20,7 +20,7 @@ enum class ActiveTransformerHatchPredicate : AlternativePredicate {
 	override fun previewAlternatives(definition: MultiblockMachineDefinition, layout: PatternLayout?): ObjectList<StructurePredicate> = PREVIEW_PREDICATES
 
 	companion object {
-		val TYPE: StructurePredicateType<ActiveTransformerHatchPredicate> by lazy { REGISTRATE.structurePredicate("active_transformer_hatches", CODEC) }
+		val TYPE: StructurePredicateType<ActiveTransformerHatchPredicate> by lazy { REGISTRATE.structurePredicate("active_transformer_hatches").codec(CODEC).register() }
 
 		@JvmField
 		val CODEC: MapCodec<ActiveTransformerHatchPredicate> = MapCodec.unit(INSTANCE)

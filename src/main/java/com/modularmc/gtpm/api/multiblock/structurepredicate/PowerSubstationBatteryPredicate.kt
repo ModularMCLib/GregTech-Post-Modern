@@ -69,7 +69,7 @@ enum class PowerSubstationBatteryPredicate : CategoryPredicate {
 	private fun sortedBatteries(): ObjectList<IBatteryData> = GTCEuAPI.PSS_BATTERIES.keys.stream().sorted(compareBy { it.tier }).collect(ObjectImmutableList.toList())
 
 	companion object {
-		val TYPE: StructurePredicateType<PowerSubstationBatteryPredicate> by lazy { REGISTRATE.structurePredicate("power_substation_batteries", CODEC) }
+		val TYPE: StructurePredicateType<PowerSubstationBatteryPredicate> by lazy { REGISTRATE.structurePredicate("power_substation_batteries").codec(CODEC).register() }
 
 		@JvmField
 		val CODEC: MapCodec<PowerSubstationBatteryPredicate> = MapCodec.unit(INSTANCE)

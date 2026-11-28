@@ -119,7 +119,7 @@ data class RestrictedPredicate(val predicate: StructurePredicate, val minCount: 
 	}
 
 	companion object {
-		val TYPE: StructurePredicateType<RestrictedPredicate> by lazy { REGISTRATE.structurePredicate("restricted", CODEC) }
+		val TYPE: StructurePredicateType<RestrictedPredicate> by lazy { REGISTRATE.structurePredicate("restricted").codec(CODEC).register() }
 
 		@JvmStatic
 		fun builder(): Builder = Builder()

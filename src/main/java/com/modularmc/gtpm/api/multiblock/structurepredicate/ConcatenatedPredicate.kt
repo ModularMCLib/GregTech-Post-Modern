@@ -19,7 +19,7 @@ data class ConcatenatedPredicate(val predicates: ObjectList<StructurePredicate>)
 	override fun alternatives(state: MultiblockState?): ObjectList<StructurePredicate> = predicates
 
 	companion object {
-		val TYPE: StructurePredicateType<ConcatenatedPredicate> by lazy { REGISTRATE.structurePredicate("concatenated", CODEC) }
+		val TYPE: StructurePredicateType<ConcatenatedPredicate> by lazy { REGISTRATE.structurePredicate("concatenated").codec(CODEC).register() }
 
 		@JvmField
 		val CODEC: MapCodec<ConcatenatedPredicate> = RecordCodecBuilder.mapCodec { instance ->

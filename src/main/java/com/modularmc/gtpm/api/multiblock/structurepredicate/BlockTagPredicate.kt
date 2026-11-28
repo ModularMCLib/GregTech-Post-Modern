@@ -37,7 +37,7 @@ class BlockTagPredicate(val tag: TagKey<Block>) : StructurePredicate {
 	override fun toString(): String = "BlockTagPredicate[tag=$tag]"
 
 	companion object {
-		val TYPE: StructurePredicateType<BlockTagPredicate> by lazy { REGISTRATE.structurePredicate("block_tag", CODEC) }
+		val TYPE: StructurePredicateType<BlockTagPredicate> by lazy { REGISTRATE.structurePredicate("block_tag").codec(CODEC).register() }
 		val CODEC: MapCodec<BlockTagPredicate> = TagKey.codec(Registries.BLOCK).fieldOf("tag").xmap(::BlockTagPredicate, BlockTagPredicate::tag)
 	}
 }

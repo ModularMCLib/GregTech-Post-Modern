@@ -3,6 +3,7 @@ package com.modularmc.gtpm.api.multiblock.structurepredicate
 import com.modularmc.gtpm.api.addon.AddonFinder
 import com.modularmc.gtpm.api.addon.IGTAddon
 import com.modularmc.gtpm.api.registry.GTRegistries
+import com.modularmc.gtpm.api.registry.registrate.GTRegistrate
 
 import net.minecraft.resources.ResourceLocation
 
@@ -11,6 +12,19 @@ import com.mojang.serialization.MapCodec
 /** Registry identity and the actual leaf codec are shared with the runtime compiler registry. */
 @JvmRecord
 data class StructurePredicateType<T : StructurePredicate>(val id: ResourceLocation, val codec: MapCodec<T>) {
+	class Builder(private val registrate: GTRegistrate, private val name: String) {
+		fun <T : StructurePredicate> codec(codec: MapCodec<T>): Registration<T> = Registration(registrate, name, codec)
+	}
+
+	class Registration<T : StructurePredicate>(private val registrate: GTRegistrate, private val name: String, private val codec: MapCodec<T>) {
+		fun register(): StructurePredicateType<T> {
+			val type = StructurePredicateType(registrate.makeResourceLocation(name), codec)
+			registrate.predicate(name).definition(PredicateType(codec, ::PatternPredicate)).register()
+			registrate.generic(name, GTRegistries.STRUCTURE_PREDICATE_REGISTRY) { type }.register()
+			return type
+		}
+	}
+
 	companion object {
 		@JvmStatic
 		fun byId(id: ResourceLocation): StructurePredicateType<*>? = GTRegistries.STRUCTURE_PREDICATE_TYPES.get(id)

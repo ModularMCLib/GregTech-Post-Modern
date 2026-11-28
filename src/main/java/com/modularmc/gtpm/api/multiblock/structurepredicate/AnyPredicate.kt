@@ -19,7 +19,7 @@ enum class AnyPredicate : StructurePredicate {
 	override fun test(multiblockState: MultiblockState, mutateCount: Boolean): Boolean = true
 
 	companion object {
-		val TYPE: StructurePredicateType<AnyPredicate> by lazy { REGISTRATE.structurePredicate("any", CODEC) }
+		val TYPE: StructurePredicateType<AnyPredicate> by lazy { REGISTRATE.structurePredicate("any").codec(CODEC).register() }
 
 		@JvmField
 		val CODEC: MapCodec<AnyPredicate> = MapCodec.unit(INSTANCE)

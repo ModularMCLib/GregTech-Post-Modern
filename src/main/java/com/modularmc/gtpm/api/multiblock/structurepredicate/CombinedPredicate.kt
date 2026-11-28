@@ -116,16 +116,16 @@ class CombinedPredicate private constructor(private val expression: Expression) 
 
 	companion object {
 		val ALL_OF_TYPE: PredicateType<CombinedPredicate> by lazy {
-			REGISTRATE.predicate("all_of", PredicateType(ALL_OF_CODEC) { it }).register()
+			REGISTRATE.predicate("all_of").definition(PredicateType(ALL_OF_CODEC) { it }).register()
 		}
 		val ANY_OF_TYPE: PredicateType<CombinedPredicate> by lazy {
-			REGISTRATE.predicate("any_of", PredicateType(ANY_OF_CODEC) { it }).register()
+			REGISTRATE.predicate("any_of").definition(PredicateType(ANY_OF_CODEC) { it }).register()
 		}
 		val ONE_OF_TYPE: PredicateType<CombinedPredicate> by lazy {
-			REGISTRATE.predicate("one_of", PredicateType(ONE_OF_CODEC) { it }).register()
+			REGISTRATE.predicate("one_of").definition(PredicateType(ONE_OF_CODEC) { it }).register()
 		}
 		val NOT_TYPE: PredicateType<CombinedPredicate> by lazy {
-			REGISTRATE.predicate("not", PredicateType(NOT_CODEC) { it }).register()
+			REGISTRATE.predicate("not").definition(PredicateType(NOT_CODEC) { it }).register()
 		}
 		private val DEFINITION_CODEC: Codec<PatternPredicateDefinition> = Codec.PASSTHROUGH.xmap(
 			{ dynamic -> nested(dynamic.convert(JavaOps.INSTANCE).value as Map<*, *>) },

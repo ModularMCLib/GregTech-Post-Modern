@@ -59,7 +59,7 @@ enum class CleanroomFilterPredicate : CategoryPredicate {
 	}
 
 	companion object {
-		val TYPE: StructurePredicateType<CleanroomFilterPredicate> by lazy { REGISTRATE.structurePredicate("filter", CODEC) }
+		val TYPE: StructurePredicateType<CleanroomFilterPredicate> by lazy { REGISTRATE.structurePredicate("filter").codec(CODEC).register() }
 
 		@JvmField
 		val CODEC: MapCodec<CleanroomFilterPredicate> = MapCodec.unit(INSTANCE)

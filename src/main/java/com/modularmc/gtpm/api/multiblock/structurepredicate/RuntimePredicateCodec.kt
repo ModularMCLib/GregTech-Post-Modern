@@ -14,7 +14,7 @@ import java.util.stream.Stream
 /** Java DSL definitions retain their actual predicate object through JavaOps instead of serializing it to Gson. */
 internal object RuntimePredicateCodec : MapCodec<PatternPredicate>() {
 	val TYPE: PredicateType<PatternPredicate> by lazy {
-		REGISTRATE.predicate("java", PredicateType(this) { it }).register()
+		REGISTRATE.predicate("java").definition(PredicateType(this) { it }).register()
 	}
 	override fun <T> decode(ops: DynamicOps<T>, input: MapLike<T>): DataResult<PatternPredicate> {
 		val runtime = input.get("runtime") as? PatternPredicate

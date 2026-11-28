@@ -48,7 +48,7 @@ class DataHatchOrPredicate(val alternative: StructurePredicate) : AlternativePre
 	override fun hasAir(): Boolean = alternative.hasAir()
 
 	companion object {
-		val TYPE: StructurePredicateType<DataHatchOrPredicate> by lazy { REGISTRATE.structurePredicate("data_hatch_or", CODEC) }
+		val TYPE: StructurePredicateType<DataHatchOrPredicate> by lazy { REGISTRATE.structurePredicate("data_hatch_or").codec(CODEC).register() }
 
 		@JvmField
 		val CODEC: MapCodec<DataHatchOrPredicate> = RecordCodecBuilder.mapCodec { instance ->

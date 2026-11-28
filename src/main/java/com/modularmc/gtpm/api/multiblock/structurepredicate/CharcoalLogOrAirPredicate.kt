@@ -47,7 +47,7 @@ enum class CharcoalLogOrAirPredicate : StructurePredicate {
 	override fun hasAir(): Boolean = true
 
 	companion object {
-		val TYPE: StructurePredicateType<CharcoalLogOrAirPredicate> by lazy { REGISTRATE.structurePredicate("charcoal_log_or_air", CODEC) }
+		val TYPE: StructurePredicateType<CharcoalLogOrAirPredicate> by lazy { REGISTRATE.structurePredicate("charcoal_log_or_air").codec(CODEC).register() }
 
 		@JvmField
 		val CODEC: MapCodec<CharcoalLogOrAirPredicate> = MapCodec.unit(INSTANCE)

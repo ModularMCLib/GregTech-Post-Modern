@@ -42,7 +42,7 @@ data class AutoRecipeAbilityPredicate(val checkEnergyIn: Boolean, val checkEnerg
 	}
 
 	companion object {
-		val TYPE: StructurePredicateType<AutoRecipeAbilityPredicate> by lazy { REGISTRATE.structurePredicate("auto_recipe_abilities", CODEC) }
+		val TYPE: StructurePredicateType<AutoRecipeAbilityPredicate> by lazy { REGISTRATE.structurePredicate("auto_recipe_abilities").codec(CODEC).register() }
 		private val ABILITY_PREDICATES: Object2ObjectMap<PartAbility, StructurePredicate> = Object2ObjectOpenHashMap<PartAbility, StructurePredicate>().also { result ->
 			result[PartAbility.INPUT_ENERGY] = energy(PartAbility.INPUT_ENERGY)
 			result[PartAbility.OUTPUT_ENERGY] = energy(PartAbility.OUTPUT_ENERGY)

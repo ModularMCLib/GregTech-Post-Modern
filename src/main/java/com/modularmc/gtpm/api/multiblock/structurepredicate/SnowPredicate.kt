@@ -26,7 +26,7 @@ enum class SnowPredicate : StructurePredicate {
 	override fun blockCandidates(): ObjectList<Block> = ObjectList.of(Blocks.SNOW_BLOCK)
 
 	companion object {
-		val TYPE: StructurePredicateType<SnowPredicate> by lazy { REGISTRATE.structurePredicate("snow", CODEC) }
+		val TYPE: StructurePredicateType<SnowPredicate> by lazy { REGISTRATE.structurePredicate("snow").codec(CODEC).register() }
 
 		@JvmField
 		val CODEC: MapCodec<SnowPredicate> = MapCodec.unit(INSTANCE)

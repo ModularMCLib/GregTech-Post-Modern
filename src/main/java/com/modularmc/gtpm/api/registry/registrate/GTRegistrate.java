@@ -9,17 +9,14 @@ import com.modularmc.gtpm.api.data.DimensionMarker;
 import com.modularmc.gtpm.api.data.chemical.Element;
 import com.modularmc.gtpm.api.data.worldgen.GTOreDefinition;
 import com.modularmc.gtpm.api.data.worldgen.bedrockfluid.BedrockFluidDefinition;
-import com.modularmc.gtpm.api.item.tool.behavior.ToolBehaviorType;
 import com.modularmc.gtpm.api.item.MetaMachineItem;
+import com.modularmc.gtpm.api.item.tool.behavior.ToolBehaviorType;
 import com.modularmc.gtpm.api.machine.MachineDefinition;
 import com.modularmc.gtpm.api.machine.MetaMachine;
 import com.modularmc.gtpm.api.machine.MultiblockMachineDefinition;
 import com.modularmc.gtpm.api.multiblock.autobuild.MaterialRequestProvider;
 import com.modularmc.gtpm.api.multiblock.autobuild.MaterialSources.Registration;
-import com.modularmc.gtpm.api.multiblock.structurepredicate.PatternPredicate;
-import com.modularmc.gtpm.api.multiblock.structurepredicate.PredicateRegistry;
 import com.modularmc.gtpm.api.multiblock.structurepredicate.PredicateType;
-import com.modularmc.gtpm.api.multiblock.structurepredicate.StructurePredicate;
 import com.modularmc.gtpm.api.multiblock.structurepredicate.StructurePredicateType;
 import com.modularmc.gtpm.api.recipe.GTRecipeType;
 import com.modularmc.gtpm.api.recipe.RecipeCondition;
@@ -30,7 +27,6 @@ import com.modularmc.gtpm.api.registry.GTRegistries;
 import com.modularmc.gtpm.api.registry.registrate.provider.GTLanguageProvider;
 import com.modularmc.gtpm.client.renderer.cover.ICoverRenderer;
 import com.modularmc.gtpm.common.recipe.condition.DimensionCondition;
-import com.modularmc.gtpm.utils.FormattingUtil;
 
 import com.modularmc.registrate.AbstractRegistrate;
 import com.modularmc.registrate.builders.base.Builder;
@@ -222,24 +218,13 @@ public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
                 blockEntityFactory);
     }
 
-    /**
-     * Registers a structure predicate and its runtime compiler under this mod's namespace.
-     * The returned type can be used by definitions before the registry event publishes it.
-     */
-    public <T extends StructurePredicate> StructurePredicateType<T> structurePredicate(String name, MapCodec<T> codec) {
-        ResourceLocation id = makeResourceLocation(name);
-        StructurePredicateType<T> type = new StructurePredicateType<>(id, codec);
-        predicate(name, new PredicateType<>(codec, PatternPredicate::new)).register();
-        generic(name, GTRegistries.STRUCTURE_PREDICATE_REGISTRY, () -> type).register();
-        return type;
+    /** Starts a structure predicate and its runtime compiler under this mod's namespace. */
+    public StructurePredicateType.Builder structurePredicate(String name) {
+        return new StructurePredicateType.Builder(this, name);
     }
 
-    public <T extends PredicateType<?>> GTRegistryEntryBuilder<T> predicate(String name, T type) {
-        var id = makeResourceLocation(name);
-        if (PredicateRegistry.INSTANCE.find(id) != null) {
-            throw new IllegalArgumentException("Predicate type is already registered: " + id);
-        }
-        return registryEntry(name, GTRegistries.PREDICATE_TYPES, type);
+    public GTRegistryEntryBuilder.Definition<PredicateType<?>> predicate(String name) {
+        return registryEntry(name, GTRegistries.PREDICATE_TYPES);
     }
 
     /**
@@ -291,9 +276,10 @@ public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
     }
 
     /** Starts a definition that can be referenced before the registry event. */
-    public <T> GTRegistryEntryBuilder<T> registryEntry(String name, Registry<? super T> registry, T value) {
+    public <R> GTRegistryEntryBuilder.Definition<R> registryEntry(String name, Registry<R> registry) {
         var id = makeResourceLocation(name);
-        return new GTRegistryEntryBuilder<>(this, registry, id, value, id.toLanguageKey(registry.key().location().getPath()));
+        return new GTRegistryEntryBuilder.Definition<>(this, registry, id,
+                id.toLanguageKey(registry.key().location().getPath()));
     }
 
     public <T extends RecipeCondition<T>> GTRegistryEntryBuilder<RecipeConditionType<T>> recipeCondition(
@@ -309,13 +295,13 @@ public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
         return this;
     }
 
-    public <T> GTRegistryEntryBuilder<RecipeCapability<T>> recipeCapability(RecipeCapability<T> capability) {
-        return registryEntry(capability.name, GTRegistries.RECIPE_CAPABILITIES, capability);
+    public GTRegistryEntryBuilder.Definition<RecipeCapability<?>> recipeCapability(String name) {
+        return registryEntry(name, GTRegistries.RECIPE_CAPABILITIES);
     }
 
-    public GTRegistryEntryBuilder<ChanceLogic> chanceLogic(String name, ChanceLogic logic) {
+    public GTRegistryEntryBuilder.Definition<ChanceLogic> chanceLogic(String name) {
         var id = makeResourceLocation(name);
-        return new GTRegistryEntryBuilder<>(this, GTRegistries.CHANCE_LOGICS, id, logic,
+        return new GTRegistryEntryBuilder.Definition<>(this, GTRegistries.CHANCE_LOGICS, id,
                 id.getNamespace() + ".chance_logic." + id.getPath());
     }
 
@@ -337,16 +323,12 @@ public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
                 id.toLanguageKey("dimension_marker"));
     }
 
-    public GTRegistryEntryBuilder<Element> element(long protons, long neutrons, long halfLifeSeconds,
-                                                   @Nullable String decayTo, String name, String symbol,
-                                                   boolean isotope) {
-        String path = FormattingUtil.hasUpperCase(name) ? FormattingUtil.toLowerCaseUnderscore(name) : name;
-        return registryEntry(path, GTRegistries.ELEMENTS,
-                new Element(protons, neutrons, halfLifeSeconds, decayTo, name, symbol, isotope));
+    public Element.Builder element(String name) {
+        return new Element.Builder(this, name);
     }
 
-    public <T extends ToolBehaviorType<?>> GTRegistryEntryBuilder<T> toolBehavior(String name, T type) {
-        return registryEntry(name, GTRegistries.TOOL_BEHAVIORS, type);
+    public GTRegistryEntryBuilder.Definition<ToolBehaviorType<?>> toolBehavior(String name) {
+        return registryEntry(name, GTRegistries.TOOL_BEHAVIORS);
     }
 
     public <T> NoConfigBuilder<DataComponentType<?>, DataComponentType<T>, GTRegistrate> dataComponent(

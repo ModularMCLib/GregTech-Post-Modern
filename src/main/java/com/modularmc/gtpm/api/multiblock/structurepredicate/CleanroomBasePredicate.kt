@@ -42,7 +42,7 @@ data class CleanroomBasePredicate(val allowFloorBlocks: Boolean, val allowDoors:
 	}
 
 	companion object {
-		val TYPE: StructurePredicateType<CleanroomBasePredicate> by lazy { REGISTRATE.structurePredicate("cleanroom_base", CODEC) }
+		val TYPE: StructurePredicateType<CleanroomBasePredicate> by lazy { REGISTRATE.structurePredicate("cleanroom_base").codec(CODEC).register() }
 		private val WALL_BLOCKS = Lazy.of<StructurePredicate> { BlockPredicate(Supplier(::wallBlocks)) }
 		private val INPUT_ENERGY = Lazy.of<StructurePredicate> { RestrictedPredicate.builder().base(AbilityPredicate(ObjectList.of(PartAbility.INPUT_ENERGY))).minCount(1).maxCount(2).build() }
 		private val MAINTENANCE_ENABLED = Lazy.of<StructurePredicate> { RestrictedPredicate.builder().base(BlockPredicate(Supplier(::maintenanceBlocks))).minCount(1).maxCount(1).build() }

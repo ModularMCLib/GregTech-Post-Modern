@@ -42,6 +42,8 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 public final class GTRegistries {
 
     // spotless:off
@@ -124,6 +126,10 @@ public final class GTRegistries {
         if (!isFrozen) {
             Registry.register(registry, name, value);
         } else {
+            if (registry == PREDICATE_TYPES) {
+                // The runtime compiler can resolve staged entries, so a second declaration must not replace one.
+                checkArgument(lookup(PREDICATE_TYPES, name) == null, "Predicate type is already registered: %s", name);
+            }
             TO_REGISTER.put(registry, name, value);
         }
         return value;

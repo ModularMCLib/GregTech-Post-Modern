@@ -25,7 +25,7 @@ data class FluidPredicate(val fluids: ObjectList<Fluid>) : StructurePredicate {
 	override fun test(multiblockState: MultiblockState, mutateCount: Boolean): Boolean = observeCandidate(multiblockState.blockState).matched
 
 	companion object {
-		val TYPE: StructurePredicateType<FluidPredicate> by lazy { REGISTRATE.structurePredicate("fluids", CODEC) }
+		val TYPE: StructurePredicateType<FluidPredicate> by lazy { REGISTRATE.structurePredicate("fluids").codec(CODEC).register() }
 
 		@JvmField
 		val CODEC: MapCodec<FluidPredicate> = RecordCodecBuilder.mapCodec { instance ->

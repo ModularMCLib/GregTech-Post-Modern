@@ -19,8 +19,8 @@ import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 public class BiomePlacement extends PlacementModifier {
 
     public static final PlacementModifierType<BiomePlacement> BIOME_PLACEMENT = REGISTRATE
-            .<PlacementModifierType<BiomePlacement>>registryEntry("biome_placement",
-                    BuiltInRegistries.PLACEMENT_MODIFIER_TYPE, () -> BiomePlacement.CODEC)
+            .registryEntry("biome_placement", BuiltInRegistries.PLACEMENT_MODIFIER_TYPE)
+            .<PlacementModifierType<BiomePlacement>>definition(() -> BiomePlacement.CODEC)
             .register();
 
     public static final MapCodec<BiomePlacement> CODEC = BiomeWeightModifier.CODEC.listOf().fieldOf("modifiers")

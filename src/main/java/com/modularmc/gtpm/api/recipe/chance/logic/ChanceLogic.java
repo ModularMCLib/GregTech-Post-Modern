@@ -33,7 +33,7 @@ public abstract class ChanceLogic {
     /**
      * Chanced Output Logic where any ingredients succeeding their roll will be produced
      */
-    public static final ChanceLogic OR = REGISTRATE.chanceLogic("or", new ChanceLogic() {
+    public static final ChanceLogic OR = REGISTRATE.chanceLogic("or").definition(new ChanceLogic() {
 
         @Override
         public @Unmodifiable List<@NotNull Content> roll(RecipeCapability<?> cap,
@@ -79,7 +79,7 @@ public abstract class ChanceLogic {
     /**
      * Chanced Output Logic where all ingredients must succeed their roll in order for any to be produced
      */
-    public static final ChanceLogic AND = REGISTRATE.chanceLogic("and", new ChanceLogic() {
+    public static final ChanceLogic AND = REGISTRATE.chanceLogic("and").definition(new ChanceLogic() {
 
         @Override
         public @Unmodifiable List<@NotNull Content> roll(RecipeCapability<?> cap,
@@ -119,7 +119,7 @@ public abstract class ChanceLogic {
      * Deprecated following the rewrite of XOR
      */
     @Deprecated
-    public static final ChanceLogic FIRST = REGISTRATE.chanceLogic("first", new ChanceLogic() {
+    public static final ChanceLogic FIRST = REGISTRATE.chanceLogic("first").definition(new ChanceLogic() {
 
         @Override
         public @Unmodifiable List<@NotNull Content> roll(RecipeCapability<?> cap,
@@ -159,7 +159,7 @@ public abstract class ChanceLogic {
     /**
      * Chanced Output Logic where only one of the ingredients will be output, in a manner weighted to the input chances
      */
-    public static final ChanceLogic XOR = REGISTRATE.chanceLogic("xor", new ChanceLogic() {
+    public static final ChanceLogic XOR = REGISTRATE.chanceLogic("xor").definition(new ChanceLogic() {
 
         @Override
         public @Unmodifiable List<@NotNull Content> roll(RecipeCapability<?> cap,
@@ -255,7 +255,7 @@ public abstract class ChanceLogic {
     /**
      * Chanced Output Logic where nothing is produced
      */
-    public static final ChanceLogic NONE = REGISTRATE.chanceLogic("none", new ChanceLogic() {
+    public static final ChanceLogic NONE = REGISTRATE.chanceLogic("none").definition(new ChanceLogic() {
 
         @Override
         public @Unmodifiable List<@NotNull Content> roll(RecipeCapability<?> cap,

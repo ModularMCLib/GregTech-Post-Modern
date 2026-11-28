@@ -21,7 +21,7 @@ data class AutoMaintenancePredicate(val checkMaintenance: Boolean, val checkMuff
 	}
 
 	companion object {
-		val TYPE: StructurePredicateType<AutoMaintenancePredicate> by lazy { REGISTRATE.structurePredicate("auto_maintenance", CODEC) }
+		val TYPE: StructurePredicateType<AutoMaintenancePredicate> by lazy { REGISTRATE.structurePredicate("auto_maintenance").codec(CODEC).register() }
 		private val MUFFLER = RestrictedPredicate.builder().base(AbilityPredicate(ObjectList.of(PartAbility.MUFFLER))).exactCount(1).build()
 		private val PARALLEL = RestrictedPredicate.builder().base(AbilityPredicate(ObjectList.of(PartAbility.PARALLEL_HATCH))).maxCount(1).previewCount(1).build()
 		private val MAINTENANCE_ENABLED = RestrictedPredicate.builder().base(AbilityPredicate(ObjectList.of(PartAbility.MAINTENANCE))).minCount(1).maxCount(1).build()

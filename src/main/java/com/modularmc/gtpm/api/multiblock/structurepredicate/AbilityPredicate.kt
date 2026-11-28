@@ -111,7 +111,7 @@ data class AbilityPredicate(val abilities: ObjectList<PartAbility>, val range: O
 			instance.group(Codec.INT.fieldOf("min").forGetter(TierRange::min), Codec.INT.fieldOf("max").forGetter(TierRange::max)).apply(instance, ::TierRange)
 		}
 		private val TIERS_CODEC: Codec<IntSet> = Codec.INT.listOf().xmap({ IntOpenHashSet(it) }, { ObjectArrayList(it) })
-		val TYPE: StructurePredicateType<AbilityPredicate> by lazy { REGISTRATE.structurePredicate("part", CODEC) }
+		val TYPE: StructurePredicateType<AbilityPredicate> by lazy { REGISTRATE.structurePredicate("part").codec(CODEC).register() }
 		val CODEC: MapCodec<AbilityPredicate> = RecordCodecBuilder.mapCodec { instance ->
 			instance.group(
 				PredicateCodecs.oneOrMore(ABILITY_CODEC).fieldOf("abilities").forGetter(AbilityPredicate::abilities),

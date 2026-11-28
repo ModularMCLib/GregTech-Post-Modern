@@ -39,7 +39,7 @@ open class PredicateController : PatternPredicate {
 
 	companion object {
 		val TYPE: PredicateType<PredicateController> by lazy {
-			REGISTRATE.predicate("controller", PredicateType(CODEC) { it }).register()
+			REGISTRATE.predicate("controller").definition(PredicateType(CODEC) { it }).register()
 		}
 		val CODEC: MapCodec<PredicateController> = ResourceLocation.CODEC.fieldOf("machine").xmap(::PredicateController) { it.machineId!! }
 	}

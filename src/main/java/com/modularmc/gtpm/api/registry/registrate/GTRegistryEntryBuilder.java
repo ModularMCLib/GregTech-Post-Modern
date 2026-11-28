@@ -17,6 +17,14 @@ import java.util.function.Consumer;
 /** Registers a definition that other GT declarations can reference before the registry event. */
 public final class GTRegistryEntryBuilder<T> {
 
+    public record Definition<R>(GTRegistrate registrate, Registry<R> registry, ResourceLocation id,
+                                String translationKey) {
+
+        public <T extends R> GTRegistryEntryBuilder<T> definition(T value) {
+            return new GTRegistryEntryBuilder<>(registrate, registry, id, value, translationKey);
+        }
+    }
+
     private final GTRegistrate registrate;
     private final Registry<? super T> registry;
     private final ResourceLocation id;

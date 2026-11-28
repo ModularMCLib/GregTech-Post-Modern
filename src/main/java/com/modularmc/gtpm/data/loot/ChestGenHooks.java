@@ -139,7 +139,8 @@ public final class ChestGenHooks {
                 .apply(instance, RandomWeightLootFunction::new));
 
         public static final LootItemFunctionType<RandomWeightLootFunction> TYPE = REGISTRATE
-                .registryEntry("random_weight", BuiltInRegistries.LOOT_FUNCTION_TYPE, new LootItemFunctionType<>(CODEC))
+                .registryEntry("random_weight", BuiltInRegistries.LOOT_FUNCTION_TYPE)
+                .definition(new LootItemFunctionType<>(CODEC))
                 .register();
 
         private final ItemStack stack;

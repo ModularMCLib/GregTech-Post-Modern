@@ -39,7 +39,7 @@ class BlockPredicate(blockIds: Supplier<ObjectList<ResourceLocation>>) : Structu
 	override fun toString(): String = "BlockPredicate[blockIds=$blockIds]"
 
 	companion object {
-		val TYPE: StructurePredicateType<BlockPredicate> by lazy { REGISTRATE.structurePredicate("block", CODEC) }
+		val TYPE: StructurePredicateType<BlockPredicate> by lazy { REGISTRATE.structurePredicate("block").codec(CODEC).register() }
 		val CODEC: MapCodec<BlockPredicate> = PredicateCodecs.oneOrMore(ResourceLocation.CODEC).fieldOf("ids").xmap(::BlockPredicate, BlockPredicate::blockIds)
 
 		private fun resolveBlock(id: ResourceLocation): Block {

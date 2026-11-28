@@ -35,7 +35,7 @@ class FluidTagPredicate(val tag: TagKey<Fluid>) : StructurePredicate {
 	override fun toString(): String = "FluidTagPredicate[tag=$tag]"
 
 	companion object {
-		val TYPE: StructurePredicateType<FluidTagPredicate> by lazy { REGISTRATE.structurePredicate("fluid_tag", CODEC) }
+		val TYPE: StructurePredicateType<FluidTagPredicate> by lazy { REGISTRATE.structurePredicate("fluid_tag").codec(CODEC).register() }
 		val CODEC: MapCodec<FluidTagPredicate> = TagKey.codec(Registries.FLUID).fieldOf("tag").xmap(::FluidTagPredicate, FluidTagPredicate::tag)
 	}
 }

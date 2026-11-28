@@ -54,7 +54,7 @@ data class RotorHolderPredicate(val tier: Int) : CategoryPredicate {
 	}
 
 	companion object {
-		val TYPE: StructurePredicateType<RotorHolderPredicate> by lazy { REGISTRATE.structurePredicate("rotor_holder", CODEC) }
+		val TYPE: StructurePredicateType<RotorHolderPredicate> by lazy { REGISTRATE.structurePredicate("rotor_holder").codec(CODEC).register() }
 
 		@JvmField
 		val CODEC: MapCodec<RotorHolderPredicate> = RecordCodecBuilder.mapCodec { instance ->

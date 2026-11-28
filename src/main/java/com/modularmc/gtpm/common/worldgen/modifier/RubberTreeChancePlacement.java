@@ -16,8 +16,8 @@ import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 public class RubberTreeChancePlacement extends RepeatingPlacement {
 
     public static final PlacementModifierType<RubberTreeChancePlacement> RUBBER_TREE_CHANCE_PLACEMENT = REGISTRATE
-            .<PlacementModifierType<RubberTreeChancePlacement>>registryEntry("rubber_tree_chance",
-                    BuiltInRegistries.PLACEMENT_MODIFIER_TYPE, () -> RubberTreeChancePlacement.CODEC)
+            .registryEntry("rubber_tree_chance", BuiltInRegistries.PLACEMENT_MODIFIER_TYPE)
+            .<PlacementModifierType<RubberTreeChancePlacement>>definition(() -> RubberTreeChancePlacement.CODEC)
             .register();
 
     public static final RubberTreeChancePlacement INSTANCE = new RubberTreeChancePlacement();

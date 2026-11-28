@@ -42,7 +42,7 @@ data class BlockStatePredicate(val block: Block, val properties: Map<String, Str
 	override fun hasAir(): Boolean = observeCandidate(Blocks.AIR.defaultBlockState()).matched
 
 	companion object {
-		val TYPE: StructurePredicateType<BlockStatePredicate> by lazy { REGISTRATE.structurePredicate("block_state", CODEC) }
+		val TYPE: StructurePredicateType<BlockStatePredicate> by lazy { REGISTRATE.structurePredicate("block_state").codec(CODEC).register() }
 		val CODEC: MapCodec<BlockStatePredicate> = RecordCodecBuilder.mapCodec { instance ->
 			instance.group(
 				BuiltInRegistries.BLOCK.byNameCodec().fieldOf("block").forGetter(BlockStatePredicate::block),

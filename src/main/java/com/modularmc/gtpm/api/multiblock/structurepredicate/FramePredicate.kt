@@ -50,7 +50,7 @@ class FramePredicate(val materialIds: ObjectList<ResourceLocation>) : StructureP
 	}
 
 	companion object {
-		val TYPE: StructurePredicateType<FramePredicate> by lazy { REGISTRATE.structurePredicate("frame", CODEC) }
+		val TYPE: StructurePredicateType<FramePredicate> by lazy { REGISTRATE.structurePredicate("frame").codec(CODEC).register() }
 
 		@JvmField
 		val CODEC: MapCodec<FramePredicate> = RecordCodecBuilder.mapCodec { instance ->

@@ -19,8 +19,8 @@ import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 public class DimensionFilter extends PlacementFilter {
 
     public static final PlacementModifierType<DimensionFilter> DIMENSION_FILTER = REGISTRATE
-            .<PlacementModifierType<DimensionFilter>>registryEntry("dimension",
-                    BuiltInRegistries.PLACEMENT_MODIFIER_TYPE, () -> DimensionFilter.CODEC)
+            .registryEntry("dimension", BuiltInRegistries.PLACEMENT_MODIFIER_TYPE)
+            .<PlacementModifierType<DimensionFilter>>definition(() -> DimensionFilter.CODEC)
             .register();
 
     public static final MapCodec<DimensionFilter> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(

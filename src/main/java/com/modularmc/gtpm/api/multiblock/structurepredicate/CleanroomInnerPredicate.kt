@@ -60,7 +60,7 @@ enum class CleanroomInnerPredicate : StructurePredicate {
 	override fun addCache(): Boolean = true
 
 	companion object {
-		val TYPE: StructurePredicateType<CleanroomInnerPredicate> by lazy { REGISTRATE.structurePredicate("cleanroom_inner", CODEC) }
+		val TYPE: StructurePredicateType<CleanroomInnerPredicate> by lazy { REGISTRATE.structurePredicate("cleanroom_inner").codec(CODEC).register() }
 
 		@JvmField
 		val CODEC: MapCodec<CleanroomInnerPredicate> = MapCodec.unit(INSTANCE)
