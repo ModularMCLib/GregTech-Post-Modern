@@ -3,6 +3,10 @@ package com.modularmc.gtpm.common.data;
 import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.common.effect.GTPoisonEffect;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -10,6 +14,9 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+@Trans(key = "effect.gtpm.weak_poison",
+       source = "Weak Poison",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "轻度中毒"))
 public class GTMobEffects {
 
     public static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(Registries.MOB_EFFECT,

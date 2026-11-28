@@ -2,6 +2,10 @@ package com.modularmc.gtpm.common.data;
 
 import com.modularmc.gtpm.common.entity.*;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
 import com.modularmc.registrate.util.entry.EntityEntry;
 
 import net.minecraft.tags.EntityTypeTags;
@@ -9,6 +13,18 @@ import net.minecraft.world.entity.MobCategory;
 
 import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 
+@TransVariants(keyPrefix = "entity.gtpm",
+               value = {
+                       @Variant(id = "dynamite",
+                                source = "Dynamite",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "炸药")),
+                       @Variant(id = "industrial_tnt",
+                                source = "Industrial TNT",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "工业TNT")),
+                       @Variant(id = "powderbarrel",
+                                source = "Powderbarrel",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "火药桶")),
+               })
 public class GTEntityTypes {
 
     public static final EntityEntry<DynamiteEntity> DYNAMITE = REGISTRATE

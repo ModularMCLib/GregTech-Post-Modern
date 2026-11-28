@@ -5,6 +5,10 @@ import com.modularmc.gtpm.api.registry.GTRegistries;
 import com.modularmc.gtpm.common.recipe.condition.DimensionCondition;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
 import com.modularmc.registrate.util.entry.BlockEntry;
 
 import net.minecraft.client.renderer.block.model.BlockModel;
@@ -21,6 +25,18 @@ import java.util.function.Supplier;
 import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 
 @SuppressWarnings("unused")
+@TransVariants(keyPrefix = "block.gtpm",
+               value = {
+                       @Variant(id = "overworld_marker",
+                                source = "Overworld",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "主世界")),
+                       @Variant(id = "the_end_marker",
+                                source = "The End",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "末地")),
+                       @Variant(id = "the_nether_marker",
+                                source = "The Nether",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "下界")),
+               })
 public class GTDimensionMarkers {
 
     static {
