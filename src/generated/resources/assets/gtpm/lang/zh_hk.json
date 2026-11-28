@@ -1959,6 +1959,7 @@
     "config.jade.plugin_gtpm.steam_boiler_info": "[GTCEu] 蒸汽鍋爐信息",
     "config.jade.plugin_gtpm.transformer": "[GTCEu] 變壓器信息",
     "config.jade.plugin_gtpm.workable_provider": "[GTCEu] 工作信息",
+    "config.screen.gtpm": "格雷科技",
     "cover.advanced_detector.latch.disabled.0": "行為：線性",
     "cover.advanced_detector.latch.disabled.1": "",
     "cover.advanced_detector.latch.disabled.2": "更改此覆蓋板的紅石行為。",
