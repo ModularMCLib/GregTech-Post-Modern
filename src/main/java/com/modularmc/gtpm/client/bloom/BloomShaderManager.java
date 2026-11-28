@@ -61,7 +61,7 @@ public class BloomShaderManager {
     public static void clientInit(FMLClientSetupEvent event) {
         // Add a validator & update listener for the bloom type config option
         // this path must match the config option's path exactly.
-        GTPMConfigHolder.INTERNAL_INSTANCE.getConfigValue("client.bloom.type", BloomType.class)
+        GTPMConfigHolder.HOLDER.getConfigValue("client.bloom.type", BloomType.class)
                 .ifPresentOrElse(option -> option.addValidator(new BloomTypeConfigValidator()),
                         () -> GTPM.LOGGER.warn(
                                 "Could not initialize bloom type config update listener! The shaders will not update automatically when the config option is changed."));
