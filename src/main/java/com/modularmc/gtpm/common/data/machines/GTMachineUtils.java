@@ -80,9 +80,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.IntFunction;
-import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 import static com.modularmc.gtpm.api.GTValues.*;
@@ -740,12 +740,14 @@ public class GTMachineUtils {
     }
 
     public static MachineDefinition registerDrum(Material material,
-                                                 Consumer<MachineBuilder<MachineDefinition, ?>> configure, int capacity) {
+                                                 Consumer<MachineBuilder<MachineDefinition, ?>> configure,
+                                                 int capacity) {
         return registerDrum(REGISTRATE, material, configure, capacity);
     }
 
     private static MachineDefinition registerDrum(GTRegistrate registrate, Material material,
-                                                  Consumer<MachineBuilder<MachineDefinition, ?>> configure, int capacity) {
+                                                  Consumer<MachineBuilder<MachineDefinition, ?>> configure,
+                                                  int capacity) {
         boolean wooden = material.hasProperty(PropertyKey.WOOD);
         var builder = registrate
                 .machine(material.getName() + "_drum", MachineDefinition::new,
@@ -874,7 +876,7 @@ public class GTMachineUtils {
     }
 
     static MultiblockMachineBuilder<?, ?> multiblockTank(GTRegistrate registrate, String name, int capacity,
-                                                        Supplier<Block> casing, @Nullable PropertyFluidFilter filter) {
+                                                         Supplier<Block> casing, @Nullable PropertyFluidFilter filter) {
         return registrate
                 .multiblock(name, holder -> new MultiblockTankMachine(holder, capacity, filter))
                 .tooltips(
@@ -955,7 +957,8 @@ public class GTMachineUtils {
     }
 
     static MultiblockMachineBuilder<?, ?> largeBoiler(GTRegistrate registrate, String name,
-                                                      Supplier<? extends Block> casing, Supplier<? extends Block> fireBox,
+                                                      Supplier<? extends Block> casing,
+                                                      Supplier<? extends Block> fireBox,
                                                       ResourceLocation texture, BoilerFireboxType firebox,
                                                       int maxTemperature, int heatSpeed) {
         // spotless:off
@@ -1073,7 +1076,23 @@ public class GTMachineUtils {
                                                                    ResourceLocation casingTexture,
                                                                    ResourceLocation overlayModel,
                                                                    boolean needsMuffler) {
-        return registrate.multiblock(name, holder -> new LargeTurbineMachine(holder, tier))
+        return registerLargeTurbine(registrate, name, tier, recipeType, casing, gear, casingTexture, overlayModel,
+                needsMuffler, null);
+    }
+
+    public static MultiblockMachineDefinition registerLargeTurbine(
+                                                                   GTRegistrate registrate, String name, int tier,
+                                                                   GTRecipeType recipeType,
+                                                                   Supplier<? extends Block> casing,
+                                                                   Supplier<? extends Block> gear,
+                                                                   ResourceLocation casingTexture,
+                                                                   ResourceLocation overlayModel, boolean needsMuffler,
+                                                                   @Nullable Consumer<LocalizationDeclaration.Builder> localization) {
+        var builder = registrate.multiblock(name, holder -> new LargeTurbineMachine(holder, tier));
+        if (localization != null) {
+            builder.localization(localization);
+        }
+        return builder
                 .rotationState(RotationState.ALL)
                 .recipeType(recipeType)
                 .generator(true)

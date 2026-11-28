@@ -734,31 +734,27 @@ public class GTMultiMachines {
             .localization(text -> text.source("Extreme Combustion Engine").translation(MinecraftLocale.ZH_CN, "极限内燃引擎"))
             .register();
 
-    @Trans(key = "block.gtpm.steam_large_turbine",
-           source = "Large Steam Turbine",
-           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "大型蒸汽涡轮"))
-    public static final MultiblockMachineDefinition LARGE_STEAM_TURBINE = registerLargeTurbine("steam_large_turbine",
+    public static final MultiblockMachineDefinition LARGE_STEAM_TURBINE = registerLargeTurbine(
+            REGISTRATE, "steam_large_turbine",
             HV,
             GTRecipeTypes.STEAM_TURBINE_FUELS,
             CASING_STEEL_TURBINE, CASING_STEEL_GEARBOX,
             GTPM.id("block/casings/mechanic/machine_casing_turbine_steel"),
             GTPM.id("block/multiblock/generator/large_steam_turbine"),
-            false);
+            false,
+            text -> text.source("Large Steam Turbine").translation(MinecraftLocale.ZH_CN, "大型蒸汽涡轮"));
 
-    @Trans(key = "block.gtpm.gas_large_turbine",
-           source = "Large Gas Turbine",
-           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "大型燃气涡轮"))
-    public static final MultiblockMachineDefinition LARGE_GAS_TURBINE = registerLargeTurbine("gas_large_turbine", EV,
+    public static final MultiblockMachineDefinition LARGE_GAS_TURBINE = registerLargeTurbine(
+            REGISTRATE, "gas_large_turbine", EV,
             GTRecipeTypes.GAS_TURBINE_FUELS,
             CASING_STAINLESS_TURBINE, CASING_STAINLESS_STEEL_GEARBOX,
             GTPM.id("block/casings/mechanic/machine_casing_turbine_stainless_steel"),
             GTPM.id("block/multiblock/generator/large_gas_turbine"),
-            true);
+            true,
+            text -> text.source("Large Gas Turbine").translation(MinecraftLocale.ZH_CN, "大型燃气涡轮"));
 
-    @Trans(key = "block.gtpm.plasma_large_turbine",
-           source = "Large Plasma Turbine",
-           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "大型等离子涡轮"))
-    public static final MultiblockMachineDefinition LARGE_PLASMA_TURBINE = registerLargeTurbine("plasma_large_turbine",
+    public static final MultiblockMachineDefinition LARGE_PLASMA_TURBINE = registerLargeTurbine(
+            REGISTRATE, "plasma_large_turbine",
             IV,
             GTRecipeTypes.PLASMA_GENERATOR_FUELS,
             CASING_TUNGSTENSTEEL_TURBINE, CASING_TUNGSTENSTEEL_GEARBOX,
