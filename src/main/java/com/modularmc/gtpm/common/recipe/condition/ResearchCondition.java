@@ -9,6 +9,10 @@ import com.modularmc.gtpm.api.recipe.ResearchData;
 import com.modularmc.gtpm.api.recipe.condition.RecipeConditionType;
 import com.modularmc.gtpm.common.data.GTRecipeConditions;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.network.chat.Component;
 
 import com.mojang.serialization.MapCodec;
@@ -17,6 +21,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
+@Trans(key = "gtpm.recipe.research",
+       source = "Requires Research",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "需要研究"))
 @AllArgsConstructor
 public class ResearchCondition extends RecipeCondition<ResearchCondition> {
 

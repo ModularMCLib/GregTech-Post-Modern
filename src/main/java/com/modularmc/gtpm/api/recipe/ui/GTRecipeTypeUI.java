@@ -23,6 +23,10 @@ import com.modularmc.gtpm.integration.emi.recipe.GTRecipeEMICategory;
 import com.modularmc.gtpm.integration.jei.GTJEIPlugin;
 import com.modularmc.gtpm.integration.jei.recipe.GTRecipeJEICategory;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.FillDirection;
@@ -64,6 +68,9 @@ import java.util.List;
 import java.util.function.DoubleSupplier;
 import java.util.stream.Collectors;
 
+@Trans(key = "gtpm.recipe_type.show_recipes",
+       source = "Show Recipes",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "查看配方"))
 @SuppressWarnings("UnusedReturnValue")
 public class GTRecipeTypeUI {
 

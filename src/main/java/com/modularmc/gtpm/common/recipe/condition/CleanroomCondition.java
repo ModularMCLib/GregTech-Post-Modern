@@ -11,6 +11,10 @@ import com.modularmc.gtpm.common.data.GTRecipeConditions;
 import com.modularmc.gtpm.common.machine.trait.CleanroomReceiverTrait;
 import com.modularmc.gtpm.config.ConfigHolder;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.network.chat.Component;
 
 import com.mojang.serialization.MapCodec;
@@ -20,6 +24,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+@Trans(key = "gtpm.recipe.cleanroom",
+       source = "Requires %s",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "需要%s"))
 @AllArgsConstructor
 @NoArgsConstructor
 public class CleanroomCondition extends RecipeCondition<CleanroomCondition> {

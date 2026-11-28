@@ -19,6 +19,11 @@ import com.modularmc.gtpm.api.recipe.modifier.RecipeModifier;
 import com.modularmc.gtpm.common.capability.EnvironmentalHazardSavedData;
 import com.modularmc.gtpm.config.ConfigHolder;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -31,6 +36,15 @@ import java.util.function.Function;
 
 import static com.modularmc.gtpm.api.recipe.OverclockingLogic.*;
 
+@TransVariants(keyPrefix = "gtpm.recipe_modifier",
+               value = {
+                       @Variant(id = "coil_temperature_too_low",
+                                source = "Coil Temperature Too Low",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "线圈温度不足")),
+                       @Variant(id = "insufficient_voltage",
+                                source = "Voltage Tier Too Low",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "电压等级不足")),
+               })
 public class GTRecipeModifiers {
 
     /**

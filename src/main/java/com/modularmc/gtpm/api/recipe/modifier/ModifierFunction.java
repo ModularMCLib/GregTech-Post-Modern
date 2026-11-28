@@ -9,6 +9,10 @@ import com.modularmc.gtpm.api.recipe.RecipeHelper;
 import com.modularmc.gtpm.api.recipe.content.Content;
 import com.modularmc.gtpm.api.recipe.content.ContentModifier;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.network.chat.Component;
 
 import lombok.Setter;
@@ -34,6 +38,9 @@ import java.util.Map;
  * This is a functional interface whose functional method is {@link #apply(GTRecipe)}
  * </p>
  */
+@Trans(key = "gtpm.recipe_modifier.default_fail",
+       source = "Recipe Modifier Fail",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "配方修改失败"))
 @FunctionalInterface
 public interface ModifierFunction {
 

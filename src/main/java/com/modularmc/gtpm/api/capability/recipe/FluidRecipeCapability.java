@@ -28,6 +28,10 @@ import com.modularmc.gtpm.integration.xei.entry.fluid.FluidTagList;
 import com.modularmc.gtpm.integration.xei.handlers.fluid.CycleFluidEntryHandler;
 import com.modularmc.gtpm.utils.GTMath;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 
 import net.minecraft.ChatFormatting;
@@ -55,9 +59,15 @@ import java.util.stream.Collectors;
 
 import static com.modularmc.gtpm.api.recipe.RecipeHelper.addToRecipeHandlerMap;
 
+@Trans(key = "gtpm.gui.content.fluid_range",
+       source = "%s-%smB",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s-%smB"))
 @ExtensionMethod(SizedIngredientExtensions.class)
 public class FluidRecipeCapability extends RecipeCapability<SizedFluidIngredient> {
 
+    @Trans(key = "recipe.capability.fluid.name",
+           source = "Fluid",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "流体"))
     public final static FluidRecipeCapability CAP = new FluidRecipeCapability();
 
     protected FluidRecipeCapability() {

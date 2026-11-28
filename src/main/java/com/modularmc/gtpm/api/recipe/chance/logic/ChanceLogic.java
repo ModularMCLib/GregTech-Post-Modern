@@ -8,6 +8,11 @@ import com.modularmc.gtpm.api.recipe.content.Content;
 import com.modularmc.gtpm.api.recipe.content.ContentModifier;
 import com.modularmc.gtpm.api.registry.GTRegistries;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.network.chat.Component;
 
 import com.google.common.collect.ImmutableList;
@@ -26,6 +31,24 @@ import java.util.List;
 /**
  * Logic for determining which chanced outputs should be produced from a list
  */
+@TransVariants(keyPrefix = "gtpm.chance_logic",
+               value = {
+                       @Variant(id = "and",
+                                source = "AND",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "AND")),
+                       @Variant(id = "first",
+                                source = "FIRST",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "第一")),
+                       @Variant(id = "none",
+                                source = "NONE",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "NONE")),
+                       @Variant(id = "or",
+                                source = "OR",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "OR")),
+                       @Variant(id = "xor",
+                                source = "XOR",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "XOR")),
+               })
 public abstract class ChanceLogic {
 
     /**

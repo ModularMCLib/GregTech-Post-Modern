@@ -10,11 +10,18 @@ import com.modularmc.gtpm.api.recipe.content.SerializerLong;
 import com.modularmc.gtpm.api.recipe.modifier.ParallelLogic;
 import com.modularmc.gtpm.utils.GTMath;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import it.unimi.dsi.fastutil.longs.LongList;
 
 import java.util.List;
 import java.util.Map;
 
+@Trans(key = "recipe.capability.eu.name",
+       source = "GTPM Energy",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "GTCEu能量"))
 public class EURecipeCapability extends RecipeCapability<Long> {
 
     public final static EURecipeCapability CAP = new EURecipeCapability();

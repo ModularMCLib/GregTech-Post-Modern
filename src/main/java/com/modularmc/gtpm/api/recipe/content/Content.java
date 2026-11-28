@@ -9,6 +9,11 @@ import com.modularmc.gtpm.api.recipe.ingredient.IntProviderIngredient;
 import com.modularmc.gtpm.utils.FormattingUtil;
 import com.modularmc.gtpm.utils.GradientUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.utils.LocalizationUtils;
 
 import net.minecraft.ChatFormatting;
@@ -28,6 +33,15 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@TransVariants(keyPrefix = "gtpm.gui.content",
+               value = {
+                       @Variant(id = "chance_nc_short",
+                                source = "§cNC§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§c不消耗§r")),
+                       @Variant(id = "tips.per_tick_short",
+                                source = "§a/tick§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§a/刻（tick）§r")),
+               })
 public class Content {
 
     @Getter

@@ -15,6 +15,10 @@ import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.data.recipe.builder.GTRecipeBuilder;
 import com.modularmc.gtpm.utils.TagUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -37,6 +41,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Trans(key = "gtpm.recipe_logic.condition_fails",
+       source = "Condition Fails",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "条件不足"))
 public class RecipeHelper {
 
     public static long getRealEUt(@NotNull GTRecipe recipe) {

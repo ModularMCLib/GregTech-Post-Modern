@@ -6,6 +6,10 @@ import com.modularmc.gtpm.api.recipe.RecipeCondition;
 import com.modularmc.gtpm.api.recipe.condition.RecipeConditionType;
 import com.modularmc.gtpm.common.data.GTRecipeConditions;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 
@@ -16,6 +20,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+@Trans(key = "recipe.condition.thunder.tooltip",
+       source = "Thunder Level: %d",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "雷级：%d"))
 @NoArgsConstructor
 public class ThunderCondition extends RecipeCondition<ThunderCondition> {
 

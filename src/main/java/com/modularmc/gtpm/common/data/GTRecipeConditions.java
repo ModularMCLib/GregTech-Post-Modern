@@ -6,8 +6,34 @@ import com.modularmc.gtpm.api.recipe.condition.RecipeConditionType;
 import com.modularmc.gtpm.api.registry.GTRegistries;
 import com.modularmc.gtpm.common.recipe.condition.*;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.mojang.serialization.MapCodec;
 
+@TransVariants(keyPrefix = "recipe.condition",
+               value = {
+                       @Variant(id = "biome.tooltip",
+                                source = "Biome: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "生物群系：%s")),
+                       @Variant(id = "dimension_marker.tooltip",
+                                source = "Dimension:",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "维度：")),
+                       @Variant(id = "gamestage.locked_stage",
+                                source = "Locked at stage: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "锁定阶段：%s")),
+                       @Variant(id = "gamestage.unlocked_stage",
+                                source = "Unlocked at stage: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "解锁阶段：%s")),
+                       @Variant(id = "quest.completed.tooltip",
+                                source = "Requires %s completed",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "完成任务：%s")),
+                       @Variant(id = "quest.not_completed.tooltip",
+                                source = "Requires %s not completed",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "未完成任务：%s")),
+               })
 public final class GTRecipeConditions {
 
     private GTRecipeConditions() {}

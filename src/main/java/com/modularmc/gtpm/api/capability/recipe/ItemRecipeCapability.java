@@ -31,6 +31,10 @@ import com.modularmc.gtpm.integration.xei.entry.item.ItemTagList;
 import com.modularmc.gtpm.integration.xei.handlers.item.CycleItemEntryHandler;
 import com.modularmc.gtpm.utils.*;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 
 import net.minecraft.ChatFormatting;
@@ -60,9 +64,15 @@ import java.util.stream.Collectors;
 
 import static com.modularmc.gtpm.api.recipe.RecipeHelper.addToRecipeHandlerMap;
 
+@Trans(key = "gtpm.gui.content.count_range",
+       source = "%s-%sx",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s-%sx"))
 @ExtensionMethod(SizedIngredientExtensions.class)
 public class ItemRecipeCapability extends RecipeCapability<SizedIngredient> {
 
+    @Trans(key = "recipe.capability.item.name",
+           source = "Item",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "物品"))
     public final static ItemRecipeCapability CAP = new ItemRecipeCapability();
 
     protected ItemRecipeCapability() {

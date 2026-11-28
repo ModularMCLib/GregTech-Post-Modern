@@ -10,13 +10,16 @@ import com.modularmc.gtpm.api.recipe.chance.boost.ChanceBoostFunction;
 import com.modularmc.gtpm.api.recipe.lookup.RecipeAdditionHandler;
 import com.modularmc.gtpm.api.recipe.lookup.RecipeDB;
 import com.modularmc.gtpm.api.recipe.ui.GTRecipeTypeUI;
+import com.modularmc.gtpm.api.registry.registrate.provider.GTLanguageProvider;
 import com.modularmc.gtpm.api.sound.SoundEntry;
 import com.modularmc.gtpm.api.sync_system.FieldCodecs;
 import com.modularmc.gtpm.common.recipe.condition.ResearchCondition;
+import com.modularmc.gtpm.common.registry.GTRegistration;
 import com.modularmc.gtpm.data.recipe.builder.GTRecipeBuilder;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
 import com.modularmc.registrate.localization.LocalizationDeclaration;
+import com.modularmc.registrate.providers.core.ProviderType;
 
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 
@@ -135,6 +138,18 @@ public class GTRecipeType implements RecipeType<GTRecipeDefinition> {
             map.put(proxyRecipe, new ArrayList<>());
         }
         this.proxyRecipes = map;
+        if (GTPM.isDataGen()) {
+            GTRegistration.REGISTRATE.addDataGeneratorFirst(ProviderType.LANG, provider -> {
+                if (BuiltInRegistries.RECIPE_TYPE.get(registryName) != this) return;
+
+                String key = getTranslationKey();
+                if (localization == null) {
+                    provider.add(key, FormattingUtil.toEnglishName(registryName.getPath()));
+                } else {
+                    GTLanguageProvider.addLocalization(provider, GTRegistration.REGISTRATE, key, localization);
+                }
+            });
+        }
     }
 
     /** Declares the recipe browser name during recipe type registration. */
