@@ -6,9 +6,7 @@ import com.modularmc.gtpm.client.bloom.BloomType;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
 import com.modularmc.registrate.localization.annotation.Trans;
-import com.modularmc.registrate.localization.annotation.TransVariants;
 import com.modularmc.registrate.localization.annotation.Translation;
-import com.modularmc.registrate.localization.annotation.Variant;
 
 import net.minecraft.commands.Commands;
 
@@ -19,15 +17,6 @@ import dev.toma.configuration.config.format.ConfigFormats;
 import org.jetbrains.annotations.ApiStatus;
 
 @Config(id = GTPM.MOD_ID, filename = GTPM.MOD_ID + "/" + GTPM.MOD_ID)
-@TransVariants(keyPrefix = "config.gtpm.option",
-               value = {
-                       @Variant(id = "allowDrumsInputFluidsFromOutputSide",
-                                source = "Allow drums to accept fluids through their output face",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "允许桶从输出面输入流体")),
-                       @Variant(id = "doDatafixers",
-                                source = "Run data fixers",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "执行数据修复")),
-               })
 public class ConfigHolder {
 
     public static ConfigHolder INSTANCE;
