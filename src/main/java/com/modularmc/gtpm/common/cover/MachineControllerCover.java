@@ -23,6 +23,11 @@ import com.modularmc.gtpm.api.sync_system.rpc.RPCMethod;
 import com.modularmc.gtpm.api.transfer.item.CustomItemStackHandler;
 import com.modularmc.gtpm.common.cover.data.ControllerMode;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
@@ -47,6 +52,32 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@TransVariants(keyPrefix = "cover.machine_controller",
+               value = {
+                       @Variant(id = "invert.disabled.0",
+                                source = "§eNormal§r - in this mode, the cover will require a signal weaker than the set redstone level to run",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§e普通§r - 该模式下的覆盖板需要比设定强度小的红石信号来触发")),
+                       @Variant(id = "invert.enabled.0",
+                                source = "§eInverted§r - in this mode, the cover will require a signal stronger than the set redstone level to run",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§e反相§r - 该模式下的覆盖板需要比设定强度大的红石信号来触发")),
+                       @Variant(id = "inverted",
+                                source = "Inverted",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "反相")),
+                       @Variant(id = "normal",
+                                source = "Normal",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "普通")),
+                       @Variant(id = "redstone",
+                                source = "Min Redstone Strength: %d",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "最小红石信号强度：%d")),
+                       @Variant(id = "suspend_powerfail",
+                                source = "Prevent Power Failing:",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "防止跳电：")),
+                       @Variant(id = "title",
+                                source = "Machine Controller Settings",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "机器控制设置")),
+               })
 public class MachineControllerCover extends CoverBehavior
                                     implements CoverUIProvider {
 

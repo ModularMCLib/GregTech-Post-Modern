@@ -16,6 +16,12 @@ import com.modularmc.gtpm.api.transfer.fluid.IFluidHandlerModifiable;
 import com.modularmc.gtpm.common.cover.data.BucketMode;
 import com.modularmc.gtpm.common.cover.data.TransferMode;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 
 import net.minecraft.core.Direction;
@@ -30,6 +36,34 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@Trans(key = "cover.fluid_regulator.title",
+       source = "Fluid Regulator Settings (%s)",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "流体校准器设置（%s）"))
+@TransVariants(keyPrefix = "cover.fluid_regulator",
+               value = {
+                       @Variant(id = "keep_exact",
+                                source = "Keep Exact: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "保持供应：%s")),
+                       @Variant(id = "supply_exact",
+                                source = "Supply Exact: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "精确供应：%s")),
+                       @Variant(id = "transfer_mode.description.0",
+                                source = "§eTransfer Any§r - in this mode, cover will transfer as many fluids matching its filter as possible.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§e任意传输§r-在此模式下，覆盖板将传输任何与过滤器匹配的流体。")),
+                       @Variant(id = "transfer_mode.description.1",
+                                source = "§eSupply Exact§r - in this mode, cover will supply fluids in portions specified in the window underneath this button. If amount of fluids is less than portion size, fluids won't be moved.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§e精确供应-在此模式下，覆盖板会将此按钮下方窗口中指定的流体按指定量打包传输。若流体量小于指定量，流体不会被传输。")),
+                       @Variant(id = "transfer_mode.description.2",
+                                source = "§eKeep Exact§r - in this mode, cover will keep specified amount of fluids in the destination inventory, supplying additional amount of fluids if required.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§e保持供应-在此模式下，覆盖板将在目标容器中保持指定数量的液体，低于保持量时传输相应量的流体。")),
+                       @Variant(id = "transfer_mode.description.3",
+                                source = "§7Tip: shift click will multiply increase/decrease amounts by 10 and ctrl click will multiply by 100.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§7小提示：按住Shift/Crtl把增加或减少的数量乘以10/100。")),
+               })
 public class FluidRegulatorCover extends PumpCover {
 
     private static final int MAX_STACK_SIZE = 2_048_000_000; // Capacity of quantum tank IX

@@ -20,6 +20,11 @@ import com.modularmc.gtpm.api.transfer.fluid.IFluidHandlerModifiable;
 import com.modularmc.gtpm.common.cover.data.FilterMode;
 import com.modularmc.gtpm.common.cover.data.ManualIOMode;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
@@ -35,6 +40,39 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
+@TransVariants(keyPrefix = "cover.fluid_filter",
+               value = {
+                       @Variant(id = "config_amount.0",
+                                source = "Scroll wheel up increases amount, down decreases.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "向上或向下滚动鼠标滚轮以增加或减少流体量。")),
+                       @Variant(id = "config_amount.1",
+                                source = "Shift[§6x10§r],Ctrl[§ex100§r],Shift+Ctrl[§ax1000§r]",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "Shift[§6x10§r]，Ctrl[§ex100§r]，Shift+Ctrl[§ax1000§r]")),
+                       @Variant(id = "config_amount.2",
+                                source = "Right click increases amount, left click decreases.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "亦可通过右击或左击来增减流体量。")),
+                       @Variant(id = "config_amount.3",
+                                source = "Hold shift to double/halve.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "按住Shift时点击鼠标则将使流体量翻倍或减半。")),
+                       @Variant(id = "config_amount.4",
+                                source = "Middle click to clear",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "点击中键以清除")),
+                       @Variant(id = "mode.filter_both",
+                                source = "Filter Fill & Drain",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "过滤两者")),
+                       @Variant(id = "mode.filter_drain",
+                                source = "Filter Drain",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "过滤输出")),
+                       @Variant(id = "mode.filter_fill",
+                                source = "Filter Fill",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "过滤输入")),
+                       @Variant(id = "title",
+                                source = "Fluid Filter",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "流体过滤卡")),
+               })
 public class FluidFilterCover extends CoverBehavior
                               implements CoverUIProvider {
 

@@ -19,6 +19,12 @@ import com.modularmc.gtpm.api.sync_system.annotations.SyncToClient;
 import com.modularmc.gtpm.api.transfer.fluid.IFluidHandlerModifiable;
 import com.modularmc.gtpm.utils.GTTransferUtils;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 
 import net.minecraft.core.Direction;
@@ -36,7 +42,29 @@ import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+@Trans(key = "cover.ender_fluid_link.title",
+       source = "Ender Fluid Link",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "末影流体连接"))
 @ParametersAreNonnullByDefault
+@TransVariants(keyPrefix = "cover.ender_fluid_link",
+               value = {
+                       @Variant(id = "incomplete_hex.0",
+                                source = "Inputted color is incomplete!",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "输入的颜色不正确！")),
+                       @Variant(id = "incomplete_hex.1",
+                                source = "It will be applied once complete (all 8 hex digits)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "输入正确的八位十六进制颜色码方可应用")),
+                       @Variant(id = "incomplete_hex.2",
+                                source = "Closing the gui will lose edits!",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "此时关闭界面将导致丢失编辑内容！")),
+                       @Variant(id = "iomode.disabled",
+                                source = "I/O Disabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "已禁用I/O")),
+                       @Variant(id = "iomode.enabled",
+                                source = "I/O Enabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "已启用I/O")),
+               })
 public class EnderFluidLinkCover extends AbstractEnderLinkCover<VirtualTank> {
 
     public static final int TRANSFER_RATE = 8000; // mB/t

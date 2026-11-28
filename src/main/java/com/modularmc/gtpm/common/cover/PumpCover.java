@@ -31,6 +31,12 @@ import com.modularmc.gtpm.common.cover.data.BucketMode;
 import com.modularmc.gtpm.common.cover.data.ManualIOMode;
 import com.modularmc.gtpm.utils.GTTransferUtils;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
@@ -57,6 +63,24 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
+@Trans(key = "cover.pump.title",
+       source = "Pump Cover Settings (%s)",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "泵覆盖板设置（%s）"))
+@TransVariants(keyPrefix = "cover.pump",
+               value = {
+                       @Variant(id = "fluid_filter.title",
+                                source = "Fluid Filter",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "流体过滤")),
+                       @Variant(id = "mode.export",
+                                source = "Mode: Export",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "模式：输出")),
+                       @Variant(id = "mode.import",
+                                source = "Mode: Import",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "模式：输入")),
+                       @Variant(id = "transfer_rate",
+                                source = "%s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s")),
+               })
 public class PumpCover extends CoverBehavior
                        implements IIOCover, CoverUIProvider, IControllable {
 
@@ -500,4 +524,9 @@ public class PumpCover extends CoverBehavior
         setBucketMode(BucketMode.values()[ConfigCopyHelper.getInt(config, "bucketMode")]);
         super.pasteConfig(player, registries, config);
     }
+
+    @Trans(key = "gtpm.gui.content.units.per_tick",
+           source = "/t",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "/t"))
+    private static final class GtpmTranslations {}
 }

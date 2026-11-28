@@ -4,11 +4,21 @@ import com.modularmc.gtpm.api.gui.GuiTextures;
 import com.modularmc.gtpm.api.gui.SelectableEnum;
 import com.modularmc.gtpm.api.gui.texture.IGuiTexture;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import lombok.Getter;
 
 public enum BucketMode implements SelectableEnum {
 
+    @Trans(key = "cover.bucket.mode.bucket",
+           source = "B",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "B"))
     BUCKET("cover.bucket.mode.bucket", "textures/item/water_bucket", 1000),
+    @Trans(key = "cover.bucket.mode.milli_bucket",
+           source = "mB",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "mB"))
     MILLI_BUCKET("cover.bucket.mode.milli_bucket", "gtpm:textures/gui/icon/bucket_mode/water_drop", 1);
 
     @Getter

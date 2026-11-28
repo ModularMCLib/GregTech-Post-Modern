@@ -31,6 +31,11 @@ import com.modularmc.gtpm.data.lang.LangHandler;
 import com.modularmc.gtpm.utils.GTStringUtils;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
@@ -55,6 +60,64 @@ import java.util.function.Supplier;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+@TransVariants(keyPrefix = "gtpm",
+               value = {
+                       @Variant(id = "display_source.computer_monitor_cover",
+                                source = "Computer Monitor Cover",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "电脑屏幕覆盖板")),
+                       @Variant(id = "display_target.computer_monitor_cover",
+                                source = "Computer Monitor Cover",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "电脑屏幕覆盖板")),
+                       @Variant(id = "computer_monitor_cover.error.bf_invalid_num",
+                                source = "Invalid number at index %d when processing symbol number %d",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "处理符号编号%2$d时，索引%1$d处的数无效。")),
+                       @Variant(id = "computer_monitor_cover.error.no_cover",
+                                source = "No cover!",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "无覆盖板！")),
+                       @Variant(id = "gui.computer_monitor_cover.placeholder_reference.0",
+                                source = "All placeholders:",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "所有占位符：")),
+                       @Variant(id = "gui.computer_monitor_cover.placeholder_reference.1",
+                                source = "(hover for more info)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "（悬停以获得更多信息）")),
+                       @Variant(id = "gui.computer_monitor_cover.slot_tooltip.0",
+                                source = "A slot for items that some placeholders can reference",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可供某些占位符引用的物品槽")),
+                       @Variant(id = "gui.computer_monitor_cover.slot_tooltip.1",
+                                source = "Slot number: %d",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "槽位编号：%d")),
+                       @Variant(id = "computer_monitor_cover.error.exception",
+                                source = "Unexpected exception occurred: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "发生了意外异常：%s")),
+                       @Variant(id = "gui.computer_monitor_cover.edit_blank_placeholders",
+                                source = "Edit blank placeholders",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "编辑空白占位符")),
+                       @Variant(id = "gui.computer_monitor_cover.edit_displayed_text",
+                                source = "Edit displayed text",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "编辑显示文本")),
+                       @Variant(id = "gui.computer_monitor_cover.main_textbox_tooltip.0",
+                                source = "Input string to display on line %d here.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "此处输入在第%d行显示的文本。")),
+                       @Variant(id = "gui.computer_monitor_cover.main_textbox_tooltip.1",
+                                source = "It can have placeholders, for example: 'Energy: {energy}/{energyCapacity} EU'",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "它可以包含占位符，例如：“能量：{energy}/{energyCapacity} EU”")),
+                       @Variant(id = "gui.computer_monitor_cover.main_textbox_tooltip.2",
+                                source = "Placeholders can also be inside other placeholders.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "占位符也可以嵌套在其他占位符中。")),
+                       @Variant(id = "gui.computer_monitor_cover.second_page_textbox_tooltip.0",
+                                source = "Input placeholder to be used in place of %s '{}' here.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "输入占位符，用于在此处代替%s‘{}’。")),
+                       @Variant(id = "gui.computer_monitor_cover.second_page_textbox_tooltip.1",
+                                source = "For example, you can have a string 'Energy: {}/{} EU' and 'energy' and 'energyCapacity' in these text boxes.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "例如，你可以设字符串为“能量：{}/{} EU”，并在文本框中填入“energy”和“energyCapacity”。")),
+                       @Variant(id = "gui.computer_monitor_cover.update_interval",
+                                source = "Update interval (in ticks)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "更新间隔（单位：tick）")),
+               })
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class ComputerMonitorCover extends CoverBehavior

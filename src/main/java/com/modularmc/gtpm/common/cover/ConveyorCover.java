@@ -31,6 +31,12 @@ import com.modularmc.gtpm.common.cover.data.ManualIOMode;
 import com.modularmc.gtpm.utils.GTTransferUtils;
 import com.modularmc.gtpm.utils.ItemStackHashStrategy;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
@@ -60,6 +66,47 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Map;
 
+@Trans(key = "cover.conveyor.title",
+       source = "Conveyor Cover Settings (%s)",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "传送带覆盖板配置（%s）"))
+@TransVariants(keyPrefix = "cover.conveyor",
+               value = {
+                       @Variant(id = "blocks_input.disabled.0",
+                                source = "If enabled, items will not be inserted when cover is set to pull items from the inventory into pipe.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "若启用，覆盖板设置为将物品从存储空间输出至管道时将阻止物品从所在面输入。")),
+                       @Variant(id = "blocks_input.disabled.1",
+                                source = "§cDisabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§c已禁用")),
+                       @Variant(id = "blocks_input.enabled.0",
+                                source = "If enabled, items will not be inserted when cover is set to pull items from the inventory into pipe.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "若启用，覆盖板设置为将物品从存储空间输出至管道时将阻止物品从所在面输入。")),
+                       @Variant(id = "blocks_input.enabled.1",
+                                source = "§aEnabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§a已启用")),
+                       @Variant(id = "item_filter.title",
+                                source = "Item Filter",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "物品过滤")),
+                       @Variant(id = "mode",
+                                source = "Mode: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "模式：%s")),
+                       @Variant(id = "mode.export",
+                                source = "Mode: Export",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "模式：输出")),
+                       @Variant(id = "mode.import",
+                                source = "Mode: Import",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "模式：输入")),
+                       @Variant(id = "tag.title.0",
+                                source = "Tag Name",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "标签名称")),
+                       @Variant(id = "tag.title.1",
+                                source = "(use * for wildcard)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "（*可作通配符）")),
+                       @Variant(id = "transfer_rate",
+                                source = "§7items/sec",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7物品/秒")),
+               })
 public class ConveyorCover extends CoverBehavior
                            implements IIOCover, CoverUIProvider, IControllable {
 

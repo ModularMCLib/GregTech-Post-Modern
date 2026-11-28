@@ -22,6 +22,11 @@ import com.modularmc.gtpm.api.transfer.item.ItemHandlerDelegate;
 import com.modularmc.gtpm.common.cover.data.FilterMode;
 import com.modularmc.gtpm.common.cover.data.ManualIOMode;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
@@ -38,6 +43,27 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@TransVariants(keyPrefix = "cover",
+               value = {
+                       @Variant(id = "filter.blacklist.disabled",
+                                source = "Whitelist",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "白名单")),
+                       @Variant(id = "filter.blacklist.enabled",
+                                source = "Blacklist",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "黑名单")),
+                       @Variant(id = "item_filter.ignore_damage.disabled",
+                                source = "Respect Damage",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "匹配耐久度")),
+                       @Variant(id = "item_filter.ignore_damage.enabled",
+                                source = "Ignore Damage",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "无视耐久度")),
+                       @Variant(id = "item_filter.ignore_nbt.disabled",
+                                source = "Respect NBT",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "匹配NBT")),
+                       @Variant(id = "item_filter.ignore_nbt.enabled",
+                                source = "Ignore NBT",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "忽略NBT")),
+               })
 public class ItemFilterCover extends CoverBehavior
                              implements CoverUIProvider {
 

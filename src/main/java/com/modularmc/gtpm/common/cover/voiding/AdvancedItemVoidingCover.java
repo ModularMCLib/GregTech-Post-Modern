@@ -14,6 +14,10 @@ import com.modularmc.gtpm.api.sync_system.annotations.SyncToClient;
 import com.modularmc.gtpm.api.sync_system.rpc.RPCMethod;
 import com.modularmc.gtpm.common.cover.data.VoidingMode;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 
 import net.minecraft.core.Direction;
@@ -29,6 +33,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
+@Trans(key = "cover.item.voiding.advanced.title",
+       source = "Advanced Item Voiding Settings",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "高级物品销毁设置"))
 public class AdvancedItemVoidingCover extends ItemVoidingCover {
 
     @SaveField

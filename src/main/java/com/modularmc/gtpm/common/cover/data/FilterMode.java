@@ -3,13 +3,25 @@ package com.modularmc.gtpm.common.cover.data;
 import com.modularmc.gtpm.api.capability.recipe.IO;
 import com.modularmc.gtpm.api.gui.GuiTextures;
 import com.modularmc.gtpm.api.gui.SelectableEnum;
-
 import com.modularmc.gtpm.api.gui.texture.IGuiTexture;
+
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
 
 public enum FilterMode implements SelectableEnum {
 
+    @Trans(key = "cover.filter.mode.filter_insert",
+           source = "Filter Insert",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "过滤输入"))
     FILTER_INSERT("filter_insert"),
+    @Trans(key = "cover.filter.mode.filter_extract",
+           source = "Filter Extract",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "过滤输出"))
     FILTER_EXTRACT("filter_extract"),
+    @Trans(key = "cover.filter.mode.filter_both",
+           source = "Filter Insert/Extract",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "过滤两者"))
     FILTER_BOTH("filter_both");
 
     public static final FilterMode[] VALUES = values();

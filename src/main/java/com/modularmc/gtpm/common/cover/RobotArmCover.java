@@ -16,6 +16,12 @@ import com.modularmc.gtpm.api.sync_system.rpc.RPCMethod;
 import com.modularmc.gtpm.common.cover.data.TransferMode;
 import com.modularmc.gtpm.common.pipelike.item.ItemNetHandler;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 
 import net.minecraft.core.Direction;
@@ -32,6 +38,28 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Iterator;
 import java.util.Map;
 
+@Trans(key = "cover.robotic_arm.title",
+       source = "Robotic Arm Settings (%s)",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "机械臂设置（%s）"))
+@TransVariants(keyPrefix = "cover.robotic_arm.transfer_mode.description",
+               value = {
+                       @Variant(id = "0",
+                                source = "§eTransfer Any§r - in this mode, cover will transfer as many items matching its filter as possible.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§e任意传输§r-在此模式下，覆盖板将尽可能传输一切符合过滤设置的物品。")),
+                       @Variant(id = "1",
+                                source = "§eSupply Exact§r - in this mode, cover will supply items in portions specified in item filter slots (or variable under this button for tag filter). If amount of items is less than portion size, items won't be moved.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§e精确补给§r-在此模式下，覆盖板每次都会输入在物品过滤卡的过滤槽中指定（或者在标签过滤卡的按钮里指定）数量的物品。若物品的数量小于指定数量，则不会被输入。")),
+                       @Variant(id = "2",
+                                source = "§eKeep Exact§r - in this mode, cover will keep specified amount of items in the destination inventory, supplying additional amount of items if required.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§e保持补给§r-在此模式下，覆盖板将保持目标容器中指定物品的数量，需要物品时则供应相应量的物品。")),
+                       @Variant(id = "3",
+                                source = "§7Tip: left/right click on filter slots to change item amount,  use shift clicking to change amount faster.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§7小提示：左/右击过滤槽可以调整物品数量，同时按住Shift可以更快地调整。")),
+               })
 public class RobotArmCover extends ConveyorCover {
 
     @SaveField

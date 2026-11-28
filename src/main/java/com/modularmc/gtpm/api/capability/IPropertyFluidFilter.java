@@ -6,6 +6,10 @@ import com.modularmc.gtpm.api.fluids.attribute.IAttributedFluid;
 import com.modularmc.gtpm.utils.FormattingUtil;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -20,6 +24,9 @@ import java.util.function.Predicate;
 
 import static com.modularmc.gtpm.api.fluids.FluidConstants.CRYOGENIC_FLUID_THRESHOLD;
 
+@Trans(key = "gtpm.tooltip.tool_fluid_hold_shift",
+       source = "§7Hold SHIFT to show Fluid Containment and Tool Info",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7按住§6SHIFT§7以查看流体容器及工具详情"))
 public interface IPropertyFluidFilter extends Predicate<FluidStack> {
 
     @Override

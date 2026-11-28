@@ -18,6 +18,11 @@ import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
 import com.modularmc.gtpm.api.sync_system.annotations.SyncToClient;
 import com.modularmc.gtpm.api.sync_system.rpc.RPCMethod;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
@@ -39,6 +44,44 @@ import java.util.List;
 import static com.modularmc.gtpm.utils.RedstoneUtil.computeLatchedRedstoneBetweenValues;
 import static com.modularmc.gtpm.utils.RedstoneUtil.computeRedstoneBetweenValues;
 
+@TransVariants(keyPrefix = "cover.advanced_fluid_detector",
+               value = {
+                       @Variant(id = "invert.disabled.0",
+                                source = "Output: Normal",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "输出：普通")),
+                       @Variant(id = "invert.disabled.1",
+                                source = "",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "")),
+                       @Variant(id = "invert.disabled.2",
+                                source = "Toggle to invert the redstone logic",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "切换以反转红石逻辑")),
+                       @Variant(id = "invert.disabled.3",
+                                source = "By default, redstone stops emitting when less than the minimum mB of fluid, and starts emitting when greater than the min mB of fluid up to the set maximum",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "默认情况下，流体量介于所设定的最小值和最大值之间时覆盖板将发出红石信号，小于最小值时则停止发出红石信号")),
+                       @Variant(id = "invert.enabled.0",
+                                source = "Output: Inverted",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "输出：反相")),
+                       @Variant(id = "invert.enabled.1",
+                                source = "",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "")),
+                       @Variant(id = "invert.enabled.2",
+                                source = "Toggle to invert the redstone logic",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "切换以反转红石逻辑")),
+                       @Variant(id = "invert.enabled.3",
+                                source = "By default, redstone stops emitting when less than the minimum mB of fluid, and starts emitting when greater than the min mB of fluid up to the set maximum",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "默认情况下，流体量介于所设定的最小值和最大值之间时覆盖板将发出红石信号，小于最小值时则停止发出红石信号")),
+                       @Variant(id = "label",
+                                source = "Advanced Fluid Detector",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "进阶流体探测覆盖板")),
+                       @Variant(id = "max",
+                                source = "Max Fluid (mB)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "最大流体量（mB）")),
+                       @Variant(id = "min",
+                                source = "Min Fluid (mB)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "最小流体量（mB）")),
+               })
 public class AdvancedFluidDetectorCover extends FluidDetectorCover implements CoverUIProvider {
 
     private static final int DEFAULT_MIN = 64;

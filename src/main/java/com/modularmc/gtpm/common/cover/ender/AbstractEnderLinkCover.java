@@ -33,6 +33,11 @@ import com.modularmc.gtpm.api.sync_system.rpc.RPCMethod;
 import com.modularmc.gtpm.api.sync_system.rpc.RPCSender;
 import com.modularmc.gtpm.common.cover.data.ManualIOMode;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.holder.ModularUIContainerMenu;
 import com.lowdragmc.lowdraglib2.gui.sync.SyncValue;
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
@@ -70,6 +75,31 @@ import java.util.function.Function;
 import java.util.function.IntSupplier;
 import java.util.regex.Pattern;
 
+@TransVariants(keyPrefix = "cover.ender_fluid_link",
+               value = {
+                       @Variant(id = "private.tooltip.disabled.0",
+                                source = "Switch to private tank mode",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "切换至私有储罐模式")),
+                       @Variant(id = "private.tooltip.disabled.1",
+                                source = "Private mode uses the player who originally placed the cover",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "私有权归最初加装该覆盖板的玩家所有")),
+                       @Variant(id = "private.tooltip.enabled",
+                                source = "Switch to public tank mode",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "切换至公共储罐模式")),
+                       @Variant(id = "tooltip.channel_description",
+                                source = "Set channel description with input text",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "把输入文本设为频道描述")),
+                       @Variant(id = "tooltip.channel_name",
+                                source = "Set channel name with input text",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "把输入文本设为频道名")),
+                       @Variant(id = "tooltip.clear_button",
+                                source = "Clear channel description",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "清除频道描述")),
+                       @Variant(id = "tooltip.list_button",
+                                source = "Show channel list",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "显示频道列表")),
+               })
 @SuppressWarnings("SameParameterValue")
 public abstract class AbstractEnderLinkCover<T extends VirtualEntry> extends CoverBehavior
                                             implements CoverUIProvider, IControllable {

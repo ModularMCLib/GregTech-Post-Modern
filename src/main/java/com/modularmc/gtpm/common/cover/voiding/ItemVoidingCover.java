@@ -16,6 +16,10 @@ import com.modularmc.gtpm.common.cover.ConveyorCover;
 import com.modularmc.gtpm.common.data.item.GTItemAbilities;
 import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
@@ -35,6 +39,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
+@Trans(key = "cover.item.voiding.title",
+       source = "Item Voiding Settings",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "物品销毁设置"))
 public class ItemVoidingCover extends ConveyorCover implements IControllable {
 
     public ItemVoidingCover(CoverDefinition definition, ICoverable coverHolder, Direction attachedSide) {

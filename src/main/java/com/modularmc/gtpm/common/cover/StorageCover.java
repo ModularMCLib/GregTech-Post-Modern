@@ -14,6 +14,10 @@ import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
 import com.modularmc.gtpm.api.sync_system.annotations.SyncToClient;
 import com.modularmc.gtpm.api.transfer.item.CustomItemStackHandler;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
@@ -27,6 +31,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+@Trans(key = "cover.storage.title",
+       source = "Storage Cover",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "存储覆盖板"))
 public class StorageCover extends CoverBehavior implements CoverUIProvider {
 
     @SaveField

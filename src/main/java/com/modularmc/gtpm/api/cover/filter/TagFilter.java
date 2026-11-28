@@ -5,6 +5,11 @@ import com.modularmc.gtpm.api.gui.element.GTTextFieldElement;
 import com.modularmc.gtpm.data.lang.LangHandler;
 import com.modularmc.gtpm.utils.TagExprFilter;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 
 import net.minecraft.network.chat.Component;
@@ -17,6 +22,66 @@ import java.util.regex.Pattern;
 
 import static com.modularmc.gtpm.api.gui.UITemplate.setBounds;
 
+@TransVariants(keyPrefix = "cover.tag_filter",
+               value = {
+                       @Variant(id = "matches",
+                                source = "Item matches",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "物品匹配")),
+                       @Variant(id = "matches_not",
+                                source = "Item does not match",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "物品不匹配")),
+                       @Variant(id = "test_slot.info",
+                                source = "Insert a item to test if it matches the filter expression",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "放入一件物品以测试是否匹配过滤表达式")),
+                       @Variant(id = "title",
+                                source = "Tag Filter",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "标签过滤")),
+                       @Variant(id = "info.0",
+                                source = "§bAccepts complex expressions",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§b接受复杂表达式")),
+                       @Variant(id = "info.1",
+                                source = "§6a & b§r = AND",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§6a & b§r = 且（AND）")),
+                       @Variant(id = "info.10",
+                                source = "§bExample: §6*dusts/gold | (c:circuits & !*lv)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§b使用范例：§6*dusts/gold | (c:circuits & !*lv)")),
+                       @Variant(id = "info.11",
+                                source = "This matches all gold dusts or all circuits except LV ones",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "这将匹配所有种类的金粉或LV以外的电路")),
+                       @Variant(id = "info.2",
+                                source = "§6a | b§r = OR",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§6a | b§r = 或（OR）")),
+                       @Variant(id = "info.3",
+                                source = "§6a ^ b§r = XOR",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§6a ^ b§r = 异或（XOR）")),
+                       @Variant(id = "info.4",
+                                source = "§6!a§r = NOT",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§6!a§r = 非（NOT）")),
+                       @Variant(id = "info.5",
+                                source = "§6(a)§r for grouping",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§6(a)§r 改变优先级")),
+                       @Variant(id = "info.6",
+                                source = "§6*§r for wildcard",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§6*§r 为通配符")),
+                       @Variant(id = "info.7",
+                                source = "§6$§r for untagged",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§6$§r 为没有标签的物品/流体等")),
+                       @Variant(id = "info.8",
+                                source = "§bTags come in the form 'namespace:tag/subtype'.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§b标签的格式为'命名空间:标签/子类型'。")),
+                       @Variant(id = "info.9",
+                                source = "The 'c:' namespace is assumed if one isn't provided.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "如果没有提供命名空间，则为'c:'。")),
+               })
 public abstract class TagFilter<T, S extends Filter<T, S>> implements Filter<T, S> {
 
     private static final int MAX_FILTER_LENGTH = 64;

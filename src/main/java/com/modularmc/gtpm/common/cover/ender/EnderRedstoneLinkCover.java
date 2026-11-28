@@ -10,6 +10,12 @@ import com.modularmc.gtpm.api.sync_system.SyncDataHolder;
 import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
 import com.modularmc.gtpm.api.sync_system.annotations.SyncToClient;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 
 import net.minecraft.core.Direction;
@@ -18,6 +24,22 @@ import lombok.Getter;
 
 import java.util.UUID;
 
+@Trans(key = "cover.ender_redstone_link.title",
+       source = "Ender Redstone Link",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "末影红石连接"))
+@TransVariants(keyPrefix = "gtpm.ender_redstone_link_cover",
+               value = {
+                       @Variant(id = "title",
+                                source = "Ender Redstone Link",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "末影红石连接")),
+                       @Variant(id = "label",
+                                source = "Redstone power: %d",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "红石信号强度：%d")),
+                       @Variant(id = "tooltip",
+                                source = "§7Transmits §fRedstone signals§7 with a §fWireless §dEnder§f Connection§7 as §fCover§7.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "作§f覆盖板§7时利用§f无线§7§d末影§f连接§7传输§f红石信号§7。")),
+               })
 public class EnderRedstoneLinkCover extends AbstractEnderLinkCover<VirtualRedstone> {
 
     @Getter

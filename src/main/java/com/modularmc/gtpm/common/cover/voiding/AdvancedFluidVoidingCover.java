@@ -17,6 +17,10 @@ import com.modularmc.gtpm.common.cover.data.BucketMode;
 import com.modularmc.gtpm.common.cover.data.VoidingMode;
 import com.modularmc.gtpm.utils.GTMath;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 
 import net.minecraft.core.Direction;
@@ -31,6 +35,9 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@Trans(key = "cover.fluid.voiding.advanced.title",
+       source = "Advanced Fluid Voiding Settings",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "高级流体销毁设置"))
 public class AdvancedFluidVoidingCover extends FluidVoidingCover {
 
     @SaveField

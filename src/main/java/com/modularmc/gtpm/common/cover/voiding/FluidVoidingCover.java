@@ -16,6 +16,10 @@ import com.modularmc.gtpm.common.data.item.GTItemAbilities;
 import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 import com.modularmc.gtpm.utils.GTMath;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
@@ -38,6 +42,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
+@Trans(key = "cover.fluid.voiding.title",
+       source = "Fluid Voiding Settings",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "流体销毁设置"))
 public class FluidVoidingCover extends PumpCover {
 
     public FluidVoidingCover(CoverDefinition definition, ICoverable coverHolder, Direction attachedSide) {

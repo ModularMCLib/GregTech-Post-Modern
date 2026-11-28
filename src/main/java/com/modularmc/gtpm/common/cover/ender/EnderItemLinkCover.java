@@ -19,6 +19,12 @@ import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
 import com.modularmc.gtpm.api.sync_system.annotations.SyncToClient;
 import com.modularmc.gtpm.utils.GTTransferUtils;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 
 import net.minecraft.core.Direction;
@@ -33,6 +39,19 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+@Trans(key = "cover.ender_item_link.title",
+       source = "Ender Item Link",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "末影物品连接"))
+@TransVariants(keyPrefix = "gtpm.ender_item_link_cover",
+               value = {
+                       @Variant(id = "title",
+                                source = "Ender Item Link",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "末影物品连接")),
+                       @Variant(id = "tooltip",
+                                source = "§7Transports §fItems§7 with a §fWireless §dEnder§f Connection§7 as §fCover§7.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "作§f覆盖板§7时利用§f无线§7§d末影§f连接§7传输§f物品§7。")),
+               })
 public class EnderItemLinkCover extends AbstractEnderLinkCover<VirtualItemStorage> {
 
     @Getter

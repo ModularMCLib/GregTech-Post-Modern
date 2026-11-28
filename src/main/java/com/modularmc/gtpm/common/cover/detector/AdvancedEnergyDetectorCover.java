@@ -18,6 +18,11 @@ import com.modularmc.gtpm.api.sync_system.annotations.SyncToClient;
 import com.modularmc.gtpm.api.sync_system.rpc.RPCMethod;
 import com.modularmc.gtpm.utils.GTMath;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
@@ -35,6 +40,64 @@ import java.math.BigInteger;
 
 import static com.modularmc.gtpm.utils.RedstoneUtil.computeLatchedRedstoneBetweenValues;
 
+@TransVariants(keyPrefix = "cover.advanced_energy_detector",
+               value = {
+                       @Variant(id = "invert.disabled.0",
+                                source = "Output: Normal",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "输出：普通")),
+                       @Variant(id = "invert.disabled.1",
+                                source = "",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "")),
+                       @Variant(id = "invert.disabled.2",
+                                source = "Toggle to invert the redstone logic",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "切换以反转红石逻辑")),
+                       @Variant(id = "invert.disabled.3",
+                                source = "By default, redstone is emitted when less than the minimum EU, and stops emitting when greater than the max EU",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "默认情况下，能量小于所设定的最小 EU 时覆盖板将发出红石信号，大于最大 EU 时则停止发出红石信号")),
+                       @Variant(id = "invert.enabled.0",
+                                source = "Output: Inverted",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "输出：反相")),
+                       @Variant(id = "invert.enabled.1",
+                                source = "",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "")),
+                       @Variant(id = "invert.enabled.2",
+                                source = "Toggle to invert the redstone logic",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "切换以反转红石逻辑")),
+                       @Variant(id = "invert.enabled.3",
+                                source = "By default, redstone is emitted when less than the minimum EU, and stops emitting when greater than the max EU",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "默认情况下，能量小于所设定的最小 EU 时覆盖板将发出红石信号，大于最大 EU 时则停止发出红石信号")),
+                       @Variant(id = "use_percent.disabled.0",
+                                source = "Mode: Discrete EU",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "模式：EU设定值")),
+                       @Variant(id = "use_percent.disabled.1",
+                                source = "",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "")),
+                       @Variant(id = "use_percent.disabled.2",
+                                source = "Change between using discrete EU values or percentages for comparing min/max against an attached energy storage.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "使用给定的EU数值或百分比来比较所附着的能量存储中能量的最大/最小值。")),
+                       @Variant(id = "use_percent.enabled.0",
+                                source = "Mode: Percentage",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "模式： 百分比")),
+                       @Variant(id = "use_percent.enabled.1",
+                                source = "",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "")),
+                       @Variant(id = "use_percent.enabled.2",
+                                source = "Change between using discrete EU values or percentages for comparing min/max against an attached energy storage.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "使用给定的EU数值或百分比来比较所附着的能量存储中能量的最大/最小值。")),
+                       @Variant(id = "label",
+                                source = "Advanced Energy Detector",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "进阶能量探测覆盖板")),
+                       @Variant(id = "max",
+                                source = "Max",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "最大值")),
+                       @Variant(id = "min",
+                                source = "Min",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "最小值")),
+               })
 public class AdvancedEnergyDetectorCover extends EnergyDetectorCover implements CoverUIProvider {
 
     private static final int DEFAULT_MIN_PERCENT = 33;

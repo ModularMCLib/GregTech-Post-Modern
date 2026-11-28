@@ -11,6 +11,11 @@ import com.modularmc.gtpm.common.data.GTDataComponents;
 import com.modularmc.gtpm.common.data.GTRecipeTypes;
 import com.modularmc.gtpm.utils.ItemStackHashStrategy;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 
 import net.minecraft.util.StringRepresentable;
@@ -24,6 +29,28 @@ import java.util.function.Consumer;
 
 import static com.modularmc.gtpm.api.gui.UITemplate.setBounds;
 
+@TransVariants(keyPrefix = "cover.smart_item_filter",
+               value = {
+                       @Variant(id = "filtering_mode.centrifuge",
+                                source = "Centrifuge",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "离心机")),
+                       @Variant(id = "filtering_mode.description.0",
+                                source = "Select Machine this Smart Filter will use for filtering.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "为该智能覆盖板选择目标机器。")),
+                       @Variant(id = "filtering_mode.description.1",
+                                source = "It will automatically pick right portions of items for robotic arm.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "它能够自动挑选符合机器配方的物品。")),
+                       @Variant(id = "filtering_mode.electrolyzer",
+                                source = "Electrolyzer",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "电解机")),
+                       @Variant(id = "filtering_mode.sifter",
+                                source = "Sifter",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "筛选机")),
+                       @Variant(id = "title",
+                                source = "Smart Item Filter",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "智能物品过滤")),
+               })
 public class SmartItemFilter implements ItemFilter {
 
     protected Consumer<SmartItemFilter> itemWriter = filter -> {};

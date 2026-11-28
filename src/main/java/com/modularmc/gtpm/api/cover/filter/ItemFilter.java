@@ -1,5 +1,10 @@
 package com.modularmc.gtpm.api.cover.filter;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 
 import net.minecraft.world.item.ItemStack;
@@ -10,6 +15,16 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/** Applies a configured item filter to stacks and their available counts. */
+@TransVariants(keyPrefix = "gtpm.item_filter",
+               value = {
+                       @Variant(id = "empty_item",
+                                source = "Empty (No Item)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "空（无物品）")),
+                       @Variant(id = "footer",
+                                source = "§eClick with item to override",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§e手持物品右键覆盖设置")),
+               })
 public interface ItemFilter extends Filter<ItemStack, ItemFilter> {
 
     Map<ItemLike, Function<ItemStack, ItemFilter>> FILTERS = new HashMap<>();

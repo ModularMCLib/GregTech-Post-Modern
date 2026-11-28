@@ -19,6 +19,11 @@ import com.modularmc.gtpm.api.sync_system.annotations.SyncToClient;
 import com.modularmc.gtpm.api.sync_system.rpc.RPCMethod;
 import com.modularmc.gtpm.utils.RedstoneUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
@@ -36,6 +41,44 @@ import lombok.Getter;
 
 import java.util.List;
 
+@TransVariants(keyPrefix = "cover.advanced_item_detector",
+               value = {
+                       @Variant(id = "invert.disabled.0",
+                                source = "Output: Normal",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "输出：普通")),
+                       @Variant(id = "invert.disabled.1",
+                                source = "",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "")),
+                       @Variant(id = "invert.disabled.2",
+                                source = "Toggle to invert the redstone logic",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "切换以反转红石逻辑")),
+                       @Variant(id = "invert.disabled.3",
+                                source = "By default, redstone stops emitting when less than the minimum amount of items, and starts emitting when greater than the min amount of items up to the set maximum",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "默认情况下，物品数量介于所设定的最小值和最大值之间时覆盖板将发出红石信号，小于最小值时则停止发出红石信号")),
+                       @Variant(id = "invert.enabled.0",
+                                source = "Output: Inverted",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "输出：反相")),
+                       @Variant(id = "invert.enabled.1",
+                                source = "",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "")),
+                       @Variant(id = "invert.enabled.2",
+                                source = "Toggle to invert the redstone logic",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "切换以反转红石逻辑")),
+                       @Variant(id = "invert.enabled.3",
+                                source = "By default, redstone stops emitting when less than the minimum amount of items, and starts emitting when greater than the min amount of items up to the set maximum",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "默认情况下，物品数量介于所设定的最小值和最大值之间时覆盖板将发出红石信号，小于最小值时则停止发出红石信号")),
+                       @Variant(id = "label",
+                                source = "Advanced Item Detector",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "进阶物品探测覆盖板")),
+                       @Variant(id = "max",
+                                source = "Max Items",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "最大物品数量")),
+                       @Variant(id = "min",
+                                source = "Min Items",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "最小物品数量")),
+               })
 public class AdvancedItemDetectorCover extends ItemDetectorCover implements CoverUIProvider {
 
     private static final int DEFAULT_MIN = 64;

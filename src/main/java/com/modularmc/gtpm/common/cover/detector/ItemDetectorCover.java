@@ -6,11 +6,25 @@ import com.modularmc.gtpm.data.recipe.CustomTags;
 import com.modularmc.gtpm.utils.GTTransferUtils;
 import com.modularmc.gtpm.utils.RedstoneUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.core.Direction;
 import net.neoforged.neoforge.items.IItemHandler;
 
 import org.jetbrains.annotations.Nullable;
 
+@TransVariants(keyPrefix = "gtpm.cover.item_detector",
+               value = {
+                       @Variant(id = "message_item_storage_inverted",
+                                source = "Monitoring Inverted Item Storage",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "正在以反相模式监控物品存储")),
+                       @Variant(id = "message_item_storage_normal",
+                                source = "Monitoring Normal Item Storage",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "正在以普通模式监控物品存储")),
+               })
 public class ItemDetectorCover extends DetectorCover {
 
     public ItemDetectorCover(CoverDefinition definition, ICoverable coverHolder, Direction attachedSide) {
