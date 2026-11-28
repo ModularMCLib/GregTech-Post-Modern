@@ -3,6 +3,11 @@ package com.modularmc.gtpm.api.fluids;
 import com.modularmc.gtpm.api.fluids.attribute.FluidAttribute;
 import com.modularmc.gtpm.api.fluids.attribute.IAttributedFluid;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
@@ -17,6 +22,21 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 
+@TransVariants(keyPrefix = "fluid",
+               value = {
+                       @Variant(id = "empty",
+                                source = "Empty",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "空")),
+                       @Variant(id = "gtpm.potion",
+                                source = "Potion",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "药水")),
+                       @Variant(id = "tile.lava",
+                                source = "Lava",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "熔岩")),
+                       @Variant(id = "tile.water",
+                                source = "Water",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "水")),
+               })
 public abstract class GTFluid extends BaseFlowingFluid implements IAttributedFluid {
 
     @Getter

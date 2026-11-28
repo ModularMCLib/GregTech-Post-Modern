@@ -92,7 +92,7 @@ public class MixinHelpers {
                     Material washedIn = ore.getWashedIn().first();
                     if (washedIn.isNull()) return;
                     ResourceLocation generalTag = CustomTags.CHEM_BATH_WASHABLE.location();
-                    ResourceLocation specificTag = generalTag.withSuffix("/" + washedIn.getName());
+                    ResourceLocation specificTag = CustomTags.chemicalBathTag(washedIn);
 
                     tagMap.computeIfAbsent(generalTag, path -> new ArrayList<>()).addAll(entries);
                     tagMap.computeIfAbsent(specificTag, path -> new ArrayList<>()).addAll(entries);

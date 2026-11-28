@@ -17,6 +17,10 @@ import com.modularmc.gtpm.common.pipelike.fluidpipe.FluidPipeType;
 import com.modularmc.gtpm.common.pipelike.item.ItemPipeType;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
 import com.modularmc.registrate.providers.core.ProviderType;
 import com.modularmc.registrate.util.entry.BlockEntry;
 import com.modularmc.registrate.util.nullness.NonNullBiConsumer;
@@ -32,6 +36,12 @@ import com.google.common.collect.Table;
 import java.util.Map;
 
 @SuppressWarnings("removal")
+@TransVariants(keyPrefix = "block.gtpm",
+               value = {
+                       @Variant(id = "netherrack_nether_quartz_ore",
+                                source = "Nether Quartz Ore",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "下界石英矿石")),
+               })
 public class GTMaterialBlocks {
 
     // Reference Table Builders

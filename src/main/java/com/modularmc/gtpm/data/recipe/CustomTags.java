@@ -26,11 +26,14 @@ import org.jetbrains.annotations.ApiStatus;
 
 @TransVariants(keyPrefix = "tag.item.c",
                value = {
-                       @Variant(id = "silicon", source = "Silicon",
+                       @Variant(id = "silicon",
+                                source = "Silicon",
                                 translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "硅")),
-                       @Variant(id = "silicon.plates", source = "Silicon Plates",
+                       @Variant(id = "silicon.plates",
+                                source = "Silicon Plates",
                                 translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "硅板")),
-                       @Variant(id = "treated_wood", source = "Treated Wood",
+                       @Variant(id = "treated_wood",
+                                source = "Treated Wood",
                                 translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "防腐木")),
                })
 public class CustomTags {
@@ -138,49 +141,64 @@ public class CustomTags {
            source = "Circuits",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "电路"))
     public static final TagKey<Item> CIRCUITS = TagUtil.createItemTag("circuits");
-    @Trans(key = "tag.item.c.circuits.ulv", source = "ULV Circuits",
+    @Trans(key = "tag.item.c.circuits.ulv",
+           source = "ULV Circuits",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "ULV电路"))
     public static final TagKey<Item> ULV_CIRCUITS = TagUtil.createItemTag("circuits/ulv");
-    @Trans(key = "tag.item.c.circuits.lv", source = "LV Circuits",
+    @Trans(key = "tag.item.c.circuits.lv",
+           source = "LV Circuits",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "LV电路"))
     public static final TagKey<Item> LV_CIRCUITS = TagUtil.createItemTag("circuits/lv");
-    @Trans(key = "tag.item.c.circuits.mv", source = "MV Circuits",
+    @Trans(key = "tag.item.c.circuits.mv",
+           source = "MV Circuits",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "MV电路"))
     public static final TagKey<Item> MV_CIRCUITS = TagUtil.createItemTag("circuits/mv");
-    @Trans(key = "tag.item.c.circuits.hv", source = "HV Circuits",
+    @Trans(key = "tag.item.c.circuits.hv",
+           source = "HV Circuits",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "HV电路"))
     public static final TagKey<Item> HV_CIRCUITS = TagUtil.createItemTag("circuits/hv");
-    @Trans(key = "tag.item.c.circuits.ev", source = "EV Circuits",
+    @Trans(key = "tag.item.c.circuits.ev",
+           source = "EV Circuits",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "EV电路"))
     public static final TagKey<Item> EV_CIRCUITS = TagUtil.createItemTag("circuits/ev");
-    @Trans(key = "tag.item.c.circuits.iv", source = "IV Circuits",
+    @Trans(key = "tag.item.c.circuits.iv",
+           source = "IV Circuits",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "IV电路"))
     public static final TagKey<Item> IV_CIRCUITS = TagUtil.createItemTag("circuits/iv");
-    @Trans(key = "tag.item.c.circuits.luv", source = "LuV Circuits",
+    @Trans(key = "tag.item.c.circuits.luv",
+           source = "LuV Circuits",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "LuV电路"))
     public static final TagKey<Item> LuV_CIRCUITS = TagUtil.createItemTag("circuits/luv");
-    @Trans(key = "tag.item.c.circuits.zpm", source = "ZPM Circuits",
+    @Trans(key = "tag.item.c.circuits.zpm",
+           source = "ZPM Circuits",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "ZPM电路"))
     public static final TagKey<Item> ZPM_CIRCUITS = TagUtil.createItemTag("circuits/zpm");
-    @Trans(key = "tag.item.c.circuits.uv", source = "UV Circuits",
+    @Trans(key = "tag.item.c.circuits.uv",
+           source = "UV Circuits",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "UV电路"))
     public static final TagKey<Item> UV_CIRCUITS = TagUtil.createItemTag("circuits/uv");
-    @Trans(key = "tag.item.c.circuits.uhv", source = "UHV Circuits",
+    @Trans(key = "tag.item.c.circuits.uhv",
+           source = "UHV Circuits",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "UHV电路"))
     public static final TagKey<Item> UHV_CIRCUITS = TagUtil.createItemTag("circuits/uhv");
-    @Trans(key = "tag.item.c.circuits.uev", source = "UEV Circuits",
+    @Trans(key = "tag.item.c.circuits.uev",
+           source = "UEV Circuits",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "UEV电路"))
     public static final TagKey<Item> UEV_CIRCUITS = TagUtil.createItemTag("circuits/uev");
-    @Trans(key = "tag.item.c.circuits.uiv", source = "UIV Circuits",
+    @Trans(key = "tag.item.c.circuits.uiv",
+           source = "UIV Circuits",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "UIV电路"))
     public static final TagKey<Item> UIV_CIRCUITS = TagUtil.createItemTag("circuits/uiv");
-    @Trans(key = "tag.item.c.circuits.uxv", source = "UXV Circuits",
+    @Trans(key = "tag.item.c.circuits.uxv",
+           source = "UXV Circuits",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "UXV电路"))
     public static final TagKey<Item> UXV_CIRCUITS = TagUtil.createItemTag("circuits/uxv");
-    @Trans(key = "tag.item.c.circuits.opv", source = "OpV Circuits",
+    @Trans(key = "tag.item.c.circuits.opv",
+           source = "OpV Circuits",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "OpV电路"))
     public static final TagKey<Item> OpV_CIRCUITS = TagUtil.createItemTag("circuits/opv");
-    @Trans(key = "tag.item.c.circuits.max", source = "MAX Circuits",
+    @Trans(key = "tag.item.c.circuits.max",
+           source = "MAX Circuits",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "MAX电路"))
     public static final TagKey<Item> MAX_CIRCUITS = TagUtil.createItemTag("circuits/max");
 
@@ -207,34 +225,44 @@ public class CustomTags {
            source = "Batteries",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "电池"))
     public static final TagKey<Item> BATTERIES = TagUtil.createItemTag("batteries");
-    @Trans(key = "tag.item.c.batteries.ulv", source = "ULV Batteries",
+    @Trans(key = "tag.item.c.batteries.ulv",
+           source = "ULV Batteries",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "ULV电池"))
     public static final TagKey<Item> ULV_BATTERIES = TagUtil.createItemTag("batteries/ulv");
-    @Trans(key = "tag.item.c.batteries.lv", source = "LV Batteries",
+    @Trans(key = "tag.item.c.batteries.lv",
+           source = "LV Batteries",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "LV电池"))
     public static final TagKey<Item> LV_BATTERIES = TagUtil.createItemTag("batteries/lv");
-    @Trans(key = "tag.item.c.batteries.mv", source = "MV Batteries",
+    @Trans(key = "tag.item.c.batteries.mv",
+           source = "MV Batteries",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "MV电池"))
     public static final TagKey<Item> MV_BATTERIES = TagUtil.createItemTag("batteries/mv");
-    @Trans(key = "tag.item.c.batteries.hv", source = "HV Batteries",
+    @Trans(key = "tag.item.c.batteries.hv",
+           source = "HV Batteries",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "HV电池"))
     public static final TagKey<Item> HV_BATTERIES = TagUtil.createItemTag("batteries/hv");
-    @Trans(key = "tag.item.c.batteries.ev", source = "EV Batteries",
+    @Trans(key = "tag.item.c.batteries.ev",
+           source = "EV Batteries",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "EV电池"))
     public static final TagKey<Item> EV_BATTERIES = TagUtil.createItemTag("batteries/ev");
-    @Trans(key = "tag.item.c.batteries.iv", source = "IV Batteries",
+    @Trans(key = "tag.item.c.batteries.iv",
+           source = "IV Batteries",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "IV电池"))
     public static final TagKey<Item> IV_BATTERIES = TagUtil.createItemTag("batteries/iv");
-    @Trans(key = "tag.item.c.batteries.luv", source = "LuV Batteries",
+    @Trans(key = "tag.item.c.batteries.luv",
+           source = "LuV Batteries",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "LuV电池"))
     public static final TagKey<Item> LuV_BATTERIES = TagUtil.createItemTag("batteries/luv");
-    @Trans(key = "tag.item.c.batteries.zpm", source = "ZPM Batteries",
+    @Trans(key = "tag.item.c.batteries.zpm",
+           source = "ZPM Batteries",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "ZPM电池"))
     public static final TagKey<Item> ZPM_BATTERIES = TagUtil.createItemTag("batteries/zpm");
-    @Trans(key = "tag.item.c.batteries.uv", source = "UV Batteries",
+    @Trans(key = "tag.item.c.batteries.uv",
+           source = "UV Batteries",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "UV电池"))
     public static final TagKey<Item> UV_BATTERIES = TagUtil.createItemTag("batteries/uv");
-    @Trans(key = "tag.item.c.batteries.uhv", source = "UHV Batteries",
+    @Trans(key = "tag.item.c.batteries.uhv",
+           source = "UHV Batteries",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "UHV电池"))
     public static final TagKey<Item> UHV_BATTERIES = TagUtil.createItemTag("batteries/uhv");
 
@@ -321,7 +349,8 @@ public class CustomTags {
     @ApiStatus.Internal
     public static void localizeChemicalBathTag(Material washFluid) {
         var key = chemicalBathTag(washFluid).toLanguageKey("tag.item").replace('/', '.');
-        GTRegistration.REGISTRATE.addDefaultLocalization(key, () -> washFluid.formatLocalization(CHEM_BATH_WASHABLE_NAME));
+        GTRegistration.REGISTRATE.addDefaultLocalization(key,
+                () -> washFluid.formatLocalization(CHEM_BATH_WASHABLE_NAME));
     }
 
     @Trans(key = "tag.item.c.skip_item_detector",

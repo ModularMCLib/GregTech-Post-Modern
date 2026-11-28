@@ -43,7 +43,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.function.Supplier;
 
-@Trans(key = "tag.item.c.ingots.clay", source = "Clay Ingot",
+@Trans(key = "tag.item.c.ingots.clay",
+       source = "Clay Ingot",
        translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "黏土锭"))
 public class ItemMaterialData {
 

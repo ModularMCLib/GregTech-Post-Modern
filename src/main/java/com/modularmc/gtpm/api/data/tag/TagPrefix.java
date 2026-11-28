@@ -16,6 +16,7 @@ import com.modularmc.gtpm.api.item.MaterialBlockItem;
 import com.modularmc.gtpm.api.item.TagPrefixItem;
 import com.modularmc.gtpm.api.item.tool.GTToolType;
 import com.modularmc.gtpm.api.registry.GTRegistries;
+import com.modularmc.gtpm.api.registry.registrate.provider.GTLanguageProvider;
 import com.modularmc.gtpm.api.sync_system.FieldCodecs;
 import com.modularmc.gtpm.common.data.GTBlocks;
 import com.modularmc.gtpm.common.data.GTMaterialBlocks;
@@ -35,6 +36,7 @@ import com.modularmc.registrate.localization.annotation.Trans;
 import com.modularmc.registrate.localization.annotation.TransVariants;
 import com.modularmc.registrate.localization.annotation.Translation;
 import com.modularmc.registrate.localization.annotation.Variant;
+import com.modularmc.registrate.providers.core.ProviderType;
 
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.registries.Registries;
@@ -117,9 +119,11 @@ public class TagPrefix {
 
     @TransVariants(keyPrefix = "tag.item.c",
                    value = {
-                           @Variant(id = "ores", source = "Ores",
+                           @Variant(id = "ores",
+                                    source = "Ores",
                                     translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "矿石")),
-                           @Variant(id = "ores_in_ground.stone", source = "Ores in Stone",
+                           @Variant(id = "ores_in_ground.stone",
+                                    source = "Ores in Stone",
                                     translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "赋存于石头的矿石")),
                    })
     public static final TagPrefix ore = oreTagPrefix("stone", BlockTags.MINEABLE_WITH_PICKAXE)
@@ -330,9 +334,11 @@ public class TagPrefix {
 
     @TransVariants(keyPrefix = "tag.item.c",
                    value = {
-                           @Variant(id = "purified_ores", source = "Purified Ores",
+                           @Variant(id = "purified_ores",
+                                    source = "Purified Ores",
                                     translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "纯净矿石")),
-                           @Variant(id = "siftables", source = "Siftable Materials",
+                           @Variant(id = "siftables",
+                                    source = "Siftable Materials",
                                     translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可筛选材料")),
                    })
     public static final TagPrefix crushedPurified = new TagPrefix("purifiedOre")
@@ -1367,7 +1373,20 @@ public class TagPrefix {
         String lowerCaseUnder = getLowerCaseName();
         this.idPattern = "%s_" + lowerCaseUnder;
         this.langValue = "%s " + FormattingUtil.toEnglishName(lowerCaseUnder);
-        GTRegistries.register(GTRegistries.TAG_PREFIXES, GTPM.id(lowerCaseUnder), this);
+        var id = GTPM.id(lowerCaseUnder);
+        GTRegistries.register(GTRegistries.TAG_PREFIXES, id, this);
+        if (GTPM.isDataGen()) {
+            GTRegistration.REGISTRATE.addDataGeneratorFirst(ProviderType.LANG, provider -> {
+                if (GTRegistries.TAG_PREFIXES.get(id) != this) return;
+
+                String key = getUnlocalizedName();
+                if (localization == null || !localization.source().equals(langValue)) {
+                    provider.add(key, langValue);
+                } else {
+                    GTLanguageProvider.addLocalization(provider, GTRegistration.REGISTRATE, key, localization);
+                }
+            });
+        }
     }
 
     public TagPrefix localization(Consumer<LocalizationDeclaration.Builder> configure) {

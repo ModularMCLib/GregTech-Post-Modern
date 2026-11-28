@@ -14,6 +14,10 @@ import com.modularmc.gtpm.common.item.GTBucketItem;
 import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.data.recipe.CustomTags;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.LivingEntity;
@@ -61,9 +65,15 @@ public class HazardProperty implements IMaterialProperty {
 
         public static final HazardTrigger INHALATION = new HazardTrigger("inhalation", ProtectionType.MASK,
                 TagPrefix.dust, TagPrefix.dustSmall, TagPrefix.dustTiny, TagPrefix.dustPure, TagPrefix.dustImpure);
+        @Trans(key = "gtpm.hazard_trigger.any",
+               source = "Any contact",
+               translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "任何方式"))
         public static final HazardTrigger ANY = new HazardTrigger("any", ProtectionType.FULL);
         public static final HazardTrigger SKIN_CONTACT = new HazardTrigger("skin_contact", ProtectionType.HANDS,
                 TagPrefix.dust, TagPrefix.dustSmall, TagPrefix.dustTiny);
+        @Trans(key = "gtpm.hazard_trigger.none",
+               source = "Nothing",
+               translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "无"))
         public static final HazardTrigger NONE = new HazardTrigger("none", ProtectionType.NONE);
 
         public HazardTrigger {
