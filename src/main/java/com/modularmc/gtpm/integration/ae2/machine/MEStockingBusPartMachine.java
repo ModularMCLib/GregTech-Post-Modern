@@ -17,6 +17,11 @@ import com.modularmc.gtpm.integration.ae2.slot.ExportOnlyAESlot;
 import com.modularmc.gtpm.integration.ae2.slot.IConfigurableSlotList;
 import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
@@ -38,6 +43,15 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.function.Predicate;
 
+@TransVariants(keyPrefix = "gtpm.gui",
+               value = {
+                       @Variant(id = "title.adv_stocking_config.min_item_count",
+                                source = "Min. Item Count",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "最小物品量")),
+                       @Variant(id = "adv_stocking_config.min_item_count",
+                                source = "Minimum Item Stack Size for Automated Pulling",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "自动拉取的最小物品量")),
+               })
 public class MEStockingBusPartMachine extends MEInputBusPartMachine implements IMEStockingPart {
 
     @SyncBoth

@@ -28,9 +28,11 @@ import java.util.Collection;
 
 @TransVariants(keyPrefix = "message.gtpm.new_veins",
                value = {
-                       @Variant(id = "name", source = "Prospected %s!",
+                       @Variant(id = "name",
+                                source = "Prospected %s!",
                                 translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "勘探到%s！")),
-                       @Variant(id = "amount", source = "Prospected %d new veins!",
+                       @Variant(id = "amount",
+                                source = "Prospected %d new veins!",
                                 translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "勘探到%d条新矿脉！")),
                })
 public class GTClientCache extends WorldCache implements IClientCache {

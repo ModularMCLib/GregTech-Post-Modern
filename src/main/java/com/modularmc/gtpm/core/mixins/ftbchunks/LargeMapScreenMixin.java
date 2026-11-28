@@ -4,6 +4,10 @@ import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.integration.map.ButtonState;
 import com.modularmc.gtpm.integration.map.ftbchunks.FTBChunksOptions;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Items;
 
@@ -23,6 +27,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.ArrayList;
 import java.util.List;
 
+@Trans(key = "gtpm.button.hide_depleted",
+       source = "Hide Depleted Veins",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "隐藏枯竭的矿脉"))
 @Mixin(value = LargeMapScreen.class, remap = false)
 public abstract class LargeMapScreenMixin extends BaseScreen {
 

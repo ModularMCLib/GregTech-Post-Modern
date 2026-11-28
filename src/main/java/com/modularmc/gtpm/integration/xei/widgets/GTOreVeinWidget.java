@@ -13,6 +13,10 @@ import com.modularmc.gtpm.api.transfer.item.CustomItemStackHandler;
 import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.integration.xei.GTXEIHelper;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
@@ -35,6 +39,9 @@ import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
+@Trans(key = "gtpm.jei.ore_vein_diagram.spawn_range",
+       source = "Spawn Range:",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "生成范围："))
 public class GTOreVeinWidget {
 
     public static final int WIDTH = 120;

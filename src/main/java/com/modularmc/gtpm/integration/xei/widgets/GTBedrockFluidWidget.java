@@ -73,8 +73,8 @@ public class GTBedrockFluidWidget {
         BedrockFluidDefinition definition = fluid.value();
         root.addChild(createTitle());
         root.addChild(createFluidSlot(definition));
-        root.addChild(createLabel("gtpm.jei.bedrock_vein_diagram.yield", veinYield(definition), 40));
-        root.addChild(createLabel("gtpm.jei.bedrock_vein_diagram.depleted", depletion(definition), 50));
+        root.addChild(createLabel(GTBedrockOreWidget.YIELD, veinYield(definition), 40));
+        root.addChild(createLabel(GTBedrockOreWidget.DEPLETED_YIELD, depletion(definition), 50));
         root.addChild(createLabel("gtpm.jei.ore_vein_diagram.weight", definition.getWeight(), 60));
         root.addChild(createLabel(Component.literal(
                 LocalizationUtils.format("gtpm.jei.ore_vein_diagram.dimensions")), 70));

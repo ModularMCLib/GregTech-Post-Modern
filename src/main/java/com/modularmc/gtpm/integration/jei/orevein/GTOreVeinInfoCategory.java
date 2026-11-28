@@ -9,6 +9,10 @@ import com.modularmc.gtpm.common.data.GTItems;
 import com.modularmc.gtpm.common.data.GTMaterials;
 import com.modularmc.gtpm.integration.xei.widgets.GTOreVeinWidget;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import com.lowdragmc.lowdraglib2.integration.xei.jei.ModularUIRecipeCategory;
 
 import net.minecraft.client.Minecraft;
@@ -27,6 +31,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 
+@Trans(key = "ore.spawnlocation.name",
+       source = "Ore Spawn Information",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "矿物生成信息"))
 public class GTOreVeinInfoCategory extends ModularUIRecipeCategory<Holder<GTOreDefinition>> {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })

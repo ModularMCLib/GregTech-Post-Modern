@@ -30,6 +30,10 @@ import com.modularmc.gtpm.integration.ae2.slot.ExportOnlyAESlot;
 import com.modularmc.gtpm.utils.FormattingUtil;
 import com.modularmc.gtpm.utils.GTMath;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
@@ -63,6 +67,9 @@ import java.util.List;
 /**
  * ME fluid import hatch with a configuration page built from its synchronized slots.
  */
+@Trans(key = "gtpm.machine.me.fluid_import.data_stick.name",
+       source = "§oME Input Hatch Configuration Data",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§oME输入仓配置数据"))
 public class MEInputHatchPartMachine extends MEHatchPartMachine
                                      implements IDataStickInteractable {
 

@@ -19,6 +19,10 @@ import com.modularmc.gtpm.integration.xei.entry.item.ItemStackList;
 import com.modularmc.gtpm.integration.xei.entry.item.ItemTagList;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.network.chat.Component;
@@ -36,6 +40,9 @@ import org.jetbrains.annotations.ApiStatus;
 import java.util.ArrayList;
 import java.util.List;
 
+@Trans(key = "gtpm.gui.content.chance_tier_boost_plus",
+       source = "Bonus Chance: +%s%%/tier",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "奖励概率：+ %s%%/电压等级"))
 public class GTOreByProduct {
 
     private static final List<TagPrefix> ORES = new ArrayList<>();

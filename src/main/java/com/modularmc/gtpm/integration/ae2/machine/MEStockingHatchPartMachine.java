@@ -18,6 +18,11 @@ import com.modularmc.gtpm.integration.ae2.slot.IConfigurableSlotList;
 import com.modularmc.gtpm.integration.ae2.utils.AEUtil;
 import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -39,6 +44,15 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.function.Predicate;
 
+@TransVariants(keyPrefix = "gtpm.gui",
+               value = {
+                       @Variant(id = "title.adv_stocking_config.min_fluid_count",
+                                source = "Min. Fluid Count",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "最小流体量")),
+                       @Variant(id = "adv_stocking_config.min_fluid_count",
+                                source = "Minimum Fluid Stack Size for Automated Pulling",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "自动拉取的最小流体量")),
+               })
 public class MEStockingHatchPartMachine extends MEInputHatchPartMachine implements IMEStockingPart {
 
     private static final int CONFIG_SIZE = 16;

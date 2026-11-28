@@ -37,6 +37,11 @@ import com.modularmc.gtpm.utils.FluidStackHashStrategy;
 import com.modularmc.gtpm.utils.GTMath;
 import com.modularmc.gtpm.utils.ItemStackHashStrategy;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 
 import net.minecraft.core.BlockPos;
@@ -84,6 +89,28 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@TransVariants(keyPrefix = "gui.gtpm",
+               value = {
+                       @Variant(id = "refund_all.desc",
+                                source = "Return Stored Contents to AE2",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "将共享库存返还到AE2")),
+                       @Variant(id = "share_inventory.desc.0",
+                                source = "Shares inserted items with all patterns within buffer!",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "与总成内的所有样板共享物品！")),
+                       @Variant(id = "share_inventory.desc.1",
+                                source = "Allows powerful automation by storing catalysts",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "保存不消耗的催化剂，实现更高效的自动化")),
+                       @Variant(id = "share_inventory.title",
+                                source = "Shared Item Inventory",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "共享物品库存")),
+                       @Variant(id = "share_tank.desc.0",
+                                source = "Shares inserted fluids/gasses/etc. with all patterns within buffer!",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "与总成内的所有样板共享流体！")),
+                       @Variant(id = "share_tank.title",
+                                source = "Shared Tank Inventory",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "共享流体库存")),
+               })
 @ExtensionMethod(SizedIngredientExtensions.class)
 public class MEPatternBufferPartMachine extends MEBusPartMachine
                                         implements ICraftingProvider, PatternContainer, IDataStickInteractable {

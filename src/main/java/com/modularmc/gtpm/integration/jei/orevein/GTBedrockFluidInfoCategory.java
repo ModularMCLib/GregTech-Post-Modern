@@ -7,6 +7,10 @@ import com.modularmc.gtpm.common.data.GTItems;
 import com.modularmc.gtpm.common.data.GTMaterials;
 import com.modularmc.gtpm.integration.xei.widgets.GTBedrockFluidWidget;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import com.lowdragmc.lowdraglib2.integration.xei.jei.ModularUIRecipeCategory;
 
 import net.minecraft.client.Minecraft;
@@ -22,6 +26,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 
+@Trans(key = "fluid.spawnlocation.name",
+       source = "Fluid Vein Information",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "流体矿脉信息"))
 public class GTBedrockFluidInfoCategory extends ModularUIRecipeCategory<Holder<BedrockFluidDefinition>> {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })

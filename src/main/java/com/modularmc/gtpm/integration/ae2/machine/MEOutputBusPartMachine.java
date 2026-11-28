@@ -17,6 +17,11 @@ import com.modularmc.gtpm.api.sync_system.annotations.SyncToClient;
 import com.modularmc.gtpm.api.transfer.item.CustomItemStackHandler;
 import com.modularmc.gtpm.integration.ae2.utils.KeyStorage;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
 import com.lowdragmc.lowdraglib2.gui.ui.data.ScrollDisplay;
@@ -40,6 +45,18 @@ import java.util.List;
 /**
  * The Output Bus that can directly send its contents to ME storage network.
  */
+@TransVariants(keyPrefix = "gtpm.gui",
+               value = {
+                       @Variant(id = "me_network.offline",
+                                source = "Network Status: §4Offline§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "网络状态：§4离线§r")),
+                       @Variant(id = "me_network.online",
+                                source = "Network Status: §2Online§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "网络状态：§2在线§r")),
+                       @Variant(id = "waiting_list",
+                                source = "Sending Queue:",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "发送队列：")),
+               })
 public class MEOutputBusPartMachine extends MEBusPartMachine {
 
     private static final int PAGE_WIDTH = 170;

@@ -11,6 +11,10 @@ import com.modularmc.gtpm.api.multiblock.preview.PatternGenerationGuard.Resoluti
 import com.modularmc.gtpm.api.multiblock.preview.StructurePreview;
 import com.modularmc.gtpm.data.pattern.StructurePatternRegistry;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -33,6 +37,9 @@ import org.jspecify.annotations.Nullable;
  * may run on a recipe viewer's loading worker and never creates a UI or enumerates structure variants.
  */
 @NullMarked
+@Trans(key = "gtpm.multiblock.title",
+       source = "Multiblock Pattern",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "多方块结构"))
 public final class MultiblockInfo {
 
     @Getter

@@ -7,6 +7,10 @@ import com.modularmc.gtpm.api.gui.element.GTTextFieldElement;
 import com.modularmc.gtpm.api.gui.texture.IGuiTexture;
 import com.modularmc.gtpm.integration.ae2.machine.MEPatternBufferPartMachine;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 
@@ -17,6 +21,9 @@ import lombok.Getter;
 /**
  * Opening-scoped Pattern Buffer name editor that keeps draft text local until explicit confirmation.
  */
+@Trans(key = "gui.gtpm.rename.desc",
+       source = "Rename Pattern Buffer",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "重命名样板总成"))
 public final class MEPatternBufferNameEditorElement extends UIElement {
 
     private static final int WIDTH = 70;

@@ -32,6 +32,12 @@ import com.modularmc.gtpm.integration.ae2.slot.ExportOnlyAESlot;
 import com.modularmc.gtpm.utils.FormattingUtil;
 import com.modularmc.gtpm.utils.GTMath;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
@@ -58,6 +64,43 @@ import org.lwjgl.glfw.GLFW;
 import java.util.ArrayList;
 import java.util.List;
 
+@Trans(key = "gtpm.machine.me.item_import.data_stick.name",
+       source = "§oME Input Bus Configuration Data",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§oME输入总线配置数据"))
+@TransVariants(keyPrefix = "gtpm",
+               value = {
+                       @Variant(id = "gui.config_slot",
+                                source = "§fConfig Slot§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§f配置槽位§r")),
+                       @Variant(id = "gui.config_slot.amount",
+                                source = "Amount",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "数量")),
+                       @Variant(id = "gui.config_slot.auto_pull_managed",
+                                source = "§4Disabled:§7 Managed by Auto-Pull",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§4禁用：§7由ME自动拉取管理")),
+                       @Variant(id = "gui.config_slot.remove",
+                                source = "§7Right click to §4clear§7 config slot.§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§7右击§4清除§7配置槽位。§r")),
+                       @Variant(id = "gui.config_slot.scroll",
+                                source = "§7Scroll wheel to §achange§7 config amount.§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§7使用滚轮§a切换§7配置数。§r")),
+                       @Variant(id = "gui.config_slot.set",
+                                source = "§7Click to §bset/select§7 config slot.§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§7点击§b设置/选择§7配置槽位。§r")),
+                       @Variant(id = "gui.config_slot.set_only",
+                                source = "§7Click to §bset§7 config slot.§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§7点击§b设置§7配置槽位。§r")),
+                       @Variant(id = "machine.me.import_copy_settings",
+                                source = "Saved settings to Data Stick",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "已将设置保存到闪存")),
+                       @Variant(id = "machine.me.import_paste_settings",
+                                source = "Applied settings from Data Stick",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "已从闪存应用设置")),
+               })
 public class MEInputBusPartMachine extends MEBusPartMachine
                                    implements IDataStickInteractable {
 

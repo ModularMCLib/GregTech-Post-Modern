@@ -3,9 +3,23 @@ package com.modularmc.gtpm.integration.ae2.machine.feature.multiblock;
 import com.modularmc.gtpm.api.machine.multiblock.MultiblockControllerMachine;
 import com.modularmc.gtpm.integration.ae2.slot.IConfigurableSlotList;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import appeng.api.stacks.GenericStack;
 import org.jetbrains.annotations.Nullable;
 
+@TransVariants(keyPrefix = "gtpm.machine.me",
+               value = {
+                       @Variant(id = "stocking_auto_pull_enabled",
+                                source = "Auto-Pull Enabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "ME自动拉取已启用")),
+                       @Variant(id = "stocking_auto_pull_disabled",
+                                source = "Auto-Pull Disabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "ME自动拉取已禁用")),
+               })
 public interface IMEStockingPart extends IAutoPullPart, AutoStockingPart {
 
     @Override

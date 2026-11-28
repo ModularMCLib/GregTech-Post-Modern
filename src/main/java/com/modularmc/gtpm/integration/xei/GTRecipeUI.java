@@ -30,6 +30,11 @@ import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.data.lang.LangHandler;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
@@ -63,6 +68,59 @@ import java.util.function.Predicate;
 /**
  * Builds the shared recipe UI and ingredient elements used by recipe viewers.
  */
+@TransVariants(keyPrefix = "gtpm",
+               value = {
+                       @Variant(id = "recipe_memory_widget.tooltip.0",
+                                source = "§7Left click to automatically input this recipe into the crafting grid",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§7左键点击可自动将该配方输入至合成格")),
+                       @Variant(id = "recipe_memory_widget.tooltip.1",
+                                source = "§7Shift click to lock/unlock this recipe",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§7按住Shift并点击以锁定或解锁该配方")),
+                       @Variant(id = "universal.clear_nbt_recipe.tooltip",
+                                source = "§cThis will destroy all contents!",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§c这将清除所有内容物！")),
+                       @Variant(id = "gui.fuel_amount",
+                                source = "Fuel Amount:",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "燃料总量：")),
+                       @Variant(id = "gui.sort",
+                                source = "Sort",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "分类")),
+                       @Variant(id = "item_list.item_stored",
+                                source = "§7Stored: %d",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7储量：%d")),
+                       @Variant(id = "recipe.eu.total",
+                                source = "%s EU/t",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s EU/t")),
+                       @Variant(id = "oc.tooltip.0",
+                                source = "Min: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "最低：%s")),
+                       @Variant(id = "oc.tooltip.1",
+                                source = "Left click to increase the OC",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "左键单击增加超频等级")),
+                       @Variant(id = "oc.tooltip.2",
+                                source = "Right click to decrease the OC",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "右键单击降低超频等级")),
+                       @Variant(id = "oc.tooltip.3",
+                                source = "Middle click to reset the OC",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "中键单击重设超频等级")),
+                       @Variant(id = "oc.tooltip.4",
+                                source = "Hold Shift to change by Perfect OC",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "按住Shift以无损超频显示")),
+                       @Variant(id = "recipe.computation_per_tick",
+                                source = "Min. Computation: %s CWU/t",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "最小算力：%s CWU/t")),
+                       @Variant(id = "recipe.eu",
+                                source = "Usage: %s A @ %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "功耗：%sA @ %s")),
+                       @Variant(id = "recipe.eu_inverted",
+                                source = "Generation: %s A @ %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "产能功率：%sA @ %s")),
+                       @Variant(id = "recipe.total_computation",
+                                source = "Computation: %s CWU",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "算力：%s CWU")),
+               })
 public final class GTRecipeUI {
 
     private static final int TEXT_X = 3;

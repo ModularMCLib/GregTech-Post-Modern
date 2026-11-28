@@ -35,7 +35,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @TransVariants(keyPrefix = "gtpm",
                value = {
-                       @Variant(id = "jade.amperage_use", source = "%s A",
+                       @Variant(id = "jade.amperage_use",
+                                source = "%s A",
                                 translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s A")),
                        @Variant(id = "jade.at",
                                 source = " @ ",

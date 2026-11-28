@@ -13,6 +13,10 @@ import com.modularmc.gtpm.api.transfer.item.CustomItemStackHandler;
 import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.integration.xei.GTXEIHelper;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
@@ -38,6 +42,14 @@ public class GTBedrockOreWidget {
     public static final int WIDTH = 120;
     public static final int JEI_HEIGHT = 120;
     public static final int HEIGHT = 140;
+
+    @Trans(source = "Yield: %s",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "产量：%s"))
+    static final String YIELD = "gtpm.jei.bedrock_vein_diagram.yield";
+
+    @Trans(source = "Depleted: %s",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "枯竭后：%s"))
+    static final String DEPLETED_YIELD = "gtpm.jei.bedrock_vein_diagram.depleted";
 
     private static final int TEXT_X = 5;
     private static final int TITLE_Y = 0;
@@ -72,8 +84,8 @@ public class GTBedrockOreWidget {
         BedrockOreDefinition definition = bedrockOre.value();
         root.addChild(createTitle());
         setupOreSlots(root, definition);
-        root.addChild(createLabel("gtpm.jei.bedrock_vein_diagram.yield", veinYield(definition), 40));
-        root.addChild(createLabel("gtpm.jei.bedrock_vein_diagram.depleted", depletion(definition), 50));
+        root.addChild(createLabel(YIELD, veinYield(definition), 40));
+        root.addChild(createLabel(DEPLETED_YIELD, depletion(definition), 50));
         root.addChild(createLabel("gtpm.jei.ore_vein_diagram.weight", definition.weight(), 60));
         root.addChild(createLabel(Component.literal(
                 LocalizationUtils.format("gtpm.jei.ore_vein_diagram.dimensions")), 70));
