@@ -164,10 +164,7 @@ import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 
 public class CommonProxy {
 
-    private static IEventBus modBus;
-
     public static void init(final IEventBus modBus) {
-        CommonProxy.modBus = modBus;
         modBus.register(CommonProxy.class);
         modBus.addListener(AlloyBlastPropertyAddition::addAlloyBlastProperties);
 
@@ -177,8 +174,8 @@ public class CommonProxy {
         GTRegistries.init(modBus);
         REGISTRATE.registerEventListeners(modBus);
         GTCreativeModeTabs.init();
-        GTAttachmentTypes.ATTACHMENT_TYPES.register(modBus);
-        UIRegistry.init(modBus);
+        GTAttachmentTypes.init();
+        UIRegistry.init();
 
         FusionReactorMachine.registerFusionTier(GTValues.LuV, "MKI");
         FusionReactorMachine.registerFusionTier(GTValues.ZPM, "MKII");
@@ -221,9 +218,9 @@ public class CommonProxy {
         GTFoods.init();
         GTToolTiers.init();
         GTToolBehaviors.init();
-        GTDataComponents.DATA_COMPONENTS.register(modBus);
-        GTRecipeDataComponents.DATA_COMPONENTS.register(modBus);
-        GTArmorMaterials.ARMOR_MATERIALS.register(modBus);
+        GTDataComponents.init();
+        GTRecipeDataComponents.init();
+        GTArmorMaterials.init();
         GTItems.init();
 
         StructurePredicateType.init();
@@ -233,17 +230,16 @@ public class CommonProxy {
         GTMachines.init();
 
         GTEntityTypes.init();
-        GTIngredientTypes.ITEM_INGREDIENT_TYPES.register(modBus);
-        GTIngredientTypes.FLUID_INGREDIENT_TYPES.register(modBus);
-        GTRecipeSerializers.RECIPE_SERIALIZERS.register(modBus);
+        GTIngredientTypes.init();
+        GTRecipeSerializers.init();
 
-        GTCommandArguments.COMMAND_ARGUMENT_TYPES.register(modBus);
-        GTMobEffects.MOB_EFFECTS.register(modBus);
-        GTParticleTypes.PARTICLE_TYPES.register(modBus);
+        GTCommandArguments.init();
+        GTMobEffects.init();
+        GTParticleTypes.init();
 
         GregTechDatagen.initPost();
-        GTValueProviderTypes.init(modBus);
-        GTFeatures.register(modBus);
+        GTValueProviderTypes.init();
+        GTFeatures.init();
         GTOreVeins.init();
         GTBedrockFluids.init();
         WorldGenLayers.registerAll();

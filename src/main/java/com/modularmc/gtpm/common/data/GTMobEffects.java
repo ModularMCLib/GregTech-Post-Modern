@@ -1,31 +1,23 @@
 package com.modularmc.gtpm.common.data;
 
-import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.common.effect.GTPoisonEffect;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
-import com.modularmc.registrate.localization.annotation.Trans;
-import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.util.entry.RegistryEntry;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
 
-@Trans(key = "effect.gtpm.weak_poison",
-       source = "Weak Poison",
-       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "轻度中毒"))
+import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
+
 public class GTMobEffects {
 
-    public static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(Registries.MOB_EFFECT,
-            GTPM.MOD_ID);
+    public static final RegistryEntry<MobEffect, GTPoisonEffect> WEAK_POISON = REGISTRATE
+            .generic("weak_poison", Registries.MOB_EFFECT, () -> new GTPoisonEffect(MobEffectCategory.HARMFUL, 0x6D7917))
+            .localization(MobEffect::getDescriptionId,
+                    text -> text.source("Weak Poison").translation(MinecraftLocale.ZH_CN, "轻度中毒"))
+            .register();
 
-    public static final DeferredHolder<MobEffect, GTPoisonEffect> WEAK_POISON = MOB_EFFECTS.register("weak_poison",
-            () -> new GTPoisonEffect(MobEffectCategory.HARMFUL, 0x6D7917));
-
-    public static void init(IEventBus modBus) {
-        MOB_EFFECTS.register(modBus);
-    }
+    public static void init() {}
 }

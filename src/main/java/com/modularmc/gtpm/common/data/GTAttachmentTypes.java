@@ -1,6 +1,5 @@
 package com.modularmc.gtpm.common.data;
 
-import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.common.capability.MedicalConditionTracker;
 
 import net.minecraft.core.HolderLookup;
@@ -12,20 +11,22 @@ import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.attachment.IAttachmentSerializer;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 import org.jetbrains.annotations.Nullable;
 
+import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
+
 public class GTAttachmentTypes {
 
-    public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(
-            NeoForgeRegistries.ATTACHMENT_TYPES, GTPM.MOD_ID);
-
-    public static final DeferredHolder<AttachmentType<?>, AttachmentType<MedicalConditionTracker>> MEDICAL_CONDITION_TRACKER = ATTACHMENT_TYPES
-            .register("hazard_tracker", () -> AttachmentType.builder(GTAttachmentTypes::newMedicalConditionTracker)
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<MedicalConditionTracker>> MEDICAL_CONDITION_TRACKER = REGISTRATE
+            .generic("hazard_tracker", NeoForgeRegistries.Keys.ATTACHMENT_TYPES,
+                    () -> AttachmentType.builder(GTAttachmentTypes::newMedicalConditionTracker)
                     .serialize(new MedicalConditionTrackerSerializer())
-                    .build());
+                    .build())
+            .register();
+
+    public static void init() {}
 
     private static MedicalConditionTracker newMedicalConditionTracker(IAttachmentHolder holder) {
         if (holder instanceof Player player) {

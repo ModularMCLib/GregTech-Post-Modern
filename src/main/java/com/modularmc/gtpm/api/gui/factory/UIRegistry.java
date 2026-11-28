@@ -9,7 +9,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEventListener;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -19,9 +19,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
-import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
-import net.neoforged.neoforge.registries.DeferredRegister;
 
 import dev.vfyjxf.taffy.style.TaffyPosition;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -29,6 +27,8 @@ import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 import java.util.function.Supplier;
+
+import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 
 /** Owns the single GT menu transport and dispatches each opening to its registered owner factory. */
 @NullMarked
@@ -39,20 +39,17 @@ public final class UIRegistry {
     public static final ResourceLocation COVER = GTPM.id("cover");
 
     private static final Object2ObjectOpenHashMap<ResourceLocation, UIFactory> FACTORIES = new Object2ObjectOpenHashMap<>();
-    private static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(BuiltInRegistries.MENU,
-            GTPM.MOD_ID);
-
-    public static final Supplier<MenuType<ModularUIContainerMenu>> MENU = MENUS.register("ui",
-            () -> IMenuTypeExtension.create(UIRegistry::create));
+    public static final Supplier<MenuType<ModularUIContainerMenu>> MENU = REGISTRATE
+            .generic("ui", Registries.MENU, () -> IMenuTypeExtension.create(UIRegistry::create))
+            .register();
 
     private UIRegistry() {}
 
-    public static void init(IEventBus modBus) {
+    public static void init() {
         register(MACHINE, MachineBlockUIHolder::read);
         register(HELD_ITEM, HeldItemUIHolderContext::read);
         register(COVER, CoverUIHolder::read);
         GTUIEditorMenu.register();
-        MENUS.register(modBus);
     }
 
     /** Registers a client decoder during common initialization, including optional integration boundaries. */

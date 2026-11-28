@@ -1,35 +1,23 @@
 package com.modularmc.gtpm.common.data;
 
-import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.common.commands.arguments.MedicalConditionArgument;
 
 import net.minecraft.commands.synchronization.ArgumentTypeInfo;
 import net.minecraft.commands.synchronization.ArgumentTypeInfos;
 import net.minecraft.commands.synchronization.SingletonArgumentInfo;
 import net.minecraft.core.registries.Registries;
-import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
 
-import com.mojang.brigadier.arguments.ArgumentType;
+import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 
 @SuppressWarnings("unused")
 public class GTCommandArguments {
 
-    public static final DeferredRegister<ArgumentTypeInfo<?, ?>> COMMAND_ARGUMENT_TYPES = DeferredRegister
-            .create(Registries.COMMAND_ARGUMENT_TYPE, GTPM.MOD_ID);
-
-    private static final DeferredHolder<ArgumentTypeInfo<?, ?>, SingletonArgumentInfo<MedicalConditionArgument>> MEDICAL_CONDITION_ARGUMENT_TYPE = COMMAND_ARGUMENT_TYPES
-            .register("medical_condition",
+    private static final DeferredHolder<ArgumentTypeInfo<?, ?>, SingletonArgumentInfo<MedicalConditionArgument>> MEDICAL_CONDITION_ARGUMENT_TYPE = REGISTRATE
+            .generic("medical_condition", Registries.COMMAND_ARGUMENT_TYPE,
                     () -> ArgumentTypeInfos.registerByClass(MedicalConditionArgument.class,
-                            SingletonArgumentInfo.contextFree(MedicalConditionArgument::medicalCondition)));
+                            SingletonArgumentInfo.contextFree(MedicalConditionArgument::medicalCondition)))
+            .register();
 
-    @SuppressWarnings({ "SameParameterValue", "unchecked" })
-    private static <T extends ArgumentType<?>> Class<T> fixClassType(Class<? super T> type) {
-        return (Class<T>) type;
-    }
-
-    public static void init(IEventBus modBus) {
-        COMMAND_ARGUMENT_TYPES.register(modBus);
-    }
+    public static void init() {}
 }

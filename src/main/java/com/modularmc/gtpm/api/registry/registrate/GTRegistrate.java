@@ -47,6 +47,7 @@ import com.modularmc.registrate.util.nullness.NonNullFunction;
 import com.modularmc.registrate.util.nullness.NonNullSupplier;
 
 import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.network.chat.Component;
@@ -323,6 +324,15 @@ public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
 
     public <T extends ToolBehaviorType<?>> GTRegistryEntryBuilder<T> toolBehavior(String name, T type) {
         return registryEntry(name, GTRegistries.TOOL_BEHAVIORS, type);
+    }
+
+    public <T> NoConfigBuilder<DataComponentType<?>, DataComponentType<T>, GTRegistrate> dataComponent(
+            String name, Consumer<DataComponentType.Builder<T>> configure) {
+        return generic(name, Registries.DATA_COMPONENT_TYPE, () -> {
+            var builder = DataComponentType.<T>builder();
+            configure.accept(builder);
+            return builder.build();
+        });
     }
 
     public SoundEntryBuilder sound(String name) {

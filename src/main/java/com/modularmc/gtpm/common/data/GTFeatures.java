@@ -1,6 +1,5 @@
 package com.modularmc.gtpm.common.data;
 
-import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.data.worldgen.modifier.BiomePlacement;
 import com.modularmc.gtpm.api.data.worldgen.modifier.DimensionFilter;
 import com.modularmc.gtpm.api.data.worldgen.modifier.FrequencyModifier;
@@ -10,31 +9,24 @@ import com.modularmc.gtpm.common.worldgen.modifier.RubberTreeChancePlacement;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
+
+import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 
 public class GTFeatures {
 
-    public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(Registries.FEATURE,
-            GTPM.MOD_ID);
+    public static final DeferredHolder<Feature<?>, StoneBlobFeature> STONE_BLOB = REGISTRATE
+            .generic("stone_blob", Registries.FEATURE, StoneBlobFeature::new)
+            .register();
+    public static final DeferredHolder<Feature<?>, FluidSproutFeature> FLUID_SPROUT = REGISTRATE
+            .generic("fluid_sprout", Registries.FEATURE, FluidSproutFeature::new)
+            .register();
 
-    public static final DeferredHolder<Feature<?>, StoneBlobFeature> STONE_BLOB = FEATURES.register(
-            "stone_blob",
-            StoneBlobFeature::new);
-    public static final DeferredHolder<Feature<?>, FluidSproutFeature> FLUID_SPROUT = FEATURES.register(
-            "fluid_sprout",
-            FluidSproutFeature::new);
-
-    private static void init() {
+    public static void init() {
         Object inst = FrequencyModifier.FREQUENCY_MODIFIER; // seemingly useless access to init the class in time
         inst = DimensionFilter.DIMENSION_FILTER;
         inst = BiomePlacement.BIOME_PLACEMENT;
         inst = RubberTreeChancePlacement.RUBBER_TREE_CHANCE_PLACEMENT;
     }
 
-    public static void register(IEventBus modEventBus) {
-        init();
-        FEATURES.register(modEventBus);
-    }
 }
