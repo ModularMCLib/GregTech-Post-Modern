@@ -3,7 +3,6 @@ package com.modularmc.gtpm.data;
 import com.modularmc.gtpm.api.registry.registrate.provider.GTBlockstateProvider;
 import com.modularmc.gtpm.common.registry.GTRegistration;
 import com.modularmc.gtpm.data.datamap.DataMapsHandler;
-import com.modularmc.gtpm.data.lang.LangHandler;
 import com.modularmc.gtpm.data.model.BlockstateModelLoader;
 import com.modularmc.gtpm.data.tags.BlockTagLoader;
 import com.modularmc.gtpm.data.tags.EntityTypeTagLoader;
@@ -30,7 +29,6 @@ public class GregTechDatagen {
         GTRegistration.REGISTRATE.addDataGenerator(ProviderType.ITEM_TAGS, ItemTagLoader::init);
         GTRegistration.REGISTRATE.addDataGenerator(ProviderType.FLUID_TAGS, FluidTagLoader::init);
         GTRegistration.REGISTRATE.addDataGenerator(ProviderType.ENTITY_TAGS, EntityTypeTagLoader::init);
-        GTRegistration.REGISTRATE.addDataGenerator(ProviderType.LANG, LangHandler::init);
         GTRegistration.REGISTRATE.addDataGenerator(ProviderType.DATA_MAP, DataMapsHandler::init);
     }
 }
