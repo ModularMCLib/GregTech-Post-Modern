@@ -21,6 +21,7 @@ import com.modularmc.gtpm.client.model.machine.MachineRenderState;
 import com.modularmc.gtpm.client.renderer.machine.DynamicRenderHelper;
 import com.modularmc.gtpm.client.util.TooltipHelper;
 import com.modularmc.gtpm.common.data.machines.*;
+import com.modularmc.gtpm.common.data.machines.tooltip.MachineTooltips;
 import com.modularmc.gtpm.common.data.models.GTModels;
 import com.modularmc.gtpm.common.machine.electric.*;
 import com.modularmc.gtpm.common.machine.multiblock.part.*;
@@ -402,9 +403,11 @@ public class GTMachines {
                     text -> text.source("§7Can Actuator").translation(MinecraftLocale.ZH_CN, "§7罐子致动器")));
     public static final MachineDefinition[] CENTRIFUGE = registerRecipeMachines("centrifuge",
             GTRecipeTypes.CENTRIFUGE_RECIPES, largeTankSizeFunction, false, tier -> switch (tier) {
-                case LV, MV, HV -> text -> text.source("§7Separating Molecules").translation(MinecraftLocale.ZH_CN, "§7分离分子");
+                case LV, MV, HV -> text -> text.source("§7Separating Molecules").translation(MinecraftLocale.ZH_CN,
+                        "§7分离分子");
                 case EV -> text -> text.source("§7Molecular Separator").translation(MinecraftLocale.ZH_CN, "§7分子分离机");
-                case IV, LuV, ZPM -> text -> text.source("§7Molecular Cyclone").translation(MinecraftLocale.ZH_CN, "§7分子旋风");
+                case IV, LuV, ZPM -> text -> text.source("§7Molecular Cyclone").translation(MinecraftLocale.ZH_CN,
+                        "§7分子旋风");
                 case UV -> text -> text.source("§7Molecular Tornado").translation(MinecraftLocale.ZH_CN, "§7分子龙卷风");
                 default -> null;
             });
@@ -490,16 +493,20 @@ public class GTMachines {
                     text -> text.source("§7Impact Modulator").translation(MinecraftLocale.ZH_CN, "§7冲击调制器")));
     public static final MachineDefinition[] FORMING_PRESS = registerRecipeMachines("forming_press",
             GTRecipeTypes.FORMING_PRESS_RECIPES, standardTooltip(
-                    text -> text.source("§7Imprinting Images into things").translation(MinecraftLocale.ZH_CN, "§7图像拓印者"),
+                    text -> text.source("§7Imprinting Images into things").translation(MinecraftLocale.ZH_CN,
+                            "§7图像拓印者"),
                     text -> text.source("§7Object Layerer").translation(MinecraftLocale.ZH_CN, "§7对象层化机"),
                     text -> text.source("§7Surface Shifter").translation(MinecraftLocale.ZH_CN, "§7表面移相器")));
     public static final MachineDefinition[] LATHE = registerRecipeMachines("lathe", GTRecipeTypes.LATHE_RECIPES,
             tier -> switch (tier) {
                 case LV, MV, HV, EV -> text -> text.source("§7Produces Rods more efficiently")
                         .translation(MinecraftLocale.ZH_CN, "§7以更高的效率生产杆");
-                case IV -> text -> text.source("§7Turn-O-Matic L-5906").translation(MinecraftLocale.ZH_CN, "§7全自动旋转车削机 L-5906");
-                case LuV -> text -> text.source("§7Turn-O-Matic L-5907").translation(MinecraftLocale.ZH_CN, "§7全自动旋转车削机 L-5907");
-                case ZPM -> text -> text.source("§7Turn-O-Matic L-5908").translation(MinecraftLocale.ZH_CN, "§7全自动旋转车削机 L-5908");
+                case IV -> text -> text.source("§7Turn-O-Matic L-5906").translation(MinecraftLocale.ZH_CN,
+                        "§7全自动旋转车削机 L-5906");
+                case LuV -> text -> text.source("§7Turn-O-Matic L-5907").translation(MinecraftLocale.ZH_CN,
+                        "§7全自动旋转车削机 L-5907");
+                case ZPM -> text -> text.source("§7Turn-O-Matic L-5908").translation(MinecraftLocale.ZH_CN,
+                        "§7全自动旋转车削机 L-5908");
                 case UV -> text -> text.source("§7Rotation Grinder").translation(MinecraftLocale.ZH_CN, "§7飞旋磨轮");
                 default -> null;
             });
@@ -548,21 +555,26 @@ public class GTMachines {
                         .translation(MinecraftLocale.ZH_CN, "§7功率高达八百一十六万瓦");
                 case ZPM -> text -> text.source("§7With the Power of 32.64 MW")
                         .translation(MinecraftLocale.ZH_CN, "§7功率高达三千两百六十四万瓦");
-                case UV -> text -> text.source("§7Exact Photon Cannon").translation(MinecraftLocale.ZH_CN, "§7高精度光子加农炮");
+                case UV -> text -> text.source("§7Exact Photon Cannon").translation(MinecraftLocale.ZH_CN,
+                        "§7高精度光子加农炮");
                 default -> null;
             });
     public static final MachineDefinition[] SIFTER = registerRecipeMachines("sifter", GTRecipeTypes.SIFTER_RECIPES,
             standardTooltip(
-                    text -> text.source("§7Stay calm and keep sifting").translation(MinecraftLocale.ZH_CN, "§7保持冷静，继续筛选"),
+                    text -> text.source("§7Stay calm and keep sifting").translation(MinecraftLocale.ZH_CN,
+                            "§7保持冷静，继续筛选"),
                     text -> text.source("§7Sponsored by TFC").translation(MinecraftLocale.ZH_CN, "§7由群峦传说赞助提供"),
                     text -> text.source("§7Pulsation Filter").translation(MinecraftLocale.ZH_CN, "§7脉冲过滤器")));
     public static final MachineDefinition[] THERMAL_CENTRIFUGE = registerRecipeMachines("thermal_centrifuge",
             GTRecipeTypes.THERMAL_CENTRIFUGE_RECIPES, tier -> switch (tier) {
                 case LV, MV, HV, EV -> text -> text.source("§7Separating Ores more precisely")
                         .translation(MinecraftLocale.ZH_CN, "§7更精确地分离矿石");
-                case IV -> text -> text.source("§7Blaze Sweatshop T-6350").translation(MinecraftLocale.ZH_CN, "§7烈焰血汗工厂 T-6350");
-                case LuV -> text -> text.source("§7Blaze Sweatshop T-6351").translation(MinecraftLocale.ZH_CN, "§7烈焰血汗工厂 T-6351");
-                case ZPM -> text -> text.source("§7Blaze Sweatshop T-6352").translation(MinecraftLocale.ZH_CN, "§7烈焰血汗工厂 T-6352");
+                case IV -> text -> text.source("§7Blaze Sweatshop T-6350").translation(MinecraftLocale.ZH_CN,
+                        "§7烈焰血汗工厂 T-6350");
+                case LuV -> text -> text.source("§7Blaze Sweatshop T-6351").translation(MinecraftLocale.ZH_CN,
+                        "§7烈焰血汗工厂 T-6351");
+                case ZPM -> text -> text.source("§7Blaze Sweatshop T-6352").translation(MinecraftLocale.ZH_CN,
+                        "§7烈焰血汗工厂 T-6352");
                 case UV -> text -> text.source("§7Fire Cyclone").translation(MinecraftLocale.ZH_CN, "§7腾焰旋风");
                 default -> null;
             });
@@ -585,10 +597,14 @@ public class GTMachines {
                                 .translation(MinecraftLocale.ZH_CN, "§7粉碎矿石，但没有副产物");
                         case HV, EV -> text -> text.source("§7Shredding your Ores with Byproducts")
                                 .translation(MinecraftLocale.ZH_CN, "§7粉碎矿石并获得副产物");
-                        case IV -> text -> text.source("§7Blend-O-Matic 9001").translation(MinecraftLocale.ZH_CN, "§7全自动破壁机 9001");
-                        case LuV -> text -> text.source("§7Blend-O-Matic 9002").translation(MinecraftLocale.ZH_CN, "§7全自动破壁机 9002");
-                        case ZPM -> text -> text.source("§7Blend-O-Matic 9003").translation(MinecraftLocale.ZH_CN, "§7全自动破壁机 9003");
-                        case UV -> text -> text.source("§7Shape Eliminator").translation(MinecraftLocale.ZH_CN, "§7形态毁灭者");
+                        case IV -> text -> text.source("§7Blend-O-Matic 9001").translation(MinecraftLocale.ZH_CN,
+                                "§7全自动破壁机 9001");
+                        case LuV -> text -> text.source("§7Blend-O-Matic 9002").translation(MinecraftLocale.ZH_CN,
+                                "§7全自动破壁机 9002");
+                        case ZPM -> text -> text.source("§7Blend-O-Matic 9003").translation(MinecraftLocale.ZH_CN,
+                                "§7全自动破壁机 9003");
+                        case UV -> text -> text.source("§7Shape Eliminator").translation(MinecraftLocale.ZH_CN,
+                                "§7形态毁灭者");
                         default -> null;
                     })
                     .localization(text -> text
@@ -617,7 +633,8 @@ public class GTMachines {
                         .translation(MinecraftLocale.ZH_CN, "§7依照维度从大气层中收集种类各异的气体");
                 case ZPM -> text -> text.source("§7Collects Gas from the atmosphere depending on the dimension")
                         .translation(MinecraftLocale.ZH_CN, "§7收集不同维度的大气中种类各异的气体");
-                case UV, UHV, UIV, UXV -> text -> text.source("§7Collects Gas from the solar system depending on the dimension")
+                case UV, UHV, UIV, UXV -> text -> text
+                        .source("§7Collects Gas from the solar system depending on the dimension")
                         .translation(MinecraftLocale.ZH_CN, "§7根据维度从太阳系中收集气体");
                 case UEV -> text -> text.source("§7Collects Gas from the solar system depending on the dimension")
                         .translation(MinecraftLocale.ZH_CN, "§7依照维度从太阳系中收集种类各异的气体");
@@ -683,9 +700,9 @@ public class GTMachines {
     }
 
     private static IntFunction<@Nullable Consumer<LocalizationDeclaration.Builder>> standardTooltip(
-                                                                                                   Consumer<LocalizationDeclaration.Builder> basic,
-                                                                                                   Consumer<LocalizationDeclaration.Builder> elite,
-                                                                                                   Consumer<LocalizationDeclaration.Builder> ultimate) {
+                                                                                                    Consumer<LocalizationDeclaration.Builder> basic,
+                                                                                                    Consumer<LocalizationDeclaration.Builder> elite,
+                                                                                                    Consumer<LocalizationDeclaration.Builder> ultimate) {
         return tier -> switch (tier) {
             case LV, MV, HV, EV -> basic;
             case IV, LuV, ZPM -> elite;
@@ -1040,16 +1057,19 @@ public class GTMachines {
             .register();
 
     public static MachineDefinition WOODEN_DRUM = registerDrum(GTMaterials.Wood,
-            builder -> builder.localization(text -> text.source("Wooden Barrel").translation(MinecraftLocale.ZH_CN, "木桶")),
+            builder -> builder
+                    .localization(text -> text.source("Wooden Barrel").translation(MinecraftLocale.ZH_CN, "木桶")),
             16 * FluidType.BUCKET_VOLUME);
     public static MachineDefinition BRONZE_DRUM = registerDrum(GTMaterials.Bronze,
-            builder -> builder.localization(text -> text.source("Bronze Drum").translation(MinecraftLocale.ZH_CN, "青铜桶")),
+            builder -> builder
+                    .localization(text -> text.source("Bronze Drum").translation(MinecraftLocale.ZH_CN, "青铜桶")),
             32 * FluidType.BUCKET_VOLUME);
     public static MachineDefinition STEEL_DRUM = registerDrum(GTMaterials.Steel,
             builder -> builder.localization(text -> text.source("Steel Drum").translation(MinecraftLocale.ZH_CN, "钢桶")),
             64 * FluidType.BUCKET_VOLUME);
     public static MachineDefinition ALUMINIUM_DRUM = registerDrum(GTMaterials.Aluminium,
-            builder -> builder.localization(text -> text.source("Aluminium Drum").translation(MinecraftLocale.ZH_CN, "铝桶")),
+            builder -> builder
+                    .localization(text -> text.source("Aluminium Drum").translation(MinecraftLocale.ZH_CN, "铝桶")),
             128 * FluidType.BUCKET_VOLUME);
     public static MachineDefinition STAINLESS_STEEL_DRUM = registerDrum(GTMaterials.StainlessSteel,
             builder -> builder.localization(text -> text.source("Stainless Steel Drum")
@@ -1059,7 +1079,8 @@ public class GTMachines {
             builder -> builder.localization(text -> text.source("Gold Drum").translation(MinecraftLocale.ZH_CN, "金桶")),
             32 * FluidType.BUCKET_VOLUME);
     public static MachineDefinition TITANIUM_DRUM = registerDrum(GTMaterials.Titanium,
-            builder -> builder.localization(text -> text.source("Titanium Drum").translation(MinecraftLocale.ZH_CN, "钛桶")),
+            builder -> builder
+                    .localization(text -> text.source("Titanium Drum").translation(MinecraftLocale.ZH_CN, "钛桶")),
             512 * FluidType.BUCKET_VOLUME);
     public static MachineDefinition TUNGSTENSTEEL_DRUM = registerDrum(GTMaterials.TungstenSteel,
             builder -> builder.localization(text -> text.source("Tungstensteel Drum")
@@ -1079,7 +1100,7 @@ public class GTMachines {
                     .abilities(PartAbility.IMPORT_ITEMS)
                     .modelProperty(IS_FORMED, false)
                     .colorOverlayTieredHullModel(OVERLAY_ITEM_HATCH_INPUT, "overlay_pipe", "overlay_pipe_in_emissive")
-                    .tooltips(Component.translatable("gtpm.machine.item_bus.import.tooltip"),
+                    .tooltips(MachineTooltips.itemInput(),
                             Component.translatable("gtpm.universal.tooltip.item_storage_capacity",
                                     (1 + Math.min(9, tier)) * (1 + Math.min(9, tier))))
                     .allowCoverOnFront(true)
@@ -1096,7 +1117,7 @@ public class GTMachines {
                     .abilities(PartAbility.EXPORT_ITEMS)
                     .modelProperty(IS_FORMED, false)
                     .colorOverlayTieredHullModel(OVERLAY_ITEM_HATCH_OUTPUT, "overlay_pipe", "overlay_pipe_out_emissive")
-                    .tooltips(Component.translatable("gtpm.machine.item_bus.export.tooltip"),
+                    .tooltips(MachineTooltips.itemOutput(),
                             Component.translatable("gtpm.universal.tooltip.item_storage_capacity",
                                     (1 + Math.min(9, tier)) * (1 + Math.min(9, tier))))
                     .allowCoverOnFront(true)
@@ -1328,7 +1349,7 @@ public class GTMachines {
             .localization(text -> text
                     .source("Steam Input Bus")
                     .translation(MinecraftLocale.ZH_CN, "蒸汽输入总线"))
-            .tooltips(Component.translatable("gtpm.machine.item_bus.import.tooltip"),
+            .tooltips(MachineTooltips.itemInput(),
                     Component.translatable("gtpm.machine.steam_bus.tooltip"),
                     Component.translatable("gtpm.universal.tooltip.item_storage_capacity", 4))
             .allowCoverOnFront(true)
@@ -1343,7 +1364,7 @@ public class GTMachines {
             .localization(text -> text
                     .source("Steam Output Bus")
                     .translation(MinecraftLocale.ZH_CN, "蒸汽输出总线"))
-            .tooltips(Component.translatable("gtpm.machine.item_bus.export.tooltip"),
+            .tooltips(MachineTooltips.itemOutput(),
                     Component.translatable("gtpm.machine.steam_bus.tooltip"),
                     Component.translatable("gtpm.universal.tooltip.item_storage_capacity", 4))
             .allowCoverOnFront(true)

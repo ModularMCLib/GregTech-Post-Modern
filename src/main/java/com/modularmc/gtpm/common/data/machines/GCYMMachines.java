@@ -16,6 +16,7 @@ import com.modularmc.gtpm.api.multiblock.pattern.dsl.PatternBuilder;
 import com.modularmc.gtpm.client.renderer.machine.DynamicRenderHelper;
 import com.modularmc.gtpm.common.data.GTRecipeModifiers;
 import com.modularmc.gtpm.common.data.GTRecipeTypes;
+import com.modularmc.gtpm.common.data.machines.tooltip.MachineTooltips;
 import com.modularmc.gtpm.common.machine.multiblock.electric.DistillationTowerMachine;
 import com.modularmc.gtpm.common.machine.multiblock.electric.gcym.*;
 import com.modularmc.gtpm.common.machine.multiblock.part.ParallelHatchPartMachine;
@@ -47,19 +48,6 @@ import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 
 @TransVariants(keyPrefix = "gtpm",
                value = {
-                       @Variant(id = "machine.available_recipe_map_2.tooltip",
-                                source = "Available Recipe Types: %s, %s",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可用配方类型：%s，%s")),
-                       @Variant(id = "machine.available_recipe_map_1.tooltip",
-                                source = "Available Recipe Types: %s",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可用配方类型：%s")),
-                       @Variant(id = "machine.available_recipe_map_3.tooltip",
-                                source = "Available Recipe Types: %s, %s, %s",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可用配方类型：%s，%s，%s")),
-                       @Variant(id = "machine.available_recipe_map_4.tooltip",
-                                source = "Available Recipe Types: %s, %s, %s, %s",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
-                                                            text = "可用配方类型：%s，%s，%s，%s")),
                        @Variant(id = "multiblock.steam.duration_modifier",
                                 source = "Takes §f1.5x §7base duration to process, not affected by number of items.",
                                 translations = @Translation(locale = MinecraftLocale.ZH_CN,
@@ -100,13 +88,15 @@ public class GCYMMachines {
                         case LuV -> "Master Parallel Control Hatch";
                         case ZPM -> "Ultimate Parallel Control Hatch";
                         case UV -> "Super Parallel Control Hatch";
-                        default -> throw new IllegalArgumentException("Unsupported parallel control hatch tier: " + tier);
+                        default -> throw new IllegalArgumentException(
+                                "Unsupported parallel control hatch tier: " + tier);
                     }).translation(MinecraftLocale.ZH_CN, switch (tier) {
                         case IV -> "§9IV§r并行控制仓";
                         case LuV -> "§dLuV§r并行控制仓";
                         case ZPM -> "§cZPM§r并行控制仓";
                         case UV -> "§3UV§r并行控制仓";
-                        default -> throw new IllegalArgumentException("Unsupported parallel control hatch tier: " + tier);
+                        default -> throw new IllegalArgumentException(
+                                "Unsupported parallel control hatch tier: " + tier);
                     }))
                     .rotationState(RotationState.ALL)
                     .abilities(PartAbility.PARALLEL_HATCH)
@@ -127,9 +117,7 @@ public class GCYMMachines {
             .localization(text -> text
                     .source("Large Maceration Tower")
                     .translation(MinecraftLocale.ZH_CN, "大型研磨塔"))
-            .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
-            .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
-                    MACERATOR_RECIPES.getName()))
+            .tooltips(MachineTooltips.parallelizable(), MachineTooltips.recipeTypes(MACERATOR_RECIPES.getName()))
             .rotationState(RotationState.ALL)
             .recipeType(MACERATOR_RECIPES)
             .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, OC_NON_PERFECT_SUBTICK, BATCH_MODE)
@@ -146,9 +134,8 @@ public class GCYMMachines {
             .localization(text -> text
                     .source("Large Chemical Bath")
                     .translation(MinecraftLocale.ZH_CN, "大型化学浸洗机"))
-            .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
-            .tooltips(Component.translatable("gtpm.machine.available_recipe_map_2.tooltip",
-                    ORE_WASHER_RECIPES.getName(), CHEMICAL_BATH_RECIPES.getName()))
+            .tooltips(MachineTooltips.parallelizable(),
+                    MachineTooltips.recipeTypes(ORE_WASHER_RECIPES.getName(), CHEMICAL_BATH_RECIPES.getName()))
             .rotationState(RotationState.ALL)
             .recipeTypes(CHEMICAL_BATH_RECIPES, ORE_WASHER_RECIPES)
             .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, OC_NON_PERFECT_SUBTICK, BATCH_MODE)
@@ -168,9 +155,8 @@ public class GCYMMachines {
             .localization(text -> text
                     .source("Large Centrifugal Unit")
                     .translation(MinecraftLocale.ZH_CN, "大型离心机组"))
-            .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
-            .tooltips(Component.translatable("gtpm.machine.available_recipe_map_2.tooltip",
-                    CENTRIFUGE_RECIPES.getName(), THERMAL_CENTRIFUGE_RECIPES.getName()))
+            .tooltips(MachineTooltips.parallelizable(),
+                    MachineTooltips.recipeTypes(CENTRIFUGE_RECIPES.getName(), THERMAL_CENTRIFUGE_RECIPES.getName()))
             .rotationState(RotationState.ALL)
             .recipeTypes(CENTRIFUGE_RECIPES, THERMAL_CENTRIFUGE_RECIPES)
             .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, OC_NON_PERFECT_SUBTICK, BATCH_MODE)
@@ -187,9 +173,7 @@ public class GCYMMachines {
             .localization(text -> text
                     .source("Large Mixing Vessel")
                     .translation(MinecraftLocale.ZH_CN, "大型搅拌罐"))
-            .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
-            .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
-                    MIXER_RECIPES.getName()))
+            .tooltips(MachineTooltips.parallelizable(), MachineTooltips.recipeTypes(MIXER_RECIPES.getName()))
             .rotationState(RotationState.ALL)
             .recipeType(MIXER_RECIPES)
             .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, OC_NON_PERFECT_SUBTICK, BATCH_MODE)
@@ -209,9 +193,7 @@ public class GCYMMachines {
             .localization(text -> text
                     .source("Large Electrolysis Chamber")
                     .translation(MinecraftLocale.ZH_CN, "大型电解槽"))
-            .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
-            .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
-                    ELECTROLYZER_RECIPES.getName()))
+            .tooltips(MachineTooltips.parallelizable(), MachineTooltips.recipeTypes(ELECTROLYZER_RECIPES.getName()))
             .rotationState(RotationState.ALL)
             .recipeType(ELECTROLYZER_RECIPES)
             .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, OC_NON_PERFECT_SUBTICK, BATCH_MODE)
@@ -228,10 +210,9 @@ public class GCYMMachines {
             .localization(text -> text
                     .source("Large Electromagnet")
                     .translation(MinecraftLocale.ZH_CN, "大型电磁工厂"))
-            .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
-            .tooltips(Component.translatable("gtpm.machine.available_recipe_map_2.tooltip",
-                    ELECTROMAGNETIC_SEPARATOR_RECIPES.getName(),
-                    POLARIZER_RECIPES.getName()))
+            .tooltips(MachineTooltips.parallelizable(),
+                    MachineTooltips.recipeTypes(ELECTROMAGNETIC_SEPARATOR_RECIPES.getName(),
+                            POLARIZER_RECIPES.getName()))
             .rotationState(RotationState.ALL)
             .recipeTypes(ELECTROMAGNETIC_SEPARATOR_RECIPES, POLARIZER_RECIPES)
             .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, OC_NON_PERFECT_SUBTICK, BATCH_MODE)
@@ -248,9 +229,7 @@ public class GCYMMachines {
             .localization(text -> text
                     .source("Large Packaging Machine")
                     .translation(MinecraftLocale.ZH_CN, "大型打包机"))
-            .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
-            .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
-                    Component.translatable("gtpm.packer")))
+            .tooltips(MachineTooltips.parallelizable(), MachineTooltips.recipeTypes(PACKER_RECIPES.getName()))
             .rotationState(RotationState.ALL)
             .recipeType(GTRecipeTypes.PACKER_RECIPES)
             .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, OC_NON_PERFECT_SUBTICK, BATCH_MODE)
@@ -267,10 +246,8 @@ public class GCYMMachines {
             .localization(text -> text
                     .source("Large Assembling Factory")
                     .translation(MinecraftLocale.ZH_CN, "大型组装厂"))
-            .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
-            .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
-                    Component.translatable("gtpm.assembler")))
-            .tooltips(Component.translatable("gtpm.multiblock.exact_hatch_1.tooltip"))
+            .tooltips(MachineTooltips.parallelizable(), MachineTooltips.recipeTypes(ASSEMBLER_RECIPES.getName()))
+            .tooltips(MachineTooltips.singleEnergyHatch())
             .conditionalTooltip(GTMachineUtils.defaultEnvironmentRequirement(),
                     ConfigHolder.INSTANCE.gameplay.environmentalHazards)
             .rotationState(RotationState.ALL)
@@ -290,10 +267,9 @@ public class GCYMMachines {
             .localization(text -> text
                     .source("Large Circuit Assembling Facility")
                     .translation(MinecraftLocale.ZH_CN, "大型电路组装设施"))
-            .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
-            .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
-                    CIRCUIT_ASSEMBLER_RECIPES.getName()))
-            .tooltips(Component.translatable("gtpm.multiblock.exact_hatch_1.tooltip"))
+            .tooltips(MachineTooltips.parallelizable(),
+                    MachineTooltips.recipeTypes(CIRCUIT_ASSEMBLER_RECIPES.getName()))
+            .tooltips(MachineTooltips.singleEnergyHatch())
             .conditionalTooltip(GTMachineUtils.defaultEnvironmentRequirement(),
                     ConfigHolder.INSTANCE.gameplay.environmentalHazards)
             .rotationState(RotationState.ALL)
@@ -313,9 +289,7 @@ public class GCYMMachines {
             .localization(text -> text
                     .source("Large Arc Smelter")
                     .translation(MinecraftLocale.ZH_CN, "大型电弧炉"))
-            .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
-            .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
-                    ARC_FURNACE_RECIPES.getName()))
+            .tooltips(MachineTooltips.parallelizable(), MachineTooltips.recipeTypes(ARC_FURNACE_RECIPES.getName()))
             .rotationState(RotationState.ALL)
             .recipeType(ARC_FURNACE_RECIPES)
             .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, OC_NON_PERFECT_SUBTICK, BATCH_MODE)
@@ -332,9 +306,7 @@ public class GCYMMachines {
             .localization(text -> text
                     .source("Large Engraving Laser")
                     .translation(MinecraftLocale.ZH_CN, "大型激光蚀刻机"))
-            .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
-            .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
-                    LASER_ENGRAVER_RECIPES.getName()))
+            .tooltips(MachineTooltips.parallelizable(), MachineTooltips.recipeTypes(LASER_ENGRAVER_RECIPES.getName()))
             .conditionalTooltip(GTMachineUtils.defaultEnvironmentRequirement(),
                     ConfigHolder.INSTANCE.gameplay.environmentalHazards)
             .rotationState(RotationState.ALL)
@@ -354,9 +326,7 @@ public class GCYMMachines {
             .localization(text -> text
                     .source("Large Sifting Funnel")
                     .translation(MinecraftLocale.ZH_CN, "大型筛选漏斗"))
-            .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
-            .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
-                    SIFTER_RECIPES.getName()))
+            .tooltips(MachineTooltips.parallelizable(), MachineTooltips.recipeTypes(SIFTER_RECIPES.getName()))
             .rotationState(RotationState.ALL)
             .recipeType(SIFTER_RECIPES)
             .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, OC_NON_PERFECT_SUBTICK, BATCH_MODE)
@@ -373,11 +343,8 @@ public class GCYMMachines {
             .localization(text -> text
                     .source("Alloy Blast Smelter")
                     .translation(MinecraftLocale.ZH_CN, "合金冶炼炉"))
-            .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
-                    ALLOY_BLAST_RECIPES.getName()))
-            .tooltips(Component.translatable("gtpm.machine.electric_blast_furnace.tooltip.0"),
-                    Component.translatable("gtpm.machine.electric_blast_furnace.tooltip.1"),
-                    Component.translatable("gtpm.machine.electric_blast_furnace.tooltip.2"))
+            .tooltips(MachineTooltips.recipeTypes(ALLOY_BLAST_RECIPES.getName()))
+            .tooltips(MachineTooltips.ELECTRIC_BLAST_FURNACE.get())
             .rotationState(RotationState.ALL)
             .recipeType(ALLOY_BLAST_RECIPES)
             .recipeModifiers(GTRecipeModifiers::ebfOverclock)
@@ -406,9 +373,7 @@ public class GCYMMachines {
             .localization(text -> text
                     .source("Large Crystallization Chamber")
                     .translation(MinecraftLocale.ZH_CN, "大型高压结晶室"))
-            .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
-            .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
-                    AUTOCLAVE_RECIPES.getName()))
+            .tooltips(MachineTooltips.parallelizable(), MachineTooltips.recipeTypes(AUTOCLAVE_RECIPES.getName()))
             .rotationState(RotationState.ALL)
             .recipeType(AUTOCLAVE_RECIPES)
             .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, OC_NON_PERFECT_SUBTICK, BATCH_MODE)
@@ -425,8 +390,7 @@ public class GCYMMachines {
             .localization(text -> text
                     .source("Large Material Press")
                     .translation(MinecraftLocale.ZH_CN, "大型挤压机"))
-            .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
-            .tooltips(Component.translatable("gtpm.machine.available_recipe_map_4.tooltip",
+            .tooltips(MachineTooltips.parallelizable(), MachineTooltips.recipeTypes(
                     BENDER_RECIPES.getName(), COMPRESSOR_RECIPES.getName(),
                     FORGE_HAMMER_RECIPES.getName(), FORMING_PRESS_RECIPES.getName()))
             .rotationState(RotationState.ALL)
@@ -445,10 +409,8 @@ public class GCYMMachines {
             .localization(text -> text
                     .source("Large Brewing Vat")
                     .translation(MinecraftLocale.ZH_CN, "大型酿造厂"))
-            .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
-            .tooltips(Component.translatable("gtpm.machine.available_recipe_map_3.tooltip",
-                    BREWING_RECIPES.getName(), FERMENTING_RECIPES.getName(),
-                    FLUID_HEATER_RECIPES.getName()))
+            .tooltips(MachineTooltips.parallelizable(), MachineTooltips.recipeTypes(
+                    BREWING_RECIPES.getName(), FERMENTING_RECIPES.getName(), FLUID_HEATER_RECIPES.getName()))
             .rotationState(RotationState.ALL)
             .recipeTypes(BREWING_RECIPES, FERMENTING_RECIPES, FLUID_HEATER_RECIPES)
             .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, OC_NON_PERFECT_SUBTICK, BATCH_MODE)
@@ -465,9 +427,8 @@ public class GCYMMachines {
             .localization(text -> text
                     .source("Large Cutting Saw")
                     .translation(MinecraftLocale.ZH_CN, "大型切割机"))
-            .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
-            .tooltips(Component.translatable("gtpm.machine.available_recipe_map_2.tooltip",
-                    CUTTER_RECIPES.getName(), LATHE_RECIPES.getName()))
+            .tooltips(MachineTooltips.parallelizable(),
+                    MachineTooltips.recipeTypes(CUTTER_RECIPES.getName(), LATHE_RECIPES.getName()))
             .rotationState(RotationState.ALL)
             .recipeTypes(CUTTER_RECIPES, LATHE_RECIPES)
             .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, OC_NON_PERFECT_SUBTICK, BATCH_MODE)
@@ -484,9 +445,8 @@ public class GCYMMachines {
             .localization(text -> text
                     .source("Large Fractionating Distillery")
                     .translation(MinecraftLocale.ZH_CN, "大型分馏蒸馏厂"))
-            .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
-            .tooltips(Component.translatable("gtpm.machine.available_recipe_map_2.tooltip",
-                    DISTILLATION_RECIPES.getName(), DISTILLERY_RECIPES.getName()))
+            .tooltips(MachineTooltips.parallelizable(),
+                    MachineTooltips.recipeTypes(DISTILLATION_RECIPES.getName(), DISTILLERY_RECIPES.getName()))
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(DISTILLATION_RECIPES, DISTILLERY_RECIPES)
             .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, OC_NON_PERFECT_SUBTICK, BATCH_MODE)
@@ -506,9 +466,8 @@ public class GCYMMachines {
             .localization(text -> text
                     .source("Large Extraction Machine")
                     .translation(MinecraftLocale.ZH_CN, "大型提取机"))
-            .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
-            .tooltips(Component.translatable("gtpm.machine.available_recipe_map_2.tooltip",
-                    EXTRACTOR_RECIPES.getName(), CANNER_RECIPES.getName()))
+            .tooltips(MachineTooltips.parallelizable(),
+                    MachineTooltips.recipeTypes(EXTRACTOR_RECIPES.getName(), CANNER_RECIPES.getName()))
             .rotationState(RotationState.ALL)
             .recipeTypes(EXTRACTOR_RECIPES, CANNER_RECIPES)
             .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, OC_NON_PERFECT_SUBTICK, BATCH_MODE)
@@ -525,9 +484,7 @@ public class GCYMMachines {
             .localization(text -> text
                     .source("Large Extrusion Machine")
                     .translation(MinecraftLocale.ZH_CN, "大型压模机"))
-            .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
-            .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
-                    EXTRUDER_RECIPES.getName()))
+            .tooltips(MachineTooltips.parallelizable(), MachineTooltips.recipeTypes(EXTRUDER_RECIPES.getName()))
             .rotationState(RotationState.ALL)
             .recipeType(EXTRUDER_RECIPES)
             .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, OC_NON_PERFECT_SUBTICK, BATCH_MODE)
@@ -544,9 +501,8 @@ public class GCYMMachines {
             .localization(text -> text
                     .source("Large Solidification Array")
                     .translation(MinecraftLocale.ZH_CN, "大型固化阵列"))
-            .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
-            .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
-                    FLUID_SOLIDFICATION_RECIPES.getName()))
+            .tooltips(MachineTooltips.parallelizable(),
+                    MachineTooltips.recipeTypes(FLUID_SOLIDFICATION_RECIPES.getName()))
             .rotationState(RotationState.ALL)
             .recipeType(FLUID_SOLIDFICATION_RECIPES)
             .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, OC_NON_PERFECT_SUBTICK, BATCH_MODE)
@@ -563,9 +519,7 @@ public class GCYMMachines {
             .localization(text -> text
                     .source("Large Wire Factory")
                     .translation(MinecraftLocale.ZH_CN, "大型线材工厂"))
-            .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
-            .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
-                    WIREMILL_RECIPES.getName()))
+            .tooltips(MachineTooltips.parallelizable(), MachineTooltips.recipeTypes(WIREMILL_RECIPES.getName()))
             .rotationState(RotationState.ALL)
             .recipeType(WIREMILL_RECIPES)
             .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, OC_NON_PERFECT_SUBTICK, BATCH_MODE)
@@ -583,12 +537,8 @@ public class GCYMMachines {
             .localization(text -> text
                     .source("Rotary Hearth Furnace")
                     .translation(MinecraftLocale.ZH_CN, "转底炉"))
-            .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
-            .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
-                    BLAST_RECIPES.getName()))
-            .tooltips(Component.translatable("gtpm.machine.electric_blast_furnace.tooltip.0"),
-                    Component.translatable("gtpm.machine.electric_blast_furnace.tooltip.1"),
-                    Component.translatable("gtpm.machine.electric_blast_furnace.tooltip.2"))
+            .tooltips(MachineTooltips.parallelizable(), MachineTooltips.recipeTypes(BLAST_RECIPES.getName()))
+            .tooltips(MachineTooltips.ELECTRIC_BLAST_FURNACE.get())
             .rotationState(RotationState.ALL)
             .recipeType(BLAST_RECIPES)
             .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers::ebfOverclock, BATCH_MODE)
@@ -614,9 +564,7 @@ public class GCYMMachines {
             .localization(text -> text
                     .source("Bulk Blast Chiller")
                     .translation(MinecraftLocale.ZH_CN, "巨型真空冷冻机"))
-            .tooltips(Component.translatable("gtpm.multiblock.parallelizable.tooltip"))
-            .tooltips(Component.translatable("gtpm.machine.available_recipe_map_1.tooltip",
-                    VACUUM_RECIPES.getName()))
+            .tooltips(MachineTooltips.parallelizable(), MachineTooltips.recipeTypes(VACUUM_RECIPES.getName()))
             .rotationState(RotationState.ALL)
             .recipeType(VACUUM_RECIPES)
             .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, OC_NON_PERFECT_SUBTICK, BATCH_MODE)

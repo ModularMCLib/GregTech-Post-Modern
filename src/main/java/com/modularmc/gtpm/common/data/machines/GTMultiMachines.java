@@ -23,6 +23,7 @@ import com.modularmc.gtpm.common.data.GTMaterialItems;
 import com.modularmc.gtpm.common.data.GTMaterials;
 import com.modularmc.gtpm.common.data.GTRecipeModifiers;
 import com.modularmc.gtpm.common.data.GTRecipeTypes;
+import com.modularmc.gtpm.common.data.machines.tooltip.MachineTooltips;
 import com.modularmc.gtpm.common.machine.multiblock.electric.*;
 import com.modularmc.gtpm.common.machine.multiblock.electric.BedrockOreMinerMachine;
 import com.modularmc.gtpm.common.machine.multiblock.primitive.CharcoalPileIgniterMachine;
@@ -35,7 +36,6 @@ import com.modularmc.gtpm.utils.FormattingUtil;
 import com.modularmc.gtpm.utils.GTUtil;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
-import com.modularmc.registrate.localization.annotation.Trans;
 import com.modularmc.registrate.localization.annotation.TransVariants;
 import com.modularmc.registrate.localization.annotation.Translation;
 import com.modularmc.registrate.localization.annotation.Variant;
@@ -254,13 +254,15 @@ public class GTMultiMachines {
             ConfigHolder.INSTANCE.machines.largeBoilers.titaniumBoilerHeatSpeed)
             .localization(text -> text.source("Large Titanium Boiler").translation(MinecraftLocale.ZH_CN, "大型钛锅炉"))
             .register();
-    public static final MultiblockMachineDefinition LARGE_BOILER_TUNGSTENSTEEL = largeBoiler(REGISTRATE, "tungstensteel",
+    public static final MultiblockMachineDefinition LARGE_BOILER_TUNGSTENSTEEL = largeBoiler(REGISTRATE,
+            "tungstensteel",
             CASING_TUNGSTENSTEEL_ROBUST, FIREBOX_TUNGSTENSTEEL,
             GTPM.id("block/casings/solid/machine_casing_robust_tungstensteel"),
             BoilerFireboxType.TUNGSTENSTEEL_FIREBOX,
             ConfigHolder.INSTANCE.machines.largeBoilers.tungstensteelBoilerMaxTemperature,
             ConfigHolder.INSTANCE.machines.largeBoilers.tungstensteelBoilerHeatSpeed)
-            .localization(text -> text.source("Large Tungstensteel Boiler").translation(MinecraftLocale.ZH_CN, "大型钨钢锅炉"))
+            .localization(
+                    text -> text.source("Large Tungstensteel Boiler").translation(MinecraftLocale.ZH_CN, "大型钨钢锅炉"))
             .register();
 
     public static final MultiblockMachineDefinition COKE_OVEN = REGISTRATE.multiblock("coke_oven", CokeOvenMachine::new)
@@ -311,9 +313,7 @@ public class GTMultiMachines {
                             GTMaterialItems.MATERIAL_ITEMS.get(TagPrefix.dustTiny, GTMaterials.Ash).get() })
             .workableCasingModel(GTPM.id("block/casings/solid/machine_casing_heatproof"),
                     GTPM.id("block/multiblock/electric_blast_furnace"))
-            .tooltips(Component.translatable("gtpm.machine.electric_blast_furnace.tooltip.0"),
-                    Component.translatable("gtpm.machine.electric_blast_furnace.tooltip.1"),
-                    Component.translatable("gtpm.machine.electric_blast_furnace.tooltip.2"))
+            .tooltips(MachineTooltips.ELECTRIC_BLAST_FURNACE.get())
             .additionalDisplay((controller, components) -> {
             // spotless:off
                 if (controller instanceof CoilWorkableElectricMultiblockMachine coilMachine && controller.isFormed()) {
@@ -393,8 +393,8 @@ public class GTMultiMachines {
             .recipeTypes(GTRecipeTypes.FURNACE_RECIPES, GTRecipeTypes.ALLOY_SMELTER_RECIPES)
             .recipeModifiers(GTRecipeModifiers::multiSmelterParallel, BATCH_MODE)
             .appearanceBlock(CASING_INVAR_HEATPROOF)
-            .tooltips(Component.translatable("gtpm.machine.available_recipe_map_2.tooltip",
-                    Component.translatable("gtpm.electric_furnace"), Component.translatable("gtpm.alloy_smelter")))
+            .tooltips(MachineTooltips.recipeTypes(GTRecipeTypes.FURNACE_RECIPES.getName(),
+                    GTRecipeTypes.ALLOY_SMELTER_RECIPES.getName()))
             .pattern(MultiblockControllerMachine.DEFAULT_STRUCTURE, definition -> PatternBuilder.start(definition)
                     .appendDefinition()
                     .build())
@@ -592,7 +592,8 @@ public class GTMultiMachines {
                                 case MV -> "§b进阶流体钻机 §r";
                                 case HV -> "§6进阶流体钻机 II§r";
                                 case EV -> "§5进阶流体钻机 III§r";
-                                default -> throw new IllegalArgumentException("Unsupported fluid drilling rig tier: " + tier);
+                                default -> throw new IllegalArgumentException(
+                                        "Unsupported fluid drilling rig tier: " + tier);
                             }))
                     .primaryTooltip(switch (tier) {
                         case MV -> text -> text.source("Oil Extraction Pump")
@@ -760,7 +761,8 @@ public class GTMultiMachines {
             CASING_TUNGSTENSTEEL_TURBINE, CASING_TUNGSTENSTEEL_GEARBOX,
             GTPM.id("block/casings/mechanic/machine_casing_turbine_tungstensteel"),
             GTPM.id("block/multiblock/generator/large_plasma_turbine"),
-            false);
+            false,
+            text -> text.source("Large Plasma Turbine").translation(MinecraftLocale.ZH_CN, "大型等离子涡轮"));
 
     public static final MultiblockMachineDefinition ACTIVE_TRANSFORMER = REGISTRATE
             .multiblock("active_transformer", ActiveTransformerMachine::new)
@@ -843,7 +845,8 @@ public class GTMultiMachines {
                                 case MV -> "§b进阶基岩采矿机§r";
                                 case HV -> "§6进阶基岩采矿机 II§r";
                                 case EV -> "§5进阶基岩采矿机 III§r";
-                                default -> throw new IllegalArgumentException("Unsupported bedrock ore miner tier: " + tier);
+                                default -> throw new IllegalArgumentException(
+                                        "Unsupported bedrock ore miner tier: " + tier);
                             }))
                     .recipeType(DUMMY_RECIPES)
                     .tooltips(
@@ -887,7 +890,8 @@ public class GTMultiMachines {
             "bronze_multiblock_tank", 500 * 1000, CASING_BRONZE_BRICKS,
             new PropertyFluidFilter(1696, true, false, false, false))
             .localization(text -> text.source("Bronze Multiblock Tank").translation(MinecraftLocale.ZH_CN, "青铜多方块储罐"))
-            .workableCasingModel(GTPM.id("block/casings/solid/machine_casing_bronze_plated_bricks"), MULTIBLOCK_TANK_OVERLAY)
+            .workableCasingModel(GTPM.id("block/casings/solid/machine_casing_bronze_plated_bricks"),
+                    MULTIBLOCK_TANK_OVERLAY)
             .register();
 
     public static final MachineDefinition STEEL_TANK_VALVE = tankValve(REGISTRATE, "steel_tank_valve", true)
