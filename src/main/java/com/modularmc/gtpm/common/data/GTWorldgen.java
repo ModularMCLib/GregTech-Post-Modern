@@ -38,5 +38,4 @@ public class GTWorldgen {
                                 DensityFunctions.interpolated(
                                         DensityFunctions.noise(oreVeinB, 4.0f, 4.0f)).abs())));
     }
-
 }

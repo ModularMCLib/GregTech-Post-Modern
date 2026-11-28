@@ -15,10 +15,12 @@ public class GTRecipeSerializers {
             .generic("crafting_shaped_strict", Registries.RECIPE_SERIALIZER, StrictShapedRecipe.Serializer::new)
             .register();
     public static final DeferredHolder<RecipeSerializer<?>, ShapedEnergyTransferRecipe.Serializer> CRAFTING_SHAPED_ENERGY_TRANSFER = REGISTRATE
-            .generic("crafting_shaped_energy_transfer", Registries.RECIPE_SERIALIZER, ShapedEnergyTransferRecipe.Serializer::new)
+            .generic("crafting_shaped_energy_transfer", Registries.RECIPE_SERIALIZER,
+                    ShapedEnergyTransferRecipe.Serializer::new)
             .register();
     public static final DeferredHolder<RecipeSerializer<?>, ShapedFluidContainerRecipe.Serializer> CRAFTING_SHAPED_FLUID_CONTAINER = REGISTRATE
-            .generic("crafting_shaped_fluid_container", Registries.RECIPE_SERIALIZER, ShapedFluidContainerRecipe.Serializer::new)
+            .generic("crafting_shaped_fluid_container", Registries.RECIPE_SERIALIZER,
+                    ShapedFluidContainerRecipe.Serializer::new)
             .register();
 
     public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<ToolHeadReplaceRecipe>> CRAFTING_TOOL_HEAD_REPLACE = REGISTRATE

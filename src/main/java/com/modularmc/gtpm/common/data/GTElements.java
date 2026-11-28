@@ -111,7 +111,8 @@ public class GTElements {
             .register();
     public static final Element Np = REGISTRATE.element("Neptunium").nucleus(93, 144).symbol("Np").register();
     public static final Element Pu = REGISTRATE.element("Plutonium").nucleus(94, 152).symbol("Pu").register();
-    public static final Element Pu239 = REGISTRATE.element("Plutonium-239").nucleus(94, 145).symbol("Pu-239").register();
+    public static final Element Pu239 = REGISTRATE.element("Plutonium-239").nucleus(94, 145).symbol("Pu-239")
+            .register();
     public static final Element Pu241 = REGISTRATE.element("Plutonium-241").nucleus(94, 149).isotope().symbol("Pu-241")
             .register();
     public static final Element Am = REGISTRATE.element("Americium").nucleus(95, 150).symbol("Am").register();

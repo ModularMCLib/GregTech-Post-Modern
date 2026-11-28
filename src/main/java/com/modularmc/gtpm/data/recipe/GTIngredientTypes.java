@@ -12,19 +12,23 @@ import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 public class GTIngredientTypes {
 
     public static final DeferredHolder<IngredientType<?>, IngredientType<IntCircuitIngredient>> INT_CIRCUIT_INGREDIENT = REGISTRATE
-            .generic("circuit", NeoForgeRegistries.Keys.INGREDIENT_TYPES, () -> new IngredientType<>(IntCircuitIngredient.CODEC))
+            .generic("circuit", NeoForgeRegistries.Keys.INGREDIENT_TYPES,
+                    () -> new IngredientType<>(IntCircuitIngredient.CODEC))
             .register();
 
     public static final DeferredHolder<IngredientType<?>, IngredientType<IntProviderIngredient>> INT_PROVIDER_INGREDIENT = REGISTRATE
-            .generic("int_provider", NeoForgeRegistries.Keys.INGREDIENT_TYPES, () -> new IngredientType<>(IntProviderIngredient.CODEC))
+            .generic("int_provider", NeoForgeRegistries.Keys.INGREDIENT_TYPES,
+                    () -> new IngredientType<>(IntProviderIngredient.CODEC))
             .register();
 
     public static final DeferredHolder<IngredientType<?>, IngredientType<FluidContainerIngredient>> FLUID_CONTAINER_INGREDIENT = REGISTRATE
-            .generic("fluid_container", NeoForgeRegistries.Keys.INGREDIENT_TYPES, () -> new IngredientType<>(FluidContainerIngredient.CODEC))
+            .generic("fluid_container", NeoForgeRegistries.Keys.INGREDIENT_TYPES,
+                    () -> new IngredientType<>(FluidContainerIngredient.CODEC))
             .register();
 
     public static final DeferredHolder<IngredientType<?>, IngredientType<ExDataComponentIngredient>> DATA_COMPONENT_INGREDIENT = REGISTRATE
-            .generic("components", NeoForgeRegistries.Keys.INGREDIENT_TYPES, () -> new IngredientType<>(ExDataComponentIngredient.CODEC))
+            .generic("components", NeoForgeRegistries.Keys.INGREDIENT_TYPES,
+                    () -> new IngredientType<>(ExDataComponentIngredient.CODEC))
             .register();
 
     public static final DeferredHolder<FluidIngredientType<?>, FluidIngredientType<ExDataComponentFluidIngredient>> DATA_COMPONENT_FLUID_INGREDIENT = REGISTRATE

@@ -124,16 +124,19 @@ public class GTDamageTypes {
                     text -> text.source("%s was boiled alive by %s").translation(MinecraftLocale.ZH_CN, "%s被%s活活煮熟了"))
             .register();
     public static final ResourceKey<DamageType> CHEMICAL = REGISTRATE.damageType("chemical")
-            .localization(text -> text.source("%s had a chemical accident").translation(MinecraftLocale.ZH_CN, "%s历经了一场化学事故"))
+            .localization(
+                    text -> text.source("%s had a chemical accident").translation(MinecraftLocale.ZH_CN, "%s历经了一场化学事故"))
             .register();
     public static final ResourceKey<DamageType> ELECTRIC = REGISTRATE.damageType("electric")
             .localization(text -> text.source("%s was electrocuted").translation(MinecraftLocale.ZH_CN, "%s触电身亡"))
             .register();
     public static final ResourceKey<DamageType> RADIATION = REGISTRATE.damageType("radiation")
-            .localization(text -> text.source("%s glows with joy now").translation(MinecraftLocale.ZH_CN, "%s放射出了喜悦的光芒"))
+            .localization(
+                    text -> text.source("%s glows with joy now").translation(MinecraftLocale.ZH_CN, "%s放射出了喜悦的光芒"))
             .register();
     public static final ResourceKey<DamageType> TURBINE = REGISTRATE.damageType("turbine")
-            .localization(text -> text.source("%s put their head into a turbine").translation(MinecraftLocale.ZH_CN, "%s一头扎进了涡轮里"))
+            .localization(text -> text.source("%s put their head into a turbine").translation(MinecraftLocale.ZH_CN,
+                    "%s一头扎进了涡轮里"))
             .register();
 
     public static void init() {}

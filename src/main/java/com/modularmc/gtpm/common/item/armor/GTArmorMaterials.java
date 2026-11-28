@@ -19,29 +19,32 @@ public class GTArmorMaterials {
 
     public static final List<ArmorMaterial.Layer> BLANK_LAYERS = List.of(new ArmorMaterial.Layer(GTPM.id("armor")));
 
-    public static final DeferredHolder<ArmorMaterial, ArmorMaterial> GOGGLES = REGISTRATE.generic("goggles", Registries.ARMOR_MATERIAL,
-            () -> new ArmorMaterial(Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-                map.put(ArmorItem.Type.BOOTS, 0);
-                map.put(ArmorItem.Type.LEGGINGS, 0);
-                map.put(ArmorItem.Type.CHESTPLATE, 0);
-                map.put(ArmorItem.Type.HELMET, 0);
-            }), 0, SoundEvents.ARMOR_EQUIP_GENERIC, () -> Ingredient.EMPTY, BLANK_LAYERS, 0.0F, 0.0F))
+    public static final DeferredHolder<ArmorMaterial, ArmorMaterial> GOGGLES = REGISTRATE
+            .generic("goggles", Registries.ARMOR_MATERIAL,
+                    () -> new ArmorMaterial(Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
+                        map.put(ArmorItem.Type.BOOTS, 0);
+                        map.put(ArmorItem.Type.LEGGINGS, 0);
+                        map.put(ArmorItem.Type.CHESTPLATE, 0);
+                        map.put(ArmorItem.Type.HELMET, 0);
+                    }), 0, SoundEvents.ARMOR_EQUIP_GENERIC, () -> Ingredient.EMPTY, BLANK_LAYERS, 0.0F, 0.0F))
             .register();
-    public static final DeferredHolder<ArmorMaterial, ArmorMaterial> JETPACK = REGISTRATE.generic("jetpack", Registries.ARMOR_MATERIAL,
-            () -> new ArmorMaterial(Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-                map.put(ArmorItem.Type.BOOTS, 0);
-                map.put(ArmorItem.Type.LEGGINGS, 0);
-                map.put(ArmorItem.Type.CHESTPLATE, 0);
-                map.put(ArmorItem.Type.HELMET, 0);
-            }), 0, SoundEvents.ARMOR_EQUIP_GENERIC, () -> Ingredient.EMPTY, BLANK_LAYERS, 0.0F, 0.0F))
+    public static final DeferredHolder<ArmorMaterial, ArmorMaterial> JETPACK = REGISTRATE
+            .generic("jetpack", Registries.ARMOR_MATERIAL,
+                    () -> new ArmorMaterial(Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
+                        map.put(ArmorItem.Type.BOOTS, 0);
+                        map.put(ArmorItem.Type.LEGGINGS, 0);
+                        map.put(ArmorItem.Type.CHESTPLATE, 0);
+                        map.put(ArmorItem.Type.HELMET, 0);
+                    }), 0, SoundEvents.ARMOR_EQUIP_GENERIC, () -> Ingredient.EMPTY, BLANK_LAYERS, 0.0F, 0.0F))
             .register();
-    public static final DeferredHolder<ArmorMaterial, ArmorMaterial> ARMOR = REGISTRATE.generic("armor", Registries.ARMOR_MATERIAL,
-            () -> new ArmorMaterial(Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-                map.put(ArmorItem.Type.BOOTS, 0);
-                map.put(ArmorItem.Type.LEGGINGS, 0);
-                map.put(ArmorItem.Type.CHESTPLATE, 0);
-                map.put(ArmorItem.Type.HELMET, 0);
-            }), 0, SoundEvents.ARMOR_EQUIP_GENERIC, () -> Ingredient.EMPTY, BLANK_LAYERS, 5.0F, 0.0F))
+    public static final DeferredHolder<ArmorMaterial, ArmorMaterial> ARMOR = REGISTRATE
+            .generic("armor", Registries.ARMOR_MATERIAL,
+                    () -> new ArmorMaterial(Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
+                        map.put(ArmorItem.Type.BOOTS, 0);
+                        map.put(ArmorItem.Type.LEGGINGS, 0);
+                        map.put(ArmorItem.Type.CHESTPLATE, 0);
+                        map.put(ArmorItem.Type.HELMET, 0);
+                    }), 0, SoundEvents.ARMOR_EQUIP_GENERIC, () -> Ingredient.EMPTY, BLANK_LAYERS, 5.0F, 0.0F))
             .register();
     public static final DeferredHolder<ArmorMaterial, ArmorMaterial> BAD_PPE_EQUIPMENT = REGISTRATE
             .generic("bad_ppe_equipment", Registries.ARMOR_MATERIAL,

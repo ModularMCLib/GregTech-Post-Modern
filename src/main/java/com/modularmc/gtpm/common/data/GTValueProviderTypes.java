@@ -20,7 +20,8 @@ public class GTValueProviderTypes {
             .register();
 
     public static final DeferredHolder<FloatProviderType<?>, FloatProviderType<MultipliedFloat>> MULTIPLIED = REGISTRATE
-            .<FloatProviderType<?>, FloatProviderType<MultipliedFloat>>generic("multiplied", Registries.FLOAT_PROVIDER_TYPE,
+            .<FloatProviderType<?>, FloatProviderType<MultipliedFloat>>generic("multiplied",
+                    Registries.FLOAT_PROVIDER_TYPE,
                     () -> () -> MultipliedFloat.CODEC)
             .register();
     public static final DeferredHolder<FloatProviderType<?>, FloatProviderType<AddedFloat>> ADDED = REGISTRATE

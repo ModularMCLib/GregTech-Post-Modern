@@ -22,8 +22,8 @@ public class GTAttachmentTypes {
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<MedicalConditionTracker>> MEDICAL_CONDITION_TRACKER = REGISTRATE
             .generic("hazard_tracker", NeoForgeRegistries.Keys.ATTACHMENT_TYPES,
                     () -> AttachmentType.builder(GTAttachmentTypes::newMedicalConditionTracker)
-                    .serialize(new MedicalConditionTrackerSerializer())
-                    .build())
+                            .serialize(new MedicalConditionTrackerSerializer())
+                            .build())
             .register();
 
     public static void init() {}

@@ -28,5 +28,4 @@ public class GTFeatures {
         inst = BiomePlacement.BIOME_PLACEMENT;
         inst = RubberTreeChancePlacement.RUBBER_TREE_CHANCE_PLACEMENT;
     }
-
 }
