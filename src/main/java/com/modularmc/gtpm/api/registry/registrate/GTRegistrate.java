@@ -19,7 +19,6 @@ import com.modularmc.gtpm.api.multiblock.autobuild.MaterialSources.Registration;
 import com.modularmc.gtpm.api.multiblock.structurepredicate.PredicateType;
 import com.modularmc.gtpm.api.multiblock.structurepredicate.StructurePredicateType;
 import com.modularmc.gtpm.api.recipe.GTRecipeType;
-import com.modularmc.gtpm.api.recipe.RecipeCondition;
 import com.modularmc.gtpm.api.recipe.category.GTRecipeCategory;
 import com.modularmc.gtpm.api.recipe.chance.logic.ChanceLogic;
 import com.modularmc.gtpm.api.recipe.condition.RecipeConditionType;
@@ -55,7 +54,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.JukeboxSong;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -66,7 +64,6 @@ import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
-import com.mojang.serialization.MapCodec;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
@@ -263,16 +260,13 @@ public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
     }
 
     /** Starts a recipe type declaration in this mod's namespace. */
-    public GTRecipeType recipeType(String name, String group, RecipeType<?>... proxyRecipes) {
-        return new GTRecipeType(this, name, group, proxyRecipes);
+    public GTRecipeType.Builder recipeType(String name) {
+        return new GTRecipeType.Builder(this, name);
     }
 
     /** Starts a category with a name independent of the recipe type's default category. */
-    public GTRegistryEntryBuilder<GTRecipeCategory> recipeCategory(String name, GTRecipeType recipeType) {
-        var id = makeResourceLocation(name);
-        var category = new GTRecipeCategory(id, recipeType);
-        return new GTRegistryEntryBuilder<>(this, GTRegistries.RECIPE_CATEGORIES, id, category,
-                category.getLanguageKey());
+    public GTRecipeCategory.Builder recipeCategory(String name) {
+        return new GTRecipeCategory.Builder(this, makeResourceLocation(name));
     }
 
     /** Starts a definition that can be referenced before the registry event. */
@@ -282,11 +276,8 @@ public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
                 id.toLanguageKey(registry.key().location().getPath()));
     }
 
-    public <T extends RecipeCondition<T>> GTRegistryEntryBuilder<RecipeConditionType<T>> recipeCondition(
-            String name, RecipeConditionType.ConditionFactory<T> factory, MapCodec<T> codec) {
-        var id = makeResourceLocation(name);
-        return new GTRegistryEntryBuilder<>(this, GTRegistries.RECIPE_CONDITIONS, id,
-                new RecipeConditionType<>(factory, codec), "recipe.condition." + name + ".tooltip");
+    public RecipeConditionType.Builder recipeCondition(String name) {
+        return new RecipeConditionType.Builder(this, makeResourceLocation(name));
     }
 
     /** Declares translations shared by recipe conditions or supplied for an optional integration. */

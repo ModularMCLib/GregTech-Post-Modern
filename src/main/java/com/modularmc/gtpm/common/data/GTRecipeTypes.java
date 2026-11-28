@@ -40,7 +40,6 @@ import com.lowdragmc.lowdraglib2.utils.LocalizationUtils;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
@@ -74,7 +73,7 @@ public class GTRecipeTypes {
     //////////////////////////////////////
     // ********* Steam **********//
     //////////////////////////////////////
-    public final static GTRecipeType STEAM_BOILER_RECIPES = REGISTRATE.recipeType("steam_boiler", STEAM)
+    public final static GTRecipeType STEAM_BOILER_RECIPES = REGISTRATE.recipeType("steam_boiler").group(STEAM)
             .localization(text -> text
                     .source("Steam Boiler")
                     .translation(MinecraftLocale.ZH_CN, "蒸汽锅炉"))
@@ -95,7 +94,8 @@ public class GTRecipeTypes {
     //////////////////////////////////////
     // ********* Common *********//
     //////////////////////////////////////
-    public final static GTRecipeType FURNACE_RECIPES = REGISTRATE.recipeType("electric_furnace", ELECTRIC, RecipeType.SMELTING)
+    public final static GTRecipeType FURNACE_RECIPES = REGISTRATE.recipeType("electric_furnace").group(ELECTRIC)
+            .proxyRecipe(RecipeType.SMELTING)
             .localization(text -> text
                     .source("Electric Furnace")
                     .translation(MinecraftLocale.ZH_CN, "电炉"))
@@ -107,7 +107,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.FURNACE)
             .register();
 
-    public final static GTRecipeType ALLOY_SMELTER_RECIPES = REGISTRATE.recipeType("alloy_smelter", ELECTRIC)
+    public final static GTRecipeType ALLOY_SMELTER_RECIPES = REGISTRATE.recipeType("alloy_smelter").group(ELECTRIC)
             .localization(text -> text
                     .source("Alloy Smelter")
                     .translation(MinecraftLocale.ZH_CN, "合金炉"))
@@ -119,7 +119,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.FURNACE)
             .register();
 
-    public final static GTRecipeType ARC_FURNACE_RECIPES = REGISTRATE.recipeType("arc_furnace", ELECTRIC)
+    public final static GTRecipeType ARC_FURNACE_RECIPES = REGISTRATE.recipeType("arc_furnace").group(ELECTRIC)
             .localization(text -> text
                     .source("Arc Furnace")
                     .translation(MinecraftLocale.ZH_CN, "电弧炉"))
@@ -137,7 +137,7 @@ public class GTRecipeTypes {
             .addCustomRecipeLogic(ArcFurnaceLogic.INSTANCE)
             .register();
 
-    public final static GTRecipeType ASSEMBLER_RECIPES = REGISTRATE.recipeType("assembler", ELECTRIC)
+    public final static GTRecipeType ASSEMBLER_RECIPES = REGISTRATE.recipeType("assembler").group(ELECTRIC)
             .localization(text -> text
                     .source("Assembler")
                     .translation(MinecraftLocale.ZH_CN, "组装机"))
@@ -148,7 +148,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.ASSEMBLER)
             .register();
 
-    public final static GTRecipeType AUTOCLAVE_RECIPES = REGISTRATE.recipeType("autoclave", ELECTRIC)
+    public final static GTRecipeType AUTOCLAVE_RECIPES = REGISTRATE.recipeType("autoclave").group(ELECTRIC)
             .localization(text -> text
                     .source("Autoclave")
                     .translation(MinecraftLocale.ZH_CN, "高压釜"))
@@ -160,7 +160,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.FURNACE)
             .register();
 
-    public final static GTRecipeType BENDER_RECIPES = REGISTRATE.recipeType("bender", ELECTRIC)
+    public final static GTRecipeType BENDER_RECIPES = REGISTRATE.recipeType("bender").group(ELECTRIC)
             .localization(text -> text
                     .source("Bender")
                     .translation(MinecraftLocale.ZH_CN, "卷板机"))
@@ -172,7 +172,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.MOTOR)
             .register();
 
-    public final static GTRecipeType BREWING_RECIPES = REGISTRATE.recipeType("brewery", ELECTRIC)
+    public final static GTRecipeType BREWING_RECIPES = REGISTRATE.recipeType("brewery").group(ELECTRIC)
             .localization(text -> text
                     .source("Brewery")
                     .translation(MinecraftLocale.ZH_CN, "酿造室"))
@@ -185,7 +185,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.CHEMICAL)
             .register();
 
-    public final static GTRecipeType MACERATOR_RECIPES = REGISTRATE.recipeType("macerator", ELECTRIC)
+    public final static GTRecipeType MACERATOR_RECIPES = REGISTRATE.recipeType("macerator").group(ELECTRIC)
             .localization(text -> text
                     .source("Macerator")
                     .translation(MinecraftLocale.ZH_CN, "研磨机"))
@@ -202,7 +202,7 @@ public class GTRecipeTypes {
             .addDataInfo(data -> LocalizationUtils.format("gtpm.recipe.byproduct_tier", GTValues.VNF[GTValues.HV]))
             .register();
 
-    public final static GTRecipeType CANNER_RECIPES = REGISTRATE.recipeType("canner", ELECTRIC)
+    public final static GTRecipeType CANNER_RECIPES = REGISTRATE.recipeType("canner").group(ELECTRIC)
             .localization(text -> text
                     .source("Canner")
                     .translation(MinecraftLocale.ZH_CN, "装罐机"))
@@ -218,7 +218,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.BATH)
             .register();
 
-    public final static GTRecipeType CENTRIFUGE_RECIPES = REGISTRATE.recipeType("centrifuge", ELECTRIC)
+    public final static GTRecipeType CENTRIFUGE_RECIPES = REGISTRATE.recipeType("centrifuge").group(ELECTRIC)
             .localization(text -> text
                     .source("Centrifuge")
                     .translation(MinecraftLocale.ZH_CN, "离心机"))
@@ -232,7 +232,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.CENTRIFUGE)
             .register();
 
-    public final static GTRecipeType CHEMICAL_BATH_RECIPES = REGISTRATE.recipeType("chemical_bath", ELECTRIC)
+    public final static GTRecipeType CHEMICAL_BATH_RECIPES = REGISTRATE.recipeType("chemical_bath").group(ELECTRIC)
             .localization(text -> text
                     .source("Chemical Bath")
                     .translation(MinecraftLocale.ZH_CN, "化学浸洗机"))
@@ -245,7 +245,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.BATH)
             .register();
 
-    public final static GTRecipeType CHEMICAL_RECIPES = REGISTRATE.recipeType("chemical_reactor", ELECTRIC)
+    public final static GTRecipeType CHEMICAL_RECIPES = REGISTRATE.recipeType("chemical_reactor").group(ELECTRIC)
             .localization(text -> text
                     .source("Chemical Reactor")
                     .translation(MinecraftLocale.ZH_CN, "化学反应釜"))
@@ -264,7 +264,7 @@ public class GTRecipeTypes {
                     .save(provider))
             .register();
 
-    public final static GTRecipeType COMPRESSOR_RECIPES = REGISTRATE.recipeType("compressor", ELECTRIC)
+    public final static GTRecipeType COMPRESSOR_RECIPES = REGISTRATE.recipeType("compressor").group(ELECTRIC)
             .localization(text -> text
                     .source("Compressor")
                     .translation(MinecraftLocale.ZH_CN, "压缩机"))
@@ -278,7 +278,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.COMPRESSOR)
             .register();
 
-    public final static GTRecipeType CUTTER_RECIPES = REGISTRATE.recipeType("cutter", ELECTRIC)
+    public final static GTRecipeType CUTTER_RECIPES = REGISTRATE.recipeType("cutter").group(ELECTRIC)
             .localization(text -> text
                     .source("Cutter")
                     .translation(MinecraftLocale.ZH_CN, "切割机"))
@@ -316,7 +316,7 @@ public class GTRecipeTypes {
             })
             .register();
 
-    public final static GTRecipeType DISTILLERY_RECIPES = REGISTRATE.recipeType("distillery", ELECTRIC)
+    public final static GTRecipeType DISTILLERY_RECIPES = REGISTRATE.recipeType("distillery").group(ELECTRIC)
             .localization(text -> text
                     .source("Distillery")
                     .translation(MinecraftLocale.ZH_CN, "蒸馏室"))
@@ -330,7 +330,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.BOILER)
             .register();
 
-    public final static GTRecipeType ELECTROLYZER_RECIPES = REGISTRATE.recipeType("electrolyzer", ELECTRIC)
+    public final static GTRecipeType ELECTROLYZER_RECIPES = REGISTRATE.recipeType("electrolyzer").group(ELECTRIC)
             .localization(text -> text
                     .source("Electrolyzer")
                     .translation(MinecraftLocale.ZH_CN, "电解机"))
@@ -343,7 +343,8 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.ELECTROLYZER)
             .register();
 
-    public final static GTRecipeType ELECTROMAGNETIC_SEPARATOR_RECIPES = REGISTRATE.recipeType("electromagnetic_separator", ELECTRIC)
+    public final static GTRecipeType ELECTROMAGNETIC_SEPARATOR_RECIPES = REGISTRATE
+            .recipeType("electromagnetic_separator").group(ELECTRIC)
             .localization(text -> text
                     .source("Electromagnetic Separator")
                     .translation(MinecraftLocale.ZH_CN, "电磁选矿机"))
@@ -354,7 +355,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.ARC)
             .register();
 
-    public final static GTRecipeType EXTRACTOR_RECIPES = REGISTRATE.recipeType("extractor", ELECTRIC)
+    public final static GTRecipeType EXTRACTOR_RECIPES = REGISTRATE.recipeType("extractor").group(ELECTRIC)
             .localization(text -> text
                     .source("Extractor")
                     .translation(MinecraftLocale.ZH_CN, "提取机"))
@@ -367,7 +368,7 @@ public class GTRecipeTypes {
             .setSteamProgressBar(GuiTextures.PROGRESS_BAR_EXTRACT_STEAM, LEFT_TO_RIGHT)
             .register();
 
-    public final static GTRecipeType EXTRUDER_RECIPES = REGISTRATE.recipeType("extruder", ELECTRIC)
+    public final static GTRecipeType EXTRUDER_RECIPES = REGISTRATE.recipeType("extruder").group(ELECTRIC)
             .localization(text -> text
                     .source("Extruder")
                     .translation(MinecraftLocale.ZH_CN, "压模器"))
@@ -378,7 +379,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.COMPRESSOR)
             .register();
 
-    public final static GTRecipeType FERMENTING_RECIPES = REGISTRATE.recipeType("fermenter", ELECTRIC)
+    public final static GTRecipeType FERMENTING_RECIPES = REGISTRATE.recipeType("fermenter").group(ELECTRIC)
             .localization(text -> text
                     .source("Fermenter")
                     .translation(MinecraftLocale.ZH_CN, "发酵槽"))
@@ -391,7 +392,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.CHEMICAL)
             .register();
 
-    public final static GTRecipeType FLUID_HEATER_RECIPES = REGISTRATE.recipeType("fluid_heater", ELECTRIC)
+    public final static GTRecipeType FLUID_HEATER_RECIPES = REGISTRATE.recipeType("fluid_heater").group(ELECTRIC)
             .localization(text -> text
                     .source("Fluid Heater")
                     .translation(MinecraftLocale.ZH_CN, "流体加热器"))
@@ -404,7 +405,8 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.BOILER)
             .register();
 
-    public final static GTRecipeType FLUID_SOLIDFICATION_RECIPES = REGISTRATE.recipeType("fluid_solidifier", ELECTRIC)
+    public final static GTRecipeType FLUID_SOLIDFICATION_RECIPES = REGISTRATE.recipeType("fluid_solidifier")
+            .group(ELECTRIC)
             .localization(text -> text
                     .source("Fluid Solidifier")
                     .translation(MinecraftLocale.ZH_CN, "流体固化器"))
@@ -414,7 +416,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.COOLING)
             .register();
 
-    public final static GTRecipeType FORGE_HAMMER_RECIPES = REGISTRATE.recipeType("forge_hammer", ELECTRIC)
+    public final static GTRecipeType FORGE_HAMMER_RECIPES = REGISTRATE.recipeType("forge_hammer").group(ELECTRIC)
             .localization(text -> text
                     .source("Forge Hammer")
                     .translation(MinecraftLocale.ZH_CN, "锻造锤"))
@@ -427,7 +429,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.FORGE_HAMMER)
             .register();
 
-    public final static GTRecipeType FORMING_PRESS_RECIPES = REGISTRATE.recipeType("forming_press", ELECTRIC)
+    public final static GTRecipeType FORMING_PRESS_RECIPES = REGISTRATE.recipeType("forming_press").group(ELECTRIC)
             .localization(text -> text
                     .source("Forming Press")
                     .translation(MinecraftLocale.ZH_CN, "冲压机床"))
@@ -437,7 +439,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.COMPRESSOR)
             .register();
 
-    public final static GTRecipeType LATHE_RECIPES = REGISTRATE.recipeType("lathe", ELECTRIC)
+    public final static GTRecipeType LATHE_RECIPES = REGISTRATE.recipeType("lathe").group(ELECTRIC)
             .localization(text -> text
                     .source("Lathe")
                     .translation(MinecraftLocale.ZH_CN, "车床"))
@@ -449,7 +451,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.CUT)
             .register();
 
-    public final static GTRecipeType MIXER_RECIPES = REGISTRATE.recipeType("mixer", ELECTRIC)
+    public final static GTRecipeType MIXER_RECIPES = REGISTRATE.recipeType("mixer").group(ELECTRIC)
             .localization(text -> text
                     .source("Mixer")
                     .translation(MinecraftLocale.ZH_CN, "搅拌机"))
@@ -460,7 +462,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.MIXER)
             .register();
 
-    public final static GTRecipeType ORE_WASHER_RECIPES = REGISTRATE.recipeType("ore_washer", ELECTRIC)
+    public final static GTRecipeType ORE_WASHER_RECIPES = REGISTRATE.recipeType("ore_washer").group(ELECTRIC)
             .localization(text -> text
                     .source("Ore Washer")
                     .translation(MinecraftLocale.ZH_CN, "洗矿厂"))
@@ -473,7 +475,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.BATH)
             .register();
 
-    public final static GTRecipeType PACKER_RECIPES = REGISTRATE.recipeType("packer", ELECTRIC)
+    public final static GTRecipeType PACKER_RECIPES = REGISTRATE.recipeType("packer").group(ELECTRIC)
             .localization(text -> text
                     .source("Packer")
                     .translation(MinecraftLocale.ZH_CN, "打包机"))
@@ -486,7 +488,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.ASSEMBLER)
             .register();
 
-    public final static GTRecipeType POLARIZER_RECIPES = REGISTRATE.recipeType("polarizer", ELECTRIC)
+    public final static GTRecipeType POLARIZER_RECIPES = REGISTRATE.recipeType("polarizer").group(ELECTRIC)
             .localization(text -> text
                     .source("Polarizer")
                     .translation(MinecraftLocale.ZH_CN, "两极磁化机"))
@@ -496,7 +498,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.ARC)
             .register();
 
-    public final static GTRecipeType LASER_ENGRAVER_RECIPES = REGISTRATE.recipeType("laser_engraver", ELECTRIC)
+    public final static GTRecipeType LASER_ENGRAVER_RECIPES = REGISTRATE.recipeType("laser_engraver").group(ELECTRIC)
             .localization(text -> text
                     .source("Laser Engraver")
                     .translation(MinecraftLocale.ZH_CN, "激光蚀刻机"))
@@ -506,7 +508,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.ELECTROLYZER)
             .register();
 
-    public final static GTRecipeType SIFTER_RECIPES = REGISTRATE.recipeType("sifter", ELECTRIC)
+    public final static GTRecipeType SIFTER_RECIPES = REGISTRATE.recipeType("sifter").group(ELECTRIC)
             .localization(text -> text
                     .source("Sifter")
                     .translation(MinecraftLocale.ZH_CN, "筛选机"))
@@ -516,7 +518,8 @@ public class GTRecipeTypes {
             .setSound(new ExistingSoundEntry(SoundEvents.SAND_PLACE, SoundSource.BLOCKS))
             .register();
 
-    public final static GTRecipeType THERMAL_CENTRIFUGE_RECIPES = REGISTRATE.recipeType("thermal_centrifuge", ELECTRIC)
+    public final static GTRecipeType THERMAL_CENTRIFUGE_RECIPES = REGISTRATE.recipeType("thermal_centrifuge")
+            .group(ELECTRIC)
             .localization(text -> text
                     .source("Thermal Centrifuge")
                     .translation(MinecraftLocale.ZH_CN, "热力离心机"))
@@ -528,7 +531,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.CENTRIFUGE)
             .register();
 
-    public final static GTRecipeType WIREMILL_RECIPES = REGISTRATE.recipeType("wiremill", ELECTRIC)
+    public final static GTRecipeType WIREMILL_RECIPES = REGISTRATE.recipeType("wiremill").group(ELECTRIC)
             .localization(text -> text
                     .source("Wiremill")
                     .translation(MinecraftLocale.ZH_CN, "线材轧机"))
@@ -539,7 +542,8 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.MOTOR)
             .register();
 
-    public final static GTRecipeType CIRCUIT_ASSEMBLER_RECIPES = REGISTRATE.recipeType("circuit_assembler", ELECTRIC)
+    public final static GTRecipeType CIRCUIT_ASSEMBLER_RECIPES = REGISTRATE.recipeType("circuit_assembler")
+            .group(ELECTRIC)
             .localization(text -> text
                     .source("Circuit Assembler")
                     .translation(MinecraftLocale.ZH_CN, "电路组装机"))
@@ -565,7 +569,7 @@ public class GTRecipeTypes {
             })
             .register();
 
-    public final static GTRecipeType GAS_COLLECTOR_RECIPES = REGISTRATE.recipeType("gas_collector", ELECTRIC)
+    public final static GTRecipeType GAS_COLLECTOR_RECIPES = REGISTRATE.recipeType("gas_collector").group(ELECTRIC)
             .localization(text -> text
                     .source("Gas Collector")
                     .translation(MinecraftLocale.ZH_CN, "集气室"))
@@ -577,7 +581,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.COOLING)
             .register();
 
-    public final static GTRecipeType AIR_SCRUBBER_RECIPES = REGISTRATE.recipeType("air_scrubber", ELECTRIC)
+    public final static GTRecipeType AIR_SCRUBBER_RECIPES = REGISTRATE.recipeType("air_scrubber").group(ELECTRIC)
             .localization(text -> text
                     .source("Air Scrubber")
                     .translation(MinecraftLocale.ZH_CN, "空气净化器"))
@@ -586,7 +590,8 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.COOLING)
             .register();
 
-    public static final GTRecipeType RESEARCH_STATION_RECIPES = REGISTRATE.recipeType("research_station", ELECTRIC)
+    public static final GTRecipeType RESEARCH_STATION_RECIPES = REGISTRATE.recipeType("research_station")
+            .group(ELECTRIC)
             .localization(text -> text
                     .source("Research Station")
                     .translation(MinecraftLocale.ZH_CN, "研究站"))
@@ -599,7 +604,7 @@ public class GTRecipeTypes {
             .setSound(GTValues.FOOLS.getAsBoolean() ? GTSoundEntries.SCIENCE : GTSoundEntries.COMPUTATION)
             .register();
 
-    public final static GTRecipeType ROCK_BREAKER_RECIPES = REGISTRATE.recipeType("rock_breaker", ELECTRIC)
+    public final static GTRecipeType ROCK_BREAKER_RECIPES = REGISTRATE.recipeType("rock_breaker").group(ELECTRIC)
             .localization(text -> text
                     .source("Rock Breaker")
                     .translation(MinecraftLocale.ZH_CN, "碎岩机"))
@@ -614,7 +619,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.FIRE)
             .register();
 
-    public static final GTRecipeType SCANNER_RECIPES = REGISTRATE.recipeType("scanner", ELECTRIC)
+    public static final GTRecipeType SCANNER_RECIPES = REGISTRATE.recipeType("scanner").group(ELECTRIC)
             .localization(text -> text
                     .source("Scanner")
                     .translation(MinecraftLocale.ZH_CN, "扫描仪"))
@@ -630,7 +635,8 @@ public class GTRecipeTypes {
     //////////////////////////////////////
     // ******* Generator *******//
     //////////////////////////////////////
-    public final static GTRecipeType COMBUSTION_GENERATOR_FUELS = REGISTRATE.recipeType("combustion_generator", GENERATOR)
+    public final static GTRecipeType COMBUSTION_GENERATOR_FUELS = REGISTRATE.recipeType("combustion_generator")
+            .group(GENERATOR)
             .localization(text -> text
                     .source("Combustion Generator")
                     .translation(MinecraftLocale.ZH_CN, "内燃发电机"))
@@ -640,7 +646,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.COMBUSTION)
             .register();
 
-    public final static GTRecipeType GAS_TURBINE_FUELS = REGISTRATE.recipeType("gas_turbine", GENERATOR)
+    public final static GTRecipeType GAS_TURBINE_FUELS = REGISTRATE.recipeType("gas_turbine").group(GENERATOR)
             .localization(text -> text
                     .source("Gas Turbine")
                     .translation(MinecraftLocale.ZH_CN, "燃气轮机"))
@@ -651,7 +657,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.TURBINE)
             .register();
 
-    public final static GTRecipeType STEAM_TURBINE_FUELS = REGISTRATE.recipeType("steam_turbine", GENERATOR)
+    public final static GTRecipeType STEAM_TURBINE_FUELS = REGISTRATE.recipeType("steam_turbine").group(GENERATOR)
             .localization(text -> text
                     .source("Steam Turbine")
                     .translation(MinecraftLocale.ZH_CN, "蒸汽涡轮"))
@@ -662,7 +668,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.TURBINE)
             .register();
 
-    public final static GTRecipeType PLASMA_GENERATOR_FUELS = REGISTRATE.recipeType("plasma_generator", GENERATOR)
+    public final static GTRecipeType PLASMA_GENERATOR_FUELS = REGISTRATE.recipeType("plasma_generator").group(GENERATOR)
             .localization(text -> text
                     .source("Plasma Generator")
                     .translation(MinecraftLocale.ZH_CN, "等离子燃料"))
@@ -675,7 +681,7 @@ public class GTRecipeTypes {
     //////////////////////////////////////
     // ******* Multiblock *******//
     //////////////////////////////////////
-    public final static GTRecipeType LARGE_BOILER_RECIPES = REGISTRATE.recipeType("large_boiler", MULTIBLOCK)
+    public final static GTRecipeType LARGE_BOILER_RECIPES = REGISTRATE.recipeType("large_boiler").group(MULTIBLOCK)
             .localization(text -> text
                     .source("Large Boiler")
                     .translation(MinecraftLocale.ZH_CN, "大型锅炉"))
@@ -686,7 +692,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.FURNACE)
             .register();
 
-    public final static GTRecipeType COKE_OVEN_RECIPES = REGISTRATE.recipeType("coke_oven", MULTIBLOCK)
+    public final static GTRecipeType COKE_OVEN_RECIPES = REGISTRATE.recipeType("coke_oven").group(MULTIBLOCK)
             .localization(text -> text
                     .source("Coke Oven")
                     .translation(MinecraftLocale.ZH_CN, "焦炉"))
@@ -696,7 +702,8 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.FIRE)
             .register();
 
-    public final static GTRecipeType PRIMITIVE_BLAST_FURNACE_RECIPES = REGISTRATE.recipeType("primitive_blast_furnace", MULTIBLOCK)
+    public final static GTRecipeType PRIMITIVE_BLAST_FURNACE_RECIPES = REGISTRATE.recipeType("primitive_blast_furnace")
+            .group(MULTIBLOCK)
             .localization(text -> text
                     .source("Primitive Blast Furnace")
                     .translation(MinecraftLocale.ZH_CN, "土高炉"))
@@ -706,7 +713,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.FIRE)
             .register();
 
-    public final static GTRecipeType BLAST_RECIPES = REGISTRATE.recipeType("electric_blast_furnace", MULTIBLOCK)
+    public final static GTRecipeType BLAST_RECIPES = REGISTRATE.recipeType("electric_blast_furnace").group(MULTIBLOCK)
             .localization(text -> text
                     .source("Electric Blast Furnace")
                     .translation(MinecraftLocale.ZH_CN, "电力高炉"))
@@ -729,7 +736,8 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.FURNACE)
             .register();
 
-    public final static GTRecipeType DISTILLATION_RECIPES = REGISTRATE.recipeType("distillation_tower", MULTIBLOCK)
+    public final static GTRecipeType DISTILLATION_RECIPES = REGISTRATE.recipeType("distillation_tower")
+            .group(MULTIBLOCK)
             .localization(text -> text
                     .source("Distillation Tower")
                     .translation(MinecraftLocale.ZH_CN, "蒸馏塔"))
@@ -812,7 +820,7 @@ public class GTRecipeTypes {
             })
             .register();
 
-    public final static GTRecipeType PYROLYSE_RECIPES = REGISTRATE.recipeType("pyrolyse_oven", MULTIBLOCK)
+    public final static GTRecipeType PYROLYSE_RECIPES = REGISTRATE.recipeType("pyrolyse_oven").group(MULTIBLOCK)
             .localization(text -> text
                     .source("Pyrolyse Oven")
                     .translation(MinecraftLocale.ZH_CN, "热解炉"))
@@ -821,7 +829,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.FIRE)
             .register();
 
-    public final static GTRecipeType CRACKING_RECIPES = REGISTRATE.recipeType("cracker", MULTIBLOCK)
+    public final static GTRecipeType CRACKING_RECIPES = REGISTRATE.recipeType("cracker").group(MULTIBLOCK)
             .localization(text -> text
                     .source("Cracker")
                     .translation(MinecraftLocale.ZH_CN, "裂化机"))
@@ -834,7 +842,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.FIRE)
             .register();
 
-    public final static GTRecipeType IMPLOSION_RECIPES = REGISTRATE.recipeType("implosion_compressor", MULTIBLOCK)
+    public final static GTRecipeType IMPLOSION_RECIPES = REGISTRATE.recipeType("implosion_compressor").group(MULTIBLOCK)
             .localization(text -> text
                     .source("Implosion Compressor")
                     .translation(MinecraftLocale.ZH_CN, "聚爆压缩机"))
@@ -846,7 +854,7 @@ public class GTRecipeTypes {
             .setSound(new ExistingSoundEntry(SoundEvents.GENERIC_EXPLODE.value(), SoundSource.BLOCKS))
             .register();
 
-    public final static GTRecipeType VACUUM_RECIPES = REGISTRATE.recipeType("vacuum_freezer", MULTIBLOCK)
+    public final static GTRecipeType VACUUM_RECIPES = REGISTRATE.recipeType("vacuum_freezer").group(MULTIBLOCK)
             .localization(text -> text
                     .source("Vacuum Freezer")
                     .translation(MinecraftLocale.ZH_CN, "真空冷冻机"))
@@ -856,7 +864,7 @@ public class GTRecipeTypes {
             .setSound(GTSoundEntries.COOLING)
             .register();
 
-    public final static GTRecipeType ASSEMBLY_LINE_RECIPES = REGISTRATE.recipeType("assembly_line", MULTIBLOCK)
+    public final static GTRecipeType ASSEMBLY_LINE_RECIPES = REGISTRATE.recipeType("assembly_line").group(MULTIBLOCK)
             .localization(text -> text
                     .source("Assembly Line")
                     .translation(MinecraftLocale.ZH_CN, "装配线"))
@@ -867,7 +875,8 @@ public class GTRecipeTypes {
             .onRecipeBuild(ResearchManager::createDefaultResearchRecipe)
             .register();
 
-    public static final GTRecipeType LARGE_CHEMICAL_RECIPES = REGISTRATE.recipeType("large_chemical_reactor", MULTIBLOCK)
+    public static final GTRecipeType LARGE_CHEMICAL_RECIPES = REGISTRATE.recipeType("large_chemical_reactor")
+            .group(MULTIBLOCK)
             .localization(text -> text
                     .source("Large Chemical Reactor")
                     .translation(MinecraftLocale.ZH_CN, "大型化学反应釜"))
@@ -884,7 +893,7 @@ public class GTRecipeTypes {
             .setSmallRecipeMap(CHEMICAL_RECIPES)
             .register();
 
-    public static final GTRecipeType FUSION_RECIPES = REGISTRATE.recipeType("fusion_reactor", MULTIBLOCK)
+    public static final GTRecipeType FUSION_RECIPES = REGISTRATE.recipeType("fusion_reactor").group(MULTIBLOCK)
             .localization(text -> text
                     .source("Fusion Reactor")
                     .translation(MinecraftLocale.ZH_CN, "核聚变反应堆"))
@@ -897,7 +906,7 @@ public class GTRecipeTypes {
             .setUiBuilder(FusionReactorMachine::addEUToStartLabel)
             .register();
 
-    public static final GTRecipeType DUMMY_RECIPES = REGISTRATE.recipeType("dummy", DUMMY)
+    public static final GTRecipeType DUMMY_RECIPES = REGISTRATE.recipeType("dummy").group(DUMMY)
             .localization(text -> text
                     .source("Dummy")
                     .translation(MinecraftLocale.ZH_CN, "占位符"))

@@ -48,6 +48,13 @@ import java.util.function.*;
 @Accessors(chain = true)
 public class GTRecipeType implements RecipeType<GTRecipeDefinition> {
 
+    public record Builder(GTRegistrate registrate, String name) {
+
+        public GTRecipeType group(String group) {
+            return new GTRecipeType(registrate, name, group);
+        }
+    }
+
     static {
         FieldCodecs.register(GTRecipeType.class, ResourceLocation.CODEC
                 .xmap(id -> (GTRecipeType) BuiltInRegistries.RECIPE_TYPE.get(id), GTRecipeType::getRegistryName));
@@ -100,7 +107,8 @@ public class GTRecipeType implements RecipeType<GTRecipeDefinition> {
     @Setter
     protected boolean hasResearchSlot;
     @Getter
-    protected final Map<RecipeType<?>, List<RecipeHolder<GTRecipe>>> proxyRecipes;
+    // Must be linked to keep JSON output stable.
+    protected final Map<RecipeType<?>, List<RecipeHolder<GTRecipe>>> proxyRecipes = new Object2ObjectLinkedOpenHashMap<>();
     @Getter
     private final GTRecipeCategory category;
     @Getter
@@ -130,19 +138,17 @@ public class GTRecipeType implements RecipeType<GTRecipeDefinition> {
     @Getter
     private int clientMinRecipeConditions;
 
-    @ApiStatus.Internal
-    public GTRecipeType(GTRegistrate registrate, String name, String group, RecipeType<?>... proxyRecipes) {
+    private GTRecipeType(GTRegistrate registrate, String name, String group) {
         this.registrate = registrate;
         this.registryName = registrate.makeResourceLocation(name);
         this.group = group;
         this.category = new GTRecipeCategory(this);
         recipeBuilder = new GTRecipeBuilder(registryName, this);
-        // must be linked to stop json contents from shuffling
-        Map<RecipeType<?>, List<RecipeHolder<GTRecipe>>> map = new Object2ObjectLinkedOpenHashMap<>();
-        for (RecipeType<?> proxyRecipe : proxyRecipes) {
-            map.put(proxyRecipe, new ArrayList<>());
-        }
-        this.proxyRecipes = map;
+    }
+
+    public GTRecipeType proxyRecipe(RecipeType<?> type) {
+        proxyRecipes.putIfAbsent(type, new ArrayList<>());
+        return this;
     }
 
     /** Publishes this type, its default category and its serializer through the GT registry lifecycle. */

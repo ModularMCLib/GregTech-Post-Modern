@@ -34,7 +34,8 @@ public class GCYMRecipeTypes {
     //////////////////////////////////////
     // ******* Multiblock *******//
     //////////////////////////////////////
-    public final static GTRecipeType ALLOY_BLAST_RECIPES = REGISTRATE.recipeType("alloy_blast_smelter", MULTIBLOCK)
+    public final static GTRecipeType ALLOY_BLAST_RECIPES = REGISTRATE.recipeType("alloy_blast_smelter")
+            .group(MULTIBLOCK)
             .localization(text -> text
                     .source("Alloy Blast Smelter")
                     .translation(MinecraftLocale.ZH_CN, "合金冶炼炉"))

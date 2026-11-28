@@ -6,6 +6,8 @@ import com.modularmc.gtpm.api.gui.texture.IGuiTexture;
 import com.modularmc.gtpm.api.recipe.GTRecipeDefinition;
 import com.modularmc.gtpm.api.recipe.GTRecipeType;
 import com.modularmc.gtpm.api.registry.GTRegistries;
+import com.modularmc.gtpm.api.registry.registrate.GTRegistrate;
+import com.modularmc.gtpm.api.registry.registrate.GTRegistryEntryBuilder;
 import com.modularmc.gtpm.api.sync_system.FieldCodecs;
 import com.modularmc.gtpm.common.data.GTRecipeTypes;
 
@@ -20,6 +22,15 @@ import org.jetbrains.annotations.Nullable;
 
 @Accessors(chain = true)
 public class GTRecipeCategory {
+
+    public record Builder(GTRegistrate registrate, ResourceLocation id) {
+
+        public GTRegistryEntryBuilder<GTRecipeCategory> recipeType(GTRecipeType type) {
+            var category = new GTRecipeCategory(id, type);
+            return new GTRegistryEntryBuilder<>(registrate, GTRegistries.RECIPE_CATEGORIES, id, category,
+                    category.getLanguageKey());
+        }
+    }
 
     static {
         FieldCodecs.register(GTRecipeCategory.class, GTRegistries.RECIPE_CATEGORIES.byNameCodec());

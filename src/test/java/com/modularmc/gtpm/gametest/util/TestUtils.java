@@ -85,7 +85,8 @@ public class TestUtils {
 
     private static void registerTestRecipeType(String name, int maxInputs, int maxOutputs, int maxFluidInputs,
                                                int maxFluidOutputs) {
-        REGISTRATE.recipeType(name, ELECTRIC)
+        REGISTRATE.recipeType(name)
+                .group(ELECTRIC)
                 .setEUIO(IO.IN)
                 .setMaxIOSize(maxInputs, maxOutputs, maxFluidInputs, maxFluidOutputs)
                 .register();
