@@ -10,12 +10,6 @@ import com.modularmc.gtpm.common.data.GTMedicalConditions;
 import com.modularmc.gtpm.common.data.GTRecipeConditions;
 import com.modularmc.gtpm.config.GTPMConfigHolder;
 
-import com.modularmc.registrate.localization.MinecraftLocale;
-import com.modularmc.registrate.localization.annotation.Trans;
-import com.modularmc.registrate.localization.annotation.TransVariants;
-import com.modularmc.registrate.localization.annotation.Translation;
-import com.modularmc.registrate.localization.annotation.Variant;
-
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 
@@ -26,17 +20,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
-@Trans(key = "gtpm.recipe.environmental_hazard",
-       source = "§cArea must have %s",
-       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§c区域内必须有%s"))
 @NoArgsConstructor
 @AllArgsConstructor
-@TransVariants(keyPrefix = "gtpm.recipe.environmental_hazard",
-               value = {
-                       @Variant(id = "reverse",
-                                source = "§cArea must be free of %s",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§c区域内必须没有%s")),
-               })
 public class EnvironmentalHazardCondition extends RecipeCondition<EnvironmentalHazardCondition> {
 
     // spotless:off

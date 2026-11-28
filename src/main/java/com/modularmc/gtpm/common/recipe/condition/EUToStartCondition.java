@@ -7,10 +7,6 @@ import com.modularmc.gtpm.api.recipe.RecipeCondition;
 import com.modularmc.gtpm.api.recipe.condition.RecipeConditionType;
 import com.modularmc.gtpm.common.data.GTRecipeConditions;
 
-import com.modularmc.registrate.localization.MinecraftLocale;
-import com.modularmc.registrate.localization.annotation.Trans;
-import com.modularmc.registrate.localization.annotation.Translation;
-
 import net.minecraft.network.chat.Component;
 
 import com.mojang.serialization.Codec;
@@ -19,9 +15,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
-@Trans(key = "recipe.condition.eu_to_start.tooltip",
-       source = "EU to Start: %d%s",
-       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "启动耗能：%d%s"))
 @NoArgsConstructor
 public class EUToStartCondition extends RecipeCondition<EUToStartCondition> {
 

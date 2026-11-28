@@ -6,11 +6,6 @@ import com.modularmc.gtpm.api.recipe.RecipeCondition;
 import com.modularmc.gtpm.api.recipe.condition.RecipeConditionType;
 import com.modularmc.gtpm.common.data.GTRecipeConditions;
 
-import com.modularmc.registrate.localization.MinecraftLocale;
-import com.modularmc.registrate.localization.annotation.TransVariants;
-import com.modularmc.registrate.localization.annotation.Translation;
-import com.modularmc.registrate.localization.annotation.Variant;
-
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 
@@ -19,15 +14,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
-@TransVariants(keyPrefix = "recipe.condition.daytime",
-               value = {
-                       @Variant(id = "day.tooltip",
-                                source = "Requires day time to work",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "需要白天才能工作")),
-                       @Variant(id = "night.tooltip",
-                                source = "Requires night time to work",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "需要夜晚才能工作")),
-               })
 @Getter
 @NoArgsConstructor
 public class DaytimeCondition extends RecipeCondition<DaytimeCondition> {

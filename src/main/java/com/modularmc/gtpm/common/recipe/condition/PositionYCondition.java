@@ -6,10 +6,6 @@ import com.modularmc.gtpm.api.recipe.RecipeCondition;
 import com.modularmc.gtpm.api.recipe.condition.RecipeConditionType;
 import com.modularmc.gtpm.common.data.GTRecipeConditions;
 
-import com.modularmc.registrate.localization.MinecraftLocale;
-import com.modularmc.registrate.localization.annotation.Trans;
-import com.modularmc.registrate.localization.annotation.Translation;
-
 import net.minecraft.network.chat.Component;
 
 import com.mojang.serialization.Codec;
@@ -18,9 +14,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
-@Trans(key = "recipe.condition.pos_y.tooltip",
-       source = "Y Level: %d <= Y <= %d",
-       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "Y轴高度：%d <= Y <= %d"))
 @NoArgsConstructor
 public class PositionYCondition extends RecipeCondition<PositionYCondition> {
 

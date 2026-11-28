@@ -37,6 +37,7 @@ import com.modularmc.registrate.builders.base.Builder;
 import com.modularmc.registrate.builders.base.NoConfigBuilder;
 import com.modularmc.registrate.localization.LocalizationDeclaration;
 import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.TranslationKey;
 import com.modularmc.registrate.providers.RegistrateLangProvider;
 import com.modularmc.registrate.providers.core.GeneratorType;
 import com.modularmc.registrate.providers.core.ProviderType;
@@ -273,7 +274,15 @@ public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
 
     public <T extends RecipeCondition<T>> GTRegistryEntryBuilder<RecipeConditionType<T>> recipeCondition(
             String name, RecipeConditionType.ConditionFactory<T> factory, MapCodec<T> codec) {
-        return registryEntry(name, GTRegistries.RECIPE_CONDITIONS, new RecipeConditionType<>(factory, codec));
+        var id = makeResourceLocation(name);
+        return new GTRegistryEntryBuilder<>(this, GTRegistries.RECIPE_CONDITIONS, id,
+                new RecipeConditionType<>(factory, codec), "recipe.condition." + name + ".tooltip");
+    }
+
+    /** Declares translations shared by recipe conditions or supplied for an optional integration. */
+    public GTRegistrate recipeConditionLocalization(String path, Consumer<LocalizationDeclaration.Builder> configure) {
+        addLocalization(new TranslationKey(getModid(), "recipe.condition." + path), configure);
+        return this;
     }
 
     public <T> GTRegistryEntryBuilder<RecipeCapability<T>> recipeCapability(RecipeCapability<T> capability) {

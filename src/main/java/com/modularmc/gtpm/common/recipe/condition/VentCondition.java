@@ -7,19 +7,12 @@ import com.modularmc.gtpm.api.recipe.condition.RecipeConditionType;
 import com.modularmc.gtpm.common.data.GTRecipeConditions;
 import com.modularmc.gtpm.common.machine.trait.ExhaustVentMachineTrait;
 
-import com.modularmc.registrate.localization.MinecraftLocale;
-import com.modularmc.registrate.localization.annotation.Trans;
-import com.modularmc.registrate.localization.annotation.Translation;
-
 import net.minecraft.network.chat.Component;
 
 import com.mojang.serialization.MapCodec;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
-@Trans(key = "recipe.condition.steam_vent.tooltip",
-       source = "Clean steam vent",
-       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "排气口堵塞"))
 @NoArgsConstructor
 public class VentCondition extends RecipeCondition<VentCondition> {
 

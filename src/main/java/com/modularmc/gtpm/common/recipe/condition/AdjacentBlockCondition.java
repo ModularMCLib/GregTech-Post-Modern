@@ -9,10 +9,6 @@ import com.modularmc.gtpm.common.data.GTRecipeConditions;
 import com.modularmc.gtpm.utils.GTUtil;
 import com.modularmc.gtpm.utils.codec.GTCodecUtils;
 
-import com.modularmc.registrate.localization.MinecraftLocale;
-import com.modularmc.registrate.localization.annotation.Trans;
-import com.modularmc.registrate.localization.annotation.Translation;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryCodecs;
@@ -34,9 +30,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.function.Supplier;
 
-@Trans(key = "recipe.condition.adjacent_block.tooltip",
-       source = "Blocks around",
-       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "水平相邻方块应为"))
 @NoArgsConstructor
 public class AdjacentBlockCondition extends RecipeCondition<AdjacentBlockCondition> {
 

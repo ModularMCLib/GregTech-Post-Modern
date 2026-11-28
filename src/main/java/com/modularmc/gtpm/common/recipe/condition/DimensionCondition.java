@@ -6,10 +6,6 @@ import com.modularmc.gtpm.api.recipe.RecipeCondition;
 import com.modularmc.gtpm.api.recipe.condition.RecipeConditionType;
 import com.modularmc.gtpm.common.data.GTRecipeConditions;
 
-import com.modularmc.registrate.localization.MinecraftLocale;
-import com.modularmc.registrate.localization.annotation.Trans;
-import com.modularmc.registrate.localization.annotation.Translation;
-
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -22,9 +18,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
-@Trans(key = "recipe.condition.dimension.tooltip",
-       source = "Dimension: %s",
-       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "维度：%s"))
 @NoArgsConstructor
 public class DimensionCondition extends RecipeCondition<DimensionCondition> {
 

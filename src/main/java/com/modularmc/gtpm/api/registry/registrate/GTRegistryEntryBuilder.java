@@ -8,6 +8,7 @@ import com.modularmc.registrate.localization.TranslationKey;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import org.jspecify.annotations.Nullable;
 
 import java.util.function.Consumer;
@@ -20,7 +21,7 @@ public final class GTRegistryEntryBuilder<T> {
     private final ResourceLocation id;
     private final T value;
     private final String translationKey;
-    private @Nullable Consumer<LocalizationDeclaration.Builder> localization;
+    private @Nullable Object2ObjectArrayMap<String, Consumer<LocalizationDeclaration.Builder>> localizations;
 
     GTRegistryEntryBuilder(GTRegistrate registrate, Registry<? super T> registry, ResourceLocation id, T value,
                            String translationKey) {
@@ -37,14 +38,22 @@ public final class GTRegistryEntryBuilder<T> {
     }
 
     public GTRegistryEntryBuilder<T> localization(Consumer<LocalizationDeclaration.Builder> configure) {
-        localization = configure;
+        return localization(translationKey, configure);
+    }
+
+    public GTRegistryEntryBuilder<T> localization(String key, Consumer<LocalizationDeclaration.Builder> configure) {
+        if (localizations == null) {
+            localizations = new Object2ObjectArrayMap<>(2);
+        }
+        localizations.put(key, configure);
         return this;
     }
 
     public T register() {
         GTRegistries.register(registry, id, value);
-        if (localization != null) {
-            registrate.addLocalization(new TranslationKey(registrate.getModid(), translationKey), localization);
+        if (localizations != null) {
+            localizations.forEach((key, configure) -> registrate.addLocalization(
+                    new TranslationKey(registrate.getModid(), key), configure));
         }
         return value;
     }
