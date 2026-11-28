@@ -32,6 +32,11 @@ import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 import com.modularmc.gtpm.utils.GTTransferUtils;
 import com.modularmc.gtpm.utils.ISubscription;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
@@ -68,6 +73,12 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
+@TransVariants(keyPrefix = "gtpm.gui",
+               value = {
+                       @Variant(id = "fluid_amount",
+                                source = "Fluid Amount:",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "流体总量：")),
+               })
 public class FluidHatchPartMachine extends TieredIOPartMachine
                                    implements IHasCircuitSlot {
 

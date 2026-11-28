@@ -8,8 +8,26 @@ import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
 import com.modularmc.gtpm.api.sync_system.annotations.ServerFieldChangeListener;
 import com.modularmc.gtpm.api.sync_system.annotations.SyncBoth;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import lombok.Getter;
 
+@Trans(key = "gtpm.multiblock.page_switcher.io.export",
+       source = "§4Outputs",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§4输出"))
+@TransVariants(keyPrefix = "gtpm.multiblock.page_switcher.io",
+               value = {
+                       @Variant(id = "both",
+                                source = "§5Combined Inputs + Outputs",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§5兼顾输入/输出")),
+                       @Variant(id = "import",
+                                source = "§2Inputs",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§2输入")),
+               })
 public class TieredIOPartMachine extends TieredPartMachine implements IControllable {
 
     protected final IO io;

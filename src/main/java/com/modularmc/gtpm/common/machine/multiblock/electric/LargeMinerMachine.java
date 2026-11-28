@@ -29,6 +29,11 @@ import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 import com.modularmc.gtpm.utils.GTTransferUtils;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.util.ClickData;
 
 import net.minecraft.ChatFormatting;
@@ -54,6 +59,15 @@ import java.util.function.Consumer;
 
 import static com.modularmc.gtpm.common.data.GTMaterials.DrillingFluid;
 
+@TransVariants(keyPrefix = "gtpm.universal.tooltip",
+               value = {
+                       @Variant(id = "chunk_mode",
+                                source = "Chunk Mode: ",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "区块模式：")),
+                       @Variant(id = "silk_touch",
+                                source = "Silk Touch: ",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "精准采集：")),
+               })
 public class LargeMinerMachine extends WorkableElectricMultiblockMachine
                                implements IMiner, IDataInfoProvider {
 

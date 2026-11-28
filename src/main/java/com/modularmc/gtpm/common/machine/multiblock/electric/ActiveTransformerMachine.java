@@ -17,6 +17,11 @@ import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.utils.FormattingUtil;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 
@@ -32,6 +37,24 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import static com.modularmc.gtpm.api.multiblock.structurepredicate.PatternPredicate.abilities;
 
+@TransVariants(keyPrefix = "gtpm.multiblock.active_transformer",
+               value = {
+                       @Variant(id = "average_in",
+                                source = "§bAvg. Input: §f%s EU/t",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§b平均输入：§f%s EU/t")),
+                       @Variant(id = "average_out",
+                                source = "§bAvg. Output: §f%s EU/t",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§b平均输出：§f%s EU/t")),
+                       @Variant(id = "danger_enabled",
+                                source = "§c§bDANGER: Explosive",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§c§b危险：易爆")),
+                       @Variant(id = "max_input",
+                                source = "§aMax Input: §f%s EU/t",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§a最大输入：§f%s EU/t")),
+                       @Variant(id = "max_output",
+                                source = "§cMax Output: §f%s EU/t",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§c最大输出：§f%s EU/t")),
+               })
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class ActiveTransformerMachine extends WorkableElectricMultiblockMachine {

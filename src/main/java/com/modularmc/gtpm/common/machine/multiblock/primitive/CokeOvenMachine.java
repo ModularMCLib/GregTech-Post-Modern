@@ -14,6 +14,11 @@ import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
@@ -32,6 +37,12 @@ import net.neoforged.neoforge.fluids.FluidUtil;
 
 import java.util.List;
 
+@TransVariants(keyPrefix = "gtpm.fluid",
+               value = {
+                       @Variant(id = "amount",
+                                source = "§9Amount: %d/%d mB",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§9总量：%d/%d mB")),
+               })
 public class CokeOvenMachine extends PrimitiveWorkableMachine implements IUIMachine {
 
     public CokeOvenMachine(BlockEntityCreationInfo info) {

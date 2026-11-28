@@ -21,6 +21,10 @@ import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
 import com.modularmc.gtpm.api.sync_system.annotations.SyncToClient;
 import com.modularmc.gtpm.common.data.GTRecipeTypes;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
@@ -38,6 +42,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
+@Trans(key = "gtpm.multiblock.distillation_tower.distilling_fluid",
+       source = "Distilling %s",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "正在蒸馏%s"))
 public class DistillationTowerMachine extends WorkableElectricMultiblockMachine
                                       implements FluidRecipeCapability.ICustomParallel {
 

@@ -12,6 +12,12 @@ import com.modularmc.gtpm.common.computation.ComputationNetworkManager;
 import com.modularmc.gtpm.common.machine.multiblock.part.ObjectHolderMachine;
 import com.modularmc.gtpm.common.machine.multiblock.part.OpticalComputationHatchMachine;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 
@@ -22,6 +28,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+@Trans(key = "gtpm.multiblock.research_station.researching",
+       source = "§6Researching.",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§6研究中…"))
+@TransVariants(keyPrefix = "gtpm.machine.research_station",
+               value = {
+                       @Variant(id = "researching",
+                                source = "Researching.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "研究中。")),
+               })
 public class ResearchStationMachine extends WorkableElectricMultiblockMachine {
 
     @Getter

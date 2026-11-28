@@ -14,6 +14,11 @@ import com.modularmc.gtpm.api.recipe.modifier.RecipeModifier;
 import com.modularmc.gtpm.common.machine.multiblock.part.RotorHolderPartMachine;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -24,6 +29,27 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+@TransVariants(keyPrefix = "gtpm.multiblock.turbine",
+               value = {
+                       @Variant(id = "efficiency",
+                                source = "Turbine Efficiency: %s%%",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "涡轮效率：%s%%")),
+                       @Variant(id = "energy_per_tick",
+                                source = "Energy Output: %s/%s EU/t",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "能量输出：%s/%s EU/t")),
+                       @Variant(id = "rotor_durability",
+                                source = "Rotor Durability: %s%%",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "转子耐久度：%s%%")),
+                       @Variant(id = "rotor_speed",
+                                source = "Rotor Speed: %s/%s RPM",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "转子转速：%s/%sRPM")),
+                       @Variant(id = "fuel_amount",
+                                source = "Fuel Amount: %sL (%s)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "燃料量：%sL（%s）")),
+                       @Variant(id = "obstructed",
+                                source = "Turbine Face Obstructed",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "涡轮受阻")),
+               })
 public class LargeTurbineMachine extends WorkableElectricMultiblockMachine {
 
     public static final int MIN_DURABILITY_TO_WARN = 10;

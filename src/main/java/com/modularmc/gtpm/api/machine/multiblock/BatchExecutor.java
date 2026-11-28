@@ -21,6 +21,11 @@ import com.modularmc.gtpm.api.multiblock.autobuild.plan.StructurePlan;
 import com.modularmc.gtpm.api.multiblock.pattern.match.MultiBlockPattern;
 import com.modularmc.gtpm.common.machine.owner.MachineOwner;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -52,6 +57,67 @@ import org.jspecify.annotations.Nullable;
 /**
  * Executes an already resolved batch without performing any candidate selection.
  */
+@TransVariants(keyPrefix = "gtpm.multiblock.autobuild",
+               value = {
+                       @Variant(id = "blocked",
+                                source = "Target position is blocked: %s.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "目标位置被阻挡：%s。")),
+                       @Variant(id = "break_event_denied",
+                                source = "A block-break event denied automatic building at %s.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "方块破坏事件拒绝了对 %s 的自动搭建操作。")),
+                       @Variant(id = "controller_changed",
+                                source = "The bound multiblock controller changed before execution.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "绑定的多方块主机在执行前已发生变化。")),
+                       @Variant(id = "controller_protected",
+                                source = "The controller cannot be removed.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "不能移除多方块主机。")),
+                       @Variant(id = "controller_unloaded",
+                                source = "The bound multiblock controller is not loaded.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "绑定的多方块主机未加载。")),
+                       @Variant(id = "demolition_failed",
+                                source = "Could not demolish block at %s.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "无法拆除位置 %s 的方块。")),
+                       @Variant(id = "direction_update_failed",
+                                source = "Could not apply the required block direction at %s.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "无法在 %s 应用所需的方块朝向。")),
+                       @Variant(id = "extraction_changed",
+                                source = "Reserved material became unavailable during extraction for %s.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "提取 %s 所需材料时，预留材料已不可用。")),
+                       @Variant(id = "not_placeable",
+                                source = "%s cannot be placed.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s 无法放置。")),
+                       @Variant(id = "permission_denied",
+                                source = "No permission at %s.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "没有权限操作 %s。")),
+                       @Variant(id = "place_failed",
+                                source = "Could not place block at %s.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "无法在 %s 放置方块。")),
+                       @Variant(id = "rejected_stacks",
+                                source = "A material source returned unexpected stacks during its transaction.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "材料来源在事务中返回了意外物品。")),
+                       @Variant(id = "server_only",
+                                source = "Auto-build can only run on the server.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "自动搭建只能在服务端执行。")),
+                       @Variant(id = "spectator_denied",
+                                source = "Spectators cannot execute automatic building.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "旁观者不能执行自动搭建。")),
+                       @Variant(id = "stale_plan",
+                                source = "The automatic-build preview changed before execution.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "自动搭建预览在执行前已发生变化。")),
+                       @Variant(id = "structure_check_failed",
+                                source = "Auto-built structure failed final pattern check: %s.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "自动搭建后的结构检查失败：%s。")),
+                       @Variant(id = "too_far",
+                                source = "The player is too far from the bound multiblock controller.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "玩家距离绑定的多方块主机过远。")),
+                       @Variant(id = "unbreakable",
+                                source = "Target block is unbreakable: %s.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "目标方块不可破坏：%s。")),
+               })
 @NullMarked
 public final class BatchExecutor {
 

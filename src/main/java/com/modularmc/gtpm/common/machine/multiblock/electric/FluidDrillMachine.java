@@ -20,6 +20,11 @@ import com.modularmc.gtpm.common.machine.trait.FluidDrillLogic;
 import com.modularmc.gtpm.utils.FormattingUtil;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -32,6 +37,24 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+@TransVariants(keyPrefix = "gtpm.multiblock.fluid_rig",
+               value = {
+                       @Variant(id = "drilled_fluid",
+                                source = "Fluid: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "流体：%s")),
+                       @Variant(id = "fluid_amount",
+                                source = "Pumping Rate: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "抽取速率：%s")),
+                       @Variant(id = "no_fluid_in_area",
+                                source = "None in Area.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "区域内没有。")),
+                       @Variant(id = "vein_depletion",
+                                source = "Vein Size: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "矿脉大小：%s")),
+                       @Variant(id = "vein_depleted",
+                                source = "Vein Depleted.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "矿脉已枯竭")),
+               })
 public class FluidDrillMachine extends WorkableElectricMultiblockMachine {
 
     @Getter

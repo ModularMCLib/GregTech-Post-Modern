@@ -12,6 +12,10 @@ import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
 import com.modularmc.gtpm.api.sync_system.annotations.SyncToClient;
 import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.StringRepresentable;
@@ -20,6 +24,9 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 
 import lombok.Getter;
 
+@Trans(key = "gtpm.machine.diode.message",
+       source = "Max Amperage throughput: %s",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "最大电流：%s"))
 public class DiodePartMachine extends TieredIOPartMachine {
 
     // spotless:off

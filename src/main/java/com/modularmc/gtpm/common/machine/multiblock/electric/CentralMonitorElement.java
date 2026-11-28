@@ -36,6 +36,11 @@ import com.modularmc.gtpm.common.machine.multiblock.electric.monitor.CentralMoni
 import com.modularmc.gtpm.common.machine.multiblock.electric.monitor.MonitorGroup;
 import com.modularmc.gtpm.data.lang.LangHandler;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
 import com.lowdragmc.lowdraglib2.gui.ui.data.ScrollDisplay;
@@ -68,6 +73,66 @@ import java.util.function.Supplier;
 /**
  * Owns one Central Monitor LDLib2 opening, including its local selection draft and acknowledged group page.
  */
+@TransVariants(keyPrefix = "gtpm",
+               value = {
+                       @Variant(id = "central_monitor.gui.create_group",
+                                source = "Create group",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "创建组")),
+                       @Variant(id = "central_monitor.gui.currently_editing",
+                                source = "Currently editing: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "当前编辑：%s")),
+                       @Variant(id = "central_monitor.gui.data_slot",
+                                source = "Data slot",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "数据槽位")),
+                       @Variant(id = "central_monitor.gui.remove_from_group",
+                                source = "Remove from group",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "从组中移除")),
+                       @Variant(id = "central_monitor.gui.set_target",
+                                source = "Set target",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "设置目标")),
+                       @Variant(id = "central_monitor.info_tooltip.0",
+                                source = "In order to use monitors, you have to split them into groups first. A group may only have 1 module in it.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "若需使用监控器，你须先将它们分组。每个组中只能包含一个模块。")),
+                       @Variant(id = "central_monitor.info_tooltip.1",
+                                source = "Select them by left-clicking, then click 'Create group'.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "单击左键选中它们，然后点击“创建组”。")),
+                       @Variant(id = "central_monitor.info_tooltip.2",
+                                source = "Then in the settings page for the group you can insert a module, you can configure it in the same page.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "然后在该组的设置界面中，你可以插入一个模块，并在同一页面对其配置。")),
+                       @Variant(id = "central_monitor.info_tooltip.3",
+                                source = "To delete a group, select all of it's components and click 'Remove from group'.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "要删除一个组，请选中它的所有组件，并点击“从组中移除”。")),
+                       @Variant(id = "central_monitor.info_tooltip.4",
+                                source = "You can quickly select all components of a group by clicking on it's name. Click again to unselect.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "你可以通过点击组的名称一键选择此组的所有组件。再次点击可取消。")),
+                       @Variant(id = "central_monitor.info_tooltip.5",
+                                source = "Some modules may display things depending on the block they target, to set a target for a group select any component of that group and right-click on the target component.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "某些模块可能会根据它们的目标方块显示相关信息。如需为某一组设置目标，请先选择该组中的任意组件，然后右键点击目标组件。")),
+                       @Variant(id = "central_monitor.info_tooltip.6",
+                                source = "You may wish to select a target that is not in the multiblock, you have to use the wireless transmitter cover for that.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "若需选择不在多方块结构上的目标，则必须使用无线发信器覆盖板。")),
+                       @Variant(id = "central_monitor.info_tooltip.7",
+                                source = "Place the cover on the target block, right-click it with a data stick and put that data stick into a data access hatch in the multiblock.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "将覆盖板装在目标方块上，使用闪存右键点击绑定，并放入多方块结构的数据访问仓内。")),
+                       @Variant(id = "central_monitor.info_tooltip.8",
+                                source = "Then select the data access hatch as the target, and set the slot index of your data stick in the number field that appeared.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "然后选择数据访问仓作为目标，并在弹出的数字栏中设为闪存所在的插槽的索引编号。")),
+                       @Variant(id = "gui.central_monitor.group",
+                                source = "Group: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "组：%s")),
+                       @Variant(id = "gui.central_monitor.none",
+                                source = "none",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "空")),
+               })
 final class CentralMonitorElement extends UIElement implements IFancyUIProvider {
 
     static final int PAGE_WIDTH = 344;
@@ -888,6 +953,29 @@ final class CentralMonitorElement extends UIElement implements IFancyUIProvider 
         element.setVisible(displayed);
         element.setActive(displayed);
     }
+
+    @TransVariants(keyPrefix = "monitor.gui.title",
+                   value = {
+                           @Variant(id = "back",
+                                    source = "Back",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "返回")),
+                           @Variant(id = "scale",
+                                    source = "Scale:",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "尺寸：")),
+                           @Variant(id = "argb",
+                                    source = "ARGB:",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "ARGB：")),
+                           @Variant(id = "slot",
+                                    source = "Slot:",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "槽位：")),
+                           @Variant(id = "plugin",
+                                    source = "Plugin:",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "插件：")),
+                           @Variant(id = "config",
+                                    source = "Config",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "配置")),
+                   })
+    private static final class LegacyScreenTranslations {}
 
     private record ComponentState(BlockPos position, boolean monitor) {}
 

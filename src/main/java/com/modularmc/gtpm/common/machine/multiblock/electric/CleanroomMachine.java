@@ -26,6 +26,11 @@ import com.modularmc.gtpm.common.machine.trait.CleanroomProviderTrait;
 import com.modularmc.gtpm.common.machine.trait.CleanroomReceiverTrait;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -41,6 +46,25 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
+@TransVariants(keyPrefix = "gtpm.multiblock",
+               value = {
+                       @Variant(id = "cleanroom.clean_amount",
+                                source = "Cleanliness: §a%s%%",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "洁净度：§a%s%%")),
+                       @Variant(id = "cleanroom.clean_state",
+                                source = "Status: §aCLEAN",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "状态：§a洁净")),
+                       @Variant(id = "cleanroom.dirty_state",
+                                source = "Status: §4CONTAMINATED",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "状态：§4污染")),
+                       @Variant(id = "dimensions.0",
+                                source = "Dimensions: ",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "尺寸：")),
+                       @Variant(id = "dimensions.1",
+                                source = "  §c§lWidth§r: %s, §a§lHeight§r: %s, §9§lDepth§r: %s ",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "  §c§l长§r：%s，§a§l高§r：%s，§9§l宽§r：%s ")),
+               })
 public class CleanroomMachine extends WorkableElectricMultiblockMachine
                               implements IDataInfoProvider {
 

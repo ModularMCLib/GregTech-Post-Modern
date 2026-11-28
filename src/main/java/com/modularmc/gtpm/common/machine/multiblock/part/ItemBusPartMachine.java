@@ -32,6 +32,12 @@ import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 import com.modularmc.gtpm.utils.GTTransferUtils;
 import com.modularmc.gtpm.utils.ISubscription;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 
 import net.minecraft.core.BlockPos;
@@ -46,6 +52,22 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
+@Trans(key = "cover.item_filter.title",
+       source = "Item Filter",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "物品过滤卡"))
+@TransVariants(keyPrefix = "gtpm.bus",
+               value = {
+                       @Variant(id = "collapse_true",
+                                source = "Bus will collapse Items",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "已启用物品堆叠自动合并")),
+                       @Variant(id = "collapse_false",
+                                source = "Bus will not collapse Items",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "已禁用物品堆叠自动合并")),
+                       @Variant(id = "collapse.error",
+                                source = "Bus must be attached to multiblock first",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "总线位于已成型的多方块结构后方可进行该操作")),
+               })
 public class ItemBusPartMachine extends TieredIOPartMachine
                                 implements IDistinctPart, IHasCircuitSlot {
 

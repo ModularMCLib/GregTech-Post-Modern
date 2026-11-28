@@ -29,6 +29,11 @@ import com.modularmc.gtpm.common.block.FusionCasingBlock;
 import com.modularmc.gtpm.utils.FormattingUtil;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
 
@@ -54,6 +59,24 @@ import static com.modularmc.gtpm.api.recipe.OverclockingLogic.PERFECT_HALF_DURAT
 import static com.modularmc.gtpm.api.recipe.OverclockingLogic.PERFECT_HALF_VOLTAGE_FACTOR;
 import static com.modularmc.gtpm.common.data.GTBlocks.*;
 
+@TransVariants(keyPrefix = "gtpm",
+               value = {
+                       @Variant(id = "multiblock.fusion_reactor.energy",
+                                source = "EU: %d / %d",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "EU：%d / %d")),
+                       @Variant(id = "multiblock.fusion_reactor.heat",
+                                source = "Heat: %d",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "热量：%d")),
+                       @Variant(id = "recipe_logic.insufficient_fuel",
+                                source = "Insufficient Fuel",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "燃料不足")),
+                       @Variant(id = "recipe_modifier.insufficient_eu_to_start_fusion",
+                                source = "Insufficient Energy to Initiate Fusion Reaction",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "能量不足以启动聚变反应")),
+                       @Variant(id = "recipe.eu_to_start",
+                                source = "EU To Start: %sEU (%s)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "启动耗能：%sEU（%s）")),
+               })
 public class FusionReactorMachine extends WorkableElectricMultiblockMachine {
 
     // Standard OC used for Fusion

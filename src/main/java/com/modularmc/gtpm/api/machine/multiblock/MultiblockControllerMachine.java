@@ -34,6 +34,11 @@ import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.data.pattern.StructurePatternRegistry;
 import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.holder.ModularUIContainerMenu;
 
 import net.minecraft.core.BlockPos;
@@ -54,6 +59,15 @@ import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+@TransVariants(keyPrefix = "gtpm.multiblock",
+               value = {
+                       @Variant(id = "autobuild.planning_failed",
+                                source = "Automatic-build planning failed.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "自动搭建规划失败。")),
+                       @Variant(id = "pattern.error.constraint",
+                                source = "§cMultiblock structure constraints are not satisfied§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§c多方块结构未满足匹配约束§r")),
+               })
 @NullMarked
 public class MultiblockControllerMachine extends MetaMachine {
 

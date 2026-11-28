@@ -22,6 +22,11 @@ import com.modularmc.gtpm.common.machine.trait.FluidDrillLogic;
 import com.modularmc.gtpm.utils.FormattingUtil;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -33,6 +38,18 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+@TransVariants(keyPrefix = "gtpm.multiblock.ore_rig",
+               value = {
+                       @Variant(id = "drilled_ore_entry",
+                                source = " - %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = " - %s")),
+                       @Variant(id = "drilled_ores_list",
+                                source = "Ores:",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "矿石：")),
+                       @Variant(id = "ore_amount",
+                                source = "Drilling Rate: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "钻进速率：%s")),
+               })
 public class BedrockOreMinerMachine extends WorkableElectricMultiblockMachine {
 
     @Getter

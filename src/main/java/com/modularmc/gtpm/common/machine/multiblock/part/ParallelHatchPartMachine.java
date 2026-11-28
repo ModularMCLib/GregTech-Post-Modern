@@ -12,12 +12,27 @@ import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
 import com.modularmc.gtpm.api.sync_system.annotations.ServerFieldChangeListener;
 import com.modularmc.gtpm.api.sync_system.annotations.SyncBoth;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 
 import net.minecraft.util.Mth;
 
 import lombok.Getter;
 
+@TransVariants(keyPrefix = "gtpm.machine",
+               value = {
+                       @Variant(id = "parallel_hatch.display",
+                                source = "Adjust the maximum parallel of the multiblock",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "调整多方块的最多并行处理数。")),
+                       @Variant(id = "parallel_limit",
+                                source = "Can run up to §b%d§r§7 Recipes at once.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "可同时处理至多§b%d§r§7个配方。")),
+               })
 public class ParallelHatchPartMachine extends TieredPartMachine {
 
     private static final int MIN_PARALLEL = 1;

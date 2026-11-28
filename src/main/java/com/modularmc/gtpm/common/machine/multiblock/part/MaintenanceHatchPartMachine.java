@@ -26,6 +26,11 @@ import com.modularmc.gtpm.common.data.GTItems;
 import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 
@@ -53,6 +58,41 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.DoubleSupplier;
 
+@TransVariants(keyPrefix = "gtpm",
+               value = {
+                       @Variant(id = "machine.maintenance_hatch_tape_slot.tooltip",
+                                source = "Insert Tape to prevent problems",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "放入胶带以防止出现故障")),
+                       @Variant(id = "machine.maintenance_hatch_tool_slot.tooltip",
+                                source = "Click slot with empty hand when required tools are in inventory to solve problems",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "所需工具处于物品栏时空手点击该槽位来维护")),
+                       @Variant(id = "maintenance.configurable_duration.modify",
+                                source = "Modify Duration:",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "修改耗时：")),
+                       @Variant(id = "maintenance.configurable_duration",
+                                source = "Duration: %fx",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "处理耗时：%fx")),
+                       @Variant(id = "maintenance.configurable_duration.unchanged_description",
+                                source = "Recipes will run at normal speed. Change configuration to update.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "配方以正常速度运行。更改配置以更新。")),
+                       @Variant(id = "maintenance.configurable_duration.changed_description",
+                                source = "Recipes will run with %fx duration, applied before overclocking.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "配方处理速度现为正常速度（不计超频）的%f倍。")),
+                       @Variant(id = "maintenance.configurable_time",
+                                source = "Time: %fx",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "故障概率：%fx")),
+                       @Variant(id = "maintenance.configurable_time.unchanged_description",
+                                source = "Maintenance problems will occur at normal rate. Change configuration to update.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "故障的发生概率为正常值。更改配置以更新。")),
+                       @Variant(id = "maintenance.configurable_time.changed_description",
+                                source = "Maintenance problems will occur at %fx the normal rate.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "故障的发生概率现为正常值的%f倍。")),
+               })
 public class MaintenanceHatchPartMachine extends TieredPartMachine
                                          implements IMaintenanceMachine {
 

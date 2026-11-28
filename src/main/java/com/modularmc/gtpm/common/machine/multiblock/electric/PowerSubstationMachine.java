@@ -33,6 +33,11 @@ import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
 import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
@@ -64,6 +69,57 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.LongStream;
 
+@TransVariants(keyPrefix = "gtpm.multiblock.power_substation",
+               value = {
+                       @Variant(id = "average_in",
+                                source = "§7Avg. Input: %s §7EU/t",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7平均输入：%s §7EU/t")),
+                       @Variant(id = "average_in_hover",
+                                source = "The average inserted EU into the Power Substation's internal energy bank",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "蓄能变电站内部的平均功率输入")),
+                       @Variant(id = "average_out",
+                                source = "§7Avg. Output: %s §7EU/t",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7平均输出：%s §7EU/t")),
+                       @Variant(id = "average_out_hover",
+                                source = "The average extracted EU out of the Power Substation's internal energy bank",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "蓄能变电站内部的平均功率输出")),
+                       @Variant(id = "capacity",
+                                source = "§7Capacity: %s §7EU",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7容量：%s §7EU")),
+                       @Variant(id = "passive_drain",
+                                source = "§7Passive Drain: %s §7EU/t",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7被动损失：%s §7EU/t")),
+                       @Variant(id = "stored",
+                                source = "§7Stored: %s §7EU",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7存储：%s §7EU")),
+                       @Variant(id = "time_days",
+                                source = "%s Days",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s天")),
+                       @Variant(id = "time_forever",
+                                source = "Forever",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "永远")),
+                       @Variant(id = "time_hours",
+                                source = "%s Hours",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s时")),
+                       @Variant(id = "time_minutes",
+                                source = "%s Minutes",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s分")),
+                       @Variant(id = "time_seconds",
+                                source = "%s Seconds",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s秒")),
+                       @Variant(id = "time_to_drain",
+                                source = "§7Time to drain: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7预计耗空时间：%s")),
+                       @Variant(id = "time_to_fill",
+                                source = "§7Time to fill: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7预计充满时间：%s")),
+                       @Variant(id = "time_years",
+                                source = "%s Years",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s年")),
+                       @Variant(id = "under_one_hour_left",
+                                source = "Less than 1 hour until fully drained!",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "不到一小时就会完全耗光！")),
+               })
 public class PowerSubstationMachine extends WorkableMultiblockMachine
                                     implements IEnergyInfoProvider, IDisplayUIMachine, IFancyUIMachine {
 

@@ -7,6 +7,11 @@ import com.modularmc.gtpm.api.gui.texture.IGuiTexture;
 import com.modularmc.gtpm.common.machine.trait.hpca.HPCAComponentTrait;
 import com.modularmc.gtpm.common.machine.trait.hpca.HPCAComputationProviderTrait;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 
 import lombok.Getter;
@@ -15,6 +20,15 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
+@TransVariants(keyPrefix = "gtpm.machine.hpca",
+               value = {
+                       @Variant(id = "computation_component.damaged.name",
+                                source = "Damaged HPCA Computation Component",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "损坏的HPCA计算组件")),
+                       @Variant(id = "advanced_computation_component.damaged.name",
+                                source = "Damaged HPCA Advanced Computation Component",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "损坏的HPCA高级计算组件")),
+               })
 public class HPCAComputationPartMachine extends HPCAComponentPartMachine {
 
     @Getter

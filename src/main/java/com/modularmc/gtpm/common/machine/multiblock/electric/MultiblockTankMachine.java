@@ -19,6 +19,11 @@ import com.modularmc.gtpm.api.transfer.fluid.IFluidHandlerModifiable;
 import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
@@ -43,6 +48,16 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
+@TransVariants(keyPrefix = "gtpm.machine.fluid_tank",
+               value = {
+                       @Variant(id = "max_multiblock",
+                                source = "Max Multiblock Size: %dx%dx%d",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "多方块结构最大尺寸：%dx%dx%d")),
+                       @Variant(id = "fluid",
+                                source = "Contains %s L of %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "含有%sL%s")),
+               })
 public class MultiblockTankMachine extends MultiblockControllerMachine
                                    implements IUIMachine {
 

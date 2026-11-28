@@ -27,6 +27,12 @@ import com.modularmc.gtpm.api.recipe.modifier.RecipeModifier;
 import com.modularmc.gtpm.common.data.GTMaterials;
 import com.modularmc.gtpm.config.ConfigHolder;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
@@ -46,6 +52,18 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+@TransVariants(keyPrefix = "gtpm.multiblock.steam",
+               value = {
+                       @Variant(id = "low_steam",
+                                source = "Not enough Steam to run!",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "蒸汽不足，无法运行！")),
+                       @Variant(id = "steam_stored",
+                                source = "Steam: %s / %s mb",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "蒸汽：%s / %s mB")),
+               })
+@Trans(key = "gtpm.multiblock.parallel",
+       source = "Performing up to %d Recipes in Parallel",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "同时处理至多%d个配方"))
 public class SteamParallelMultiblockMachine extends WorkableMultiblockMachine implements IUIMachine {
 
     @Getter

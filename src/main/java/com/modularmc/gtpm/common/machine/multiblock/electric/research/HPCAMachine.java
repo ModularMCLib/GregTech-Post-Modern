@@ -42,6 +42,11 @@ import com.modularmc.gtpm.utils.FormattingUtil;
 import com.modularmc.gtpm.utils.GTTransferUtils;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.FillDirection;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
@@ -84,6 +89,79 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import static com.modularmc.gtpm.data.recipe.CustomTags.HPCA_COOLANTS;
 
+@TransVariants(keyPrefix = "gtpm",
+               value = {
+                       @Variant(id = "multiblock.computation.non_bridging",
+                                source = "Non-bridging connection found",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "发现非桥接连接")),
+                       @Variant(id = "multiblock.computation.non_bridging.detailed",
+                                source = "A Reception Hatch is linked to a machine which cannot bridge",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "算力数据仓与一台无法桥接的机器连接")),
+                       @Variant(id = "multiblock.hpca.computation",
+                                source = "Providing: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "提供：%s")),
+                       @Variant(id = "multiblock.hpca.energy",
+                                source = "Using: %s / %s EU/t (%s)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "使用：%s / %s EU/t (%s)")),
+                       @Variant(id = "multiblock.hpca.error_damaged",
+                                source = "Damaged component in structure!",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "计算组件损坏！")),
+                       @Variant(id = "multiblock.hpca.error_temperature",
+                                source = "Temperature above 100C, components may be damaged!",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "温度超过100℃，可能导致计算组件损坏！")),
+                       @Variant(id = "multiblock.hpca.info_bridging_disabled",
+                                source = "Bridging Disabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "桥接已关闭")),
+                       @Variant(id = "multiblock.hpca.info_bridging_enabled",
+                                source = "Bridging Enabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "桥接已启动")),
+                       @Variant(id = "multiblock.hpca.info_coolant_name",
+                                source = "PCB Coolant",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "多氯联苯冷却液")),
+                       @Variant(id = "multiblock.hpca.info_max_computation",
+                                source = "Max CWU/t: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "最大算力：%s")),
+                       @Variant(id = "multiblock.hpca.info_max_coolant_required",
+                                source = "Coolant Needed: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "冷却液需求：%s mB/t")),
+                       @Variant(id = "multiblock.hpca.info_max_cooling_available",
+                                source = "Cooling Available: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "冷却可用：%s")),
+                       @Variant(id = "multiblock.hpca.info_max_cooling_demand",
+                                source = "Cooling Demand: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "冷却需求：%s")),
+                       @Variant(id = "multiblock.hpca.temperature",
+                                source = "Temperature: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "温度：%s")),
+                       @Variant(id = "multiblock.hpca.warning_low_cooling",
+                                source = "- Not enough cooling",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "- 冷却不足")),
+                       @Variant(id = "multiblock.hpca.warning_multiple_bridges",
+                                source = "- Multiple bridges in structure (provides no additional benefit)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "- 多个桥接组件（没有额外好处）")),
+                       @Variant(id = "multiblock.hpca.warning_no_computation",
+                                source = "- No computation providers",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "- 没有计算组件")),
+                       @Variant(id = "multiblock.hpca.warning_structure_header",
+                                source = "Structure Warnings:",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "结构警告：")),
+                       @Variant(id = "multiblock.hpca.warning_temperature",
+                                source = "Temperature above 50C, components may be damaged at 100C!",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "温度超过50℃，超过100℃时可能导致计算组件损坏！")),
+                       @Variant(id = "multiblock.hpca.warning_temperature_active_cool",
+                                source = "Fully utilizing active coolers",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "充分利用主动冷却组件")),
+                       @Variant(id = "universal.liters",
+                                source = "%s mB",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s mB")),
+                       @Variant(id = "multiblock.hpca.hover_for_info",
+                                source = "Hover for details",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "悬停以显示细节")),
+               })
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class HPCAMachine extends WorkableElectricMultiblockMachine

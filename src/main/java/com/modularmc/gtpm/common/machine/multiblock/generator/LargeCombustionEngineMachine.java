@@ -29,6 +29,11 @@ import com.modularmc.gtpm.data.recipe.builder.GTRecipeBuilder;
 import com.modularmc.gtpm.utils.FormattingUtil;
 import com.modularmc.gtpm.utils.GTMath;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -42,6 +47,36 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Iterator;
 import java.util.List;
 
+@TransVariants(keyPrefix = "gtpm.multiblock.large_combustion_engine",
+               value = {
+                       @Variant(id = "liquid_oxygen_boosted",
+                                source = "§bLiquid Oxygen boosted.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§b液氧促燃中")),
+                       @Variant(id = "obstructed",
+                                source = "Engine Intakes Obstructed.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "引擎进气口受阻。")),
+                       @Variant(id = "oxygen_boosted",
+                                source = "§bOxygen boosted.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§b氧气促燃中")),
+                       @Variant(id = "lubricant_amount",
+                                source = "Lubricant Amount: %sL",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "润滑油存量：%sL")),
+                       @Variant(id = "oxygen_amount",
+                                source = "Oxygen Amount: %sL",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "氧气存量：%sL")),
+                       @Variant(id = "liquid_oxygen_amount",
+                                source = "Liquid Oxygen Amount: %sL",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "液氧存量：%sL")),
+                       @Variant(id = "boost_disallowed",
+                                source = "§bUpgrade the Dynamo Hatch to enable Oxygen Boosting.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§b升级你的动力仓以激活氧气促燃")),
+                       @Variant(id = "supply_oxygen_to_boost",
+                                source = "Supply Oxygen to boost.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "提供氧气来促燃")),
+                       @Variant(id = "supply_liquid_oxygen_to_boost",
+                                source = "Supply Liquid Oxygen to boost.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "提供液氧来促燃")),
+               })
 public class LargeCombustionEngineMachine extends WorkableElectricMultiblockMachine {
 
     private static final FluidStack OXYGEN_STACK = GTMaterials.Oxygen.getFluid(1);

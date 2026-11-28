@@ -43,6 +43,11 @@ import com.modularmc.gtpm.common.network.packets.SCPacketMonitorGroupDataChange;
 import com.modularmc.gtpm.data.pattern.StructurePatternKey;
 import com.modularmc.gtpm.data.pattern.StructurePatternResolver;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -66,6 +71,28 @@ import java.util.stream.Stream;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+@TransVariants(keyPrefix = "gtpm",
+               value = {
+                       @Variant(id = "central_monitor.size",
+                                source = "Size: (%d+1+%d)x(%d+1+%d)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "尺寸：（%d+1+%d）x（%d+1+%d）")),
+                       @Variant(id = "gui.central_monitor.group_default_name",
+                                source = "Group #%d",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "组#%d")),
+                       @Variant(id = "multiblock.central_monitor.low_power",
+                                source = "Low Power",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "供能不足")),
+                       @Variant(id = "multiblock.central_monitor.height",
+                                source = "Screen Height:",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "屏幕高度：%d")),
+                       @Variant(id = "multiblock.central_monitor.width",
+                                source = "Screen Width: %d",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "屏幕宽度：%d")),
+                       @Variant(id = "multiblock.central_monitor.height_modify",
+                                source = "Modify Height: %d",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "调整高度：%d")),
+               })
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class CentralMonitorMachine extends WorkableElectricMultiblockMachine

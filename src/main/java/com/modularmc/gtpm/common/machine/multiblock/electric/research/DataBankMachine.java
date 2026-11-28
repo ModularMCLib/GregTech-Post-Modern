@@ -18,6 +18,10 @@ import com.modularmc.gtpm.api.misc.EnergyContainerList;
 import com.modularmc.gtpm.api.recipe.GTRecipeType;
 import com.modularmc.gtpm.config.ConfigHolder;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -30,6 +34,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+@Trans(key = "gtpm.multiblock.data_bank.providing",
+       source = "Providing data.",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "提供数据。"))
 public class DataBankMachine extends WorkableElectricMultiblockMachine
                              implements IDataAccessMachine {
 

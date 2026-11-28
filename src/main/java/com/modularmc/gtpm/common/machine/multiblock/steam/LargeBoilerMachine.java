@@ -25,6 +25,11 @@ import com.modularmc.gtpm.common.data.GTMaterials;
 import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
@@ -49,6 +54,28 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+@TransVariants(keyPrefix = "gtpm.multiblock.large_boiler",
+               value = {
+                       @Variant(id = "steam_output",
+                                source = "Steam Output: %s mB/t",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "蒸汽输出：%s mB/t")),
+                       @Variant(id = "throttle",
+                                source = "Throttle: %d",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "节流：%d")),
+                       @Variant(id = "throttle_modify",
+                                source = "Modify Throttle:",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "修改节流：")),
+                       @Variant(id = "throttle.tooltip",
+                                source = "Boiler can output less Steam and consume less fuel (efficiency is not lost, does not affect heat-up time)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "锅炉可以节流，以减少燃料消耗与蒸汽产出，并且不损失效率，不影响加热时间。")),
+                       @Variant(id = "efficiency",
+                                source = "Efficiency: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "效率：%s")),
+                       @Variant(id = "temperature",
+                                source = "Temperature: %sK / %sK",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "温度：%sK / %sK")),
+               })
 public class LargeBoilerMachine extends WorkableMultiblockMachine
                                 implements IUIMachine {
 

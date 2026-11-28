@@ -27,6 +27,10 @@ import com.modularmc.gtpm.common.item.behavior.TurbineRotorBehaviour;
 import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 import com.modularmc.gtpm.utils.ISubscription;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 
 import net.minecraft.ChatFormatting;
@@ -46,6 +50,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import static com.modularmc.gtpm.api.machine.property.GTMachineModelProperties.*;
 
+@Trans(key = "gtpm.multiblock.universal.rotor_obstructed",
+       source = "Rotor is Obstructed!",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "转子进气口受阻！"))
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class RotorHolderPartMachine extends TieredPartMachine {

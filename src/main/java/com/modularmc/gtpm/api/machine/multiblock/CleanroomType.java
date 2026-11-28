@@ -2,6 +2,11 @@ package com.modularmc.gtpm.api.machine.multiblock;
 
 import com.modularmc.gtpm.api.sync_system.FieldCodecs;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.mojang.serialization.Codec;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
@@ -11,6 +16,15 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+@TransVariants(keyPrefix = "gtpm.recipe",
+               value = {
+                       @Variant(id = "cleanroom_sterile.display_name",
+                                source = "Sterile Cleanroom",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "无菌超净间")),
+                       @Variant(id = "cleanroom.display_name",
+                                source = "Cleanroom",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "超净间")),
+               })
 public record CleanroomType(String name, String translationKey) {
 
     private static final Map<String, CleanroomType> CLEANROOM_TYPES = new Object2ObjectOpenHashMap<>();
