@@ -30,21 +30,30 @@ public class GTCovers {
     public static final int[] ALL_TIERS_WITH_ULV = GTValues.tiersBetween(GTValues.ULV,
             GTCEuAPI.isHighTier() ? GTValues.OpV : GTValues.UV);
 
-    public final static CoverDefinition FACADE = register("facade", FacadeCover::new,
-            () -> () -> FacadeCoverRenderer.INSTANCE);
+    public final static CoverDefinition FACADE = REGISTRATE.cover("facade")
+            .behavior(FacadeCover::new)
+            .renderer(() -> () -> FacadeCoverRenderer.INSTANCE)
+            .register();
 
-    public final static CoverDefinition ITEM_FILTER = register("item_filter", ItemFilterCover::new);
-    public final static CoverDefinition FLUID_FILTER = register("fluid_filter", FluidFilterCover::new);
+    public final static CoverDefinition ITEM_FILTER = REGISTRATE.cover("item_filter")
+            .behavior(ItemFilterCover::new).defaultRenderer().register();
+    public final static CoverDefinition FLUID_FILTER = REGISTRATE.cover("fluid_filter")
+            .behavior(FluidFilterCover::new).defaultRenderer().register();
 
-    public final static CoverDefinition INFINITE_WATER = register("infinite_water", InfiniteWaterCover::new);
-    public final static CoverDefinition ENDER_FLUID_LINK = register("ender_fluid_link", EnderFluidLinkCover::new);
-    public final static CoverDefinition ENDER_ITEM_LINK = register("ender_item_link", EnderItemLinkCover::new);
-    public final static CoverDefinition ENDER_REDSTONE_LINK = register("ender_redstone_link",
-            EnderRedstoneLinkCover::new);
-    public final static CoverDefinition SHUTTER = register("shutter", ShutterCover::new);
-    public final static CoverDefinition COVER_STORAGE = register("storage", StorageCover::new);
-    public final static CoverDefinition WIRELESS_TRANSMITTER = register("wireless_transmitter",
-            WirelessTransmitterCover::new);
+    public final static CoverDefinition INFINITE_WATER = REGISTRATE.cover("infinite_water")
+            .behavior(InfiniteWaterCover::new).defaultRenderer().register();
+    public final static CoverDefinition ENDER_FLUID_LINK = REGISTRATE.cover("ender_fluid_link")
+            .behavior(EnderFluidLinkCover::new).defaultRenderer().register();
+    public final static CoverDefinition ENDER_ITEM_LINK = REGISTRATE.cover("ender_item_link")
+            .behavior(EnderItemLinkCover::new).defaultRenderer().register();
+    public final static CoverDefinition ENDER_REDSTONE_LINK = REGISTRATE.cover("ender_redstone_link")
+            .behavior(EnderRedstoneLinkCover::new).defaultRenderer().register();
+    public final static CoverDefinition SHUTTER = REGISTRATE.cover("shutter")
+            .behavior(ShutterCover::new).defaultRenderer().register();
+    public final static CoverDefinition COVER_STORAGE = REGISTRATE.cover("storage")
+            .behavior(StorageCover::new).defaultRenderer().register();
+    public final static CoverDefinition WIRELESS_TRANSMITTER = REGISTRATE.cover("wireless_transmitter")
+            .behavior(WirelessTransmitterCover::new).defaultRenderer().register();
 
     public final static CoverDefinition[] CONVEYORS = registerTiered("conveyor", ConveyorCover::new,
             () -> tier -> new IOCoverRenderer(
@@ -68,37 +77,45 @@ public class GTCovers {
     public final static CoverDefinition[] FLUID_REGULATORS = registerTiered("fluid_regulator", FluidRegulatorCover::new,
             () -> tier -> IOCoverRenderer.PUMP_LIKE_COVER_RENDERER, ALL_TIERS);
 
-    public final static CoverDefinition COMPUTER_MONITOR = register("computer_monitor", ComputerMonitorCover::new);
+    public final static CoverDefinition COMPUTER_MONITOR = REGISTRATE.cover("computer_monitor")
+            .behavior(ComputerMonitorCover::new).defaultRenderer().register();
 
-    public final static CoverDefinition MACHINE_CONTROLLER = register("machine_controller",
-            MachineControllerCover::new);
+    public final static CoverDefinition MACHINE_CONTROLLER = REGISTRATE.cover("machine_controller")
+            .behavior(MachineControllerCover::new).defaultRenderer().register();
 
     // Voiding
-    public final static CoverDefinition ITEM_VOIDING = register("item_voiding", ItemVoidingCover::new);
-    public final static CoverDefinition ITEM_VOIDING_ADVANCED = register("item_voiding_advanced",
-            AdvancedItemVoidingCover::new);
-    public final static CoverDefinition FLUID_VOIDING = register("fluid_voiding", FluidVoidingCover::new);
-    public final static CoverDefinition FLUID_VOIDING_ADVANCED = register("fluid_voiding_advanced",
-            AdvancedFluidVoidingCover::new);
+    public final static CoverDefinition ITEM_VOIDING = REGISTRATE.cover("item_voiding")
+            .behavior(ItemVoidingCover::new).defaultRenderer().register();
+    public final static CoverDefinition ITEM_VOIDING_ADVANCED = REGISTRATE.cover("item_voiding_advanced")
+            .behavior(AdvancedItemVoidingCover::new).defaultRenderer().register();
+    public final static CoverDefinition FLUID_VOIDING = REGISTRATE.cover("fluid_voiding")
+            .behavior(FluidVoidingCover::new).defaultRenderer().register();
+    public final static CoverDefinition FLUID_VOIDING_ADVANCED = REGISTRATE.cover("fluid_voiding_advanced")
+            .behavior(AdvancedFluidVoidingCover::new).defaultRenderer().register();
 
     // Detectors
-    public final static CoverDefinition ACTIVITY_DETECTOR = register("activity_detector", ActivityDetectorCover::new);
-    public final static CoverDefinition ACTIVITY_DETECTOR_ADVANCED = register("activity_detector_advanced",
-            AdvancedActivityDetectorCover::new);
-    public final static CoverDefinition FLUID_DETECTOR = register("fluid_detector", FluidDetectorCover::new);
-    public final static CoverDefinition FLUID_DETECTOR_ADVANCED = register("fluid_detector_advanced",
-            AdvancedFluidDetectorCover::new);
-    public final static CoverDefinition ITEM_DETECTOR = register("item_detector", ItemDetectorCover::new);
-    public final static CoverDefinition ITEM_DETECTOR_ADVANCED = register("item_detector_advanced",
-            AdvancedItemDetectorCover::new);
-    public final static CoverDefinition ENERGY_DETECTOR = register("energy_detector", EnergyDetectorCover::new);
-    public final static CoverDefinition ENERGY_DETECTOR_ADVANCED = register("energy_detector_advanced",
-            AdvancedEnergyDetectorCover::new);
-    public final static CoverDefinition MAINTENANCE_DETECTOR = register("maintenance_detector",
-            MaintenanceDetectorCover::new);
+    public final static CoverDefinition ACTIVITY_DETECTOR = REGISTRATE.cover("activity_detector")
+            .behavior(ActivityDetectorCover::new).defaultRenderer().register();
+    public final static CoverDefinition ACTIVITY_DETECTOR_ADVANCED = REGISTRATE.cover("activity_detector_advanced")
+            .behavior(AdvancedActivityDetectorCover::new).defaultRenderer().register();
+    public final static CoverDefinition FLUID_DETECTOR = REGISTRATE.cover("fluid_detector")
+            .behavior(FluidDetectorCover::new).defaultRenderer().register();
+    public final static CoverDefinition FLUID_DETECTOR_ADVANCED = REGISTRATE.cover("fluid_detector_advanced")
+            .behavior(AdvancedFluidDetectorCover::new).defaultRenderer().register();
+    public final static CoverDefinition ITEM_DETECTOR = REGISTRATE.cover("item_detector")
+            .behavior(ItemDetectorCover::new).defaultRenderer().register();
+    public final static CoverDefinition ITEM_DETECTOR_ADVANCED = REGISTRATE.cover("item_detector_advanced")
+            .behavior(AdvancedItemDetectorCover::new).defaultRenderer().register();
+    public final static CoverDefinition ENERGY_DETECTOR = REGISTRATE.cover("energy_detector")
+            .behavior(EnergyDetectorCover::new).defaultRenderer().register();
+    public final static CoverDefinition ENERGY_DETECTOR_ADVANCED = REGISTRATE.cover("energy_detector_advanced")
+            .behavior(AdvancedEnergyDetectorCover::new).defaultRenderer().register();
+    public final static CoverDefinition MAINTENANCE_DETECTOR = REGISTRATE.cover("maintenance_detector")
+            .behavior(MaintenanceDetectorCover::new).defaultRenderer().register();
 
     // Solar Panels
-    public final static CoverDefinition SOLAR_PANEL_BASIC = register("solar_panel", CoverSolarPanel::new);
+    public final static CoverDefinition SOLAR_PANEL_BASIC = REGISTRATE.cover("solar_panel")
+            .behavior(CoverSolarPanel::new).defaultRenderer().register();
     public final static CoverDefinition[] SOLAR_PANEL = registerTiered("solar_panel", CoverSolarPanel::new,
             () -> tier -> new SimpleCoverRenderer(GTPM.id("block/cover/solar_panel")), ALL_TIERS_WITH_ULV);
 
@@ -106,32 +123,16 @@ public class GTCovers {
     // *********** UTIL METHODS ***********//
     ///////////////////////////////////////////////
 
-    private static CoverDefinition register(String id, CoverDefinition.CoverBehaviourProvider behaviorCreator) {
-        return register(id, behaviorCreator, () -> () -> new SimpleCoverRenderer(GTPM.id("block/cover/" + id)));
-    }
-
-    private static CoverDefinition register(String id, CoverDefinition.CoverBehaviourProvider behaviorCreator,
-                                            Supplier<Supplier<ICoverRenderer>> coverRenderer) {
-        return REGISTRATE.cover(id, behaviorCreator, coverRenderer).register();
-    }
-
     private static CoverDefinition[] registerTiered(String id,
                                                     CoverDefinition.TieredCoverBehaviourProvider behaviorCreator,
                                                     Supplier<Int2ObjectFunction<ICoverRenderer>> coverRenderer,
                                                     int... tiers) {
         return Arrays.stream(tiers).mapToObj(tier -> {
             var name = id + "." + GTValues.VN[tier].toLowerCase(Locale.ROOT);
-            return register(name, (def, coverable, side) -> behaviorCreator.create(def, coverable, side, tier),
-                    () -> () -> coverRenderer.get().apply(tier));
-        }).toArray(CoverDefinition[]::new);
-    }
-
-    private static CoverDefinition[] registerTiered(String id,
-                                                    CoverDefinition.TieredCoverBehaviourProvider behaviorCreator,
-                                                    int... tiers) {
-        return Arrays.stream(tiers).mapToObj(tier -> {
-            var name = id + "." + GTValues.VN[tier].toLowerCase(Locale.ROOT);
-            return register(name, (def, coverable, side) -> behaviorCreator.create(def, coverable, side, tier));
+            return REGISTRATE.cover(name)
+                    .behavior((def, coverable, side) -> behaviorCreator.create(def, coverable, side, tier))
+                    .renderer(() -> () -> coverRenderer.get().apply(tier))
+                    .register();
         }).toArray(CoverDefinition[]::new);
     }
 

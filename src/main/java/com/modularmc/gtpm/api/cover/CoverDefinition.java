@@ -2,7 +2,11 @@ package com.modularmc.gtpm.api.cover;
 
 import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.capability.ICoverable;
+import com.modularmc.gtpm.api.registry.GTRegistries;
+import com.modularmc.gtpm.api.registry.registrate.GTRegistrate;
+import com.modularmc.gtpm.api.registry.registrate.GTRegistryEntryBuilder;
 import com.modularmc.gtpm.client.renderer.cover.ICoverRenderer;
+import com.modularmc.gtpm.client.renderer.cover.SimpleCoverRenderer;
 
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -13,6 +17,25 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Supplier;
 
 public final class CoverDefinition {
+
+    public record Builder(GTRegistrate registrate, ResourceLocation id) {
+
+        public RendererBuilder behavior(CoverBehaviourProvider behavior) {
+            return new RendererBuilder(registrate, id, behavior);
+        }
+    }
+
+    public record RendererBuilder(GTRegistrate registrate, ResourceLocation id, CoverBehaviourProvider behavior) {
+
+        public GTRegistryEntryBuilder<CoverDefinition> defaultRenderer() {
+            return renderer(() -> () -> new SimpleCoverRenderer(id.withPrefix("block/cover/")));
+        }
+
+        public GTRegistryEntryBuilder<CoverDefinition> renderer(Supplier<Supplier<ICoverRenderer>> renderer) {
+            return new GTRegistryEntryBuilder<>(registrate, GTRegistries.COVERS, id,
+                    new CoverDefinition(id, behavior, renderer), id.toLanguageKey("cover"));
+        }
+    }
 
     public interface CoverBehaviourProvider {
 

@@ -28,12 +28,15 @@ public class GTDimensionMarkers {
     public static final BlockEntry<Block> END_MARKER = createMarker("the_end",
             text -> text.source("The End").translation(MinecraftLocale.ZH_CN, "末地"));
 
-    public static final DimensionMarker OVERWORLD = REGISTRATE.dimensionMarker(Level.OVERWORLD, 0,
-            () -> OVERWORLD_MARKER, null).register();
-    public static final DimensionMarker NETHER = REGISTRATE.dimensionMarker(Level.NETHER, 0,
-            () -> NETHER_MARKER, null).register();
-    public static final DimensionMarker END = REGISTRATE.dimensionMarker(Level.END, 0,
-            () -> END_MARKER, null).register();
+    public static final DimensionMarker OVERWORLD = REGISTRATE.dimensionMarker(Level.OVERWORLD)
+            .icon(() -> OVERWORLD_MARKER)
+            .register();
+    public static final DimensionMarker NETHER = REGISTRATE.dimensionMarker(Level.NETHER)
+            .icon(() -> NETHER_MARKER)
+            .register();
+    public static final DimensionMarker END = REGISTRATE.dimensionMarker(Level.END)
+            .icon(() -> END_MARKER)
+            .register();
 
     private static BlockEntry<Block> createMarker(String name, Consumer<LocalizationDeclaration.Builder> localization) {
         return REGISTRATE.block("%s_marker".formatted(name), Block::new)

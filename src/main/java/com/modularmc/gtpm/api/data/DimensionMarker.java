@@ -1,13 +1,19 @@
 package com.modularmc.gtpm.api.data;
 
+import com.modularmc.gtpm.api.registry.GTRegistries;
+import com.modularmc.gtpm.api.registry.registrate.GTRegistrate;
+import com.modularmc.gtpm.api.registry.registrate.GTRegistryEntryBuilder;
+import com.modularmc.gtpm.common.recipe.condition.DimensionCondition;
 import com.modularmc.gtpm.utils.memoization.GTMemoizer;
 import com.modularmc.gtpm.utils.memoization.MemoizedSupplier;
 
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.Level;
 
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
@@ -15,6 +21,37 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Supplier;
 
 public class DimensionMarker {
+
+    public static final class Builder {
+
+        private final GTRegistrate registrate;
+        private final ResourceKey<Level> dimension;
+        private int tier;
+        private @Nullable Component name;
+
+        public Builder(GTRegistrate registrate, ResourceKey<Level> dimension) {
+            this.registrate = registrate;
+            this.dimension = dimension;
+        }
+
+        public Builder tier(int tier) {
+            this.tier = tier;
+            return this;
+        }
+
+        public Builder name(Component name) {
+            this.name = name;
+            return this;
+        }
+
+        public GTRegistryEntryBuilder<DimensionMarker> icon(Supplier<? extends ItemLike> icon) {
+            var id = dimension.location();
+            var marker = new DimensionMarker(tier, icon,
+                    name == null ? DimensionCondition.getDimensionName(dimension) : name);
+            return new GTRegistryEntryBuilder<>(registrate, GTRegistries.DIMENSION_MARKERS, id, marker,
+                    id.toLanguageKey("dimension_marker"));
+        }
+    }
 
     public static final int MAX_TIER = 99;
 

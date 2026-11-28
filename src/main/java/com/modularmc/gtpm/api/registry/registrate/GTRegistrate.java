@@ -24,8 +24,6 @@ import com.modularmc.gtpm.api.recipe.chance.logic.ChanceLogic;
 import com.modularmc.gtpm.api.recipe.condition.RecipeConditionType;
 import com.modularmc.gtpm.api.registry.GTRegistries;
 import com.modularmc.gtpm.api.registry.registrate.provider.GTLanguageProvider;
-import com.modularmc.gtpm.client.renderer.cover.ICoverRenderer;
-import com.modularmc.gtpm.common.recipe.condition.DimensionCondition;
 
 import com.modularmc.registrate.AbstractRegistrate;
 import com.modularmc.registrate.builders.base.Builder;
@@ -45,7 +43,6 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageType;
@@ -53,8 +50,6 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.JukeboxSong;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -254,9 +249,9 @@ public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
         return new DatapackKeyBuilder<>(this, type, type.location().toLanguageKey("death.attack"));
     }
 
-    public DatapackKeyBuilder<JukeboxSong> jukeboxSong(String name, String recordItem) {
-        var song = ResourceKey.create(Registries.JUKEBOX_SONG, makeResourceLocation(name));
-        return new DatapackKeyBuilder<>(this, song, makeResourceLocation(recordItem).toLanguageKey("item", "desc"));
+    public DatapackKeyBuilder.JukeboxSongBuilder jukeboxSong(String name) {
+        return new DatapackKeyBuilder.JukeboxSongBuilder(this,
+                ResourceKey.create(Registries.JUKEBOX_SONG, makeResourceLocation(name)));
     }
 
     /** Starts a recipe type declaration in this mod's namespace. */
@@ -296,22 +291,13 @@ public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
                 id.getNamespace() + ".chance_logic." + id.getPath());
     }
 
-    public GTRegistryEntryBuilder<CoverDefinition> cover(String name, CoverDefinition.CoverBehaviourProvider behavior,
-                                                        Supplier<Supplier<ICoverRenderer>> renderer) {
-        var id = makeResourceLocation(name);
-        return new GTRegistryEntryBuilder<>(this, GTRegistries.COVERS, id, new CoverDefinition(id, behavior, renderer),
-                id.toLanguageKey("cover"));
+    public CoverDefinition.Builder cover(String name) {
+        return new CoverDefinition.Builder(this, makeResourceLocation(name));
     }
 
     /** Uses the dimension's registry ID so consumers can resolve the marker by dimension. */
-    public GTRegistryEntryBuilder<DimensionMarker> dimensionMarker(ResourceKey<Level> dimension, int tier,
-                                                                   Supplier<? extends ItemLike> icon,
-                                                                   @Nullable Component overrideName) {
-        var id = dimension.location();
-        var marker = new DimensionMarker(tier, icon,
-                overrideName == null ? DimensionCondition.getDimensionName(dimension) : overrideName);
-        return new GTRegistryEntryBuilder<>(this, GTRegistries.DIMENSION_MARKERS, id, marker,
-                id.toLanguageKey("dimension_marker"));
+    public DimensionMarker.Builder dimensionMarker(ResourceKey<Level> dimension) {
+        return new DimensionMarker.Builder(this, dimension);
     }
 
     public Element.Builder element(String name) {

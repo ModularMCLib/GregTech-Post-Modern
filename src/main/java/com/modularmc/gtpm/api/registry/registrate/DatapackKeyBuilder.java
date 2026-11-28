@@ -4,6 +4,7 @@ import com.modularmc.registrate.localization.LocalizationDeclaration;
 import com.modularmc.registrate.localization.TranslationKey;
 
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.JukeboxSong;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import org.jetbrains.annotations.ApiStatus;
@@ -13,6 +14,14 @@ import java.util.function.Consumer;
 
 /** Declares a datapack registry key and its display name before the definition is bound by bootstrap. */
 public final class DatapackKeyBuilder<T> {
+
+    public record JukeboxSongBuilder(GTRegistrate registrate, ResourceKey<JukeboxSong> song) {
+
+        public DatapackKeyBuilder<JukeboxSong> recordItem(String name) {
+            var item = registrate.makeResourceLocation(name);
+            return new DatapackKeyBuilder<>(registrate, song, item.toLanguageKey("item", "desc"));
+        }
+    }
 
     private final GTRegistrate registrate;
     private final ResourceKey<T> key;
@@ -34,7 +43,8 @@ public final class DatapackKeyBuilder<T> {
         return addLocalization(translationKey, configure);
     }
 
-    public DatapackKeyBuilder<T> localizationVariant(String suffix, Consumer<LocalizationDeclaration.Builder> configure) {
+    public DatapackKeyBuilder<T> localizationVariant(String suffix,
+                                                     Consumer<LocalizationDeclaration.Builder> configure) {
         return addLocalization(translationKey + "." + suffix, configure);
     }
 

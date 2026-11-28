@@ -17,7 +17,8 @@ public class GTJukeboxSongs {
     @Trans(key = "metaitem.record.sus.tooltip",
            source = "§7Leonz - Among Us Drip",
            translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7Leonz - Among Us Drip"))
-    public static final ResourceKey<JukeboxSong> SUS = REGISTRATE.jukeboxSong("sus", "sus_record")
+    public static final ResourceKey<JukeboxSong> SUS = REGISTRATE.jukeboxSong("sus")
+            .recordItem("sus_record")
             .localization(text -> text.source("§7sussy!").translation(MinecraftLocale.ZH_CN, "§7可疑！"))
             .register();
 
