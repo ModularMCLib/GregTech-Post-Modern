@@ -9,6 +9,10 @@ import com.modularmc.gtpm.client.renderer.monitor.IMonitorRenderer;
 import com.modularmc.gtpm.common.machine.multiblock.electric.monitor.MonitorGroup;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.component.DataComponentMap;
@@ -25,6 +29,9 @@ import java.util.*;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+@Trans(key = "gtpm.computer_monitor_cover.error.no_target_in_slot",
+       source = "No loaded target in data hatch slot %s",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "数据访问仓的第 %s 个槽位没有可用的监控目标"))
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class PlaceholderHandler {
