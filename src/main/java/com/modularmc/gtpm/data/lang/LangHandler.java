@@ -1404,47 +1404,6 @@ public class LangHandler {
         replace(provider, "block.gtpm.yellow_stripes_block.c", "Yellow Stripes Block");
         replace(provider, "block.gtpm.yellow_stripes_block.d", "Yellow Stripes Block");
 
-        // Subtitles
-        provider.add("gtpm.subtitle.boiler", "Boiler heating");
-        provider.add("gtpm.subtitle.computation", "Computer beeps");
-        provider.add("gtpm.subtitle.assembler", "Assembler constructing");
-        provider.add("gtpm.subtitle.chainsaw", "Chainsaw revving");
-        provider.add("gtpm.subtitle.compressor", "Compressor squeezing");
-        provider.add("gtpm.subtitle.centrifuge", "Centrifuge spinning");
-        provider.add("gtpm.subtitle.mortar", "Mortar crushing");
-        provider.add("gtpm.subtitle.screwdriver", "Screwing");
-        provider.add("gtpm.subtitle.saw", "Sawing");
-        provider.add("gtpm.subtitle.miner", "Miner excavating");
-        provider.add("gtpm.subtitle.turbine", "Turbine whizzing");
-        provider.add("gtpm.subtitle.wrench", "Wrench rattling");
-        provider.add("gtpm.subtitle.portal_opening", "Portal opens");
-        provider.add("gtpm.subtitle.replicator", "Replicator copying");
-        provider.add("gtpm.subtitle.arc", "Arcs buzzing");
-        provider.add("gtpm.subtitle.combustion", "Combusting");
-        provider.add("gtpm.subtitle.portable_scanner", "Scanning");
-        provider.add("gtpm.subtitle.macerator", "Macerator crushing");
-        provider.add("gtpm.subtitle.jet_engine", "Jet roaring");
-        provider.add("gtpm.subtitle.spray_can", "Spraying");
-        provider.add("gtpm.subtitle.mixer", "Mixer sloshing");
-        provider.add("gtpm.subtitle.fire", "Fire crackling");
-        provider.add("gtpm.subtitle.forge_hammer", "Forge Hammer thumping");
-        provider.add("gtpm.subtitle.bath", "Bath fizzing");
-        provider.add("gtpm.subtitle.soft_hammer", "Soft tap");
-        provider.add("gtpm.subtitle.wirecutter", "Wire snipped");
-        provider.add("gtpm.subtitle.chemical", "Chemical bubbling");
-        provider.add("gtpm.subtitle.file", "File rasping");
-        provider.add("gtpm.subtitle.portal_closing", "Portal closes");
-        provider.add("gtpm.subtitle.motor", "Motor humming");
-        provider.add("gtpm.subtitle.drill", "Drilling");
-        provider.add("gtpm.subtitle.cut", "Cutter whirring");
-        provider.add("gtpm.subtitle.furnace", "Furnace heating");
-        provider.add("gtpm.subtitle.electrolyzer", "Electrolyzer sparking");
-        provider.add("gtpm.subtitle.cooling", "Freezer humming");
-        provider.add("gtpm.subtitle.plunger", "Plunger popping");
-        provider.add("gtpm.subtitle.sus", "Sus...");
-        provider.add("gtpm.subtitle.science", "s c i e n c e");
-        provider.add("gtpm.subtitle.metal_pipe", "Destruction_Metal_Pole_L_Wave_2_0_0.wav");
-
         provider.add("effect.gtpm.weak_poison", "Weak Poison");
 
         provider.add("gtpm.tooltip.potion.header", "§6Contains effects:");
