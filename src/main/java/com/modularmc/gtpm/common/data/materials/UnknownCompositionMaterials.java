@@ -67,7 +67,9 @@ public class UnknownCompositionMaterials {
         Creosote = new Material.Builder(GTPM.id("creosote"))
                 .localization(text -> text.source("Creosote")
                         .translation(MinecraftLocale.ZH_CN, "杂酚油"))
-                .liquid(new FluidBuilder().block().customStill().burnTime(6400)).color(0x804000)
+                .liquid(new FluidBuilder().block(text -> text.source("Creosote")
+                        .translation(MinecraftLocale.ZH_CN, "杂酚油")).customStill().burnTime(6400))
+                .color(0x804000)
                 .flags(STICKY).buildAndRegister();
 
         Diesel = new Material.Builder(GTPM.id("diesel"))
@@ -393,7 +395,8 @@ public class UnknownCompositionMaterials {
         Oil = new Material.Builder(GTPM.id("oil"))
                 .localization(text -> text.source("Oil")
                         .translation(MinecraftLocale.ZH_CN, "石油"))
-                .liquid(new FluidBuilder().block().customStill())
+                .liquid(new FluidBuilder().block(text -> text.source("Oil")
+                        .translation(MinecraftLocale.ZH_CN, "石油")).customStill())
                 .color(0x0A0A0A)
                 .flags(STICKY, FLAMMABLE)
                 .buildAndRegister();
@@ -401,7 +404,8 @@ public class UnknownCompositionMaterials {
         HeavyOil = new Material.Builder(GTPM.id("heavy_oil"))
                 .localization(text -> text.source("Heavy Oil")
                         .translation(MinecraftLocale.ZH_CN, "重油"))
-                .liquid(new FluidBuilder().block().customStill())
+                .liquid(new FluidBuilder().block(text -> text.source("Heavy Oil")
+                        .translation(MinecraftLocale.ZH_CN, "重油")).customStill())
                 .color(0x0A0A0A)
                 .flags(STICKY, FLAMMABLE)
                 .buildAndRegister();
@@ -409,7 +413,8 @@ public class UnknownCompositionMaterials {
         RawOil = new Material.Builder(GTPM.id("raw_oil"))
                 .localization(text -> text.source("Raw Oil")
                         .translation(MinecraftLocale.ZH_CN, "原油"))
-                .liquid(new FluidBuilder().block().customStill())
+                .liquid(new FluidBuilder().block(text -> text.source("Raw Oil")
+                        .translation(MinecraftLocale.ZH_CN, "原油")).customStill())
                 .color(0x0A0A0A)
                 .flags(STICKY, FLAMMABLE)
                 .buildAndRegister();
@@ -417,7 +422,8 @@ public class UnknownCompositionMaterials {
         LightOil = new Material.Builder(GTPM.id("light_oil"))
                 .localization(text -> text.source("Light Oil")
                         .translation(MinecraftLocale.ZH_CN, "轻油"))
-                .liquid(new FluidBuilder().block().customStill())
+                .liquid(new FluidBuilder().block(text -> text.source("Light Oil")
+                        .translation(MinecraftLocale.ZH_CN, "轻油")).customStill())
                 .color(0x0A0A0A)
                 .flags(STICKY, FLAMMABLE)
                 .buildAndRegister();
@@ -425,7 +431,8 @@ public class UnknownCompositionMaterials {
         NaturalGas = new Material.Builder(GTPM.id("natural_gas"))
                 .localization(text -> text.source("Natural Gas")
                         .translation(MinecraftLocale.ZH_CN, "天然气"))
-                .gas(new FluidBuilder().block().customStill())
+                .gas(new FluidBuilder().block(text -> text.source("Natural Gas")
+                        .translation(MinecraftLocale.ZH_CN, "天然气")).customStill())
                 .flags(FLAMMABLE, EXPLOSIVE).buildAndRegister();
 
         Bacteria = new Material.Builder(GTPM.id("bacteria"))

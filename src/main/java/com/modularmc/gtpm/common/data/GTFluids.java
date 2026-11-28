@@ -10,9 +10,6 @@ import com.modularmc.gtpm.common.fluid.potion.PotionFluid;
 import com.modularmc.gtpm.data.recipe.CustomTags;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
-import com.modularmc.registrate.localization.annotation.TransVariants;
-import com.modularmc.registrate.localization.annotation.Translation;
-import com.modularmc.registrate.localization.annotation.Variant;
 import com.modularmc.registrate.util.entry.FluidEntry;
 
 import net.minecraft.core.component.DataComponents;
@@ -30,27 +27,6 @@ import java.util.function.Supplier;
 
 import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 
-@TransVariants(keyPrefix = "block.gtpm",
-               value = {
-                       @Variant(id = "creosote",
-                                source = "Creosote",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "杂酚油")),
-                       @Variant(id = "heavy_oil",
-                                source = "Heavy Oil",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "重油")),
-                       @Variant(id = "light_oil",
-                                source = "Light Oil",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "轻油")),
-                       @Variant(id = "natural_gas",
-                                source = "Natural Gas",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "天然气")),
-                       @Variant(id = "oil",
-                                source = "Oil",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "石油")),
-                       @Variant(id = "raw_oil",
-                                source = "Raw Oil",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "原油")),
-               })
 public class GTFluids {
 
     private static final ResourceLocation POTION_TEXTURE = GTPM.id("block/fluids/fluid.potion");

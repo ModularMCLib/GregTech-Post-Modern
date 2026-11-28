@@ -14,6 +14,7 @@ import com.modularmc.gtpm.api.registry.registrate.GTRegistrate;
 import com.modularmc.gtpm.common.item.GTBucketItem;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.LocalizationDeclaration;
 import com.modularmc.registrate.providers.core.ProviderType;
 import com.modularmc.registrate.util.nullness.NonNullBiConsumer;
 
@@ -41,6 +42,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import static com.modularmc.gtpm.api.fluids.FluidConstants.*;
@@ -90,6 +92,7 @@ public class FluidBuilder {
 
     @Getter
     private boolean hasFluidBlock = false;
+    private @Nullable Consumer<LocalizationDeclaration.Builder> blockLocalization;
     private boolean hasBucket = true;
 
     public FluidBuilder() {}
@@ -251,6 +254,11 @@ public class FluidBuilder {
         return this;
     }
 
+    public FluidBuilder block(Consumer<LocalizationDeclaration.Builder> localization) {
+        this.blockLocalization = localization;
+        return block();
+    }
+
     /**
      * Disables the auto-generated fluid bucket for the fluid
      *
@@ -300,12 +308,15 @@ public class FluidBuilder {
                 .source((p) -> new GTFluid.Source(this.state, this.burnTime, p))
                 .setData(ProviderType.LANG, NonNullBiConsumer.noop());
         if (this.hasFluidBlock) {
-            builder.block()
+            var block = builder.block()
                     .color(() -> () -> (state, level, pos, index) -> {
                         return IClientFluidTypeExtensions.of(state.getFluidState())
                                 .getTintColor(state.getFluidState(), level, pos);
-                    })
-                    .register();
+                    });
+            if (blockLocalization != null) {
+                block.localization(blockLocalization);
+            }
+            block.register();
         } else {
             // noinspection DataFlowIssue
             builder.noBlock().fluidProperties(p -> p.block(null));
