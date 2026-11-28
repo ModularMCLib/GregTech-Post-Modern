@@ -12,6 +12,11 @@ import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
 import com.modularmc.gtpm.common.item.behavior.PortableScannerBehavior;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -24,6 +29,30 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+@TransVariants(keyPrefix = "block.gtpm",
+               value = {
+                       @Variant(id = "long_distance_item_pipeline_input_endpoint",
+                                source = "Input Endpoint",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "输入接口")),
+                       @Variant(id = "long_distance_item_pipeline_input_pos",
+                                source = " - Input: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = " - 输入：%s")),
+                       @Variant(id = "long_distance_item_pipeline_network_header",
+                                source = "Network:",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "网络：")),
+                       @Variant(id = "long_distance_item_pipeline_no_network",
+                                source = "No network found",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "找不到网络")),
+                       @Variant(id = "long_distance_item_pipeline_output_endpoint",
+                                source = "Output Endpoint",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "输出接口")),
+                       @Variant(id = "long_distance_item_pipeline_output_pos",
+                                source = " - Output: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = " - 输出：%s")),
+                       @Variant(id = "long_distance_item_pipeline_pipe_count",
+                                source = " - Pipes: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = " - 管道：%s")),
+               })
 public abstract class LongDistanceEndpointMachine extends MetaMachine implements ILDEndpoint, IDataInfoProvider {
 
     @Getter

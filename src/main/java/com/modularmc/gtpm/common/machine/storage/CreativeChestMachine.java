@@ -22,6 +22,11 @@ import com.modularmc.gtpm.api.sync_system.rpc.RPCMethod;
 import com.modularmc.gtpm.common.data.GTDataComponents;
 import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
@@ -37,6 +42,18 @@ import lombok.Getter;
 
 import java.util.List;
 
+@TransVariants(keyPrefix = "gtpm.creative.chest",
+               value = {
+                       @Variant(id = "ipc",
+                                source = "Items per Cycle",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "每次输出物品数")),
+                       @Variant(id = "tpc",
+                                source = "Ticks per Cycle",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "每次输出间隔Tick")),
+                       @Variant(id = "item",
+                                source = "Item",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "物品")),
+               })
 public class CreativeChestMachine extends QuantumChestMachine {
 
     private static final int PAGE_WIDTH = 176;

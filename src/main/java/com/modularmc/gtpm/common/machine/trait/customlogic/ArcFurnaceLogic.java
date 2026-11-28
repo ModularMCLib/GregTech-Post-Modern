@@ -17,6 +17,11 @@ import com.modularmc.gtpm.common.data.GTMaterials;
 import com.modularmc.gtpm.common.item.behavior.TurbineRotorBehaviour;
 import com.modularmc.gtpm.data.recipe.builder.GTRecipeBuilder;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -32,6 +37,15 @@ import static com.modularmc.gtpm.common.data.GTRecipeTypes.ARC_FURNACE_RECIPES;
 
 public enum ArcFurnaceLogic implements GTRecipeType.ICustomRecipeLogic {
 
+    @TransVariants(keyPrefix = "gtpm.auto_decomp",
+                   value = {
+                           @Variant(id = "rotor",
+                                    source = "Turbine Rotor",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "涡轮转子")),
+                           @Variant(id = "tool",
+                                    source = "Non-electric tool",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "非电动工具")),
+                   })
     INSTANCE;
 
     @Override

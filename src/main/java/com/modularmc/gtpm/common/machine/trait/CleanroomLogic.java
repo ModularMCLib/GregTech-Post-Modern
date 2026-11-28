@@ -10,6 +10,11 @@ import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
 import com.modularmc.gtpm.common.capability.EnvironmentalHazardSavedData;
 import com.modularmc.gtpm.common.machine.multiblock.electric.CleanroomMachine;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -20,6 +25,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+@TransVariants(keyPrefix = "gtpm.recipe_logic",
+               value = {
+                       @Variant(id = "insufficient_in",
+                                source = "Insufficient Inputs",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "需要输入")),
+               })
 public class CleanroomLogic extends RecipeLogic implements IWorkable {
 
     public static final int BASE_CLEAN_AMOUNT = 2;

@@ -36,6 +36,10 @@ import com.modularmc.gtpm.utils.FormattingUtil;
 import com.modularmc.gtpm.utils.GTMath;
 import com.modularmc.gtpm.utils.GTTransferUtils;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
@@ -63,6 +67,9 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
 
+@Trans(key = "gtpm.machine.quantum_chest.items_stored",
+       source = "Item Amount:",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "物品数量："))
 public class QuantumChestMachine extends TieredMachine implements IControllable,
                                  IFancyUIMachine {
 

@@ -22,6 +22,11 @@ import com.modularmc.gtpm.common.machine.trait.miner.SteamMinerLogic;
 import com.modularmc.gtpm.utils.GTTransferUtils;
 import com.modularmc.gtpm.utils.ISubscription;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
@@ -49,6 +54,15 @@ import java.util.function.Consumer;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+@TransVariants(keyPrefix = "gtpm.multiblock.large_miner",
+               value = {
+                       @Variant(id = "steam",
+                                source = "Needs Steam!",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "需要蒸汽！")),
+                       @Variant(id = "vent",
+                                source = "Venting Blocked!",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "排气口受阻！")),
+               })
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class SteamMinerMachine extends SteamWorkableMachine implements IControllable,

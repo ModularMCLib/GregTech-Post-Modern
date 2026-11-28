@@ -11,6 +11,11 @@ import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
 import com.modularmc.gtpm.api.sync_system.annotations.SyncToClient;
 import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -18,6 +23,17 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+@TransVariants(keyPrefix = "gtpm.machine.transformer",
+               value = {
+                       @Variant(id = "message_transform_down",
+                                source = "Transforming Down, In: %s EU %dA, Out: %s EU %dA",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "降压，输入：%s EU %dA，输出：%s EU %dA")),
+                       @Variant(id = "message_transform_up",
+                                source = "Transforming Up, In: %s EU %dA, Out: %s EU %dA",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "升压，输入：%s EU %dA，输出：%s EU %dA")),
+               })
 public class TransformerMachine extends TieredEnergyMachine implements IControllable {
 
     public static final BooleanProperty TRANSFORM_UP_PROPERTY = GTMachineModelProperties.IS_TRANSFORM_UP;

@@ -11,6 +11,11 @@ import com.modularmc.gtpm.common.data.item.GTItemAbilities;
 import com.modularmc.gtpm.common.machine.trait.ConverterTrait;
 import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -22,6 +27,17 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 import java.util.Set;
 
+@TransVariants(keyPrefix = "gtpm.machine.energy_converter",
+               value = {
+                       @Variant(id = "message_conversion_eu",
+                                source = "Converting EU, In: %dA %d EU, Out: %d Native",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "EU转为FE，输入：%dA %d EU，输出：%d FE")),
+                       @Variant(id = "message_conversion_native",
+                                source = "Converting Native Energy, In: %d FE, Out: %dA %d EU",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "FE转为EU，输入：%dFE，输出：%dA %d EU")),
+               })
 public class ConverterMachine extends TieredEnergyMachine {
 
     public static final BooleanProperty FE_TO_EU_PROPERTY = GTMachineModelProperties.IS_FE_TO_EU;

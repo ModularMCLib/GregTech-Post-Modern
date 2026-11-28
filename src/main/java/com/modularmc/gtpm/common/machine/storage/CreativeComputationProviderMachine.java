@@ -19,6 +19,10 @@ import com.modularmc.gtpm.api.sync_system.annotations.ServerFieldChangeListener;
 import com.modularmc.gtpm.api.sync_system.annotations.SyncBoth;
 import com.modularmc.gtpm.api.sync_system.annotations.SyncToClient;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
@@ -33,6 +37,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 
+@Trans(key = "gtpm.creative.computation.average",
+       source = "Average Requested CWUt",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "平均CWU/t请求"))
 public class CreativeComputationProviderMachine extends MetaMachine
                                                 implements IUIMachine, IOpticalComputationProvider,
                                                 ComputationProducer {

@@ -11,6 +11,11 @@ import com.modularmc.gtpm.common.data.GTItems;
 import com.modularmc.gtpm.common.data.GTRecipeTypes;
 import com.modularmc.gtpm.utils.GTStringUtils;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -22,6 +27,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@TransVariants(keyPrefix = "gtpm.forming_press.naming",
+               value = {
+                       @Variant(id = "named",
+                                source = "§oNamed Item",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§o已命名物品")),
+                       @Variant(id = "press",
+                                source = "§oNamed Press",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§o名称模板")),
+                       @Variant(id = "to_name",
+                                source = "§oItem to Name",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§o待命名物品")),
+               })
 public enum FormingPressLogic implements GTRecipeType.ICustomRecipeLogic {
 
     INSTANCE;

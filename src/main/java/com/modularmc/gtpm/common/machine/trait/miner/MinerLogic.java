@@ -21,6 +21,12 @@ import com.modularmc.gtpm.common.data.GTMaterials;
 import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.utils.GTTransferUtils;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.commands.arguments.blocks.BlockStateParser;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -47,6 +53,15 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
+@Trans(key = "gtpm.machine.miner.progress",
+       source = "Progress: %d/%d",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "进度：%d/%d"))
+@TransVariants(keyPrefix = "gtpm.recipe_logic",
+               value = {
+                       @Variant(id = "insufficient_out",
+                                source = "Insufficient Outputs",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "输出堵塞")),
+               })
 public class MinerLogic extends RecipeLogic implements IRecipeCapabilityHolder {
 
     private static final short MAX_SPEED = Short.MAX_VALUE;

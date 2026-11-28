@@ -19,6 +19,11 @@ import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -46,6 +51,15 @@ import java.util.Set;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+@TransVariants(keyPrefix = "gtpm.machine.world_accelerator",
+               value = {
+                       @Variant(id = "mode_entity",
+                                source = "Random Tick Mode",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "随机刻模式")),
+                       @Variant(id = "mode_tile",
+                                source = "Block Entity Mode",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "方块实体模式")),
+               })
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class WorldAcceleratorMachine extends TieredEnergyMachine implements IControllable {

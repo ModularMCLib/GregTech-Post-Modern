@@ -18,6 +18,10 @@ import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
 import com.modularmc.gtpm.common.data.GTMaterials;
 import com.modularmc.gtpm.config.ConfigHolder;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.FillDirection;
 
@@ -37,6 +41,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
+@Trans(key = "block.gtpm.steam_solid_boiler.bronze",
+       source = "Small Steam Solid Boiler",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "小型蒸汽固体燃料锅炉"))
 public class SteamSolidBoilerMachine extends SteamBoilerMachine {
 
     public static final Object2BooleanMap<Item> FUEL_CACHE = new Object2BooleanOpenHashMap<>();

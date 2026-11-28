@@ -24,6 +24,11 @@ import com.modularmc.gtpm.client.model.machine.MachineRenderState;
 import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 
 import net.minecraft.core.Direction;
@@ -37,6 +42,24 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+@TransVariants(keyPrefix = "gtpm",
+               value = {
+                       @Variant(id = "gui.charger_slot.tooltip.0",
+                                source = "§fCharger Slot§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§f充电槽§r")),
+                       @Variant(id = "gui.charger_slot.tooltip.1",
+                                source = "§7Draws power from %s batteries§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7从%s电池中取电§7")),
+                       @Variant(id = "gui.charger_slot.tooltip.2",
+                                source = "§7Charges %s tools and batteries",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7也可为%s工具或电池充电")),
+                       @Variant(id = "battery_buffer.average_input",
+                                source = "Average input: %s EU/t",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "平均输入：%s EU/t")),
+                       @Variant(id = "battery_buffer.average_output",
+                                source = "Average output: %s EU/t",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "平均输出：%s EU/t")),
+               })
 public class BatteryBufferMachine extends TieredEnergyMachine
                                   implements IControllable, IFancyUIMachine, IMonitorComponent {
 

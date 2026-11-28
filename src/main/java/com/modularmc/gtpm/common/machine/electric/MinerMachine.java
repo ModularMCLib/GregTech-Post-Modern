@@ -26,6 +26,10 @@ import com.modularmc.gtpm.data.lang.LangHandler;
 import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 import com.modularmc.gtpm.utils.ISubscription;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.ScrollDisplay;
 import com.lowdragmc.lowdraglib2.gui.ui.data.ScrollerMode;
@@ -44,6 +48,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Trans(key = "gtpm.multiblock.large_miner.needspower",
+       source = "Needs Power!",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "需要能量！"))
 public class MinerMachine extends WorkableTieredMachine
                           implements IControllable, IFancyUIMachine, IDataInfoProvider, IMiner {
 

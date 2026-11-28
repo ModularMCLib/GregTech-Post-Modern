@@ -22,6 +22,11 @@ import com.modularmc.gtpm.api.sync_system.annotations.SyncToClient;
 import com.modularmc.gtpm.api.sync_system.rpc.RPCMethod;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
@@ -34,6 +39,21 @@ import net.minecraft.world.level.Level;
 
 import java.util.Arrays;
 
+@TransVariants(keyPrefix = "gtpm.creative.energy",
+               value = {
+                       @Variant(id = "amperage",
+                                source = "Amperage",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "电流")),
+                       @Variant(id = "sink",
+                                source = "Sink",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "归零")),
+                       @Variant(id = "source",
+                                source = "Source",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "最大值")),
+                       @Variant(id = "voltage",
+                                source = "Voltage",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "电压")),
+               })
 public class CreativeEnergyContainerMachine extends TieredMachine
                                             implements ILaserContainer, IUIMachine {
 

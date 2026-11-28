@@ -23,6 +23,11 @@ import com.modularmc.gtpm.api.transfer.fluid.CustomFluidTank;
 import com.modularmc.gtpm.common.data.GTDataComponents;
 import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
@@ -43,6 +48,18 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+@TransVariants(keyPrefix = "gtpm.creative.tank",
+               value = {
+                       @Variant(id = "mbpc",
+                                source = "mB per Cycle",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "每次输出流体量")),
+                       @Variant(id = "tpc",
+                                source = "Ticks per Cycle",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "每次输出间隔Tick")),
+                       @Variant(id = "fluid",
+                                source = "Fluid",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "流体")),
+               })
 public class CreativeTankMachine extends QuantumTankMachine {
 
     private static final int PAGE_WIDTH = 176;

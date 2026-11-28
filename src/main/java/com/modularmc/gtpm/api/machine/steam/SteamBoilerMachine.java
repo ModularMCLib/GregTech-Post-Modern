@@ -27,6 +27,10 @@ import com.modularmc.gtpm.common.item.behavior.PortableScannerBehavior;
 import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.utils.*;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.FillDirection;
@@ -66,6 +70,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Trans(key = "gtpm.machine.steam_boiler.heat_amount",
+       source = "Heat Capacity: %s %%",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "热容：%s %%"))
 public abstract class SteamBoilerMachine extends SteamWorkableMachine
                                          implements IUIMachine, IDataInfoProvider {
 

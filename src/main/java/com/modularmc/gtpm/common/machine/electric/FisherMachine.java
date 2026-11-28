@@ -23,6 +23,11 @@ import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.data.lang.LangHandler;
 import com.modularmc.gtpm.utils.ISubscription;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 
 import net.minecraft.core.BlockPos;
@@ -51,6 +56,15 @@ import org.jetbrains.annotations.Nullable;
  * @date 2023/7/13
  * @implNote FisherMachine
  */
+@TransVariants(keyPrefix = "gtpm.gui.fisher_mode.tooltip",
+               value = {
+                       @Variant(id = "0",
+                                source = "Toggle junk items",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "捕捉垃圾物品")),
+                       @Variant(id = "1",
+                                source = "Off costs 2 string per operation",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "关闭时，每次运行消耗两根线。")),
+               })
 public class FisherMachine extends TieredEnergyMachine
                            implements IFancyUIMachine, IWorkable {
 

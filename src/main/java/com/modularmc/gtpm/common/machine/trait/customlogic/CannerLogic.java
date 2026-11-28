@@ -10,6 +10,10 @@ import com.modularmc.gtpm.api.recipe.GTRecipeType;
 import com.modularmc.gtpm.api.recipe.handler.RecipeHandlerList;
 import com.modularmc.gtpm.common.data.GTRecipeTypes;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
@@ -25,6 +29,9 @@ import static net.neoforged.neoforge.fluids.capability.IFluidHandler.*;
 
 public enum CannerLogic implements GTRecipeType.ICustomRecipeLogic {
 
+    @Trans(key = "gtpm.machine.canner.jei_description",
+           source = "You can fill and empty any fluid containers with the Fluid Canner (e.g. Buckets or Fluid Cells)",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "填入或倒空流体容器，例如桶和流体单元"))
     INSTANCE;
 
     @Override

@@ -17,6 +17,11 @@ import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 import com.modularmc.gtpm.utils.GTTransferUtils;
 import com.modularmc.gtpm.utils.ISubscription;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -39,6 +44,27 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
+@TransVariants(keyPrefix = "gtpm",
+               value = {
+                       @Variant(id = "machine.basic.input_from_output_side.allow",
+                                source = "Allow Input from Output Side: ",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "允许从输出面输入：")),
+                       @Variant(id = "machine.basic.input_from_output_side.disallow",
+                                source = "Disallow Input from Output Side: ",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "禁止从输出面输入：")),
+                       @Variant(id = "machine.drum.disable_output",
+                                source = "Will not drain Fluid",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "不排出液体")),
+                       @Variant(id = "machine.drum.enable_output",
+                                source = "Will drain Fluid to downward adjacent Tanks",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "将液体排到底面相邻的容器中")),
+                       @Variant(id = "creative.activity.on",
+                                source = "Active",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "已激活")),
+                       @Variant(id = "creative.activity.off",
+                                source = "Not active",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "未激活")),
+               })
 public class AutoOutputTrait extends MachineTrait implements DirectionalAutoOutputMachine, IRenderingTrait,
                              IInteractionTrait,
                              IFrontFacingTrait {

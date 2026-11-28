@@ -57,6 +57,11 @@ import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 import com.modularmc.gtpm.utils.GTStringUtils;
 import com.modularmc.gtpm.utils.data.TagCompatibilityFixer;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.utils.virtuallevel.DummyWorld;
 
 import net.minecraft.ChatFormatting;
@@ -102,6 +107,54 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+@TransVariants(keyPrefix = "gtpm",
+               value = {
+                       @Variant(id = "gui.chunkmode.disabled.0",
+                                source = "Chunk Mode Disabled: Click to Enable.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "区块模式§c禁用§r：单击启用。")),
+                       @Variant(id = "gui.chunkmode.disabled.1",
+                                source = "§7Switching requires an idle machine.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7切换需要机器待机。")),
+                       @Variant(id = "gui.chunkmode.enabled.0",
+                                source = "Chunk Mode Enabled: Click to Disable.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "区块模式§a启用§r：单击禁用。")),
+                       @Variant(id = "gui.chunkmode.enabled.1",
+                                source = "§7Switching requires an idle machine.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7切换需要机器待机。")),
+                       @Variant(id = "gui.output_setting.title",
+                                source = "Output Settings",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "输出设置")),
+                       @Variant(id = "gui.output_setting.tooltips.0",
+                                source = "left-click to tune the item auto output",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "左键单击以自动输出物品")),
+                       @Variant(id = "gui.output_setting.tooltips.1",
+                                source = "right-click to tune the fluid auto output.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "右键单击以自动输出流体")),
+                       @Variant(id = "gui.silktouch.disabled.0",
+                                source = "Silk Touch Disabled: Click to Enable.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "精准采集已禁用：单击启用。")),
+                       @Variant(id = "gui.silktouch.disabled.1",
+                                source = "§7Switching requires an idle machine.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7切换需要机器待机。")),
+                       @Variant(id = "gui.silktouch.enabled.0",
+                                source = "Silk Touch Enabled: Click to Disable.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "精准采集已启用：单击禁用。")),
+                       @Variant(id = "gui.silktouch.enabled.1",
+                                source = "§7Switching requires an idle machine.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7切换需要机器待机。")),
+                       @Variant(id = "gui.toggle_view.disabled",
+                                source = "Toggle View (Fluids)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "切换视图（流体）")),
+                       @Variant(id = "gui.toggle_view.enabled",
+                                source = "Toggle View (Items)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "切换视图（物品）")),
+                       @Variant(id = "machine.muffle.off",
+                                source = "Sound Muffling: Disabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "静音：已禁用")),
+                       @Variant(id = "machine.muffle.on",
+                                source = "Sound Muffling: Enabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "静音：已启用")),
+               })
 public class MetaMachine extends ManagedSyncBlockEntity implements IGregtechBlockEntity, IToolGridHighlight,
                          IFancyTooltip, IPaintable, IMachineFeature, ICopyable {
 
