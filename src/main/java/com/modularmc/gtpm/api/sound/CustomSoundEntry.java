@@ -17,9 +17,9 @@ public class CustomSoundEntry extends SoundEntry {
     protected List<ResourceLocation> variants;
     protected SoundEvent event;
 
-    public CustomSoundEntry(ResourceLocation id, List<ResourceLocation> variants, String subtitle,
+    public CustomSoundEntry(ResourceLocation id, List<ResourceLocation> variants, boolean hasSubtitle,
                             SoundSource category, int attenuationDistance) {
-        super(id, subtitle, category, attenuationDistance);
+        super(id, hasSubtitle, category, attenuationDistance);
         this.variants = variants;
     }
 

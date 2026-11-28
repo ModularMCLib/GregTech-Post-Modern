@@ -7,6 +7,9 @@ import com.modularmc.gtpm.api.sound.CustomSoundEntry;
 import com.modularmc.gtpm.api.sound.SoundEntry;
 import com.modularmc.gtpm.api.sound.WrappedSoundEntry;
 
+import com.modularmc.registrate.localization.LocalizationDeclaration;
+import com.modularmc.registrate.localization.TranslationKey;
+
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
@@ -15,11 +18,13 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 
 import com.google.gson.JsonObject;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class SoundEntryBuilder {
@@ -55,22 +60,26 @@ public class SoundEntryBuilder {
         }
     }
 
+    private final GTRegistrate registrate;
+    private @Nullable Consumer<LocalizationDeclaration.Builder> localization;
+
     protected ResourceLocation id;
-    @Nullable
-    protected String subtitle = "unregistered";
+    protected boolean hasSubtitle = true;
     protected SoundSource category = SoundSource.BLOCKS;
     protected List<ConfiguredSoundEvent> wrappedEvents;
     protected List<ResourceLocation> variants;
     protected int attenuationDistance;
 
-    public SoundEntryBuilder(ResourceLocation id) {
+    public SoundEntryBuilder(GTRegistrate registrate, ResourceLocation id) {
+        this.registrate = registrate;
         wrappedEvents = new ArrayList<>();
         variants = new ArrayList<>();
         this.id = id;
     }
 
-    public SoundEntryBuilder subtitle(String subtitle) {
-        this.subtitle = subtitle;
+    /** Configures the subtitle translation during data generation when subtitles are enabled for this sound. */
+    public SoundEntryBuilder localization(Consumer<LocalizationDeclaration.Builder> configure) {
+        this.localization = configure;
         return this;
     }
 
@@ -80,7 +89,7 @@ public class SoundEntryBuilder {
     }
 
     public SoundEntryBuilder noSubtitle() {
-        this.subtitle = null;
+        this.hasSubtitle = false;
         return this;
     }
 
@@ -90,7 +99,7 @@ public class SoundEntryBuilder {
     }
 
     public SoundEntryBuilder addVariant(String name) {
-        return addVariant(GTPM.id(name));
+        return addVariant(id.withPath(name));
     }
 
     public SoundEntryBuilder addVariant(ResourceLocation id) {
@@ -113,9 +122,12 @@ public class SoundEntryBuilder {
 
     public SoundEntry build() {
         SoundEntry entry = wrappedEvents.isEmpty() ?
-                new CustomSoundEntry(id, variants, subtitle, category, attenuationDistance) :
-                new WrappedSoundEntry(id, subtitle, wrappedEvents, category, attenuationDistance);
+                new CustomSoundEntry(id, variants, hasSubtitle, category, attenuationDistance) :
+                new WrappedSoundEntry(id, hasSubtitle, wrappedEvents, category, attenuationDistance);
         GTRegistries.register(GTRegistries.SOUNDS, entry.getId(), entry);
+        if (localization != null && entry.hasSubtitle() && GTPM.isDataGen()) {
+            registrate.addLocalization(new TranslationKey(registrate.getModid(), entry.getSubtitleKey()), localization);
+        }
         return entry;
     }
 }

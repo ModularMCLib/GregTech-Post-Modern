@@ -236,11 +236,11 @@ public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
     }
 
     public SoundEntryBuilder sound(String name) {
-        return new SoundEntryBuilder(GTPM.id(name));
+        return sound(makeResourceLocation(name));
     }
 
     public SoundEntryBuilder sound(ResourceLocation name) {
-        return new SoundEntryBuilder(name);
+        return new SoundEntryBuilder(this, name);
     }
 
     // Blocks

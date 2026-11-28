@@ -18,9 +18,9 @@ public class WrappedSoundEntry extends SoundEntry {
     private final List<ConfiguredSoundEvent> wrappedEvents;
     private final List<WrappedSoundEntry.CompiledSoundEvent> compiledEvents;
 
-    public WrappedSoundEntry(ResourceLocation id, String subtitle,
+    public WrappedSoundEntry(ResourceLocation id, boolean hasSubtitle,
                              List<ConfiguredSoundEvent> wrappedEvents, SoundSource category, int attenuationDistance) {
-        super(id, subtitle, category, attenuationDistance);
+        super(id, hasSubtitle, category, attenuationDistance);
         this.wrappedEvents = wrappedEvents;
         compiledEvents = new ArrayList<>();
     }

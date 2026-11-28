@@ -21,13 +21,13 @@ import java.util.function.Consumer;
 public abstract class SoundEntry {
 
     protected ResourceLocation id;
-    protected String subtitle;
+    private final boolean hasSubtitle;
     protected SoundSource category;
     protected int attenuationDistance;
 
-    public SoundEntry(ResourceLocation id, String subtitle, SoundSource category, int attenuationDistance) {
+    public SoundEntry(ResourceLocation id, boolean hasSubtitle, SoundSource category, int attenuationDistance) {
         this.id = id;
-        this.subtitle = subtitle;
+        this.hasSubtitle = hasSubtitle;
         this.category = category;
         this.attenuationDistance = attenuationDistance;
     }
@@ -49,11 +49,7 @@ public abstract class SoundEntry {
     }
 
     public boolean hasSubtitle() {
-        return subtitle != null;
-    }
-
-    public String getSubtitle() {
-        return subtitle;
+        return hasSubtitle;
     }
 
     public void playOnServer(Level world, Vec3i pos) {
