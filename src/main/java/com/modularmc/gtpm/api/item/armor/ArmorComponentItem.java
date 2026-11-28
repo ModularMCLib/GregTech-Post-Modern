@@ -4,6 +4,11 @@ import com.modularmc.gtpm.api.item.IComponentItem;
 import com.modularmc.gtpm.api.item.component.*;
 import com.modularmc.gtpm.common.data.GTItems;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.core.Holder;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
@@ -29,6 +34,21 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.function.Consumer;
 
+@TransVariants(keyPrefix = "item.gtpm.armor",
+               value = {
+                       @Variant(id = "boots",
+                                source = "%s Boots",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s靴子")),
+                       @Variant(id = "chestplate",
+                                source = "%s Chestplate",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s胸甲")),
+                       @Variant(id = "helmet",
+                                source = "%s Helmet",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s头盔")),
+                       @Variant(id = "leggings",
+                                source = "%s Leggings",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s护腿")),
+               })
 public class ArmorComponentItem extends ArmorItem implements IComponentItem {
 
     @Getter

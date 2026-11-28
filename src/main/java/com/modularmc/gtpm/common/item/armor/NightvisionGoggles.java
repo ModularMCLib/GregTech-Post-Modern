@@ -9,6 +9,11 @@ import com.modularmc.gtpm.api.item.datacomponents.GTArmor;
 import com.modularmc.gtpm.common.data.GTDataComponents;
 import com.modularmc.gtpm.utils.input.SyncedKeyMappings;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -26,6 +31,18 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+@TransVariants(keyPrefix = "metaarmor.message.nightvision",
+               value = {
+                       @Variant(id = "disabled",
+                                source = "§bNightVision: §cOff",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§b夜视：§c关闭")),
+                       @Variant(id = "enabled",
+                                source = "§bNightVision: §aOn",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§b夜视：§a开启")),
+                       @Variant(id = "error",
+                                source = "§cNot enough power!",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§c能量不足！")),
+               })
 public class NightvisionGoggles extends ArmorLogicSuite {
 
     public NightvisionGoggles(int energyPerUse, long capacity, int voltageTier, ArmorItem.Type slot) {

@@ -22,6 +22,11 @@ import com.modularmc.gtpm.common.machine.multiblock.electric.monitor.MonitorGrou
 import com.modularmc.gtpm.data.lang.LangHandler;
 import com.modularmc.gtpm.utils.GTStringUtils;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
 import com.lowdragmc.lowdraglib2.gui.ui.data.ScrollDisplay;
@@ -45,6 +50,15 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+@TransVariants(keyPrefix = "gtpm",
+               value = {
+                       @Variant(id = "computer_monitor_cover.error.no_target",
+                                source = "No target selected for the monitor group",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "监控组未选中有效目标")),
+                       @Variant(id = "gui.central_monitor.text_scale",
+                                source = "Text scale",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "文字大小")),
+               })
 public class TextModuleBehaviour implements IMonitorModuleItem, IAddInformation {
 
     private static final int EDITOR_WIDTH = 120;

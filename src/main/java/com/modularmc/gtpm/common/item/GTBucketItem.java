@@ -3,6 +3,10 @@ package com.modularmc.gtpm.common.item;
 import com.modularmc.gtpm.api.data.chemical.material.Material;
 import com.modularmc.gtpm.api.fluids.GTFluid;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
@@ -12,6 +16,9 @@ import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtension
 
 import org.jetbrains.annotations.Nullable;
 
+@Trans(key = "item.gtpm.bucket",
+       source = "%s Bucket",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s桶"))
 public class GTBucketItem extends BucketItem {
 
     final Material material;

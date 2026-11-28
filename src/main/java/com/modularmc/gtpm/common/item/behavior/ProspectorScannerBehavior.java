@@ -15,6 +15,11 @@ import com.modularmc.gtpm.api.item.component.IItemUIFactory;
 import com.modularmc.gtpm.common.data.GTDataComponents;
 import com.modularmc.gtpm.config.ConfigHolder;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 
@@ -35,6 +40,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+@TransVariants(keyPrefix = "metaitem.prospector.tooltip",
+               value = {
+                       @Variant(id = "modes",
+                                source = "Available Modes:",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可用模式：")),
+                       @Variant(id = "radius",
+                                source = "Scans range in a %s Chunk Radius",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "扫描半径：%s")),
+               })
 public class ProspectorScannerBehavior implements IItemUIFactory, IInteractionItem, IAddInformation {
 
     private final int radius;

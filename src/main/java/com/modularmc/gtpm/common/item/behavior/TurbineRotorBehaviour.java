@@ -7,6 +7,11 @@ import com.modularmc.gtpm.api.item.component.IMaterialPartItem;
 import com.modularmc.gtpm.api.item.component.ISubItemHandler;
 import com.modularmc.gtpm.api.registry.GTRegistries;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -21,6 +26,15 @@ import java.util.List;
 
 import static com.modularmc.gtpm.api.data.tag.TagPrefix.turbineBlade;
 
+@TransVariants(keyPrefix = "metaitem.tool.tooltip.rotor",
+               value = {
+                       @Variant(id = "efficiency",
+                                source = "Turbine Efficiency: §9%d%%",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "涡轮效率：§9%d%%")),
+                       @Variant(id = "power",
+                                source = "Turbine Power: §9%d%%",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "涡轮产能：§9%d%%")),
+               })
 public class TurbineRotorBehaviour implements IMaterialPartItem, ISubItemHandler {
 
     @Override

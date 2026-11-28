@@ -11,6 +11,11 @@ import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.utils.BreadthFirstBlockSearch;
 import com.modularmc.gtpm.utils.GradientUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
@@ -52,6 +57,63 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
+@TransVariants(keyPrefix = "behaviour.paintspray",
+               value = {
+                       @Variant(id = "black.tooltip",
+                                source = "Can paint things in Black",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可以将物品染成黑色")),
+                       @Variant(id = "blue.tooltip",
+                                source = "Can paint things in Blue",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可以将物品染成蓝色")),
+                       @Variant(id = "brown.tooltip",
+                                source = "Can paint things in Brown",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可以将物品染成棕色")),
+                       @Variant(id = "cyan.tooltip",
+                                source = "Can paint things in Cyan",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可以将物品染成青色")),
+                       @Variant(id = "gray.tooltip",
+                                source = "Can paint things in Gray",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可以将物品染成灰色")),
+                       @Variant(id = "green.tooltip",
+                                source = "Can paint things in Green",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可以将物品染成绿色")),
+                       @Variant(id = "light_blue.tooltip",
+                                source = "Can paint things in Light Blue",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可以将物品染成淡蓝色")),
+                       @Variant(id = "light_gray.tooltip",
+                                source = "Can paint things in Light Gray",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可以将物品染成银色")),
+                       @Variant(id = "lime.tooltip",
+                                source = "Can paint things in Lime",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可以将物品染成黄绿色")),
+                       @Variant(id = "magenta.tooltip",
+                                source = "Can paint things in Magenta",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可以将物品染成品红色")),
+                       @Variant(id = "orange.tooltip",
+                                source = "Can paint things in Orange",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可以将物品染成橙色")),
+                       @Variant(id = "pink.tooltip",
+                                source = "Can paint things in Pink",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可以将物品染成粉红色")),
+                       @Variant(id = "purple.tooltip",
+                                source = "Can paint things in Purple",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可以将物品染成紫色")),
+                       @Variant(id = "red.tooltip",
+                                source = "Can paint things in Red",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可以将物品染成红色")),
+                       @Variant(id = "white.tooltip",
+                                source = "Can paint things in White",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可以将物品染成白色")),
+                       @Variant(id = "yellow.tooltip",
+                                source = "Can paint things in Yellow",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可以将物品染成黄色")),
+                       @Variant(id = "solvent.tooltip",
+                                source = "Can remove color from things",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可以移除已染色物品的颜色")),
+                       @Variant(id = "uses",
+                                source = "Remaining Uses: %d",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "剩余次数：%d")),
+               })
 public class ColorSprayBehaviour implements IDurabilityBar, IInteractionItem, IAddInformation {
 
     // vanilla

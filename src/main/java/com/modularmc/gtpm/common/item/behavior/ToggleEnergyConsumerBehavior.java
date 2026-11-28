@@ -7,6 +7,10 @@ import com.modularmc.gtpm.api.item.component.IInteractionItem;
 import com.modularmc.gtpm.api.item.component.IItemLifeCycle;
 import com.modularmc.gtpm.common.data.GTDataComponents;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -19,6 +23,9 @@ import net.minecraft.world.level.Level;
 
 import java.util.List;
 
+@Trans(key = "behavior.toggle_energy_consumer.tooltip",
+       source = "Use to toggle mode",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "右击切换模式"))
 public class ToggleEnergyConsumerBehavior implements IInteractionItem, IItemLifeCycle, IAddInformation {
 
     private final int energyUsagePerTick;

@@ -11,6 +11,11 @@ import com.modularmc.gtpm.common.data.GTItems;
 import com.modularmc.gtpm.core.IFireImmuneEntity;
 import com.modularmc.gtpm.utils.input.SyncedKeyMappings;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Holder;
@@ -45,6 +50,63 @@ import org.jetbrains.annotations.Nullable;
 import java.util.LinkedList;
 import java.util.List;
 
+@TransVariants(keyPrefix = "metaarmor",
+               value = {
+                       @Variant(id = "qts.boosted_jump.disabled",
+                                source = "QuarkTech™ Suite: Jump Boost Disabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "夸克高科™套装：跳跃提升已禁用")),
+                       @Variant(id = "qts.boosted_jump.enabled",
+                                source = "QuarkTech™ Suite: Jump Boost Enabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "夸克高科™套装：跳跃提升已启用")),
+                       @Variant(id = "qts.nightvision.disabled",
+                                source = "QuarkTech™ Suite: NightVision Disabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "夸克高科™套装：夜视已禁用")),
+                       @Variant(id = "qts.nightvision.enabled",
+                                source = "QuarkTech™ Suite: NightVision Enabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "夸克高科™套装：夜视已启用")),
+                       @Variant(id = "qts.share.disable",
+                                source = "QuarkTech™ Suite: Charging Disabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "夸克高科™套装：供能模式已禁用")),
+                       @Variant(id = "qts.share.enable",
+                                source = "QuarkTech™ Suite: Charging Enabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "夸克高科™套装：供能模式已启用")),
+                       @Variant(id = "qts.step_assist.disabled",
+                                source = "QuarkTech™ Suite: StepAssist Disabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "夸克高科™套装：步行辅助已禁用")),
+                       @Variant(id = "qts.step_assist.enabled",
+                                source = "QuarkTech™ Suite: StepAssist Enabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "夸克高科™套装：步行辅助已启用")),
+                       @Variant(id = "message.step_assist.disabled",
+                                source = "§bStep-Assist: §cOff",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§b自动跨步：§c关闭")),
+                       @Variant(id = "message.step_assist.enabled",
+                                source = "§bStep-Assist: §aOn",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§b自动跨步：§a开启")),
+                       @Variant(id = "qts.nightvision.error",
+                                source = "QuarkTech™ Suite: §cNot enough power!",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "夸克高科™套装：§c能量不足！")),
+                       @Variant(id = "tooltip.autoeat",
+                                source = "Replenishes Food Bar by Using Food from Inventory",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "使用物品栏中的食物补充饱食度")),
+                       @Variant(id = "tooltip.breath",
+                                source = "Replenishes Underwater Breath Bar",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "补充氧气条")),
+                       @Variant(id = "tooltip.burning",
+                                source = "Nullifies Burning",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "扑灭身上的火焰")),
+                       @Variant(id = "tooltip.freezing",
+                                source = "Prevents Freezing",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "防止寒冷侵袭")),
+                       @Variant(id = "tooltip.jump",
+                                source = "Increases Jump Height and Distance",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "提升跳跃高度与距离")),
+                       @Variant(id = "tooltip.potions",
+                                source = "Nullifies Harmful Effects",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "消除负面效果")),
+                       @Variant(id = "tooltip.speed",
+                                source = "Increases Running Speed",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "提升奔跑速度")),
+               })
 public class QuarkTechSuite extends ArmorLogicSuite implements IStepAssist {
 
     public static final Reference2IntMap<Holder<MobEffect>> potionRemovalCost = new Reference2IntOpenHashMap<>();

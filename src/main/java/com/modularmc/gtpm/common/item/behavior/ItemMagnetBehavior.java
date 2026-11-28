@@ -24,6 +24,11 @@ import com.modularmc.gtpm.api.sync_system.FieldCodecs;
 import com.modularmc.gtpm.common.data.GTDataComponents;
 import com.modularmc.gtpm.common.data.GTItems;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
 import com.modularmc.registrate.util.entry.ItemEntry;
 
 import com.lowdragmc.lowdraglib2.gui.sync.rpc.RPCEmitter;
@@ -67,6 +72,18 @@ import top.theillusivec4.curios.api.CuriosApi;
 import java.util.ArrayList;
 import java.util.List;
 
+@Trans(key = "curios.identifier.gtpm_magnet",
+       source = "GTPM Magnet",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "GTCEu磁铁"))
+@TransVariants(keyPrefix = "behavior.item_magnet",
+               value = {
+                       @Variant(id = "disabled",
+                                source = "§cMagnetic Field Disabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§c磁场已禁用")),
+                       @Variant(id = "enabled",
+                                source = "§aMagnetic Field Enabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§a磁场已启用")),
+               })
 public class ItemMagnetBehavior implements IInteractionItem, IItemLifeCycle, IAddInformation, IItemUIFactory {
 
     private final int range;

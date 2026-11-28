@@ -8,6 +8,11 @@ import com.modularmc.gtpm.api.item.component.IInteractionItem;
 import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -30,6 +35,22 @@ import java.util.Set;
  * @param removePercent the time to remove from the chosen hazard, as a percentage of the current time [0, 100].
  *                      -1 for all.
  */
+@TransVariants(keyPrefix = "gtpm.medical_condition.antidote",
+               value = {
+                       @Variant(id = "description",
+                                source = "§aAntidote §7Hold Shift to show details",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§a解毒剂 §7按住Shift以显示详情")),
+                       @Variant(id = "description_shift",
+                                source = "§aCures these conditions:",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§a治愈以下疾病：")),
+                       @Variant(id = "description.effect_removed",
+                                source = "Removes %s%% of current conditions' effects",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "疾病效果持续时间降低%s%%")),
+                       @Variant(id = "description.effect_removed.all",
+                                source = "Removes all of current conditions' effects",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "消除所有疾病效果")),
+               })
 public record AntidoteBehavior(Set<MedicalCondition> types, int removePercent)
         implements IInteractionItem, IAddInformation {
 

@@ -6,6 +6,11 @@ import com.modularmc.gtpm.api.item.IComponentItem;
 import com.modularmc.gtpm.common.data.GTDataComponents;
 import com.modularmc.gtpm.common.data.GTMaterials;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
@@ -20,6 +25,15 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+@TransVariants(keyPrefix = "metaitem.tool.tooltip",
+               value = {
+                       @Variant(id = "durability",
+                                source = "§fDurability: §a%d / %d",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§f耐久度：§a%d / %d")),
+                       @Variant(id = "primary_material",
+                                source = "§fMaterial: §e%s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§f材料：§e%s")),
+               })
 public interface IMaterialPartItem extends IItemComponent, IDurabilityBar, IAddInformation, ICustomDescriptionId {
 
     int getPartMaxDurability(ItemStack itemStack);

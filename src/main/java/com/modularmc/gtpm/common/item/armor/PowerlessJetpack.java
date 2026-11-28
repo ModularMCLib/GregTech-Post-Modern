@@ -13,6 +13,10 @@ import com.modularmc.gtpm.common.data.GTMaterials;
 import com.modularmc.gtpm.utils.GradientUtil;
 import com.modularmc.gtpm.utils.input.SyncedKeyMappings;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
@@ -42,9 +46,15 @@ import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.List;
 
+@Trans(key = "metaarmor.hud.fuel_lvl",
+       source = "Fuel Level: %s",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "燃料存储：%s"))
 public class PowerlessJetpack implements IArmorLogic, IJetpack, IItemHUDProvider {
 
     // Map of FluidIngredient -> burn time
+    @Trans(key = "metaitem.liquid_fuel_jetpack.tooltip",
+           source = "Uses Combustion Generator Fuels for Thrust",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "利用内燃发电机的燃料来提供推进动力"))
     public static final AbstractObject2IntMap<SizedFluidIngredient> FUELS = new Object2IntOpenHashMap<>();
     public static final int tankCapacity = 16000;
 

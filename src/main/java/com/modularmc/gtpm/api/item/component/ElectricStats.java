@@ -301,11 +301,14 @@ public class ElectricStats implements IInteractionItem, ISubItemHandler, IAddInf
                                     source = "§aHolds %s %s of Power (%s)",
                                     translations = @Translation(locale = MinecraftLocale.ZH_CN,
                                                                 text = "§a最大供能时长：%s%s（%s）")),
-                           @Variant(id = "charge_unit.second", source = "seconds",
+                           @Variant(id = "charge_unit.second",
+                                    source = "seconds",
                                     translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "秒")),
-                           @Variant(id = "charge_unit.minute", source = "minutes",
+                           @Variant(id = "charge_unit.minute",
+                                    source = "minutes",
                                     translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "分")),
-                           @Variant(id = "charge_unit.hour", source = "hours",
+                           @Variant(id = "charge_unit.hour",
+                                    source = "hours",
                                     translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "时")),
                    })
     private static final class BatteryTranslations {}

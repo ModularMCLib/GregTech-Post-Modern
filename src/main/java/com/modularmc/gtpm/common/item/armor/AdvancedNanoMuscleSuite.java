@@ -9,6 +9,12 @@ import com.modularmc.gtpm.api.item.datacomponents.GTArmor;
 import com.modularmc.gtpm.common.data.GTDataComponents;
 import com.modularmc.gtpm.utils.input.SyncedKeyMappings;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleOptions;
@@ -33,6 +39,28 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+@Trans(key = "metaarmor.nms.share.error",
+       source = "NanoMuscle™ Suite: §cNot enough power for charging!",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "纳米肌体™套装：§c能量不足，无法供能！"))
+@TransVariants(keyPrefix = "metaarmor.energy_share",
+               value = {
+                       @Variant(id = "disable",
+                                source = "Energy Supply: Gadgets charging disabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "能量供给：工具充能已禁用")),
+                       @Variant(id = "enable",
+                                source = "Energy Supply: Gadgets charging enabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "能量供给：工具充能已启用")),
+                       @Variant(id = "error",
+                                source = "Energy Supply: §cNot enough power for gadgets charging!",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "能量供给：§c能量不足，无法为工具充能！")),
+                       @Variant(id = "tooltip",
+                                source = "Supply mode: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "供能模式：%s")),
+                       @Variant(id = "tooltip.guide",
+                                source = "To change mode shift-right click when holding item",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "手持物品并潜行右击以更换模式")),
+               })
 public class AdvancedNanoMuscleSuite extends NanoMuscleSuite implements IJetpack {
 
     // A replacement for checking the current world time, to get around the gamerule that stops it

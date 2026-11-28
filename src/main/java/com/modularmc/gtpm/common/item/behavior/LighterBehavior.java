@@ -10,6 +10,11 @@ import com.modularmc.gtpm.common.block.explosive.PowderbarrelBlock;
 import com.modularmc.gtpm.common.data.GTDataComponents;
 import com.modularmc.gtpm.utils.GradientUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -54,6 +59,21 @@ import java.util.function.Supplier;
 
 import static net.minecraft.world.level.block.AbstractCandleBlock.LIT;
 
+@TransVariants(keyPrefix = "behaviour.lighter",
+               value = {
+                       @Variant(id = "fluid.tooltip",
+                                source = "Can light things on fire with Butane or Propane",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可使用丙烷或丁烷来生火")),
+                       @Variant(id = "tooltip.description",
+                                source = "Can light things on fire",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可以点火")),
+                       @Variant(id = "tooltip.usage",
+                                source = "Shift-right click to open/close",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "潜行右击以开/关")),
+                       @Variant(id = "uses",
+                                source = "Remaining uses: %d",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "剩余次数：%d")),
+               })
 public class LighterBehavior implements IDurabilityBar, IInteractionItem, IAddInformation, IAbilityItem {
 
     private static final IntIntPair DURABILITY_BAR_COLORS = GradientUtil.getGradient(0xF07F1D, 10);

@@ -2,6 +2,11 @@ package com.modularmc.gtpm.common.item.datacomponents;
 
 import com.modularmc.gtpm.api.sync_system.FieldCodecs;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -22,6 +27,15 @@ import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+@TransVariants(keyPrefix = "gtpm.tooltip",
+               value = {
+                       @Variant(id = "player_bind",
+                                source = "Bound to player: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "绑定至玩家：%s")),
+                       @Variant(id = "player_name.unknown",
+                                source = "Unknown player",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "未知玩家")),
+               })
 public record BindingData(int permissionLevel, UUID uuid) implements TooltipProvider {
 
     // spotless:off

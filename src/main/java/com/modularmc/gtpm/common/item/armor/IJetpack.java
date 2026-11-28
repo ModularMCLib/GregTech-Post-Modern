@@ -5,6 +5,12 @@ import com.modularmc.gtpm.api.item.datacomponents.GTArmor;
 import com.modularmc.gtpm.common.data.GTDataComponents;
 import com.modularmc.gtpm.utils.input.SyncedKeyMappings;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -21,6 +27,24 @@ import org.jetbrains.annotations.Nullable;
  * <a href=
  * "https://github.com/Tomson124/SimplyJetpacks2/blob/1.12/src/main/java/tonius/simplyjetpacks/item/ItemJetpack.java">SimplyJetpacks2</a>
  */
+@Trans(key = "metaarmor.jetpack.emergency_hover_mode",
+       source = "Emergency Hover Mode Enabled!",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "紧急悬停模式已启用！"))
+@TransVariants(keyPrefix = "metaarmor.jetpack",
+               value = {
+                       @Variant(id = "flight.disable",
+                                source = "Jetpack: Flight Disabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "喷气背包：飞行已禁用")),
+                       @Variant(id = "flight.enable",
+                                source = "Jetpack: Flight Enabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "喷气背包：飞行已启用")),
+                       @Variant(id = "hover.disable",
+                                source = "Jetpack: Hover Mode Disabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "喷气背包：悬停模式已禁用")),
+                       @Variant(id = "hover.enable",
+                                source = "Jetpack: Hover Mode Enabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "喷气背包：悬停模式已启用")),
+               })
 public interface IJetpack {
 
     default double getSprintEnergyModifier() {

@@ -5,6 +5,10 @@ import com.modularmc.gtpm.api.capability.IElectricItem;
 import com.modularmc.gtpm.api.item.component.ElectricStats;
 import com.modularmc.gtpm.api.item.component.IItemHUDProvider;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -27,6 +31,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 
+@Trans(key = "metaarmor.hud.energy_lvl",
+       source = "Energy Level: %s",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "能量存储：%s"))
 public abstract class ArmorLogicSuite implements IArmorLogic, IItemHUDProvider {
 
     protected final int energyPerUse;

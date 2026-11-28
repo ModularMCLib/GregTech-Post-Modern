@@ -9,6 +9,12 @@ import com.modularmc.gtpm.common.data.GTDataComponents;
 import com.modularmc.gtpm.common.data.GTToolBehaviors;
 import com.modularmc.gtpm.common.data.item.GTItemAbilities;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -33,6 +39,18 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+@TransVariants(keyPrefix = "gtpm.mode",
+               value = {
+                       @Variant(id = "both",
+                                source = "§dBoth (Fluid And Item)§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§d全部（流体和物品）§r")),
+                       @Variant(id = "fluid",
+                                source = "§9Fluid§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§9流体§r")),
+                       @Variant(id = "item",
+                                source = "§6Item§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§6物品§r")),
+               })
 public class ToolModeSwitchBehavior implements IToolBehavior<ToolModeSwitchBehavior> {
 
     public static final ToolModeSwitchBehavior INSTANCE = new ToolModeSwitchBehavior();
@@ -135,4 +153,18 @@ public class ToolModeSwitchBehavior implements IToolBehavior<ToolModeSwitchBehav
             };
         }
     }
+
+    @Trans(key = "metaitem.machine_configuration.mode",
+           source = "§aConfiguration Mode:§r %s",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§a配置模式：§r%s"))
+    @TransVariants(keyPrefix = "metaitem.behavior.mode_switch",
+                   value = {
+                           @Variant(id = "mode_switched",
+                                    source = "§eMode Set to: %s",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§e模式设置为：%s")),
+                           @Variant(id = "current_mode",
+                                    source = "Mode: %s",
+                                    translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "模式：%s")),
+                   })
+    private static final class MetaitemTranslations {}
 }

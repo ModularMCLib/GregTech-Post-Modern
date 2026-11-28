@@ -15,6 +15,10 @@ import com.modularmc.gtpm.common.data.GTDataComponents;
 import com.modularmc.gtpm.common.data.GTItems;
 import com.modularmc.gtpm.config.ConfigHolder;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import com.lowdragmc.lowdraglib2.gui.sync.rpc.RPCEmitter;
 import com.lowdragmc.lowdraglib2.gui.sync.rpc.RPCEventBuilder;
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
@@ -35,6 +39,9 @@ import java.util.List;
 
 import static com.modularmc.gtpm.api.gui.UITemplate.setBounds;
 
+@Trans(key = "metaitem.int_circuit.configuration",
+       source = "Configuration: %d",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "配置：%d"))
 public class IntCircuitBehaviour implements IItemUIFactory, IAddInformation {
 
     public static final int CIRCUIT_MAX = 32;

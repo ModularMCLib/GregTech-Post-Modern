@@ -4,12 +4,23 @@ import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.GTValues;
 import com.modularmc.gtpm.api.data.chemical.material.Material;
 import com.modularmc.gtpm.api.item.IGTTool;
+import com.modularmc.gtpm.api.registry.registrate.provider.GTLanguageProvider;
 import com.modularmc.gtpm.api.sound.ExistingSoundEntry;
 import com.modularmc.gtpm.api.sound.SoundEntry;
 import com.modularmc.gtpm.common.data.GTSoundEntries;
 import com.modularmc.gtpm.common.data.item.GTItemAbilities;
 import com.modularmc.gtpm.common.item.tool.behavior.*;
+import com.modularmc.gtpm.common.registry.GTRegistration;
 import com.modularmc.gtpm.data.recipe.CustomTags;
+import com.modularmc.gtpm.utils.FormattingUtil;
+
+import com.modularmc.registrate.localization.LocalizationDeclaration;
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+import com.modularmc.registrate.providers.core.ProviderType;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -36,8 +47,130 @@ import lombok.experimental.Tolerate;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 
+@Trans(key = "behaviour.boor.by",
+       source = "by %s",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "通过%s"))
+@TransVariants(keyPrefix = "gtpm",
+               value = {
+                       @Variant(id = "tool.class.axe",
+                                source = "Axe",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "斧")),
+                       @Variant(id = "tool.class.butchery_knife",
+                                source = "Butchery Knife",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "屠刀")),
+                       @Variant(id = "tool.class.crowbar",
+                                source = "Crowbar",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "撬棍")),
+                       @Variant(id = "tool.class.drill",
+                                source = "Drill",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "电钻")),
+                       @Variant(id = "tool.class.file",
+                                source = "File",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "锉")),
+                       @Variant(id = "tool.class.hammer",
+                                source = "Hammer",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "锤")),
+                       @Variant(id = "tool.class.hoe",
+                                source = "Hoe",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "锄")),
+                       @Variant(id = "tool.class.knife",
+                                source = "Knife",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "刀")),
+                       @Variant(id = "tool.class.mallet",
+                                source = "Soft Mallet",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "软锤")),
+                       @Variant(id = "tool.class.mining_hammer",
+                                source = "Mining Hammer",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "采矿锤")),
+                       @Variant(id = "tool.class.mortar",
+                                source = "Mortar",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "研钵")),
+                       @Variant(id = "tool.class.pickaxe",
+                                source = "Pickaxe",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "镐")),
+                       @Variant(id = "tool.class.plunger",
+                                source = "Plunger",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "搋子")),
+                       @Variant(id = "tool.class.rolling_pin",
+                                source = "Rolling Pin",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "擀面杖")),
+                       @Variant(id = "tool.class.saw",
+                                source = "Saw",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "锯")),
+                       @Variant(id = "tool.class.screwdriver",
+                                source = "Screwdriver",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "螺丝刀")),
+                       @Variant(id = "tool.class.scythe",
+                                source = "Scythe",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "镰刀")),
+                       @Variant(id = "tool.class.shears",
+                                source = "Shears",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "剪刀")),
+                       @Variant(id = "tool.class.shovel",
+                                source = "Shovel",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "锹")),
+                       @Variant(id = "tool.class.spade",
+                                source = "Spade",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "铲")),
+                       @Variant(id = "tool.class.sword",
+                                source = "Sword",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "剑")),
+                       @Variant(id = "tool.class.wire_cutter",
+                                source = "Wire Cutter",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "剪线钳")),
+                       @Variant(id = "tool.class.wrench",
+                                source = "Wrench",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "扳手")),
+                       @Variant(id = "tool_action.crowbar",
+                                source = "§8Use Crowbar to remove Covers",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§8使用撬棍卸下覆盖板")),
+                       @Variant(id = "tool_action.hammer",
+                                source = "§8Use Hard Hammer to muffle Sounds",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§8使用锻造锤消除声响")),
+                       @Variant(id = "tool_action.screwdriver.access_covers",
+                                source = "§8Use Screwdriver to access Covers",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§8使用螺丝刀访问覆盖板")),
+                       @Variant(id = "tool_action.screwdriver.auto_collapse",
+                                source = "§8Use Screwdriver to toggle Item collapsing",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§8使用螺丝刀开关物品堆叠自动合并")),
+                       @Variant(id = "tool_action.screwdriver.auto_output",
+                                source = "§8Use Screwdriver to toggle Auto-Output",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§8使用螺丝刀切换自动输出")),
+                       @Variant(id = "tool_action.screwdriver.auto_output_covers",
+                                source = "§8Use Screwdriver to Allow Input from Output Side or access Covers",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§8使用螺丝刀设置允许从输出端输入或访问覆盖板")),
+                       @Variant(id = "tool_action.screwdriver.toggle_mode",
+                                source = "§8Use Screwdriver to toggle Modes",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§8使用螺丝刀切换模式")),
+                       @Variant(id = "tool_action.screwdriver.toggle_mode_covers",
+                                source = "§8Use Screwdriver to toggle Modes or access Covers",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§8使用螺丝刀切换模式或访问覆盖板")),
+                       @Variant(id = "tool_action.soft_mallet.reset",
+                                source = "§8Use Soft Mallet to toggle Working",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§8使用软锤开关机器")),
+                       @Variant(id = "tool_action.soft_mallet.toggle_mode",
+                                source = "§8Use Soft Mallet to toggle Modes",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§8使用软锤切换模式")),
+                       @Variant(id = "tool_action.tape",
+                                source = "§8Use Tape to fix Maintenance Problems",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§8使用胶带维护机器")),
+                       @Variant(id = "tool_action.wire_cutter.connect",
+                                source = "§8Use Wire Cutters to set Connections",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§8使用剪线钳连接/断开电线")),
+                       @Variant(id = "tool_action.wrench.connect",
+                                source = "§8Use Wrench to set Connections, sneak to block Connections",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§8使用扳手连接/断开管道，潜行可以阻止输入")),
+                       @Variant(id = "tool_action.wrench.set_facing",
+                                source = "§8Use Wrench to set Facing",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§8使用扳手设置朝向")),
+               })
 public class GTToolType {
 
     @Getter
@@ -45,6 +178,8 @@ public class GTToolType {
 
     // FIXME the speed and breakability values are all broken. refer to (vanilla?) for correct-er values.
     public static final GTToolType SWORD = GTToolType.builder("sword")
+            .localization(text -> text.source("%s Sword")
+                    .translation(MinecraftLocale.ZH_CN, "%s剑"))
             .toolTag(ToolItemTagType.MATCH, ItemTags.SWORDS)
             .definition(b -> b.tool(new Tool(List.of(
                     Tool.Rule.overrideSpeed(BlockTags.SWORD_EFFICIENT, 1.5F),
@@ -56,6 +191,8 @@ public class GTToolType {
             .materialAmount(2 * GTValues.M)
             .build();
     public static final GTToolType PICKAXE = GTToolType.builder("pickaxe")
+            .localization(text -> text.source("%s Pickaxe")
+                    .translation(MinecraftLocale.ZH_CN, "%s镐"))
             .toolTag(ToolItemTagType.MATCH, ItemTags.PICKAXES)
             .toolTag(ItemTags.CLUSTER_MAX_HARVESTABLES)
             .harvestTag(BlockTags.MINEABLE_WITH_PICKAXE)
@@ -66,6 +203,8 @@ public class GTToolType {
             .materialAmount(3 * GTValues.M)
             .build();
     public static final GTToolType SHOVEL = GTToolType.builder("shovel")
+            .localization(text -> text.source("%s Shovel")
+                    .translation(MinecraftLocale.ZH_CN, "%s锹"))
             .toolTag(ToolItemTagType.MATCH, ItemTags.SHOVELS)
             .harvestTag(BlockTags.MINEABLE_WITH_SHOVEL)
             .definition(b -> b.blockBreaking().attackDamage(1.5F)
@@ -75,6 +214,8 @@ public class GTToolType {
             .defaultAbilities(ItemAbilities.SHOVEL_DIG, ItemAbilities.SHOVEL_DOUSE)
             .build();
     public static final GTToolType AXE = GTToolType.builder("axe")
+            .localization(text -> text.source("%s Axe")
+                    .translation(MinecraftLocale.ZH_CN, "%s斧"))
             .toolTag(ToolItemTagType.MATCH, ItemTags.AXES)
             .harvestTag(BlockTags.MINEABLE_WITH_AXE)
             .definition(b -> b.blockBreaking()
@@ -85,7 +226,12 @@ public class GTToolType {
             .materialAmount(3 * GTValues.M)
             .defaultAbilities(ItemAbilities.AXE_DIG)
             .build();
+    @Trans(key = "behaviour.hoe",
+           source = "Can till dirt",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "可以翻耕泥土"))
     public static final GTToolType HOE = GTToolType.builder("hoe")
+            .localization(text -> text.source("%s Hoe")
+                    .translation(MinecraftLocale.ZH_CN, "%s锄"))
             .toolTag(ToolItemTagType.MATCH, ItemTags.HOES)
             .harvestTag(BlockTags.MINEABLE_WITH_HOE)
             .definition(b -> b.cannotAttack().behaviors(HoeGroundBehavior.INSTANCE))
@@ -95,6 +241,8 @@ public class GTToolType {
             .build();
 
     public static final GTToolType MINING_HAMMER = GTToolType.builder("mining_hammer")
+            .localization(text -> text.source("%s Mining Hammer")
+                    .translation(MinecraftLocale.ZH_CN, "%s采矿锤"))
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_MINING_HAMMER)
             .harvestTag(BlockTags.MINEABLE_WITH_PICKAXE)
             .definition(b -> b.blockBreaking().aoe(1, 1, 0)
@@ -105,6 +253,8 @@ public class GTToolType {
             .materialAmount(6 * GTValues.M)
             .build();
     public static final GTToolType SPADE = GTToolType.builder("spade")
+            .localization(text -> text.source("%s Spade")
+                    .translation(MinecraftLocale.ZH_CN, "%s铲"))
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_SPADE)
             .harvestTag(BlockTags.MINEABLE_WITH_SHOVEL)
             .definition(b -> b.blockBreaking().aoe(1, 1, 0)
@@ -116,6 +266,8 @@ public class GTToolType {
             .materialAmount(3 * GTValues.M)
             .build();
     public static final GTToolType SCYTHE = GTToolType.builder("scythe")
+            .localization(text -> text.source("%s Scythe")
+                    .translation(MinecraftLocale.ZH_CN, "%s镰刀"))
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_SCYTHE)
             .harvestTag(BlockTags.MINEABLE_WITH_HOE)
             .definition(b -> b.blockBreaking().attacking()
@@ -130,6 +282,8 @@ public class GTToolType {
             .build();
 
     public static final GTToolType SAW = GTToolType.builder("saw")
+            .localization(text -> text.source("%s Saw")
+                    .translation(MinecraftLocale.ZH_CN, "%s锯"))
             .toolTag(ToolItemTagType.CRAFTING, CustomTags.CRAFTING_SAWS)
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_SAW)
             .harvestTag(CustomTags.MINEABLE_WITH_SAW)
@@ -141,7 +295,12 @@ public class GTToolType {
             .defaultAbilities(GTItemAbilities.SAW_DIG)
             .materialAmount(2 * GTValues.M)
             .build();
+    @Trans(key = "behaviour.hammer",
+           source = "Turns on and off Muffling for Machines (by hitting them)",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "右击机器以开启或关闭消声功能"))
     public static final GTToolType HARD_HAMMER = GTToolType.builder("hammer")
+            .localization(text -> text.source("%s Hammer")
+                    .translation(MinecraftLocale.ZH_CN, "%s锻造锤"))
             .toolTag(ToolItemTagType.CRAFTING, CustomTags.CRAFTING_HAMMERS)
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_HAMMER)
             .harvestTag(CustomTags.MINEABLE_WITH_HAMMER)
@@ -156,7 +315,12 @@ public class GTToolType {
             .defaultAbilities(GTItemAbilities.DEFAULT_HAMMER_ACTIONS)
             .materialAmount(6 * GTValues.M)
             .build();
+    @Trans(key = "behaviour.soft_hammer",
+           source = "Activates and Deactivates Machines",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "用来开启与关闭机器"))
     public static final GTToolType SOFT_MALLET = GTToolType.builder("mallet")
+            .localization(text -> text.source("%s Soft Mallet")
+                    .translation(MinecraftLocale.ZH_CN, "%s软锤"))
             .toolTag(ToolItemTagType.CRAFTING, CustomTags.CRAFTING_MALLETS)
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_MALLET)
             .definition(b -> b.crafting().cannotAttack().attackSpeed(-2.4F).sneakBypassUse()
@@ -166,7 +330,12 @@ public class GTToolType {
             .defaultAbilities(GTItemAbilities.DEFAULT_MALLET_ACTIONS, GTItemAbilities.INTERACT_WITH_COVER)
             .materialAmount(6 * GTValues.M)
             .build();
+    @Trans(key = "behaviour.wrench",
+           source = "Rotates Blocks on Rightclick",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "右击以旋转方块"))
     public static final GTToolType WRENCH = GTToolType.builder("wrench")
+            .localization(text -> text.source("%s Wrench")
+                    .translation(MinecraftLocale.ZH_CN, "%s扳手"))
             .toolTag(ToolItemTagType.CRAFTING, CustomTags.CRAFTING_WRENCHES)
             .toolTag(Tags.Items.TOOLS_WRENCH)
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_WRENCH)
@@ -183,6 +352,8 @@ public class GTToolType {
             .materialAmount(4 * GTValues.M)
             .build();
     public static final GTToolType FILE = GTToolType.builder("file")
+            .localization(text -> text.source("%s File")
+                    .translation(MinecraftLocale.ZH_CN, "%s锉"))
             .toolTag(ToolItemTagType.CRAFTING, CustomTags.CRAFTING_FILES)
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_FILE)
             .definition(b -> b.crafting().cannotAttack()
@@ -192,6 +363,8 @@ public class GTToolType {
             .materialAmount(2 * GTValues.M)
             .build();
     public static final GTToolType CROWBAR = GTToolType.builder("crowbar")
+            .localization(text -> text.source("%s Crowbar")
+                    .translation(MinecraftLocale.ZH_CN, "%s撬棍"))
             .toolTag(ToolItemTagType.CRAFTING, CustomTags.CRAFTING_CROWBARS)
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_CROWBAR)
             .harvestTag(CustomTags.MINEABLE_WITH_CROWBAR)
@@ -204,6 +377,8 @@ public class GTToolType {
             .materialAmount(3 * GTValues.M / 2)
             .build();
     public static final GTToolType SCREWDRIVER = GTToolType.builder("screwdriver")
+            .localization(text -> text.source("%s Screwdriver")
+                    .translation(MinecraftLocale.ZH_CN, "%s螺丝刀"))
             .toolTag(ToolItemTagType.CRAFTING, CustomTags.CRAFTING_SCREWDRIVERS)
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_SCREWDRIVER)
             .definition(b -> b.crafting().damagePerCraftingAction(4).sneakBypassUse()
@@ -215,6 +390,8 @@ public class GTToolType {
             .materialAmount(GTValues.M)
             .build();
     public static final GTToolType MORTAR = GTToolType.builder("mortar")
+            .localization(text -> text.source("%s Mortar")
+                    .translation(MinecraftLocale.ZH_CN, "%s研钵"))
             .toolTag(ToolItemTagType.CRAFTING, CustomTags.CRAFTING_MORTARS)
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_MORTAR)
             .definition(b -> b.crafting().damagePerCraftingAction(2)
@@ -224,6 +401,8 @@ public class GTToolType {
             .materialAmount(2 * GTValues.M)
             .build();
     public static final GTToolType WIRE_CUTTER = GTToolType.builder("wire_cutter")
+            .localization(text -> text.source("%s Wire Cutter")
+                    .translation(MinecraftLocale.ZH_CN, "%s剪线钳"))
             .toolTag(ToolItemTagType.CRAFTING, CustomTags.CRAFTING_WIRE_CUTTERS)
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_WIRE_CUTTER)
             .harvestTag(CustomTags.MINEABLE_WITH_WIRE_CUTTER)
@@ -235,6 +414,8 @@ public class GTToolType {
             .materialAmount(4 * GTValues.M) // 3 plates + 2 rods
             .build();
     public static final GTToolType KNIFE = GTToolType.builder("knife")
+            .localization(text -> text.source("%s Knife")
+                    .translation(MinecraftLocale.ZH_CN, "%s刀"))
             .toolTag(ToolItemTagType.CRAFTING, CustomTags.CRAFTING_KNIVES)
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_KNIFE)
             .harvestTag(CustomTags.MINEABLE_WITH_KNIFE)
@@ -245,6 +426,8 @@ public class GTToolType {
             .materialAmount(GTValues.M)
             .build();
     public static final GTToolType BUTCHERY_KNIFE = GTToolType.builder("butchery_knife")
+            .localization(text -> text.source("%s Butchery Knife")
+                    .translation(MinecraftLocale.ZH_CN, "%s屠刀"))
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_BUTCHERY_KNIFE)
             .definition(b -> b.attacking()
                     .attackDamage(1.5F).attackSpeed(-1.3F)
@@ -252,6 +435,8 @@ public class GTToolType {
             .materialAmount(4 * GTValues.M)
             .build();
     public static final GTToolType PLUNGER = GTToolType.builder("plunger")
+            .localization(text -> text.source("%s Plunger")
+                    .translation(MinecraftLocale.ZH_CN, "%s搋子"))
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_PLUNGER)
             .definition(b -> b.cannotAttack().sneakBypassUse()
                     .attackSpeed(-2.4F).attackSpeed(-2.4F)
@@ -259,12 +444,16 @@ public class GTToolType {
             .sound(GTSoundEntries.PLUNGER_TOOL)
             .build();
     public static final GTToolType SHEARS = GTToolType.builder("shears")
+            .localization(text -> text.source("%s Shears")
+                    .translation(MinecraftLocale.ZH_CN, "%s剪刀"))
             .toolTag(ToolItemTagType.MATCH, Tags.Items.TOOLS_SHEAR)
             .harvestTag(CustomTags.MINEABLE_WITH_SHEARS)
             .definition(b -> b)
             .defaultAbilities(ItemAbilities.DEFAULT_SHEARS_ACTIONS)
             .build();
     public static final GTToolType DRILL_LV = GTToolType.builder("lv_drill")
+            .localization(text -> text.source("%s Drill (LV)")
+                    .translation(MinecraftLocale.ZH_CN, "%s电钻（§7LV§r）"))
             .idFormat("lv_%s_drill")
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_DRILL)
             .toolTag(ItemTags.PICKAXES)
@@ -284,6 +473,8 @@ public class GTToolType {
             .defaultAbilities(GTItemAbilities.DEFAULT_DRILL_ACTIONS)
             .build();
     public static final GTToolType DRILL_MV = GTToolType.builder("mv_drill")
+            .localization(text -> text.source("%s Drill (MV)")
+                    .translation(MinecraftLocale.ZH_CN, "%s电钻（§bMV§r）"))
             .idFormat("mv_%s_drill")
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_DRILL)
             .toolTag(ItemTags.PICKAXES)
@@ -303,6 +494,8 @@ public class GTToolType {
             .defaultAbilities(GTItemAbilities.DEFAULT_DRILL_ACTIONS)
             .build();
     public static final GTToolType DRILL_HV = GTToolType.builder("hv_drill")
+            .localization(text -> text.source("%s Drill (HV)")
+                    .translation(MinecraftLocale.ZH_CN, "%s电钻（§6HV§r）"))
             .idFormat("hv_%s_drill")
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_DRILL)
             .toolTag(ItemTags.PICKAXES)
@@ -322,6 +515,8 @@ public class GTToolType {
             .defaultAbilities(GTItemAbilities.DEFAULT_DRILL_ACTIONS)
             .build();
     public static final GTToolType DRILL_EV = GTToolType.builder("ev_drill")
+            .localization(text -> text.source("%s Drill (EV)")
+                    .translation(MinecraftLocale.ZH_CN, "%s电钻（§5EV§r）"))
             .idFormat("ev_%s_drill")
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_DRILL)
             .toolTag(ItemTags.PICKAXES)
@@ -341,6 +536,8 @@ public class GTToolType {
             .defaultAbilities(GTItemAbilities.DEFAULT_DRILL_ACTIONS)
             .build();
     public static final GTToolType DRILL_IV = GTToolType.builder("iv_drill")
+            .localization(text -> text.source("%s Drill (IV)")
+                    .translation(MinecraftLocale.ZH_CN, "%s电钻（§9IV§r）"))
             .idFormat("iv_%s_drill")
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_DRILL)
             .toolTag(ItemTags.PICKAXES)
@@ -360,6 +557,8 @@ public class GTToolType {
             .defaultAbilities(GTItemAbilities.DEFAULT_DRILL_ACTIONS)
             .build();
     public static final GTToolType CHAINSAW_LV = GTToolType.builder("lv_chainsaw")
+            .localization(text -> text.source("%s Chainsaw (LV)")
+                    .translation(MinecraftLocale.ZH_CN, "%s链锯（§7LV§r）"))
             .idFormat("lv_%s_chainsaw")
             .toolTag(ToolItemTagType.MATCH, ItemTags.AXES)
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_CHAINSAW)
@@ -378,6 +577,8 @@ public class GTToolType {
                     GTItemAbilities.SAW_DIG)
             .build();
     public static final GTToolType CHAINSAW_HV = GTToolType.builder("hv_chainsaw")
+            .localization(text -> text.source("%s Chainsaw (HV)")
+                    .translation(MinecraftLocale.ZH_CN, "%s链锯（§6HV§r）"))
             .idFormat("hv_%s_chainsaw")
             .toolTag(ToolItemTagType.MATCH, ItemTags.AXES)
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_CHAINSAW)
@@ -397,6 +598,8 @@ public class GTToolType {
                     GTItemAbilities.SAW_DIG)
             .build();
     public static final GTToolType CHAINSAW_IV = GTToolType.builder("iv_chainsaw")
+            .localization(text -> text.source("%s Chainsaw (IV)")
+                    .translation(MinecraftLocale.ZH_CN, "%s链锯（§9IV§r）"))
             .idFormat("iv_%s_chainsaw")
             .toolTag(ToolItemTagType.MATCH, ItemTags.AXES)
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_CHAINSAW)
@@ -416,6 +619,8 @@ public class GTToolType {
                     GTItemAbilities.SAW_DIG)
             .build();
     public static final GTToolType WRENCH_LV = GTToolType.builder("lv_wrench")
+            .localization(text -> text.source("%s Wrench (LV)")
+                    .translation(MinecraftLocale.ZH_CN, "%s扳手（§7LV§r）"))
             .idFormat("lv_%s_wrench")
             .toolTag(ToolItemTagType.CRAFTING, CustomTags.CRAFTING_WRENCHES)
             .toolTag(ToolItemTagType.MATCH, Tags.Items.TOOLS_WRENCH)
@@ -433,6 +638,8 @@ public class GTToolType {
                     GTItemAbilities.WRENCH_CONNECT)
             .build();
     public static final GTToolType WRENCH_HV = GTToolType.builder("hv_wrench")
+            .localization(text -> text.source("%s Wrench (HV)")
+                    .translation(MinecraftLocale.ZH_CN, "%s扳手（§6HV§r）"))
             .idFormat("hv_%s_wrench")
             .toolTag(ToolItemTagType.CRAFTING, CustomTags.CRAFTING_WRENCHES)
             .toolTag(ToolItemTagType.MATCH, Tags.Items.TOOLS_WRENCH)
@@ -450,6 +657,8 @@ public class GTToolType {
                     GTItemAbilities.WRENCH_CONNECT)
             .build();
     public static final GTToolType WRENCH_IV = GTToolType.builder("iv_wrench")
+            .localization(text -> text.source("%s Wrench (IV)")
+                    .translation(MinecraftLocale.ZH_CN, "%s扳手（§9IV§r）"))
             .idFormat("iv_%s_wrench")
             .toolTag(ToolItemTagType.CRAFTING, CustomTags.CRAFTING_WRENCHES)
             .toolTag(ToolItemTagType.MATCH, Tags.Items.TOOLS_WRENCH)
@@ -468,6 +677,8 @@ public class GTToolType {
             .build();
 
     public static final GTToolType WIRE_CUTTER_LV = GTToolType.builder("lv_wirecutter")
+            .localization(text -> text.source("%s Wire Cutter (LV)")
+                    .translation(MinecraftLocale.ZH_CN, "%s剪线钳（LV）"))
             .idFormat("lv_%s_wire_cutter")
             .toolTag(ToolItemTagType.CRAFTING, CustomTags.CRAFTING_WIRE_CUTTERS)
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_WIRE_CUTTER)
@@ -482,6 +693,8 @@ public class GTToolType {
             .build();
 
     public static final GTToolType WIRE_CUTTER_HV = GTToolType.builder("hv_wirecutter")
+            .localization(text -> text.source("%s Wire Cutter (HV)")
+                    .translation(MinecraftLocale.ZH_CN, "%s剪线钳（HV）"))
             .idFormat("hv_%s_wire_cutter")
             .toolTag(ToolItemTagType.CRAFTING, CustomTags.CRAFTING_WIRE_CUTTERS)
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_WIRE_CUTTER)
@@ -496,6 +709,8 @@ public class GTToolType {
             .build();
 
     public static final GTToolType WIRE_CUTTER_IV = GTToolType.builder("iv_wirecutter")
+            .localization(text -> text.source("%s Wire Cutter (IV)")
+                    .translation(MinecraftLocale.ZH_CN, "%s剪线钳（IV）"))
             .idFormat("iv_%s_wire_cutter")
             .toolTag(ToolItemTagType.CRAFTING, CustomTags.CRAFTING_WIRE_CUTTERS)
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_WIRE_CUTTER)
@@ -509,6 +724,8 @@ public class GTToolType {
             .defaultAbilities(GTItemAbilities.DEFAULT_WIRE_CUTTER_ACTIONS)
             .build();
     public static final GTToolType BUZZSAW_LV = GTToolType.builder("lv_buzzsaw")
+            .localization(text -> text.source("%s Buzzsaw (LV)")
+                    .translation(MinecraftLocale.ZH_CN, "%s圆锯（§7LV§r）"))
             .idFormat("lv_%s_buzzsaw")
             .toolTag(ToolItemTagType.CRAFTING, CustomTags.CRAFTING_SAWS)
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_SAW)
@@ -520,6 +737,8 @@ public class GTToolType {
             .toolClasses(GTToolType.SAW)
             .build();
     public static final GTToolType SCREWDRIVER_LV = GTToolType.builder("lv_screwdriver")
+            .localization(text -> text.source("%s Screwdriver (LV)")
+                    .translation(MinecraftLocale.ZH_CN, "%s螺丝刀（§7LV§r）"))
             .idFormat("lv_%s_screwdriver")
             .toolTag(ToolItemTagType.CRAFTING, CustomTags.CRAFTING_SCREWDRIVERS)
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_SCREWDRIVER)
@@ -533,6 +752,8 @@ public class GTToolType {
             .defaultAbilities(GTItemAbilities.DEFAULT_SCREWDRIVER_ACTIONS)
             .build();
     public static final GTToolType SCREWDRIVER_HV = GTToolType.builder("hv_screwdriver")
+            .localization(text -> text.source("%s Screwdriver (HV)")
+                    .translation(MinecraftLocale.ZH_CN, "%s螺丝刀（§6HV§r）"))
             .idFormat("hv_%s_screwdriver")
             .toolTag(ToolItemTagType.CRAFTING, CustomTags.CRAFTING_SCREWDRIVERS)
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_SCREWDRIVER)
@@ -546,6 +767,8 @@ public class GTToolType {
             .defaultAbilities(GTItemAbilities.DEFAULT_SCREWDRIVER_ACTIONS)
             .build();
     public static final GTToolType SCREWDRIVER_IV = GTToolType.builder("iv_screwdriver")
+            .localization(text -> text.source("%s Screwdriver (IV)")
+                    .translation(MinecraftLocale.ZH_CN, "%s螺丝刀（§9IV§r）"))
             .idFormat("iv_%s_screwdriver")
             .toolTag(ToolItemTagType.CRAFTING, CustomTags.CRAFTING_SCREWDRIVERS)
             .toolTag(ToolItemTagType.MATCH, CustomTags.TOOLS_SCREWDRIVER)
@@ -579,6 +802,8 @@ public class GTToolType {
     public final IGTToolDefinition toolDefinition;
     public final ToolConstructor constructor;
     public final int electricTier;
+    @Getter
+    private @Nullable LocalizationDeclaration localization;
 
     public GTToolType(String name, String idFormat, char symbol,
                       Set<GTToolType> toolClasses, ToolConstructor constructor, IGTToolDefinition toolDefinition,
@@ -607,6 +832,18 @@ public class GTToolType {
         this.materialAmount = materialAmount;
 
         types.put(name, this);
+        if (GTPM.isDataGen()) {
+            GTRegistration.REGISTRATE.addDataGeneratorFirst(ProviderType.LANG, provider -> {
+                if (types.get(name) != this) return;
+
+                String key = getUnlocalizedName();
+                if (localization == null) {
+                    provider.add(key, FormattingUtil.toEnglishName(name));
+                } else {
+                    GTLanguageProvider.addLocalization(provider, GTRegistration.REGISTRATE, key, localization);
+                }
+            });
+        }
     }
 
     public boolean is(ItemStack itemStack) {
@@ -638,6 +875,7 @@ public class GTToolType {
     public static class Builder {
 
         private final String name;
+        private @Nullable LocalizationDeclaration localization;
         @Setter
         private String idFormat;
 
@@ -741,13 +979,23 @@ public class GTToolType {
             return tier(tier);
         }
 
+        /** Declares the material-dependent item name format for this tool type. */
+        public Builder localization(Consumer<LocalizationDeclaration.Builder> configure) {
+            var text = new LocalizationDeclaration.Builder();
+            configure.accept(text);
+            localization = text.build();
+            return this;
+        }
+
         private GTToolType get() {
-            return new GTToolType(name, idFormat, symbol,
+            var tool = new GTToolType(name, idFormat, symbol,
                     toolClasses, constructor,
                     toolDefinition, itemTags, matchTags, craftingTags, harvestTags, defaultAbilities,
                     toolClassNames, modelLocation,
                     sound, playSoundOnBlockDestroy,
                     tier, materialAmount);
+            tool.localization = localization;
+            return tool;
         }
 
         public GTToolType build() {

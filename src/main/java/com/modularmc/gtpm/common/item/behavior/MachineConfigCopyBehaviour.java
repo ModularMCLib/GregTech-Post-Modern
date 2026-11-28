@@ -11,6 +11,11 @@ import com.modularmc.gtpm.common.item.datacomponents.MachineConfigCopyData;
 import com.modularmc.gtpm.common.machine.owner.MachineOwner;
 import com.modularmc.gtpm.utils.GTTransferUtils;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.Direction;
@@ -30,6 +35,70 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+@TransVariants(keyPrefix = "behaviour",
+               value = {
+                       @Variant(id = "memory_card.client_msg.cleared",
+                                source = "Stored configuration cleared",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "已清除存储的配置")),
+                       @Variant(id = "memory_card.client_msg.copied",
+                                source = "Copied machine configuration",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "已复制机器配置")),
+                       @Variant(id = "memory_card.client_msg.missing_items",
+                                source = "Missing items required to paste configuration",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "缺少粘贴配置所需要的物品")),
+                       @Variant(id = "memory_card.client_msg.pasted",
+                                source = "Applied machine configuration",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "已应用机器配置")),
+                       @Variant(id = "memory_card.copy_target",
+                                source = "Copying: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "复制源：%s")),
+                       @Variant(id = "memory_card.disabled",
+                                source = "§cDisabled§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§c已禁用§r")),
+                       @Variant(id = "memory_card.enabled",
+                                source = "§aEnabled§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§a已启用§r")),
+                       @Variant(id = "memory_card.tooltip.copy",
+                                source = "§7Sneak + R-Click to copy configuration, or clear stored data if a block other than a machine or pipe is targeted.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§7潜行+右键单击机器或管道复制配置，单击其他方块则会清除数据")),
+                       @Variant(id = "memory_card.tooltip.items_to_paste",
+                                source = "The following items are needed to paste this configuration:",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "应用此配置需要以下物品：")),
+                       @Variant(id = "memory_card.tooltip.paste",
+                                source = "§7R-Click to paste machine configuration",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7右键单击以粘贴机器配置")),
+                       @Variant(id = "memory_card.tooltip.view_stored",
+                                source = "§8<Sneak to view stored configuration>",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§8<潜行以查看存储的配置>")),
+                       @Variant(id = "setting.tooltip.allow_input",
+                                source = "§2Allow Input§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§2允许输入§r")),
+                       @Variant(id = "setting.tooltip.auto_output",
+                                source = "§2Auto Output§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§2自动输出§r")),
+                       @Variant(id = "setting.tooltip.auto_output_allow_input",
+                                source = "§2Auto Output/Allow Input§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§2自动输出/允许输入§r")),
+                       @Variant(id = "setting.tooltip.circuit_config",
+                                source = "Programmed Circuit: ",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "编程电路：")),
+                       @Variant(id = "setting.tooltip.fluid_io",
+                                source = "Fluid Output: %s (%s)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "流体输出：%s（%s）")),
+                       @Variant(id = "setting.tooltip.item_io",
+                                source = "Item Output: %s (%s)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "物品输出：%s（%s）")),
+                       @Variant(id = "setting.tooltip.muffled",
+                                source = "Muffling %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "静音%s")),
+                       @Variant(id = "setting.tooltip.pipe_blocked_connections",
+                                source = "Pipe shuttered sides: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "管道禁入：%s")),
+                       @Variant(id = "setting.tooltip.pipe_connections",
+                                source = "Pipe connections: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "管道连接：%s")),
+               })
 public class MachineConfigCopyBehaviour implements IInteractionItem, IAddInformation {
 
     private static final String NONE_DIRECTION = "null";

@@ -7,6 +7,12 @@ import com.modularmc.gtpm.api.sync_system.FieldCodecs;
 import com.modularmc.gtpm.common.data.GTToolBehaviors;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -26,6 +32,24 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.function.Function;
 
+@Trans(key = "behaviour.prospecting",
+       source = "Usable for Prospecting",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "适用于探矿"))
+@TransVariants(keyPrefix = "item.gtpm.tool.behavior.prospecting",
+               value = {
+                       @Variant(id = "found",
+                                source = "Found %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "找到了%s")),
+                       @Variant(id = "lava",
+                                source = "Found lava",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "找到了熔岩")),
+                       @Variant(id = "ore",
+                                source = "Found ore: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "找到矿石：%s")),
+                       @Variant(id = "water",
+                                source = "Found water",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "找到了水")),
+               })
 public class ProspectingBehavior implements IToolBehavior<ProspectingBehavior> {
 
     public static final ProspectingBehavior INSTANCE = new ProspectingBehavior();

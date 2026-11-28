@@ -10,6 +10,10 @@ import com.modularmc.gtpm.common.data.GTDataComponents;
 import com.modularmc.gtpm.core.IFireImmuneEntity;
 import com.modularmc.gtpm.utils.input.SyncedKeyMappings;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleOptions;
@@ -34,6 +38,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+@Trans(key = "metaarmor.qts.share.error",
+       source = "QuarkTech™ Suite: §cNot enough power for charging!",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "夸克高科™套装：§c能量不足，无法供能！"))
 public class AdvancedQuarkTechSuite extends QuarkTechSuite implements IJetpack {
 
     // A replacement for checking the current world time, to get around the gamerule that stops it

@@ -2,6 +2,10 @@ package com.modularmc.gtpm.common.item.datacomponents;
 
 import com.modularmc.gtpm.api.sync_system.FieldCodecs;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -19,6 +23,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
+@Trans(key = "gtpm.tooltip.computer_monitor_config",
+       source = "Storing computer monitor cover configuration data",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "存储电脑屏幕覆盖板的配置数据"))
 public record ComputerMonitorConfig(@With List<String> lines, @With List<String> args, @With int updateInterval)
         implements TooltipProvider {
 

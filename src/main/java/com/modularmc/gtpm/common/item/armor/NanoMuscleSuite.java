@@ -10,6 +10,11 @@ import com.modularmc.gtpm.common.data.GTDataComponents;
 import com.modularmc.gtpm.common.data.GTItems;
 import com.modularmc.gtpm.utils.input.SyncedKeyMappings;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -35,6 +40,36 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+@TransVariants(keyPrefix = "metaarmor",
+               value = {
+                       @Variant(id = "nms.nightvision.enabled",
+                                source = "NanoMuscle™ Suite: NightVision Enabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "纳米肌体™套装：夜视已启用")),
+                       @Variant(id = "nms.nightvision.error",
+                                source = "NanoMuscle™ Suite: §cNot enough power!",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "纳米肌体™套装：§c能量不足！")),
+                       @Variant(id = "nms.share.disable",
+                                source = "NanoMuscle™ Suite: Charging Disabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "纳米肌体™套装：供能模式已禁用")),
+                       @Variant(id = "nms.share.enable",
+                                source = "NanoMuscle™ Suite: Charging Enabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "纳米肌体™套装：供能模式已启用")),
+                       @Variant(id = "nms.step_assist.disabled",
+                                source = "NanoMuscle™ Suite: StepAssist Disabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "纳米肌体™套装：步行辅助已禁用")),
+                       @Variant(id = "nms.step_assist.enabled",
+                                source = "NanoMuscle™ Suite: StepAssist Enabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "纳米肌体™套装：步行辅助已启用")),
+                       @Variant(id = "tooltip.falldamage",
+                                source = "Nullifies Fall Damage",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "消除摔落伤害")),
+                       @Variant(id = "nms.nightvision.disabled",
+                                source = "NanoMuscle™ Suite: NightVision Disabled",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "纳米肌体™套装：夜视已禁用")),
+                       @Variant(id = "tooltip.stepassist",
+                                source = "Provides Step-Assist",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "提供步行辅助")),
+               })
 public class NanoMuscleSuite extends ArmorLogicSuite implements IStepAssist {
 
     @OnlyIn(Dist.CLIENT)
