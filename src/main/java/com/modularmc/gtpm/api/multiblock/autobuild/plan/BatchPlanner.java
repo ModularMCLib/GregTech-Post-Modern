@@ -13,6 +13,11 @@ import com.modularmc.gtpm.api.multiblock.pattern.match.MultiBlockPattern;
 import com.modularmc.gtpm.api.multiblock.pattern.match.PatternSelections;
 import com.modularmc.gtpm.data.pattern.StructurePatternRegistry;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -49,6 +54,40 @@ import static com.modularmc.gtpm.api.multiblock.autobuild.plan.StructurePlanner.
  *
  * Candidate expansion, search, material allocation and assembly have separate domain owners.
  */
+@TransVariants(keyPrefix = "gtpm.multiblock.autobuild",
+               value = {
+                       @Variant(id = "invalid_legacy_options",
+                                source = "The legacy auto-build options are invalid.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "旧版自动搭建选项无效。")),
+                       @Variant(id = "invalid_reservation",
+                                source = "The material source returned an invalid reservation.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "材料来源返回了无效预留。")),
+                       @Variant(id = "repetition_count_mismatch",
+                                source = "Structure %1$s requires %2$d repetition counts, but received %3$d.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "结构 %1$s 需要 %2$d 个重复段数值，但收到了 %3$d 个。")),
+                       @Variant(id = "repetition_out_of_range",
+                                source = "Repetition count %2$d for section %1$d is outside [%3$d, %4$d].",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "重复段 %1$d 的数值 %2$d 超出范围 [%3$d, %4$d]。")),
+                       @Variant(id = "tier_selection_conflict",
+                                source = "Tier group %s has conflicting selections.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "等级组 %s 存在冲突选择。")),
+                       @Variant(id = "dependency_mode_conflict",
+                                source = "Required structure %s cannot be built and demolished in the same batch.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "必需结构 %s 不能在同一批次中同时搭建和拆除。")),
+                       @Variant(id = "flip_not_allowed",
+                                source = "This multiblock does not support flipped auto-build.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "该多方块不支持翻转自动搭建。")),
+                       @Variant(id = "missing_dependency",
+                                source = "Structure %1$s requires selected build structure %2$s.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "结构 %1$s 需要同时选择搭建结构 %2$s。")),
+                       @Variant(id = "unknown_structure",
+                                source = "Unknown multiblock structure: %s.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "未知多方块结构：%s。")),
+               })
 public final class BatchPlanner {
 
     public static final Direction CANONICAL_FRONT = Direction.NORTH;

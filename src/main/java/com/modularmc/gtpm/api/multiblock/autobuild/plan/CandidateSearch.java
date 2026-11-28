@@ -4,6 +4,10 @@ import com.modularmc.gtpm.api.multiblock.autobuild.BuildProblem;
 import com.modularmc.gtpm.api.multiblock.autobuild.MaterialKey;
 import com.modularmc.gtpm.api.multiblock.pattern.constraint.PropertyBindings;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -41,6 +45,9 @@ import static com.modularmc.gtpm.api.multiblock.autobuild.plan.BatchPlanner.*;
 import static com.modularmc.gtpm.api.multiblock.autobuild.plan.CandidateExpansion.*;
 import static com.modularmc.gtpm.api.multiblock.autobuild.plan.StructurePlanner.*;
 
+@Trans(key = "gtpm.multiblock.autobuild.constraint_unsatisfied",
+       source = "The selected pattern constraints cannot be satisfied.",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "所选样式约束无法全部满足。"))
 public final class CandidateSearch {
 
     public final boolean noHatchMode;

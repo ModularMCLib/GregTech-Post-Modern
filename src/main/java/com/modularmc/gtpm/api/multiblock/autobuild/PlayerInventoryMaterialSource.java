@@ -2,6 +2,10 @@ package com.modularmc.gtpm.api.multiblock.autobuild;
 
 import com.modularmc.gtpm.GTPM;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
@@ -24,6 +28,9 @@ import org.jspecify.annotations.Nullable;
 /**
  * Supplies automatic-build materials from the player's ordered inventory and supported nested item handlers.
  */
+@Trans(key = "gtpm.multiblock.autobuild.material_changed",
+       source = "Materials in the player inventory changed before extraction.",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "提取前玩家物品栏中的材料已变化。"))
 public final class PlayerInventoryMaterialSource implements MaterialSource {
 
     private final @Nullable IItemHandler root;

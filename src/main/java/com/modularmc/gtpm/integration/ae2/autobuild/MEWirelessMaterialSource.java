@@ -5,6 +5,10 @@ import com.modularmc.gtpm.api.multiblock.autobuild.MaterialKey;
 import com.modularmc.gtpm.api.multiblock.autobuild.MaterialRequest;
 import com.modularmc.gtpm.api.multiblock.autobuild.MaterialSource;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
@@ -40,6 +44,9 @@ import org.jspecify.annotations.Nullable;
  * and may select a different first valid binding.
  * </p>
  */
+@Trans(key = "gtpm.multiblock.autobuild.me_source_changed",
+       source = "The ME material source changed before extraction.",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "提取前 ME 材料来源已变化。"))
 public final class MEWirelessMaterialSource implements MaterialSource {
 
     private final ServerPlayer player;

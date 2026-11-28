@@ -22,6 +22,11 @@ import com.modularmc.gtpm.api.multiblock.structurepredicate.StructurePredicate;
 import com.modularmc.gtpm.api.multiblock.structurepredicate.StructurePreviewChoice;
 import com.modularmc.gtpm.api.multiblock.structurepredicate.StructurePreviewConstraint;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.SectionPos;
@@ -53,6 +58,24 @@ import java.util.stream.Stream;
 
 import static com.modularmc.gtpm.api.multiblock.autobuild.plan.BatchPlanner.*;
 
+@TransVariants(keyPrefix = "gtpm.multiblock.autobuild",
+               value = {
+                       @Variant(id = "invalid_layout",
+                                source = "Invalid layout for structure %s: %s.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "结构 %s 的布局无效：%s。")),
+                       @Variant(id = "outside_build_height",
+                                source = "Target position is outside the world's build height: %s.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "目标位置超出世界可建造高度：%s。")),
+                       @Variant(id = "tier_candidate_invalid",
+                                source = "Block %1$s is not a candidate of tier group %2$s in structure %3$s.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "方块 %1$s 不是结构 %3$s 中等级组 %2$s 的候选。")),
+                       @Variant(id = "tier_domain_empty",
+                                source = "The tier selection removed every candidate at pattern cell %s.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "等级选择移除了样式单元 %s 的全部候选。")),
+               })
 public final class CandidateExpansion {
 
     public static Object2ObjectMap<String, ObjectList<ResourceLocation>> tierChoicesForPredicates(
