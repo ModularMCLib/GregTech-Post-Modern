@@ -1,7 +1,5 @@
 package com.modularmc.gtpm.common.data;
 
-import com.modularmc.gtpm.GTPM;
-
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
@@ -12,10 +10,14 @@ import net.minecraft.world.level.levelgen.DensityFunctions;
 import net.minecraft.world.level.levelgen.Noises;
 import net.minecraft.world.level.levelgen.synth.NormalNoise;
 
+import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
+
 public class GTWorldgen {
 
-    public static final ResourceKey<DensityFunction> NEW_ORE_VEIN_TOGGLE = create("vein_toggle");
-    public static final ResourceKey<DensityFunction> NEW_ORE_VEIN_RIDGED = create("vein_ridged");
+    public static final ResourceKey<DensityFunction> NEW_ORE_VEIN_TOGGLE = REGISTRATE
+            .datapackKey(Registries.DENSITY_FUNCTION, "vein_toggle").register();
+    public static final ResourceKey<DensityFunction> NEW_ORE_VEIN_RIDGED = REGISTRATE
+            .datapackKey(Registries.DENSITY_FUNCTION, "vein_ridged").register();
 
     public static void bootstrap(BootstrapContext<DensityFunction> ctx) {
         HolderGetter<NormalNoise.NoiseParameters> noises = ctx.lookup(Registries.NOISE);
@@ -37,7 +39,4 @@ public class GTWorldgen {
                                         DensityFunctions.noise(oreVeinB, 4.0f, 4.0f)).abs())));
     }
 
-    private static ResourceKey<DensityFunction> create(String path) {
-        return ResourceKey.create(Registries.DENSITY_FUNCTION, GTPM.id(path));
-    }
 }

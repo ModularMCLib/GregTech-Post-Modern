@@ -1,6 +1,5 @@
 package com.modularmc.gtpm.common.data;
 
-import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.common.worldgen.modifier.RubberTreeChancePlacement;
 
 import net.minecraft.core.Holder;
@@ -14,18 +13,20 @@ import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.*;
 
+import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
+
 public class GTPlacements {
 
-    public static final ResourceKey<PlacedFeature> RUBBER_TREE = ResourceKey.create(Registries.PLACED_FEATURE,
-            GTPM.id("rubber_tree"));
-    public static final ResourceKey<PlacedFeature> RUBBER_TREE_SWAMP = ResourceKey.create(Registries.PLACED_FEATURE,
-            GTPM.id("rubber_tree_swamp"));
-    public static final ResourceKey<PlacedFeature> RED_GRANITE_BLOB = ResourceKey.create(Registries.PLACED_FEATURE,
-            GTPM.id("red_granite_blob"));
-    public static final ResourceKey<PlacedFeature> MARBLE_BLOB = ResourceKey.create(Registries.PLACED_FEATURE,
-            GTPM.id("marble_blob"));
-    public static final ResourceKey<PlacedFeature> RAW_OIL_SPROUT = ResourceKey.create(Registries.PLACED_FEATURE,
-            GTPM.id("raw_oil_sprout"));
+    public static final ResourceKey<PlacedFeature> RUBBER_TREE = REGISTRATE
+            .datapackKey(Registries.PLACED_FEATURE, "rubber_tree").register();
+    public static final ResourceKey<PlacedFeature> RUBBER_TREE_SWAMP = REGISTRATE
+            .datapackKey(Registries.PLACED_FEATURE, "rubber_tree_swamp").register();
+    public static final ResourceKey<PlacedFeature> RED_GRANITE_BLOB = REGISTRATE
+            .datapackKey(Registries.PLACED_FEATURE, "red_granite_blob").register();
+    public static final ResourceKey<PlacedFeature> MARBLE_BLOB = REGISTRATE
+            .datapackKey(Registries.PLACED_FEATURE, "marble_blob").register();
+    public static final ResourceKey<PlacedFeature> RAW_OIL_SPROUT = REGISTRATE
+            .datapackKey(Registries.PLACED_FEATURE, "raw_oil_sprout").register();
 
     public static void bootstrap(BootstrapContext<PlacedFeature> ctx) {
         HolderGetter<ConfiguredFeature<?, ?>> featureLookup = ctx.lookup(Registries.CONFIGURED_FEATURE);

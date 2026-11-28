@@ -53,10 +53,12 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.JukeboxSong;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
@@ -252,14 +254,27 @@ public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
 
     /** Declares an ore vein key in this mod's namespace for use during datapack bootstrap. */
     public DatapackKeyBuilder<GTOreDefinition> oreVein(String name) {
-        return new DatapackKeyBuilder<>(this,
-                ResourceKey.create(GTRegistries.ORE_VEIN_REGISTRY, makeResourceLocation(name)));
+        return datapackKey(GTRegistries.ORE_VEIN_REGISTRY, name);
     }
 
     /** Declares a bedrock fluid key in this mod's namespace for use during datapack bootstrap. */
     public DatapackKeyBuilder<BedrockFluidDefinition> bedrockFluid(String name) {
-        return new DatapackKeyBuilder<>(this,
-                ResourceKey.create(GTRegistries.BEDROCK_FLUID_REGISTRY, makeResourceLocation(name)));
+        return datapackKey(GTRegistries.BEDROCK_FLUID_REGISTRY, name);
+    }
+
+    /** Declares an ID for an entry bound later by the corresponding datapack bootstrap. */
+    public <T> DatapackKeyBuilder<T> datapackKey(ResourceKey<? extends Registry<T>> registry, String name) {
+        return new DatapackKeyBuilder<>(this, ResourceKey.create(registry, makeResourceLocation(name)));
+    }
+
+    public DatapackKeyBuilder<DamageType> damageType(String name) {
+        var type = ResourceKey.create(Registries.DAMAGE_TYPE, makeResourceLocation(name));
+        return new DatapackKeyBuilder<>(this, type, type.location().toLanguageKey("death.attack"));
+    }
+
+    public DatapackKeyBuilder<JukeboxSong> jukeboxSong(String name, String recordItem) {
+        var song = ResourceKey.create(Registries.JUKEBOX_SONG, makeResourceLocation(name));
+        return new DatapackKeyBuilder<>(this, song, makeResourceLocation(recordItem).toLanguageKey("item", "desc"));
     }
 
     /** Starts a recipe type declaration in this mod's namespace. */

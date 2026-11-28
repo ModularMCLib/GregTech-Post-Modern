@@ -9,6 +9,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
 import java.util.function.Consumer;
@@ -23,8 +24,9 @@ public final class GTRegistryEntryBuilder<T> {
     private final String translationKey;
     private @Nullable Object2ObjectArrayMap<String, Consumer<LocalizationDeclaration.Builder>> localizations;
 
-    GTRegistryEntryBuilder(GTRegistrate registrate, Registry<? super T> registry, ResourceLocation id, T value,
-                           String translationKey) {
+    @ApiStatus.Internal
+    public GTRegistryEntryBuilder(GTRegistrate registrate, Registry<? super T> registry, ResourceLocation id, T value,
+                                  String translationKey) {
         this.registrate = registrate;
         this.registry = registry;
         this.id = id;

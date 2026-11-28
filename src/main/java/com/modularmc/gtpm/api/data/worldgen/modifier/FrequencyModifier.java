@@ -1,8 +1,5 @@
 package com.modularmc.gtpm.api.data.worldgen.modifier;
 
-import com.modularmc.gtpm.GTPM;
-import com.modularmc.gtpm.api.registry.GTRegistries;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.ExtraCodecs;
@@ -16,10 +13,14 @@ import com.mojang.serialization.MapCodec;
 
 import java.util.stream.Stream;
 
+import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
+
 public class FrequencyModifier extends PlacementModifier {
 
-    public static final PlacementModifierType<FrequencyModifier> FREQUENCY_MODIFIER = GTRegistries
-            .register(BuiltInRegistries.PLACEMENT_MODIFIER_TYPE, GTPM.id("frequency"), () -> FrequencyModifier.CODEC);
+    public static final PlacementModifierType<FrequencyModifier> FREQUENCY_MODIFIER = REGISTRATE
+            .<PlacementModifierType<FrequencyModifier>>registryEntry("frequency",
+                    BuiltInRegistries.PLACEMENT_MODIFIER_TYPE, () -> FrequencyModifier.CODEC)
+            .register();
 
     public static final MapCodec<FrequencyModifier> CODEC = ExtraCodecs.POSITIVE_FLOAT.fieldOf("chance")
             .xmap(FrequencyModifier::new, (modifier) -> modifier.frequency);

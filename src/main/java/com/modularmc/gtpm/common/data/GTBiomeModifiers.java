@@ -1,6 +1,5 @@
 package com.modularmc.gtpm.common.data;
 
-import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.data.recipe.CustomTags;
 
 import net.minecraft.core.*;
@@ -16,18 +15,18 @@ import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.common.world.BiomeModifiers;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
+import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
+
 public class GTBiomeModifiers {
 
-    public static final ResourceKey<BiomeModifier> RUBBER_TREE = ResourceKey.create(
-            NeoForgeRegistries.Keys.BIOME_MODIFIERS,
-            GTPM.id("rubber_tree"));
-    public static final ResourceKey<BiomeModifier> RUBBER_TREE_SWAMP = ResourceKey.create(
-            NeoForgeRegistries.Keys.BIOME_MODIFIERS, GTPM.id("rubber_tree_swamp"));
-    public static final ResourceKey<BiomeModifier> STONE_BLOB = ResourceKey.create(
-            NeoForgeRegistries.Keys.BIOME_MODIFIERS,
-            GTPM.id("stone_blob"));
-    public static final ResourceKey<BiomeModifier> RAW_OIL_SPROUT = ResourceKey
-            .create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, GTPM.id("raw_oil_sprout"));
+    public static final ResourceKey<BiomeModifier> RUBBER_TREE = REGISTRATE
+            .datapackKey(NeoForgeRegistries.Keys.BIOME_MODIFIERS, "rubber_tree").register();
+    public static final ResourceKey<BiomeModifier> RUBBER_TREE_SWAMP = REGISTRATE
+            .datapackKey(NeoForgeRegistries.Keys.BIOME_MODIFIERS, "rubber_tree_swamp").register();
+    public static final ResourceKey<BiomeModifier> STONE_BLOB = REGISTRATE
+            .datapackKey(NeoForgeRegistries.Keys.BIOME_MODIFIERS, "stone_blob").register();
+    public static final ResourceKey<BiomeModifier> RAW_OIL_SPROUT = REGISTRATE
+            .datapackKey(NeoForgeRegistries.Keys.BIOME_MODIFIERS, "raw_oil_sprout").register();
 
     public static void bootstrap(BootstrapContext<BiomeModifier> ctx) {
         HolderGetter<Biome> biomeLookup = ctx.lookup(Registries.BIOME);

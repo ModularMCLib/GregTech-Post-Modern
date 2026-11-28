@@ -1,6 +1,5 @@
 package com.modularmc.gtpm.common.data;
 
-import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.data.medicalcondition.MedicalCondition;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
@@ -8,12 +7,13 @@ import com.modularmc.registrate.localization.annotation.TransVariants;
 import com.modularmc.registrate.localization.annotation.Translation;
 import com.modularmc.registrate.localization.annotation.Variant;
 
-import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageEffects;
 import net.minecraft.world.damagesource.DamageScaling;
 import net.minecraft.world.damagesource.DamageType;
+
+import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 
 @TransVariants(keyPrefix = "death.attack.gtpm",
                value = {
@@ -26,9 +26,6 @@ import net.minecraft.world.damagesource.DamageType;
                        @Variant(id = "chainsaw_lv",
                                 source = "%s was massacred by %s",
                                 translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%2$s的链锯切碎了%1$s")),
-                       @Variant(id = "chemical",
-                                source = "%s had a chemical accident",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s历经了一场化学事故")),
                        @Variant(id = "crowbar",
                                 source = "%s lost half a life to %s",
                                 translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s被%s用撬棍撬走了半条命")),
@@ -49,9 +46,6 @@ import net.minecraft.world.damagesource.DamageType;
                        @Variant(id = "drill_mv",
                                 source = "%s was drilled with 128V by %s",
                                 translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%2$s的中压电钻洞穿了%1$s")),
-                       @Variant(id = "electric",
-                                source = "%s was electrocuted",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s触电身亡")),
                        @Variant(id = "explosion",
                                 source = "%s exploded",
                                 translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s爆炸了")),
@@ -67,12 +61,6 @@ import net.minecraft.world.damagesource.DamageType;
                        @Variant(id = "hammer",
                                 source = "%s was squashed by %s",
                                 translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s被%s锤死了")),
-                       @Variant(id = "heat",
-                                source = "%s was boiled alive",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s被活活煮熟了")),
-                       @Variant(id = "heat.player",
-                                source = "%s was boiled alive by %s",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s被%s活活煮熟了")),
                        @Variant(id = "hoe",
                                 source = "%s had their head tilled by %s",
                                 translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s被%s锄死了")),
@@ -95,9 +83,6 @@ import net.minecraft.world.damagesource.DamageType;
                        @Variant(id = "pickaxe",
                                 source = "%s got mined by %s",
                                 translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s被%s用镐子凿死了")),
-                       @Variant(id = "radiation",
-                                source = "%s glows with joy now",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s放射出了喜悦的光芒")),
                        @Variant(id = "screwdriver",
                                 source = "%s has screwed with %s for the last time!",
                                 translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s被%s用螺丝刀钻死了")),
@@ -114,9 +99,6 @@ import net.minecraft.world.damagesource.DamageType;
                        @Variant(id = "spade",
                                 source = "%s got excavated by %s",
                                 translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s被%s用铲子挖死了")),
-                       @Variant(id = "turbine",
-                                source = "%s put their head into a turbine",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s一头扎进了涡轮里")),
                        @Variant(id = "wire_cutter",
                                 source = "%s has cut the cable for the Life Support Machine of %s",
                                 translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s用剪线钳剪断了%s的血管")),
@@ -136,17 +118,25 @@ import net.minecraft.world.damagesource.DamageType;
                })
 public class GTDamageTypes {
 
-    public static final ResourceKey<DamageType> HEAT = create("heat");
-    public static final ResourceKey<DamageType> CHEMICAL = create("chemical");
-    public static final ResourceKey<DamageType> ELECTRIC = create("electric");
-    public static final ResourceKey<DamageType> RADIATION = create("radiation");
-    public static final ResourceKey<DamageType> TURBINE = create("turbine");
+    public static final ResourceKey<DamageType> HEAT = REGISTRATE.damageType("heat")
+            .localization(text -> text.source("%s was boiled alive").translation(MinecraftLocale.ZH_CN, "%s被活活煮熟了"))
+            .localizationVariant("player",
+                    text -> text.source("%s was boiled alive by %s").translation(MinecraftLocale.ZH_CN, "%s被%s活活煮熟了"))
+            .register();
+    public static final ResourceKey<DamageType> CHEMICAL = REGISTRATE.damageType("chemical")
+            .localization(text -> text.source("%s had a chemical accident").translation(MinecraftLocale.ZH_CN, "%s历经了一场化学事故"))
+            .register();
+    public static final ResourceKey<DamageType> ELECTRIC = REGISTRATE.damageType("electric")
+            .localization(text -> text.source("%s was electrocuted").translation(MinecraftLocale.ZH_CN, "%s触电身亡"))
+            .register();
+    public static final ResourceKey<DamageType> RADIATION = REGISTRATE.damageType("radiation")
+            .localization(text -> text.source("%s glows with joy now").translation(MinecraftLocale.ZH_CN, "%s放射出了喜悦的光芒"))
+            .register();
+    public static final ResourceKey<DamageType> TURBINE = REGISTRATE.damageType("turbine")
+            .localization(text -> text.source("%s put their head into a turbine").translation(MinecraftLocale.ZH_CN, "%s一头扎进了涡轮里"))
+            .register();
 
     public static void init() {}
-
-    private static ResourceKey<DamageType> create(String path) {
-        return ResourceKey.create(Registries.DAMAGE_TYPE, GTPM.id(path));
-    }
 
     public static void bootstrap(BootstrapContext<DamageType> ctx) {
         ctx.register(HEAT, new DamageType("gtpm.heat", 0, DamageEffects.BURNING));

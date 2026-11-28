@@ -1,7 +1,5 @@
 package com.modularmc.gtpm.common.worldgen.modifier;
 
-import com.modularmc.gtpm.GTPM;
-import com.modularmc.gtpm.api.registry.GTRegistries;
 import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import net.minecraft.core.BlockPos;
@@ -13,11 +11,14 @@ import net.minecraft.world.level.levelgen.placement.RepeatingPlacement;
 import com.mojang.serialization.MapCodec;
 import org.jetbrains.annotations.NotNull;
 
+import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
+
 public class RubberTreeChancePlacement extends RepeatingPlacement {
 
-    public static final PlacementModifierType<RubberTreeChancePlacement> RUBBER_TREE_CHANCE_PLACEMENT = GTRegistries
-            .register(BuiltInRegistries.PLACEMENT_MODIFIER_TYPE, GTPM.id("rubber_tree_chance"),
-                    () -> RubberTreeChancePlacement.CODEC);
+    public static final PlacementModifierType<RubberTreeChancePlacement> RUBBER_TREE_CHANCE_PLACEMENT = REGISTRATE
+            .<PlacementModifierType<RubberTreeChancePlacement>>registryEntry("rubber_tree_chance",
+                    BuiltInRegistries.PLACEMENT_MODIFIER_TYPE, () -> RubberTreeChancePlacement.CODEC)
+            .register();
 
     public static final RubberTreeChancePlacement INSTANCE = new RubberTreeChancePlacement();
     public static final MapCodec<RubberTreeChancePlacement> CODEC = MapCodec.unit(INSTANCE);

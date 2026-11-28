@@ -1,7 +1,5 @@
 package com.modularmc.gtpm.common.data;
 
-import com.modularmc.gtpm.GTPM;
-
 import com.modularmc.registrate.localization.MinecraftLocale;
 import com.modularmc.registrate.localization.annotation.TransVariants;
 import com.modularmc.registrate.localization.annotation.Translation;
@@ -16,6 +14,8 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.providers.EnchantmentProvider;
 import net.minecraft.world.item.enchantment.providers.SingleEnchantment;
+
+import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 
 @TransVariants(keyPrefix = "enchantment",
                value = {
@@ -39,7 +39,8 @@ import net.minecraft.world.item.enchantment.providers.SingleEnchantment;
 public class GTEnchantmentProviders {
 
     // spotless:off
-    public static final ResourceKey<EnchantmentProvider> SILK_TOUCH = ResourceKey.create(Registries.ENCHANTMENT_PROVIDER, GTPM.id("silk_touch"));
+    public static final ResourceKey<EnchantmentProvider> SILK_TOUCH = REGISTRATE
+            .datapackKey(Registries.ENCHANTMENT_PROVIDER, "silk_touch").register();
 
     public static void bootstrap(BootstrapContext<EnchantmentProvider> context) {
         HolderGetter<Enchantment> holdergetter = context.lookup(Registries.ENCHANTMENT);

@@ -1,7 +1,6 @@
 package com.modularmc.gtpm.data.loot;
 
 import com.modularmc.gtpm.GTPM;
-import com.modularmc.gtpm.api.registry.GTRegistries;
 import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.core.mixins.LootPoolAccessor;
 import com.modularmc.gtpm.utils.GTMath;
@@ -38,6 +37,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+
+import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 
 public final class ChestGenHooks {
 
@@ -137,8 +138,9 @@ public final class ChestGenHooks {
                         ExtraCodecs.NON_NEGATIVE_INT.fieldOf("max").forGetter(val -> val.maxAmount))
                 .apply(instance, RandomWeightLootFunction::new));
 
-        public static final LootItemFunctionType<RandomWeightLootFunction> TYPE = GTRegistries.register(
-                BuiltInRegistries.LOOT_FUNCTION_TYPE, GTPM.id("random_weight"), new LootItemFunctionType<>(CODEC));
+        public static final LootItemFunctionType<RandomWeightLootFunction> TYPE = REGISTRATE
+                .registryEntry("random_weight", BuiltInRegistries.LOOT_FUNCTION_TYPE, new LootItemFunctionType<>(CODEC))
+                .register();
 
         private final ItemStack stack;
         @Getter

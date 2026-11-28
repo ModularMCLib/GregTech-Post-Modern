@@ -66,6 +66,7 @@ import com.modularmc.gtpm.common.data.GTElements;
 import com.modularmc.gtpm.common.data.GTEntityTypes;
 import com.modularmc.gtpm.common.data.GTFeatures;
 import com.modularmc.gtpm.common.data.GTFluids;
+import com.modularmc.gtpm.common.data.GTJukeboxSongs;
 import com.modularmc.gtpm.common.data.GTItems;
 import com.modularmc.gtpm.common.data.GTMachines;
 import com.modularmc.gtpm.common.data.GTMaterialBlocks;
@@ -202,6 +203,7 @@ public class CommonProxy {
 
         GTSoundEntries.init();
         GTDamageTypes.init();
+        GTJukeboxSongs.init();
         GTPlaceholders.initPlaceholders();
 
         GTBlocks.init();

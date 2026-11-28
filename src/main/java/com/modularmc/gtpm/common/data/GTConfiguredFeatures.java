@@ -1,6 +1,5 @@
 package com.modularmc.gtpm.common.data;
 
-import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.common.worldgen.feature.configurations.FluidSproutConfiguration;
 import com.modularmc.gtpm.common.worldgen.feature.configurations.StoneBlobConfiguration;
 
@@ -21,16 +20,18 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvi
 import net.minecraft.world.level.levelgen.feature.trunkplacers.ForkingTrunkPlacer;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 
+import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
+
 public class GTConfiguredFeatures {
 
-    public static final ResourceKey<ConfiguredFeature<?, ?>> RUBBER_TREE = ResourceKey.create(
-            Registries.CONFIGURED_FEATURE, GTPM.id("rubber_tree"));
-    public static final ResourceKey<ConfiguredFeature<?, ?>> RED_GRANITE_BLOB = ResourceKey
-            .create(Registries.CONFIGURED_FEATURE, GTPM.id("red_granite_blob"));
-    public static final ResourceKey<ConfiguredFeature<?, ?>> MARBLE_BLOB = ResourceKey
-            .create(Registries.CONFIGURED_FEATURE, GTPM.id("marble_blob"));
-    public static final ResourceKey<ConfiguredFeature<?, ?>> RAW_OIL_SPROUT = ResourceKey
-            .create(Registries.CONFIGURED_FEATURE, GTPM.id("raw_oil_sprout"));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> RUBBER_TREE = REGISTRATE
+            .datapackKey(Registries.CONFIGURED_FEATURE, "rubber_tree").register();
+    public static final ResourceKey<ConfiguredFeature<?, ?>> RED_GRANITE_BLOB = REGISTRATE
+            .datapackKey(Registries.CONFIGURED_FEATURE, "red_granite_blob").register();
+    public static final ResourceKey<ConfiguredFeature<?, ?>> MARBLE_BLOB = REGISTRATE
+            .datapackKey(Registries.CONFIGURED_FEATURE, "marble_blob").register();
+    public static final ResourceKey<ConfiguredFeature<?, ?>> RAW_OIL_SPROUT = REGISTRATE
+            .datapackKey(Registries.CONFIGURED_FEATURE, "raw_oil_sprout").register();
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> ctx) {
         FeatureUtils.register(ctx, RUBBER_TREE, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(

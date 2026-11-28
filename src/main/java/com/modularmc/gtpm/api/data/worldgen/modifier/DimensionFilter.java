@@ -1,8 +1,5 @@
 package com.modularmc.gtpm.api.data.worldgen.modifier;
 
-import com.modularmc.gtpm.GTPM;
-import com.modularmc.gtpm.api.registry.GTRegistries;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryCodecs;
@@ -17,10 +14,14 @@ import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
+import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
+
 public class DimensionFilter extends PlacementFilter {
 
-    public static final PlacementModifierType<DimensionFilter> DIMENSION_FILTER = GTRegistries
-            .register(BuiltInRegistries.PLACEMENT_MODIFIER_TYPE, GTPM.id("dimension"), () -> DimensionFilter.CODEC);
+    public static final PlacementModifierType<DimensionFilter> DIMENSION_FILTER = REGISTRATE
+            .<PlacementModifierType<DimensionFilter>>registryEntry("dimension",
+                    BuiltInRegistries.PLACEMENT_MODIFIER_TYPE, () -> DimensionFilter.CODEC)
+            .register();
 
     public static final MapCodec<DimensionFilter> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             RegistryCodecs.homogeneousList(Registries.DIMENSION_TYPE).fieldOf("dimension_id")

@@ -1,8 +1,6 @@
 package com.modularmc.gtpm.api.data.worldgen.modifier;
 
-import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.data.worldgen.BiomeWeightModifier;
-import com.modularmc.gtpm.api.registry.GTRegistries;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -16,10 +14,14 @@ import com.mojang.serialization.MapCodec;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
+
 public class BiomePlacement extends PlacementModifier {
 
-    public static final PlacementModifierType<BiomePlacement> BIOME_PLACEMENT = GTRegistries.register(
-            BuiltInRegistries.PLACEMENT_MODIFIER_TYPE, GTPM.id("biome_placement"), () -> BiomePlacement.CODEC);
+    public static final PlacementModifierType<BiomePlacement> BIOME_PLACEMENT = REGISTRATE
+            .<PlacementModifierType<BiomePlacement>>registryEntry("biome_placement",
+                    BuiltInRegistries.PLACEMENT_MODIFIER_TYPE, () -> BiomePlacement.CODEC)
+            .register();
 
     public static final MapCodec<BiomePlacement> CODEC = BiomeWeightModifier.CODEC.listOf().fieldOf("modifiers")
             .xmap(BiomePlacement::new, placement -> placement.modifiers);
