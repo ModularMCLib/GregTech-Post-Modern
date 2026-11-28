@@ -5,6 +5,11 @@ import com.modularmc.gtpm.api.gui.GuiTextures;
 import com.modularmc.gtpm.api.gui.UITemplate;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
@@ -23,6 +28,16 @@ import javax.annotation.ParametersAreNonnullByDefault;
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
+@TransVariants(keyPrefix = "gui.widget",
+               value = {
+                       @Variant(id = "incrementButton.default_tooltip",
+                                source = "Hold Shift, Ctrl or both to change the amount",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "按住Shift，Ctrl键或同时按住这两个键来改变数量")),
+                       @Variant(id = "recipeProgressWidget.default_tooltip",
+                                source = "Show Recipes",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "查看配方")),
+               })
 public class GTIntInputElement extends UIElement {
 
     private static final int STEP_REGULAR = 1;

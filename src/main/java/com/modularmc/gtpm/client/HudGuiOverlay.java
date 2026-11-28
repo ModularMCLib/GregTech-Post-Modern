@@ -5,6 +5,12 @@ import com.modularmc.gtpm.api.item.armor.ArmorComponentItem;
 import com.modularmc.gtpm.api.item.component.IItemComponent;
 import com.modularmc.gtpm.api.item.component.IItemHUDProvider;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -17,6 +23,27 @@ import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 @NoArgsConstructor
+@Trans(key = "mataarmor.hud.supply_mode",
+       source = "Supply Mode: %s",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "供能模式：%s"))
+@TransVariants(keyPrefix = "metaarmor",
+               value = {
+                       @Variant(id = "hud.engine_enabled",
+                                source = "Engine Enabled: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "引擎已启用：%s")),
+                       @Variant(id = "hud.gravi_engine",
+                                source = "GraviEngine: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "重力引擎：%s")),
+                       @Variant(id = "hud.hover_mode",
+                                source = "Hover Mode: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "悬浮模式：%s")),
+                       @Variant(id = "hud.status.disabled",
+                                source = "§cOFF",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§c关")),
+                       @Variant(id = "hud.status.enabled",
+                                source = "§aON",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§a开")),
+               })
 public class HudGuiOverlay implements LayeredDraw.Layer {
 
     @Override

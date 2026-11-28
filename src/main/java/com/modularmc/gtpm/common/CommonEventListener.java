@@ -52,6 +52,11 @@ import com.modularmc.gtpm.utils.GTStringUtils;
 import com.modularmc.gtpm.utils.GlobalPosWithRot;
 import com.modularmc.gtpm.utils.TaskHandler;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -99,6 +104,38 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
+@TransVariants(keyPrefix = "gtpm",
+               value = {
+                       @Variant(id = "direction.tooltip.back",
+                                source = "Back",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "背面")),
+                       @Variant(id = "direction.tooltip.down",
+                                source = "Down",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "底面")),
+                       @Variant(id = "direction.tooltip.front",
+                                source = "Front",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "正面")),
+                       @Variant(id = "direction.tooltip.left",
+                                source = "Left",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "左面")),
+                       @Variant(id = "direction.tooltip.right",
+                                source = "Right",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "右面")),
+                       @Variant(id = "direction.tooltip.up",
+                                source = "Up",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "顶面")),
+                       @Variant(id = "tooltip.computer_monitor_data",
+                                source = "Storing data: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "保存数据：%s")),
+                       @Variant(id = "tooltip.proxy_bind",
+                                source = "§fBinding to a Pattern Buffer at %s %s %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§f绑定到%s %s %s处的样板总成")),
+                       @Variant(id = "tooltip.wireless_transmitter_bind",
+                                source = "Binding to a transmitter cover at %s %s %s facing %s in %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "绑定至无线发信器，其位于%5$s，%1$s %2$s %3$s，朝向%4$s")),
+               })
 @EventBusSubscriber(modid = GTPM.MOD_ID)
 public class CommonEventListener {
 

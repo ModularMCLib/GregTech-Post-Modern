@@ -4,6 +4,11 @@ import com.modularmc.gtpm.api.machine.MachineDefinition;
 import com.modularmc.gtpm.api.recipe.GTRecipeType;
 import com.modularmc.gtpm.api.registry.GTRegistries;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.editor.ui.menu.MenuTab;
 import com.lowdragmc.lowdraglib2.gui.texture.ItemStackTexture;
 import com.lowdragmc.lowdraglib2.gui.util.TreeBuilder;
@@ -20,6 +25,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@TransVariants(keyPrefix = "gtpm.gui.editor",
+               value = {
+                       @Variant(id = "templates",
+                                source = "Templates",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "模板")),
+                       @Variant(id = "templates.machine",
+                                source = "Machine UI Templates",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "机器UI项目")),
+                       @Variant(id = "templates.recipe_type",
+                                source = "Recipe Type UI Templates",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "配方类型UI项目")),
+               })
 public class TemplateTab extends MenuTab {
 
     private static final String MACHINE_MENU_KEY = "gtpm.gui.editor.templates.machine";

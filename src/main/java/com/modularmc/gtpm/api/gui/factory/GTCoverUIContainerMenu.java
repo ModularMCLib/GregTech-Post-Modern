@@ -1,5 +1,9 @@
 package com.modularmc.gtpm.api.gui.factory;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import com.lowdragmc.lowdraglib2.gui.holder.ModularUIContainerMenu;
 
 import net.minecraft.core.BlockPos;
@@ -18,6 +22,9 @@ import java.util.UUID;
 /**
  * LDLib2 container menu that owns the server-side close lifecycle for a cover UI.
  */
+@Trans(key = "gtpm.gui.cover_setting.title",
+       source = "Cover Settings",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "覆盖板设置"))
 public final class GTCoverUIContainerMenu extends ModularUIContainerMenu {
 
     private final CoverUIHolder holder;

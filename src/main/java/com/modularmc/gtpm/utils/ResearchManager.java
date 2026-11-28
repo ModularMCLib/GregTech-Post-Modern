@@ -16,6 +16,12 @@ import com.modularmc.gtpm.common.item.datacomponents.DataItem;
 import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.data.recipe.builder.GTRecipeBuilder;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.network.chat.Component;
@@ -38,6 +44,21 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.function.Consumer;
 
+@TransVariants(keyPrefix = "gtpm.scanner",
+               value = {
+                       @Variant(id = "copy_stick_empty",
+                                source = "§oEmpty Stick",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§o空闪存")),
+                       @Variant(id = "copy_stick_from",
+                                source = "§oStick to Copy",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§o要复制的闪存")),
+                       @Variant(id = "copy_stick_to",
+                                source = "§oCopy of Stick",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§o闪存（已复制）")),
+               })
+@Trans(key = "behavior.data_item.title",
+       source = "§n%s Construction Data:",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§n%s结构数据："))
 public final class ResearchManager {
 
     public static ItemStack getDefaultScannerItem() {
@@ -237,4 +258,9 @@ public final class ResearchManager {
             GTRecipeTypes.SCANNER_RECIPES.addToMainCategory(recipe);
         }
     }
+
+    @Trans(key = "behavior.data_item.data",
+           source = "- §a%s",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "- §a%s"))
+    private static final class BehaviorTranslations {}
 }

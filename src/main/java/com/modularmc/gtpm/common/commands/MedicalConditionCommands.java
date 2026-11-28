@@ -5,6 +5,11 @@ import com.modularmc.gtpm.api.capability.IMedicalConditionTracker;
 import com.modularmc.gtpm.api.data.medicalcondition.MedicalCondition;
 import com.modularmc.gtpm.common.commands.arguments.MedicalConditionArgument;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -22,6 +27,22 @@ import java.util.Collections;
 
 import static net.minecraft.commands.Commands.*;
 
+@TransVariants(keyPrefix = "command.gtpm.medical_condition",
+               value = {
+                       @Variant(id = "get",
+                                source = "Player %s has these medical conditions:",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "玩家%s有以下疾病：")),
+                       @Variant(id = "get.element",
+                                source = "Condition %s§r: %s minutes %s seconds",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "症状【%s】§r：%s分%s秒")),
+                       @Variant(id = "get.element.permanent",
+                                source = "Condition %s§r: %s minutes %s seconds (permanent)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "症状【%s】§r：%s分%s秒（永久）")),
+                       @Variant(id = "get.empty",
+                                source = "Player %s has no medical conditions.",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "玩家%s没有疾病。")),
+               })
 public class MedicalConditionCommands {
 
     private static final SimpleCommandExceptionType ERROR_CLEAR_EVERYTHING_FAILED = new SimpleCommandExceptionType(

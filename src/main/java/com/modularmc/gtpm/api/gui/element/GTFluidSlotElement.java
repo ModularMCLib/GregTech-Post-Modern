@@ -12,6 +12,11 @@ import com.modularmc.gtpm.integration.xei.GTXEIIngredientRoleAdapter;
 import com.modularmc.gtpm.integration.xei.handlers.fluid.CycleFluidEntryHandler;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.texture.ColorRectTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.ui.data.FillDirection;
@@ -51,6 +56,21 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @LDLRegister(name = GTPM.MOD_ID + "-fluid-slot", group = GTPM.MOD_ID, registry = "ldlib2:ui_element")
+@TransVariants(keyPrefix = "gtpm.fluid",
+               value = {
+                       @Variant(id = "click_to_fill",
+                                source = "§7Click with a Fluid Container to §bfill §7the tank (Shift-click for a full stack).",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§7手持流体容器点击流体槽以§b填入§7流体（Shift+单击以用整组容器中的流体填入）")),
+                       @Variant(id = "click_combined",
+                                source = "§7Click with a Fluid Container to §cempty §7or §bfill §7the tank (Shift-click for a full stack).",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§7手持流体容器点击流体槽以§c倒出§7或§b填入§7流体（Shift+单击以用整组容器倒出流体或用整组容器中的流体填入）")),
+                       @Variant(id = "click_to_empty",
+                                source = "§7Click with a Fluid Container to §cempty §7the tank (Shift-click for a full stack).",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§7手持流体容器点击流体槽以§c倒出§7流体（Shift+单击以用整组容器倒出流体）")),
+               })
 public class GTFluidSlotElement extends FluidSlot {
 
     private IGuiTexture background = IGuiTexture.EMPTY;

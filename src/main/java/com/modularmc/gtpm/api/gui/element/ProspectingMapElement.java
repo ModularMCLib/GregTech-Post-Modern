@@ -16,6 +16,10 @@ import com.modularmc.gtpm.integration.map.cache.client.GTClientCache;
 import com.modularmc.gtpm.integration.map.cache.server.ServerCache;
 import com.modularmc.gtpm.integration.map.layer.builtin.OreRenderLayer;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
 import com.lowdragmc.lowdraglib2.gui.ui.data.ScrollDisplay;
@@ -58,6 +62,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.LinkedBlockingQueue;
 
+@Trans(key = "behavior.prospector.added_waypoint",
+       source = "Created waypoint named %s!",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "已创建路径点：%s！"))
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class ProspectingMapElement extends UIElement implements SearchComponent.ISearchUI<Object> {
 

@@ -8,6 +8,11 @@ import com.modularmc.gtpm.api.gui.element.GTLabelElement;
 import com.modularmc.gtpm.api.gui.element.GTScrollerViewElement;
 import com.modularmc.gtpm.api.gui.texture.IGuiTexture;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
@@ -22,6 +27,12 @@ import java.util.stream.Collectors;
 /**
  * LDLib2 page switcher page for the Fancy shell.
  */
+@TransVariants(keyPrefix = "gtpm.gui.title_bar",
+               value = {
+                       @Variant(id = "page_switcher",
+                                source = "Pages",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "页面")),
+               })
 public class PageSwitcher implements IFancyUIProvider {
 
     private static final int WIDTH = 176;

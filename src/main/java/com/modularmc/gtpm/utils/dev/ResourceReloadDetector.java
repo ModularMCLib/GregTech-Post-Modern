@@ -3,6 +3,11 @@ package com.modularmc.gtpm.utils.dev;
 import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.config.ConfigHolder;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -18,6 +23,16 @@ import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
+@TransVariants(keyPrefix = "gtpm.debug.resource_rebuild",
+               value = {
+                       @Variant(id = "done",
+                                source = "Gradle resource rebuild done in %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "Gradle资源重建在%s内完成")),
+                       @Variant(id = "start",
+                                source = "Invoking gradle resource rebuild (./gradlew :processResources)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "正在调用Gradle资源重建（./gradlew :processResources）")),
+               })
 @ApiStatus.Internal
 public class ResourceReloadDetector {
 

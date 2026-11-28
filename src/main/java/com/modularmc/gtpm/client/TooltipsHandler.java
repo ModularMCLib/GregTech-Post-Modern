@@ -16,6 +16,11 @@ import com.modularmc.gtpm.data.lang.LangHandler;
 import com.modularmc.gtpm.utils.FormattingUtil;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
@@ -32,6 +37,56 @@ import net.neoforged.neoforge.fluids.FluidType;
 import java.util.List;
 import java.util.function.Consumer;
 
+@TransVariants(keyPrefix = "gtpm",
+               value = {
+                       @Variant(id = "tooltip.hold_shift",
+                                source = "§7Hold SHIFT for more info",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§7按住§6SHIFT§7获得更多信息")),
+                       @Variant(id = "tooltip.hold_ctrl",
+                                source = "§7Hold CTRL for more info",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7按住CTRL获得更多信息")),
+                       @Variant(id = "debug.f3_h.enabled",
+                                source = "GregTech has modified the debug info! For Developers: enable the misc:debug config option in the GregTech config file to see more",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "格雷科技修改了调试信息！对于开发人员：在GregTech配置文件中启用misc:debug以查看更多信息")),
+                       @Variant(id = "universal.kiloliters",
+                                source = "%s B",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s B")),
+                       @Variant(id = "universal.parentheses",
+                                source = "(%s)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "(%s)")),
+                       @Variant(id = "universal.spaced_parentheses",
+                                source = "( %s )",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "( %s )")),
+                       @Variant(id = "universal.padded_spaced_parentheses",
+                                source = " ( %s ) ",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = " ( %s ) ")),
+                       @Variant(id = "fluid.state_gas",
+                                source = "§aState: Gaseous",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§a状态：气态")),
+                       @Variant(id = "fluid.state_liquid",
+                                source = "§aState: Liquid",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§a状态：液态")),
+                       @Variant(id = "fluid.state_plasma",
+                                source = "§aState: Plasma",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§a状态：等离子态")),
+                       @Variant(id = "tooltip.status.trinary.false",
+                                source = "False",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "假")),
+                       @Variant(id = "tooltip.status.trinary.true",
+                                source = "True",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "真")),
+                       @Variant(id = "tooltip.status.trinary.unknown",
+                                source = "Unknown",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "未知")),
+                       @Variant(id = "fluid.temperature",
+                                source = "§cTemperature: %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§c温度：%s")),
+                       @Variant(id = "fluid.temperature.cryogenic",
+                                source = "§bCryogenic! Handle with care!",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§b低温流体！轻拿轻放！")),
+               })
 @OnlyIn(Dist.CLIENT)
 public class TooltipsHandler {
 

@@ -15,6 +15,12 @@ import com.modularmc.gtpm.data.pattern.StructureCache;
 import com.modularmc.gtpm.data.pattern.StructureDefinitionType;
 import com.modularmc.gtpm.data.pattern.StructurePatternRegistry;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.SharedSuggestionProvider;
@@ -47,6 +53,55 @@ import java.util.concurrent.CompletableFuture;
 
 import static net.minecraft.commands.Commands.*;
 
+@TransVariants(keyPrefix = "command.gtpm",
+               value = {
+                       @Variant(id = "dump_data.success",
+                                source = "Dumped %s resources from registry %s to %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "已将注册表%2$s中的%1$s个资源转储到%3$s")),
+                       @Variant(id = "cape.failure.does_not_exist",
+                                source = "Cape %s does not exist",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "披风%s不存在")),
+                       @Variant(id = "cape.give.failed",
+                                source = "No new capes were unlocked",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "没有解锁新的披风")),
+                       @Variant(id = "cape.give.success.multiple",
+                                source = "Unlocked %s capes for %s players",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "为%2$s名玩家解锁了%1$s件披风")),
+                       @Variant(id = "cape.give.success.single",
+                                source = "Unlocked %s capes for %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "为%2$s解锁了%1$s件披风")),
+                       @Variant(id = "cape.take.failed",
+                                source = "No capes could be removed",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "没有可以被移除的披风")),
+                       @Variant(id = "cape.take.success.multiple",
+                                source = "Took %s capes from %s players",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "为%2$s名玩家移除了%1$s件披风")),
+                       @Variant(id = "cape.take.success.single",
+                                source = "Took %s capes from %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "为%2$s移除了%1$s件披风")),
+                       @Variant(id = "cape.use.failed",
+                                source = "%s can't use cape %s because they don't have it (or it doesn't exist)!",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "%s无法使用披风%s，因为他没有此披风（或者此披风不存在）！")),
+                       @Variant(id = "cape.use.success",
+                                source = "%s is now using cape %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s已装备披风%s")),
+                       @Variant(id = "cape.use.success.none",
+                                source = "%s is no longer using a cape",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s不再装备披风")),
+                       @Variant(id = "place_vein.failure",
+                                source = "Failed to place vein %s at position %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "无法放置%s矿脉于%s")),
+                       @Variant(id = "place_vein.success",
+                                source = "Placed vein %s at position %s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "成功放置%s矿脉于%s")),
+                       @Variant(id = "ui_editor.open.failed",
+                                source = "Failed to open the GT UI editor",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "无法打开 GT 界面编辑器")),
+               })
 public class GTCommands {
 
     public static final SuggestionProvider<CommandSourceStack> OWNED_CAPES = (ctx, builder) -> {
@@ -393,4 +448,10 @@ public class GTCommands {
             }
         }));
     }
+
+    @Trans(key = "gtpm.chat.cape",
+           source = "§5Congrats: you just unlocked a new cape! See the Cape Selector terminal app to use it.§r",
+           translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                       text = "§5恭喜你：你刚刚解锁了一件新披风！查看终端应用程序“披风选择器”来使用它。§r"))
+    private static final class GtpmTranslations {}
 }

@@ -2,6 +2,10 @@ package com.modularmc.gtpm.api.gui.editor;
 
 import com.modularmc.gtpm.GTPM;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import com.lowdragmc.lowdraglib2.editor.project.IProject;
 import com.lowdragmc.lowdraglib2.editor.project.ProjectType;
 import com.lowdragmc.lowdraglib2.gui.texture.Icons;
@@ -12,6 +16,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+@Trans(key = "gtpm.gui.editor.project.xml",
+       source = "GTPM XML UI Project",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "GTPM XML 界面项目"))
 public final class GTUIXmlProjectType extends ProjectType {
 
     public static final GTUIXmlProjectType TYPE = new GTUIXmlProjectType();

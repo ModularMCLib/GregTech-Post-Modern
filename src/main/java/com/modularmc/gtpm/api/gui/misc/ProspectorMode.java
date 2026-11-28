@@ -19,6 +19,11 @@ import com.modularmc.gtpm.utils.FormattingUtil;
 import com.modularmc.gtpm.utils.GTUtil;
 import com.modularmc.gtpm.utils.TagUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.util.DrawerHelper;
 
 import net.minecraft.client.gui.GuiGraphics;
@@ -53,6 +58,18 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+@TransVariants(keyPrefix = "metaitem.prospector.mode",
+               value = {
+                       @Variant(id = "bedrock_ore",
+                                source = "§bBedrock Ore Prospection Mode§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§b基岩矿石勘探模式§r")),
+                       @Variant(id = "fluid",
+                                source = "§bFluid Prospection Mode§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§b流体勘探模式§r")),
+                       @Variant(id = "ores",
+                                source = "§aOre Prospection Mode§r",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§a矿石探勘模式§r")),
+               })
 public abstract class ProspectorMode<T> {
 
     public static ProspectorMode<String> ORE = new ProspectorMode<>("metaitem.prospector.mode.ores", 16) {

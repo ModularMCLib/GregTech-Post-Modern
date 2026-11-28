@@ -3,6 +3,10 @@ package com.modularmc.gtpm.common.network.packets;
 import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.integration.map.ClientCacheManager;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.core.registries.Registries;
@@ -25,6 +29,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
+@Trans(key = "command.gtpm.share_prospection_data.notification",
+       source = "%s is sharing prospecting data with you!",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s向你分享了矿脉数据！"))
 @AllArgsConstructor
 public class SCPacketShareProspection implements CustomPacketPayload {
 

@@ -10,6 +10,11 @@ import com.modularmc.gtpm.api.gui.texture.ColorRectTexture;
 import com.modularmc.gtpm.api.gui.texture.IGuiTexture;
 import com.modularmc.gtpm.api.gui.texture.ItemStackTexture;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
@@ -46,6 +51,48 @@ import java.util.function.BiConsumer;
 
 /** Anchors independent category and candidate lists beside the caller's page. */
 @NullMarked
+@TransVariants(keyPrefix = "gtpm.multiblock.category",
+               value = {
+                       @Variant(id = "borderless_lamps",
+                                source = "Borderless lamps",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "无框灯")),
+                       @Variant(id = "cleanroom_filters",
+                                source = "Cleanroom filters",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "超净间过滤器")),
+                       @Variant(id = "computer_casings",
+                                source = "Computer casings",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "计算机机壳")),
+                       @Variant(id = "computer_heat_vents",
+                                source = "Computer heat vents",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "计算机散热组件")),
+                       @Variant(id = "glass",
+                                source = "Glass",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "玻璃")),
+                       @Variant(id = "heating_coils",
+                                source = "Heating coils",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "加热线圈")),
+                       @Variant(id = "hermetic_casings",
+                                source = "Hermetic casings",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "气密机械方块")),
+                       @Variant(id = "lamps",
+                                source = "Lamps",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "灯")),
+                       @Variant(id = "machine_casings",
+                                source = "Machine casings",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "机器外壳")),
+                       @Variant(id = "machine_hulls",
+                                source = "Machine hulls",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "机器方块")),
+                       @Variant(id = "muffler_hatches",
+                                source = "Muffler hatches",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "消声仓")),
+                       @Variant(id = "power_substation_batteries",
+                                source = "Substation batteries",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "变电站电池")),
+                       @Variant(id = "rotor_holder",
+                                source = "Rotor holders",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "转子座")),
+               })
 public final class BlockChoiceList extends UIElement {
 
     public static final int COLUMN_WIDTH = 48;

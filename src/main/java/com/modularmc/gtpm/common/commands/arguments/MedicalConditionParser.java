@@ -2,6 +2,10 @@ package com.modularmc.gtpm.common.commands.arguments;
 
 import com.modularmc.gtpm.api.data.medicalcondition.MedicalCondition;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -15,6 +19,9 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
+@Trans(key = "argument.medical_condition.id.invalid",
+       source = "Unknown medical condition '%s'",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "未知疾病 '%s'"))
 public class MedicalConditionParser {
 
     private static final DynamicCommandExceptionType ERROR_UNKNOWN_CONDITION = new DynamicCommandExceptionType(

@@ -7,6 +7,10 @@ import com.modularmc.gtpm.api.gui.element.GTImageElement;
 import com.modularmc.gtpm.api.gui.texture.IGuiTexture;
 import com.modularmc.gtpm.api.gui.texture.TextTexture;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
@@ -19,6 +23,9 @@ import java.util.function.Consumer;
 /**
  * LDLib2 title bar for Fancy pages.
  */
+@Trans(key = "gtpm.gui.title_bar.back",
+       source = "Back",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "返回"))
 public class TitleBarWidget extends UIElement {
 
     private static final int BORDER_SIZE = 3;
