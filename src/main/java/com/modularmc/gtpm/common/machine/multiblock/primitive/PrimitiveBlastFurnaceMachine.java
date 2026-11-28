@@ -19,7 +19,7 @@ import com.modularmc.gtpm.api.multiblock.util.RelativeDirection;
 import com.modularmc.gtpm.api.sync_system.annotations.RerenderOnChanged;
 import com.modularmc.gtpm.api.sync_system.annotations.SyncToClient;
 import com.modularmc.gtpm.common.machine.trait.multiblock.MultiblockFluidRendererTrait;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.GTUtil;
 
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
@@ -212,7 +212,7 @@ public class PrimitiveBlastFurnaceMachine extends PrimitiveWorkableMachine imple
                 else z -= 0.52F;
                 x += horizontalOffset;
             }
-            if (ConfigHolder.INSTANCE.machines.machineSounds && GTValues.RNG.nextDouble() < 0.1) {
+            if (GTPMConfigHolder.INSTANCE.machines.machineSounds && GTValues.RNG.nextDouble() < 0.1) {
                 getLevel().playLocalSound(x, y, z, SoundEvents.FURNACE_FIRE_CRACKLE,
                         SoundSource.BLOCKS, 1.0F, 1.0F, false);
             }

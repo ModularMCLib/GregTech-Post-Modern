@@ -6,7 +6,7 @@ import com.modularmc.gtpm.api.data.tag.TagPrefix;
 import com.modularmc.gtpm.api.recipe.ingredient.FluidContainerIngredient;
 import com.modularmc.gtpm.common.data.GTMaterials;
 import com.modularmc.gtpm.common.data.GTRecipeCategories;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -480,7 +480,7 @@ public class VanillaStandardRecipes {
                 new FluidContainerIngredient(Creosote.getFluidTag(), 1000));
         VanillaRecipeHelper.addShapedRecipe(provider, "soul_torch", new ItemStack(Blocks.SOUL_TORCH, 1), "WB",
                 'W', ItemTags.SOUL_FIRE_BASE_BLOCKS, 'B', new ItemStack(Blocks.TORCH));
-        if (!ConfigHolder.INSTANCE.recipes.hardMiscRecipes) {
+        if (!GTPMConfigHolder.INSTANCE.recipes.hardMiscRecipes) {
             VanillaRecipeHelper.addShapedRecipe(provider, "soul_lantern_from_lantern",
                     new ItemStack(Blocks.SOUL_LANTERN, 1), "WB",
                     'W', ItemTags.SOUL_FIRE_BASE_BLOCKS, 'B', new ItemStack(Blocks.LANTERN));
@@ -777,7 +777,7 @@ public class VanillaStandardRecipes {
                 .outputItems(new ItemStack(Items.COMPARATOR))
                 .duration(100).EUt(1).save(provider);
 
-        if (!ConfigHolder.INSTANCE.recipes.hardRedstoneRecipes) {
+        if (!GTPMConfigHolder.INSTANCE.recipes.hardRedstoneRecipes) {
             CUTTER_RECIPES.recipeBuilder("stone_pressure_plate")
                     .inputItems(new ItemStack(Blocks.STONE_SLAB))
                     .outputItems(new ItemStack(Blocks.STONE_PRESSURE_PLATE, 8))
@@ -880,7 +880,7 @@ public class VanillaStandardRecipes {
                 .duration(100).EUt(16)
                 .addMaterialInfo(true).save(provider);
 
-        if (!ConfigHolder.INSTANCE.recipes.hardAdvancedIronRecipes) {
+        if (!GTPMConfigHolder.INSTANCE.recipes.hardAdvancedIronRecipes) {
             ASSEMBLER_RECIPES.recipeBuilder("iron_door")
                     .inputItems(TagPrefix.plate, GTMaterials.Iron, 6)
                     .circuitMeta(6)
@@ -899,7 +899,7 @@ public class VanillaStandardRecipes {
      * Adds polished stone variant autoclave recipes
      */
     private static void miscRecipes(RecipeOutput provider) {
-        if (ConfigHolder.INSTANCE.recipes.hardToolArmorRecipes) {
+        if (GTPMConfigHolder.INSTANCE.recipes.hardToolArmorRecipes) {
             ASSEMBLER_RECIPES.recipeBuilder("fishing_rod")
                     .inputItems(new ItemStack(Items.STRING))
                     .inputItems(rodLong, Wood, 2)
@@ -1191,7 +1191,7 @@ public class VanillaStandardRecipes {
         ASSEMBLER_RECIPES.recipeBuilder("ender_chest").duration(100).EUt(4)
                 .inputItems(new ItemStack(Blocks.OBSIDIAN, 8)).inputItems(new ItemStack(Items.ENDER_EYE))
                 .outputItems(new ItemStack(Blocks.ENDER_CHEST))
-                .addMaterialInfo(!ConfigHolder.INSTANCE.recipes.hardMiscRecipes).save(provider);
+                .addMaterialInfo(!GTPMConfigHolder.INSTANCE.recipes.hardMiscRecipes).save(provider);
         ASSEMBLER_RECIPES.recipeBuilder("armor_stand").duration(30).EUt(VA[ULV])
                 .inputItems(new ItemStack(Blocks.SMOOTH_STONE_SLAB, 1)).inputItems(new ItemStack(Items.STICK, 6))
                 .outputItems(new ItemStack(Items.ARMOR_STAND)).save(provider);

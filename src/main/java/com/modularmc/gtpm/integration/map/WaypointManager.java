@@ -2,7 +2,7 @@ package com.modularmc.gtpm.integration.map;
 
 import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.GTValues;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.integration.map.ftbchunks.FTBChunksWaypointHandler;
 import com.modularmc.gtpm.integration.map.journeymap.JourneymapWaypointHandler;
 import com.modularmc.gtpm.integration.map.xaeros.XaeroWaypointHandler;
@@ -28,7 +28,7 @@ public class WaypointManager {
     private static boolean active = false;
 
     public static void init() {
-        var toggle = ConfigHolder.INSTANCE.compat.minimap.toggle;
+        var toggle = GTPMConfigHolder.INSTANCE.compat.minimap.toggle;
         if (toggle.xaerosMapIntegration && GTPM.isModLoaded(GTValues.MODID_XAEROS_MINIMAP)) {
             WaypointManager.registerWaypointHandler(new XaeroWaypointHandler());
             active = true;

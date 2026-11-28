@@ -4,7 +4,7 @@ import com.modularmc.gtpm.api.GTValues;
 import com.modularmc.gtpm.api.machine.TickableSubscription;
 import com.modularmc.gtpm.api.machine.trait.MachineTrait;
 import com.modularmc.gtpm.api.machine.trait.MachineTraitType;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.GTUtil;
 
 import net.minecraft.core.Direction;
@@ -69,7 +69,7 @@ public class EnvironmentalExplosionTrait extends MachineTrait {
 
     private void updateSubscription() {
         if (!isRemote() && enableEnvironmentalExplosions &&
-                ConfigHolder.INSTANCE.machines.shouldWeatherOrTerrainExplosion) {
+                GTPMConfigHolder.INSTANCE.machines.shouldWeatherOrTerrainExplosion) {
             explosionSub = subscribeServerTick(explosionSub, this::checkEnvironment);
         } else {
             if (explosionSub != null) explosionSub.unsubscribe();

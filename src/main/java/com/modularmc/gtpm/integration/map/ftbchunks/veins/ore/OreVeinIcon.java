@@ -5,7 +5,7 @@ import com.modularmc.gtpm.api.data.chemical.material.info.MaterialIconSet;
 import com.modularmc.gtpm.api.data.chemical.material.info.MaterialIconType;
 import com.modularmc.gtpm.api.data.worldgen.ores.GeneratedVeinMetadata;
 import com.modularmc.gtpm.client.util.RenderUtil;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.integration.map.ftbchunks.FTBChunksOptions;
 import com.modularmc.gtpm.integration.map.layer.builtin.OreRenderLayer;
 
@@ -60,7 +60,7 @@ public class OreVeinIcon implements MapIcon {
 
     @Override
     public double getIconScale(MapType mapType) {
-        return mapType.isLargeMap() ? (double) ConfigHolder.INSTANCE.compat.minimap.oreIconSize / 8 :
+        return mapType.isLargeMap() ? (double) GTPMConfigHolder.INSTANCE.compat.minimap.oreIconSize / 8 :
                 MapIcon.super.getIconScale(mapType);
     }
 
@@ -168,7 +168,7 @@ public class OreVeinIcon implements MapIcon {
             return;
         }
 
-        var iconSize = ConfigHolder.INSTANCE.compat.minimap.oreIconSize;
+        var iconSize = GTPMConfigHolder.INSTANCE.compat.minimap.oreIconSize;
         var material = getMaterial();
         var color = material.isNull() ? 0xFFFFFFFF : material.getMaterialARGB();
         var colors = RenderUtil.floats(color);
@@ -194,7 +194,7 @@ public class OreVeinIcon implements MapIcon {
         }
 
         RenderSystem.setShaderColor(1, 1, 1, 1);
-        var borderColor = ConfigHolder.INSTANCE.compat.minimap.getBorderColor(color | 0xFF000000);
+        var borderColor = GTPMConfigHolder.INSTANCE.compat.minimap.getBorderColor(color | 0xFF000000);
         if ((borderColor & 0xFF000000) != 0) {
             var thickness = iconSize / 16;
             graphics.fill(x, y, x + w, y + h + thickness, borderColor);

@@ -19,7 +19,7 @@ import com.modularmc.gtpm.client.model.pipe.PipeModel;
 import com.modularmc.gtpm.common.data.GTItems;
 import com.modularmc.gtpm.common.data.GTMaterialBlocks;
 import com.modularmc.gtpm.common.item.behavior.CoverPlaceBehavior;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.recipe.VanillaRecipeHelper;
 import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 import com.modularmc.gtpm.utils.GTMath;
@@ -162,7 +162,7 @@ public abstract class PipeBlock<PipeType extends Enum<PipeType> & IPipeType<Node
             Direction facing = GTUtil.getFacingToNeighbor(pos, neighbor);
             if (facing == null) return;
             CoverBehavior cover = pipeTile.getCoverContainer().getCoverAtSide(facing);
-            if (!ConfigHolder.INSTANCE.machines.gt6StylePipesCables) {
+            if (!GTPMConfigHolder.INSTANCE.machines.gt6StylePipesCables) {
                 boolean open = pipeTile.isConnected(facing);
                 boolean canConnect = cover != null ||
                         canConnect(pipeTile, facing);
@@ -256,7 +256,7 @@ public abstract class PipeBlock<PipeType extends Enum<PipeType> & IPipeType<Node
         if (pipeTile != null) {
             Direction facing = GTUtil.getFacingToNeighbor(pos, fromPos);
             if (facing == null) return;
-            if (!ConfigHolder.INSTANCE.machines.gt6StylePipesCables) {
+            if (!GTPMConfigHolder.INSTANCE.machines.gt6StylePipesCables) {
                 boolean open = pipeTile.isConnected(facing);
                 boolean canConnect = pipeTile.getCoverContainer().getCoverAtSide(facing) != null ||
                         this.canConnect(pipeTile, facing);

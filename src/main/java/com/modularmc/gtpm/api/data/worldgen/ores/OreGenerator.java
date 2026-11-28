@@ -4,7 +4,7 @@ import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.data.worldgen.GTOreDefinition;
 import com.modularmc.gtpm.api.data.worldgen.IWorldGenLayer;
 import com.modularmc.gtpm.api.data.worldgen.WorldGeneratorUtils;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.integration.map.cache.server.ServerCache;
 import com.modularmc.gtpm.utils.GTUtil;
 
@@ -48,8 +48,8 @@ public class OreGenerator {
                 .map(OreGenerator::logVeinGeneration)
                 .map(entry -> entry.data)
                 .peek(data -> {
-                    int gridX = Math.floorDiv(chunkPos.x, ConfigHolder.INSTANCE.worldgen.oreVeins.oreVeinGridSize);
-                    int gridZ = Math.floorDiv(chunkPos.z, ConfigHolder.INSTANCE.worldgen.oreVeins.oreVeinGridSize);
+                    int gridX = Math.floorDiv(chunkPos.x, GTPMConfigHolder.INSTANCE.worldgen.oreVeins.oreVeinGridSize);
+                    int gridZ = Math.floorDiv(chunkPos.z, GTPMConfigHolder.INSTANCE.worldgen.oreVeins.oreVeinGridSize);
                     ServerCache.instance.addVein(level.getLevel().dimension(), gridX, gridZ, data);
                 })
                 .toList();
@@ -168,7 +168,7 @@ public class OreGenerator {
     /////////////////////////////////////
 
     private static VeinConfiguration logVeinGeneration(VeinConfiguration config) {
-        if (ConfigHolder.INSTANCE.dev.debugWorldgen) {
+        if (GTPMConfigHolder.INSTANCE.dev.debugWorldgen) {
             GTPM.LOGGER.debug("Generating vein {} at {}",
                     config.data.definition().getKey().location(), config.data.center());
         }
@@ -177,7 +177,7 @@ public class OreGenerator {
     }
 
     private static void logEmptyVein(VeinConfiguration config) {
-        if (ConfigHolder.INSTANCE.dev.debugWorldgen) {
+        if (GTPMConfigHolder.INSTANCE.dev.debugWorldgen) {
             GTPM.LOGGER.debug("No blocks generated for vein {} at {}",
                     config.data.definition().getKey().location(), config.data.center());
         }

@@ -97,7 +97,7 @@ import com.modularmc.gtpm.common.item.tool.rotation.CustomBlockRotations;
 import com.modularmc.gtpm.common.machine.multiblock.electric.FusionReactorMachine;
 import com.modularmc.gtpm.common.machine.owner.MachineOwner;
 import com.modularmc.gtpm.common.machine.storage.QuantumTankMachine;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.GregTechDatagen;
 import com.modularmc.gtpm.data.loot.ChestGenHooks;
 import com.modularmc.gtpm.data.pack.GTDynamicDataPack;
@@ -429,7 +429,7 @@ public class CommonProxy {
         }, quantumTanks.filter(Objects::nonNull).map(MachineDefinition::getItem).toArray(Item[]::new));
 
         for (Block block : BuiltInRegistries.BLOCK) {
-            if (ConfigHolder.INSTANCE.compat.energy.nativeEUToFE &&
+            if (GTPMConfigHolder.INSTANCE.compat.energy.nativeEUToFE &&
                     event.isBlockRegistered(Capabilities.EnergyStorage.BLOCK, block)) {
                 event.registerBlock(GTCapability.CAPABILITY_ENERGY_CONTAINER,
                         (level, pos, state, blockEntity, side) -> {

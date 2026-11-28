@@ -30,7 +30,7 @@ import com.modularmc.gtpm.api.machine.trait.WorkLogic;
 import com.modularmc.gtpm.api.misc.EnergyContainerList;
 import com.modularmc.gtpm.api.sync_system.FieldCodecs;
 import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
@@ -392,7 +392,7 @@ public class PowerSubstationMachine extends WorkableMultiblockMachine
     }
 
     public long getPassiveDrain() {
-        if (ConfigHolder.INSTANCE.machines.enableMaintenance) {
+        if (GTPMConfigHolder.INSTANCE.machines.enableMaintenance) {
             IMaintenanceMachine maintenanceMachine = maintenance;
             if (maintenanceMachine == null) {
                 for (IMultiPart part : getParts()) {

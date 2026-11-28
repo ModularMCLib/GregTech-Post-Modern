@@ -1,7 +1,7 @@
 package com.modularmc.gtpm.common.pipelike.fluidpipe.longdistance;
 
 import com.modularmc.gtpm.api.pipenet.longdistance.LongDistancePipeType;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 public class LDFluidPipeType extends LongDistancePipeType {
 
@@ -13,6 +13,6 @@ public class LDFluidPipeType extends LongDistancePipeType {
 
     @Override
     public int getMinLength() {
-        return ConfigHolder.INSTANCE.machines.ldFluidPipeMinDistance;
+        return GTPMConfigHolder.INSTANCE.machines.ldFluidPipeMinDistance;
     }
 }

@@ -1,7 +1,7 @@
 package com.modularmc.gtpm.core.mixins.client;
 
 import com.modularmc.gtpm.client.EnvironmentalHazardClientHandler;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.core.SectionPos;
@@ -33,7 +33,7 @@ public class BiomeColorsMixin {
     private static ColorResolver gtceu$wrapResolver(ColorResolver resolver) {
         return (biome, x, z) -> {
             var originalColor = resolver.getColor(biome, x, z);
-            if (!ConfigHolder.INSTANCE.gameplay.environmentalHazards) {
+            if (!GTPMConfigHolder.INSTANCE.gameplay.environmentalHazards) {
                 return originalColor;
             }
 

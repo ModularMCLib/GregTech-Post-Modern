@@ -10,7 +10,7 @@ import com.modularmc.gtpm.api.gui.element.GTLabelElement;
 import com.modularmc.gtpm.api.gui.texture.IGuiTexture;
 import com.modularmc.gtpm.api.gui.texture.TextTexture;
 import com.modularmc.gtpm.api.transfer.item.CustomItemStackHandler;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.integration.xei.GTXEIHelper;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
@@ -181,7 +181,7 @@ public class GTOreVeinWidget {
         slot.xeiRecipeSlot(GTXEIHelper.catalyst(), 1.0f, 1, stackSupplier);
         slot.xeiRecipeIngredient(GTXEIHelper.catalyst(), stackSupplier);
         slot.setIngredientIO(GTXEIHelper.catalyst());
-        if (ConfigHolder.INSTANCE.compat.showDimensionTier) {
+        if (GTPMConfigHolder.INSTANCE.compat.showDimensionTier) {
             slot.setContentOverlay(GuiTextures.text("T" +
                     (dimMarker.tier >= DimensionMarker.MAX_TIER ? "?" : dimMarker.tier))
                     .scale(0.75f)

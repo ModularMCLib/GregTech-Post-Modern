@@ -1,6 +1,6 @@
 package com.modularmc.gtpm.core.mixins.xaeroworldmap;
 
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.integration.map.xaeros.worldmap.fluid.FluidChunkHighlighter;
 
 import net.minecraft.client.multiplayer.ClientPacketListener;
@@ -24,7 +24,7 @@ public abstract class WorldMapSessionMixin {
             locals = LocalCapture.CAPTURE_FAILSOFT)
     private void cadmus$registerHighlighters(ClientPacketListener connection, long biomeZoomSeed, CallbackInfo ci,
                                              @Local HighlighterRegistry highlightRegistry) {
-        if (!ConfigHolder.INSTANCE.compat.minimap.toggle.xaerosMapIntegration) return;
+        if (!GTPMConfigHolder.INSTANCE.compat.minimap.toggle.xaerosMapIntegration) return;
         highlightRegistry.register(new FluidChunkHighlighter());
     }
 }

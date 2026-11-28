@@ -24,7 +24,7 @@ import com.modularmc.gtpm.api.sync_system.annotations.SyncToClient;
 import com.modularmc.gtpm.api.sync_system.rpc.RPCMethod;
 import com.modularmc.gtpm.common.data.GTMaterials;
 import com.modularmc.gtpm.common.item.behavior.PortableScannerBehavior;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.*;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
@@ -224,7 +224,7 @@ public abstract class SteamBoilerMachine extends SteamWorkableMachine
                             getFrontFacing().getStepY() / 2.0,
                             getFrontFacing().getStepZ() / 2.0, 0.1);
 
-                    if (ConfigHolder.INSTANCE.machines.machineSounds) {
+                    if (GTPMConfigHolder.INSTANCE.machines.machineSounds) {
                         getLevel().playSound(null, x, y, z, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, 1.0f,
                                 1.0f);
                     }

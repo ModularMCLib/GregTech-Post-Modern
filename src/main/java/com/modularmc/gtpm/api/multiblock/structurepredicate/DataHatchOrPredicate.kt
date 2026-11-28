@@ -3,7 +3,7 @@ package com.modularmc.gtpm.api.multiblock.structurepredicate
 import com.modularmc.gtpm.api.machine.multiblock.PartAbility
 import com.modularmc.gtpm.api.multiblock.MultiblockState
 import com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE
-import com.modularmc.gtpm.config.ConfigHolder
+import com.modularmc.gtpm.config.GTPMConfigHolder
 
 import net.neoforged.neoforge.common.util.Lazy
 
@@ -17,13 +17,13 @@ class DataHatchOrPredicate(val alternative: StructurePredicate) : AlternativePre
 		RestrictedPredicate.builder().base(AbilityPredicate(ObjectList.of(PartAbility.DATA_ACCESS, PartAbility.OPTICAL_DATA_RECEPTION))).exactCount(1).build()
 	}
 	override fun type(): StructurePredicateType<*> = TYPE
-	override fun alternatives(state: MultiblockState?): ObjectList<StructurePredicate> = if (ConfigHolder.INSTANCE.machines.enableResearch) ObjectList.of(dataHatches.get(), alternative) else ObjectList.of(alternative)
+	override fun alternatives(state: MultiblockState?): ObjectList<StructurePredicate> = if (GTPMConfigHolder.INSTANCE.machines.enableResearch) ObjectList.of(dataHatches.get(), alternative) else ObjectList.of(alternative)
 
 	private data class Position(val selected: StructurePredicate, val child: PatternObservation, val requiredData: RestrictedPredicate?) : PatternObservation.PositionMatch
 	internal fun restorePreparedPosition(observation: PatternObservation, selected: StructurePredicate, child: PatternObservation, requiredData: RestrictedPredicate?): PatternObservation = observation.withPositionMatch(Position(selected, child, requiredData))
 
 	override fun observePosition(state: MultiblockState): PatternObservation {
-		val data = if (ConfigHolder.INSTANCE.machines.enableResearch) dataHatches.get() else null
+		val data = if (GTPMConfigHolder.INSTANCE.machines.enableResearch) dataHatches.get() else null
 		if (data != null) {
 			val observed = data.observePosition(state)
 			if (observed.matched) return observed.withPositionMatch(Position(data, observed, null))
@@ -38,7 +38,7 @@ class DataHatchOrPredicate(val alternative: StructurePredicate) : AlternativePre
 	}
 
 	override fun test(multiblockState: MultiblockState, mutateCount: Boolean): Boolean {
-		if (!ConfigHolder.INSTANCE.machines.enableResearch) return alternative.test(multiblockState, mutateCount)
+		if (!GTPMConfigHolder.INSTANCE.machines.enableResearch) return alternative.test(multiblockState, mutateCount)
 		val data = dataHatches.get()
 		if (data.test(multiblockState, mutateCount)) return true
 		val matched = alternative.test(multiblockState, mutateCount)

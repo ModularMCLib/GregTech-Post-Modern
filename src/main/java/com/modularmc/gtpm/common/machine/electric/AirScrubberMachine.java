@@ -8,7 +8,7 @@ import com.modularmc.gtpm.api.recipe.modifier.ModifierFunction;
 import com.modularmc.gtpm.common.data.GTRecipeTypes;
 import com.modularmc.gtpm.common.data.machines.GTMachineUtils;
 import com.modularmc.gtpm.common.machine.trait.hazard.EnvironmentalHazardCleanerTrait;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.recipe.builder.GTRecipeBuilder;
 
 import net.minecraft.network.chat.Component;
@@ -57,7 +57,7 @@ public class AirScrubberMachine extends SimpleTieredMachine {
     @Override
     public boolean isWorkLogicAvailable() {
         // Don't run recipes if hazards are off
-        return ConfigHolder.INSTANCE.gameplay.environmentalHazards;
+        return GTPMConfigHolder.INSTANCE.gameplay.environmentalHazards;
     }
 
     @Override
@@ -76,7 +76,7 @@ public class AirScrubberMachine extends SimpleTieredMachine {
 
     @Override
     public boolean onWorking() {
-        if (!super.onWorking() || !ConfigHolder.INSTANCE.gameplay.environmentalHazards) {
+        if (!super.onWorking() || !GTPMConfigHolder.INSTANCE.gameplay.environmentalHazards) {
             return false;
         }
         cleanerTrait.cleanHazard();

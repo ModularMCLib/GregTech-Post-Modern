@@ -7,7 +7,7 @@ import com.modularmc.gtpm.api.data.chemical.material.properties.HazardProperty;
 import com.modularmc.gtpm.api.data.medicalcondition.MedicalCondition;
 import com.modularmc.gtpm.api.sync_system.FieldCodecs;
 import com.modularmc.gtpm.common.particle.HazardParticleOptions;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.BreadthFirstBlockSearch;
 
 import net.minecraft.core.BlockPos;
@@ -61,7 +61,7 @@ public class LocalizedHazardSavedData extends SavedData {
 
     public LocalizedHazardSavedData(ServerLevel serverLevel, CompoundTag tag) {
         this(serverLevel);
-        if (!ConfigHolder.INSTANCE.gameplay.environmentalHazards) {
+        if (!GTPMConfigHolder.INSTANCE.gameplay.environmentalHazards) {
             return;
         }
 
@@ -77,7 +77,7 @@ public class LocalizedHazardSavedData extends SavedData {
     }
 
     public void tick() {
-        if (!ConfigHolder.INSTANCE.gameplay.environmentalHazards) {
+        if (!GTPMConfigHolder.INSTANCE.gameplay.environmentalHazards) {
             return;
         }
 
@@ -182,7 +182,7 @@ public class LocalizedHazardSavedData extends SavedData {
     }
 
     public boolean expandHazard(BlockPos source, int blocksToAdd) {
-        if (!ConfigHolder.INSTANCE.gameplay.environmentalHazards) {
+        if (!GTPMConfigHolder.INSTANCE.gameplay.environmentalHazards) {
             return true;
         }
 

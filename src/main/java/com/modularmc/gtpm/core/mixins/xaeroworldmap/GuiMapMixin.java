@@ -1,7 +1,7 @@
 package com.modularmc.gtpm.core.mixins.xaeroworldmap;
 
 import com.modularmc.gtpm.GTPM;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.integration.map.ButtonState;
 import com.modularmc.gtpm.integration.map.xaeros.worldmap.gui.GuiTexturedButtonWithSize;
 
@@ -34,10 +34,10 @@ public abstract class GuiMapMixin extends ScreenBase implements IRightClickableE
 
     @Inject(method = "init", at = @At("TAIL"), remap = true)
     private void gtceu$injectInitGui(CallbackInfo ci) {
-        if (!ConfigHolder.INSTANCE.compat.minimap.toggle.xaerosMapIntegration) return;
+        if (!GTPMConfigHolder.INSTANCE.compat.minimap.toggle.xaerosMapIntegration) return;
         int startX, startY, xOffset, yOffset;
 
-        switch (ConfigHolder.INSTANCE.compat.minimap.direction) {
+        switch (GTPMConfigHolder.INSTANCE.compat.minimap.direction) {
             case VERTICAL -> {
                 xOffset = 0;
                 yOffset = 1;
@@ -47,58 +47,58 @@ public abstract class GuiMapMixin extends ScreenBase implements IRightClickableE
                 yOffset = 0;
             }
             default -> throw new IllegalStateException(
-                    "Unexpected value: " + ConfigHolder.INSTANCE.compat.minimap.direction);
+                    "Unexpected value: " + GTPMConfigHolder.INSTANCE.compat.minimap.direction);
         }
 
-        switch (ConfigHolder.INSTANCE.compat.minimap.buttonAnchor) {
+        switch (GTPMConfigHolder.INSTANCE.compat.minimap.buttonAnchor) {
             case TOP_LEFT -> {
-                startX = ConfigHolder.INSTANCE.compat.minimap.xOffset;
-                startY = ConfigHolder.INSTANCE.compat.minimap.yOffset;
+                startX = GTPMConfigHolder.INSTANCE.compat.minimap.xOffset;
+                startY = GTPMConfigHolder.INSTANCE.compat.minimap.yOffset;
             }
             case TOP_CENTER -> {
-                startX = width / 2 + ConfigHolder.INSTANCE.compat.minimap.xOffset;
-                startY = ConfigHolder.INSTANCE.compat.minimap.yOffset;
+                startX = width / 2 + GTPMConfigHolder.INSTANCE.compat.minimap.xOffset;
+                startY = GTPMConfigHolder.INSTANCE.compat.minimap.yOffset;
             }
             case TOP_RIGHT -> {
-                startX = width - 20 - ConfigHolder.INSTANCE.compat.minimap.xOffset;
-                startY = ConfigHolder.INSTANCE.compat.minimap.yOffset;
+                startX = width - 20 - GTPMConfigHolder.INSTANCE.compat.minimap.xOffset;
+                startY = GTPMConfigHolder.INSTANCE.compat.minimap.yOffset;
                 xOffset = -xOffset;
             }
             case RIGHT_CENTER -> {
-                startX = width - 20 - ConfigHolder.INSTANCE.compat.minimap.xOffset;
-                startY = height / 2 + ConfigHolder.INSTANCE.compat.minimap.yOffset;
+                startX = width - 20 - GTPMConfigHolder.INSTANCE.compat.minimap.xOffset;
+                startY = height / 2 + GTPMConfigHolder.INSTANCE.compat.minimap.yOffset;
                 xOffset = -xOffset;
                 yOffset = -yOffset;
             }
             case BOTTOM_RIGHT -> {
-                startX = width - 20 - ConfigHolder.INSTANCE.compat.minimap.xOffset;
-                startY = height - 20 - ConfigHolder.INSTANCE.compat.minimap.yOffset;
+                startX = width - 20 - GTPMConfigHolder.INSTANCE.compat.minimap.xOffset;
+                startY = height - 20 - GTPMConfigHolder.INSTANCE.compat.minimap.yOffset;
                 xOffset = -xOffset;
                 yOffset = -yOffset;
             }
             case BOTTOM_CENTER -> {
-                startX = width / 2 + ConfigHolder.INSTANCE.compat.minimap.xOffset;
-                startY = height - 20 - ConfigHolder.INSTANCE.compat.minimap.yOffset;
+                startX = width / 2 + GTPMConfigHolder.INSTANCE.compat.minimap.xOffset;
+                startY = height - 20 - GTPMConfigHolder.INSTANCE.compat.minimap.yOffset;
                 yOffset = -yOffset;
             }
             case BOTTOM_LEFT -> {
-                startX = ConfigHolder.INSTANCE.compat.minimap.xOffset;
-                startY = height - 20 - ConfigHolder.INSTANCE.compat.minimap.yOffset;
+                startX = GTPMConfigHolder.INSTANCE.compat.minimap.xOffset;
+                startY = height - 20 - GTPMConfigHolder.INSTANCE.compat.minimap.yOffset;
                 yOffset = -yOffset;
             }
             case LEFT_CENTER -> {
-                startX = ConfigHolder.INSTANCE.compat.minimap.xOffset;
-                startY = height / 2 + ConfigHolder.INSTANCE.compat.minimap.yOffset;
+                startX = GTPMConfigHolder.INSTANCE.compat.minimap.xOffset;
+                startY = height / 2 + GTPMConfigHolder.INSTANCE.compat.minimap.yOffset;
                 yOffset = -yOffset;
             }
             default -> throw new IllegalStateException(
-                    "Unexpected value: " + ConfigHolder.INSTANCE.compat.minimap.buttonAnchor);
+                    "Unexpected value: " + GTPMConfigHolder.INSTANCE.compat.minimap.buttonAnchor);
         }
 
-        if (ConfigHolder.INSTANCE.compat.minimap.buttonAnchor.isCentered()) {
+        if (GTPMConfigHolder.INSTANCE.compat.minimap.buttonAnchor.isCentered()) {
             int totalButtonSize = ButtonState.buttonAmount() * 10;
-            if (ConfigHolder.INSTANCE.compat.minimap.buttonAnchor.usualDirection()
-                    .equals(ConfigHolder.INSTANCE.compat.minimap.direction)) {
+            if (GTPMConfigHolder.INSTANCE.compat.minimap.buttonAnchor.usualDirection()
+                    .equals(GTPMConfigHolder.INSTANCE.compat.minimap.direction)) {
                 startX -= xOffset * totalButtonSize;
                 startY -= yOffset * totalButtonSize;
                 if (xOffset < 0) startX -= 20;

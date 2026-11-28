@@ -25,7 +25,7 @@ import com.modularmc.gtpm.api.recipe.modifier.ModifierFunction;
 import com.modularmc.gtpm.api.recipe.modifier.ParallelLogic;
 import com.modularmc.gtpm.api.recipe.modifier.RecipeModifier;
 import com.modularmc.gtpm.common.data.GTMaterials;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
 import com.modularmc.registrate.localization.annotation.Trans;
@@ -82,7 +82,7 @@ public class SteamParallelMultiblockMachine extends WorkableMultiblockMachine im
     }
 
     public SteamParallelMultiblockMachine(BlockEntityCreationInfo info) {
-        this(info, ConfigHolder.INSTANCE.machines.steamMultiParallelAmount);
+        this(info, GTPMConfigHolder.INSTANCE.machines.steamMultiParallelAmount);
     }
 
     @Override
@@ -185,7 +185,7 @@ public class SteamParallelMultiblockMachine extends WorkableMultiblockMachine im
     }
 
     public IGuiTexture getScreenTexture() {
-        return GuiTextures.DISPLAY_STEAM.get(ConfigHolder.INSTANCE.machines.steelSteamMultiblocks);
+        return GuiTextures.DISPLAY_STEAM.get(GTPMConfigHolder.INSTANCE.machines.steelSteamMultiblocks);
     }
 
     @Override
@@ -193,10 +193,10 @@ public class SteamParallelMultiblockMachine extends WorkableMultiblockMachine im
         UIElement root = new UIElement();
         UITemplate.setBounds(root, 0, 0, 176, 216);
         root.style(style -> style.backgroundTexture(
-                GuiTextures.BACKGROUND_STEAM.get(ConfigHolder.INSTANCE.machines.steelSteamMultiblocks)));
+                GuiTextures.BACKGROUND_STEAM.get(GTPMConfigHolder.INSTANCE.machines.steelSteamMultiblocks)));
         root.addChild(createDisplayScreen());
         root.addChild(UITemplate.bindPlayerInventory(player.getInventory(),
-                GuiTextures.SLOT_STEAM.get(ConfigHolder.INSTANCE.machines.steelSteamMultiblocks), 7, 134, true));
+                GuiTextures.SLOT_STEAM.get(GTPMConfigHolder.INSTANCE.machines.steelSteamMultiblocks), 7, 134, true));
         return UI.of(root);
     }
 

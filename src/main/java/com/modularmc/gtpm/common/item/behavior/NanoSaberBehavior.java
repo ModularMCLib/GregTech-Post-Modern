@@ -3,7 +3,7 @@ package com.modularmc.gtpm.common.item.behavior;
 import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.item.component.IEnchantableItem;
 import com.modularmc.gtpm.api.item.component.IItemAttributes;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
@@ -25,9 +25,9 @@ public class NanoSaberBehavior extends ToggleEnergyConsumerBehavior implements I
     private final double additionalAttackDamage;
 
     public NanoSaberBehavior() {
-        super(ConfigHolder.INSTANCE.tools.nanoSaber.energyConsumption);
-        this.baseAttackDamage = ConfigHolder.INSTANCE.tools.nanoSaber.nanoSaberBaseDamage;
-        this.additionalAttackDamage = ConfigHolder.INSTANCE.tools.nanoSaber.nanoSaberDamageBoost;
+        super(GTPMConfigHolder.INSTANCE.tools.nanoSaber.energyConsumption);
+        this.baseAttackDamage = GTPMConfigHolder.INSTANCE.tools.nanoSaber.nanoSaberBaseDamage;
+        this.additionalAttackDamage = GTPMConfigHolder.INSTANCE.tools.nanoSaber.nanoSaberDamageBoost;
     }
 
     @Override

@@ -5,7 +5,7 @@ import com.modularmc.gtpm.api.data.chemical.material.Material;
 import com.modularmc.gtpm.api.data.worldgen.GTOreDefinition;
 import com.modularmc.gtpm.api.data.worldgen.ores.GeneratedVeinMetadata;
 import com.modularmc.gtpm.common.network.packets.prospecting.SPacketProspectOre;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.integration.map.cache.DimensionCache;
 import com.modularmc.gtpm.integration.map.cache.WorldCache;
 
@@ -59,7 +59,7 @@ public class ServerCache extends WorldCache {
     public void prospectSurfaceRockMaterial(ResourceKey<Level> dim, Material material, BlockPos pos,
                                             ServerPlayer player) {
         prospectBySurfaceRockMaterial(dim, material, pos, player,
-                ConfigHolder.INSTANCE.compat.minimap.surfaceRockProspectRange);
+                GTPMConfigHolder.INSTANCE.compat.minimap.surfaceRockProspectRange);
     }
 
     public void prospectBySurfaceRockMaterial(ResourceKey<Level> dim, final Material material, BlockPos pos,

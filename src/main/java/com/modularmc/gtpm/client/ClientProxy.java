@@ -38,7 +38,7 @@ import com.modularmc.gtpm.common.data.models.GTModels;
 import com.modularmc.gtpm.common.item.DrumMachineItem;
 import com.modularmc.gtpm.common.item.LampBlockItem;
 import com.modularmc.gtpm.common.item.QuantumTankMachineItem;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.model.builder.PipeModelBuilder;
 import com.modularmc.gtpm.data.pack.event.RegisterDynamicResourcesEvent;
 import com.modularmc.gtpm.data.pattern.StructurePatternRegistry;
@@ -132,7 +132,7 @@ public class ClientProxy {
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
-        if (ConfigHolder.INSTANCE.compat.minimap.toggle.ftbChunksIntegration &&
+        if (GTPMConfigHolder.INSTANCE.compat.minimap.toggle.ftbChunksIntegration &&
                 GTPM.isModLoaded(GTValues.MODID_FTB_CHUNKS)) {
             FTBChunksPlugin.addEventListeners();
         }

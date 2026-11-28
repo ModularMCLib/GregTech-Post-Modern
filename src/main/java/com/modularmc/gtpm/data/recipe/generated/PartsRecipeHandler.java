@@ -9,7 +9,7 @@ import com.modularmc.gtpm.common.data.GTItems;
 import com.modularmc.gtpm.common.data.GTMaterials;
 import com.modularmc.gtpm.common.data.GTRecipeCategories;
 import com.modularmc.gtpm.common.item.behavior.TurbineRotorBehaviour;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.recipe.VanillaRecipeHelper;
 import com.modularmc.gtpm.data.recipe.builder.GTRecipeBuilder;
 
@@ -493,7 +493,7 @@ public final class PartsRecipeHandler {
 
             var materialOutput = material.hasFlag(IS_MAGNETIC) && material.hasProperty(PropertyKey.INGOT) ?
                     material.getProperty(PropertyKey.INGOT).getMacerateInto() : material;
-            if (ConfigHolder.INSTANCE.recipes.harderRods) {
+            if (GTPMConfigHolder.INSTANCE.recipes.harderRods) {
                 builder.outputItems(rod, materialOutput);
                 builder.outputItems(dustSmall, materialOutput, 2);
             } else {

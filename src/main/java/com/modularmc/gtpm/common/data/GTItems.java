@@ -28,7 +28,7 @@ import com.modularmc.gtpm.common.item.behavior.MachineConfigCopyBehaviour;
 import com.modularmc.gtpm.common.item.datacomponents.DataItem;
 import com.modularmc.gtpm.common.item.modules.ImageModuleBehaviour;
 import com.modularmc.gtpm.common.item.modules.TextModuleBehaviour;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.lang.LangHandler;
 import com.modularmc.gtpm.data.recipe.CustomTags;
 import com.modularmc.gtpm.utils.FormattingUtil;
@@ -4067,7 +4067,7 @@ public class GTItems {
             .onRegister(attach(ElectricStats.createElectricItem(1_600_000L, GTValues.HV),
                     new ProspectorScannerBehavior(3, GTValues.V[GTValues.HV] / 16L, ProspectorMode.ORE,
                             ProspectorMode.FLUID,
-                            ConfigHolder.INSTANCE.machines.doBedrockOres ? ProspectorMode.BEDROCK_ORE : null)))
+                            GTPMConfigHolder.INSTANCE.machines.doBedrockOres ? ProspectorMode.BEDROCK_ORE : null)))
             .register();
     public static ItemEntry<ComponentItem> PROSPECTOR_LuV = REGISTRATE.item("prospector.luv", ComponentItem::new)
             .localization(text -> text
@@ -4077,7 +4077,7 @@ public class GTItems {
             .onRegister(attach(ElectricStats.createElectricItem(1_000_000_000L, GTValues.LuV),
                     new ProspectorScannerBehavior(5, GTValues.V[GTValues.LuV] / 16L, ProspectorMode.ORE,
                             ProspectorMode.FLUID,
-                            ConfigHolder.INSTANCE.machines.doBedrockOres ? ProspectorMode.BEDROCK_ORE : null)))
+                            GTPMConfigHolder.INSTANCE.machines.doBedrockOres ? ProspectorMode.BEDROCK_ORE : null)))
             .register();
 
     public static ItemEntry<ComponentItem> ITEM_MAGNET_LV = REGISTRATE.item("lv_item_magnet", ComponentItem::new)
@@ -4300,8 +4300,8 @@ public class GTItems {
                     (p) -> new ArmorComponentItem(GTArmorMaterials.GOGGLES, ArmorItem.Type.HELMET, p)
                             .setArmorLogic(new NightvisionGoggles(2,
                                     80_000L * (long) Math.max(1,
-                                            Math.pow(1, ConfigHolder.INSTANCE.tools.voltageTierNightVision - 1)),
-                                    ConfigHolder.INSTANCE.tools.voltageTierNightVision, ArmorItem.Type.HELMET)))
+                                            Math.pow(1, GTPMConfigHolder.INSTANCE.tools.voltageTierNightVision - 1)),
+                                    GTPMConfigHolder.INSTANCE.tools.voltageTierNightVision, ArmorItem.Type.HELMET)))
             .localization(text -> text
                     .source("Nightvision Goggles")
                     .translation(MinecraftLocale.ZH_CN, "夜视护目镜"))
@@ -4315,8 +4315,8 @@ public class GTItems {
                             .setArmorLogic(new NanoMuscleSuite(ArmorItem.Type.CHESTPLATE,
                                     512,
                                     6_400_000L * (long) Math.max(1,
-                                            Math.pow(4, ConfigHolder.INSTANCE.tools.voltageTierNanoSuit - 3)),
-                                    ConfigHolder.INSTANCE.tools.voltageTierNanoSuit)))
+                                            Math.pow(4, GTPMConfigHolder.INSTANCE.tools.voltageTierNanoSuit - 3)),
+                                    GTPMConfigHolder.INSTANCE.tools.voltageTierNanoSuit)))
             .localization(text -> text
                     .source("NanoMuscle™ Suite Chestplate")
                     .translation(MinecraftLocale.ZH_CN, "纳米肌体™套装胸甲"))
@@ -4330,8 +4330,8 @@ public class GTItems {
                             .setArmorLogic(new NanoMuscleSuite(ArmorItem.Type.LEGGINGS,
                                     512,
                                     6_400_000L * (long) Math.max(1,
-                                            Math.pow(4, ConfigHolder.INSTANCE.tools.voltageTierNanoSuit - 3)),
-                                    ConfigHolder.INSTANCE.tools.voltageTierNanoSuit)))
+                                            Math.pow(4, GTPMConfigHolder.INSTANCE.tools.voltageTierNanoSuit - 3)),
+                                    GTPMConfigHolder.INSTANCE.tools.voltageTierNanoSuit)))
             .localization(text -> text
                     .source("NanoMuscle™ Suite Leggings")
                     .translation(MinecraftLocale.ZH_CN, "纳米肌体™套装护腿"))
@@ -4344,8 +4344,8 @@ public class GTItems {
                     .setArmorLogic(new NanoMuscleSuite(ArmorItem.Type.BOOTS,
                             512,
                             6_400_000L * (long) Math.max(1,
-                                    Math.pow(4, ConfigHolder.INSTANCE.tools.voltageTierNanoSuit - 3)),
-                            ConfigHolder.INSTANCE.tools.voltageTierNanoSuit)))
+                                    Math.pow(4, GTPMConfigHolder.INSTANCE.tools.voltageTierNanoSuit - 3)),
+                            GTPMConfigHolder.INSTANCE.tools.voltageTierNanoSuit)))
             .localization(text -> text
                     .source("NanoMuscle™ Suite Boots")
                     .translation(MinecraftLocale.ZH_CN, "纳米肌体™套装靴子"))
@@ -4358,8 +4358,8 @@ public class GTItems {
                     .setArmorLogic(new NanoMuscleSuite(ArmorItem.Type.HELMET,
                             512,
                             6_400_000L * (long) Math.max(1,
-                                    Math.pow(4, ConfigHolder.INSTANCE.tools.voltageTierNanoSuit - 3)),
-                            ConfigHolder.INSTANCE.tools.voltageTierNanoSuit)))
+                                    Math.pow(4, GTPMConfigHolder.INSTANCE.tools.voltageTierNanoSuit - 3)),
+                            GTPMConfigHolder.INSTANCE.tools.voltageTierNanoSuit)))
             .localization(text -> text
                     .source("NanoMuscle™ Suite Helmet")
                     .translation(MinecraftLocale.ZH_CN, "纳米肌体™套装头盔"))
@@ -4453,8 +4453,8 @@ public class GTItems {
                             .setArmorLogic(new QuarkTechSuite(ArmorItem.Type.CHESTPLATE,
                                     8192,
                                     100_000_000L * (long) Math.max(1,
-                                            Math.pow(4, ConfigHolder.INSTANCE.tools.voltageTierQuarkTech - 5)),
-                                    ConfigHolder.INSTANCE.tools.voltageTierQuarkTech)))
+                                            Math.pow(4, GTPMConfigHolder.INSTANCE.tools.voltageTierQuarkTech - 5)),
+                                    GTPMConfigHolder.INSTANCE.tools.voltageTierQuarkTech)))
             .localization(text -> text
                     .source("QuarkTech™ Suite Chestplate")
                     .translation(MinecraftLocale.ZH_CN, "夸克高科™套装胸甲"))
@@ -4470,8 +4470,8 @@ public class GTItems {
                             .setArmorLogic(new QuarkTechSuite(ArmorItem.Type.LEGGINGS,
                                     8192,
                                     100_000_000L * (long) Math.max(1,
-                                            Math.pow(4, ConfigHolder.INSTANCE.tools.voltageTierQuarkTech - 5)),
-                                    ConfigHolder.INSTANCE.tools.voltageTierQuarkTech)))
+                                            Math.pow(4, GTPMConfigHolder.INSTANCE.tools.voltageTierQuarkTech - 5)),
+                                    GTPMConfigHolder.INSTANCE.tools.voltageTierQuarkTech)))
             .localization(text -> text
                     .source("QuarkTech™ Suite Leggings")
                     .translation(MinecraftLocale.ZH_CN, "夸克高科™套装护腿"))
@@ -4485,8 +4485,8 @@ public class GTItems {
                     .setArmorLogic(new QuarkTechSuite(ArmorItem.Type.BOOTS,
                             8192,
                             100_000_000L * (long) Math.max(1,
-                                    Math.pow(4, ConfigHolder.INSTANCE.tools.voltageTierQuarkTech - 5)),
-                            ConfigHolder.INSTANCE.tools.voltageTierQuarkTech)))
+                                    Math.pow(4, GTPMConfigHolder.INSTANCE.tools.voltageTierQuarkTech - 5)),
+                            GTPMConfigHolder.INSTANCE.tools.voltageTierQuarkTech)))
             .localization(text -> text
                     .source("QuarkTech™ Suite Boots")
                     .translation(MinecraftLocale.ZH_CN, "夸克高科™套装靴子"))
@@ -4501,8 +4501,8 @@ public class GTItems {
                     .setArmorLogic(new QuarkTechSuite(ArmorItem.Type.HELMET,
                             8192,
                             100_000_000L * (long) Math.max(1,
-                                    Math.pow(4, ConfigHolder.INSTANCE.tools.voltageTierQuarkTech - 5)),
-                            ConfigHolder.INSTANCE.tools.voltageTierQuarkTech)))
+                                    Math.pow(4, GTPMConfigHolder.INSTANCE.tools.voltageTierQuarkTech - 5)),
+                            GTPMConfigHolder.INSTANCE.tools.voltageTierQuarkTech)))
             .localization(text -> text
                     .source("QuarkTech™ Suite Helmet")
                     .translation(MinecraftLocale.ZH_CN, "夸克高科™套装头盔"))
@@ -4528,8 +4528,8 @@ public class GTItems {
                     (p) -> new ArmorComponentItem(GTArmorMaterials.JETPACK, ArmorItem.Type.CHESTPLATE, p)
                             .setArmorLogic(new Jetpack(15,
                                     1_000_000L * (long) Math.max(1,
-                                            Math.pow(4, ConfigHolder.INSTANCE.tools.voltageTierImpeller - 2)),
-                                    ConfigHolder.INSTANCE.tools.voltageTierImpeller)))
+                                            Math.pow(4, GTPMConfigHolder.INSTANCE.tools.voltageTierImpeller - 2)),
+                                    GTPMConfigHolder.INSTANCE.tools.voltageTierImpeller)))
             .localization(text -> text
                     .source("Electric Jetpack")
                     .translation(MinecraftLocale.ZH_CN, "电力喷气背包"))
@@ -4545,8 +4545,8 @@ public class GTItems {
                     (p) -> new ArmorComponentItem(GTArmorMaterials.JETPACK, ArmorItem.Type.CHESTPLATE, p)
                             .setArmorLogic(new AdvancedJetpack(256,
                                     6_400_000L * (long) Math.max(1,
-                                            Math.pow(4, ConfigHolder.INSTANCE.tools.voltageTierAdvImpeller - 4)),
-                                    ConfigHolder.INSTANCE.tools.voltageTierAdvImpeller)))
+                                            Math.pow(4, GTPMConfigHolder.INSTANCE.tools.voltageTierAdvImpeller - 4)),
+                                    GTPMConfigHolder.INSTANCE.tools.voltageTierAdvImpeller)))
             .localization(text -> text
                     .source("Advanced Electric Jetpack")
                     .translation(MinecraftLocale.ZH_CN, "进阶电力喷气背包"))
@@ -4559,8 +4559,8 @@ public class GTItems {
                     (p) -> new ArmorComponentItem(GTArmorMaterials.ARMOR, ArmorItem.Type.CHESTPLATE, p)
                             .setArmorLogic(new AdvancedNanoMuscleSuite(512,
                                     12_800_000L * (long) Math.max(1,
-                                            Math.pow(4, ConfigHolder.INSTANCE.tools.voltageTierAdvNanoSuit - 3)),
-                                    ConfigHolder.INSTANCE.tools.voltageTierAdvNanoSuit)))
+                                            Math.pow(4, GTPMConfigHolder.INSTANCE.tools.voltageTierAdvNanoSuit - 3)),
+                                    GTPMConfigHolder.INSTANCE.tools.voltageTierAdvNanoSuit)))
             .localization(text -> text
                     .source("Advanced NanoMuscle™ Suite Chestplate")
                     .translation(MinecraftLocale.ZH_CN, "纳米肌体™进阶套装胸甲"))
@@ -4575,8 +4575,8 @@ public class GTItems {
                     .setArmorLogic(new AdvancedQuarkTechSuite(8192,
                             1_000_000_000L *
                                     (long) Math.max(1,
-                                            Math.pow(4, ConfigHolder.INSTANCE.tools.voltageTierAdvQuarkTech - 6)),
-                            ConfigHolder.INSTANCE.tools.voltageTierAdvQuarkTech)))
+                                            Math.pow(4, GTPMConfigHolder.INSTANCE.tools.voltageTierAdvQuarkTech - 6)),
+                            GTPMConfigHolder.INSTANCE.tools.voltageTierAdvQuarkTech)))
             .localization(text -> text
                     .source("Advanced QuarkTech™ Suite Chestplate")
                     .translation(MinecraftLocale.ZH_CN, "夸克高科™进阶套装胸甲"))

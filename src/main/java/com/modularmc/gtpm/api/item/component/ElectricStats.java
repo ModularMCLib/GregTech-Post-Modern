@@ -8,7 +8,7 @@ import com.modularmc.gtpm.api.capability.IElectricItem;
 import com.modularmc.gtpm.api.capability.compat.FeCompat;
 import com.modularmc.gtpm.api.item.capability.ElectricItem;
 import com.modularmc.gtpm.client.renderer.item.ToolChargeBarRenderer;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
@@ -154,7 +154,7 @@ public class ElectricStats implements IInteractionItem, ISubItemHandler, IAddInf
         var slotElectricItem = GTCapabilityHelper.getElectricItem(target);
         if (slotElectricItem != null && !slotElectricItem.canProvideChargeExternally()) {
             return chargeElectricItem(target, maxDischargeAmount, source, slotElectricItem);
-        } else if (ConfigHolder.INSTANCE.compat.energy.nativeEUToFE) {
+        } else if (GTPMConfigHolder.INSTANCE.compat.energy.nativeEUToFE) {
             var feEnergyItem = GTCapabilityHelper.getForgeEnergyItem(target);
             if (feEnergyItem != null && feEnergyItem.canReceive() &&
                     feEnergyItem.getEnergyStored() < feEnergyItem.getMaxEnergyStored()) {

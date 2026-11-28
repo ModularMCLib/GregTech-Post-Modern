@@ -24,7 +24,7 @@ import com.modularmc.gtpm.api.sound.SoundEntry;
 import com.modularmc.gtpm.common.data.GTDataComponents;
 import com.modularmc.gtpm.common.data.GTMaterials;
 import com.modularmc.gtpm.common.data.GTToolBehaviors;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.recipe.VanillaRecipeHelper;
 import com.modularmc.gtpm.utils.FormattingUtil;
 import com.modularmc.gtpm.utils.GTUtil;
@@ -882,7 +882,7 @@ public interface IGTTool extends HeldItemUIProvider, ItemLike {
     // Sound Playing
     default void playCraftingSound(@Nullable Player player, ItemStack stack) {
         // player null check for things like auto-crafters
-        if (ConfigHolder.INSTANCE.client.toolCraftingSounds && getSound() != null && player != null) {
+        if (GTPMConfigHolder.INSTANCE.client.toolCraftingSounds && getSound() != null && player != null) {
             if (canPlaySound(stack)) {
                 setLastCraftingSoundTime(stack);
                 playSound(player);
@@ -901,7 +901,7 @@ public interface IGTTool extends HeldItemUIProvider, ItemLike {
     }
 
     default void playSound(Player player) {
-        if (ConfigHolder.INSTANCE.client.toolUseSounds && getSound() != null) {
+        if (GTPMConfigHolder.INSTANCE.client.toolUseSounds && getSound() != null) {
             player.level().playSound(null, player, getSound().getMainEvent(), SoundSource.PLAYERS, 1F, 1F);
         }
     }

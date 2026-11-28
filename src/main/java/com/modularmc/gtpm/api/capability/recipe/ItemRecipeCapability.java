@@ -22,7 +22,7 @@ import com.modularmc.gtpm.api.recipe.ui.GTRecipeTypeUI;
 import com.modularmc.gtpm.common.data.GTDataComponents;
 import com.modularmc.gtpm.common.recipe.condition.ResearchCondition;
 import com.modularmc.gtpm.common.valueprovider.*;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.integration.xei.GTRecipeXEIHelper;
 import com.modularmc.gtpm.integration.xei.GTXEIHelper;
 import com.modularmc.gtpm.integration.xei.entry.item.ItemEntryList;
@@ -507,7 +507,7 @@ public class ItemRecipeCapability extends RecipeCapability<SizedIngredient> {
     private void applyResearchSlot(GTItemSlotElement slot,
                                    GTRecipeTypeUI.@UnknownNullability("null when storage == null") RecipeHolder recipeHolder,
                                    GTRecipeType recipeType) {
-        if (!ConfigHolder.INSTANCE.machines.enableResearch) {
+        if (!GTPMConfigHolder.INSTANCE.machines.enableResearch) {
             return;
         }
         ResearchCondition condition = recipeHolder.conditions().stream()

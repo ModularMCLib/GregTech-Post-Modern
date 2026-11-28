@@ -12,7 +12,7 @@ import com.modularmc.gtpm.api.recipe.content.Content;
 import com.modularmc.gtpm.api.recipe.content.ContentListMap;
 import com.modularmc.gtpm.api.recipe.ingredient.IntCircuitIngredient;
 import com.modularmc.gtpm.common.recipe.condition.ResearchCondition;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.integration.xei.GTRecipeUI;
 
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
@@ -97,7 +97,7 @@ public record GTEmiIngredients(ObjectList<EmiIngredient> inputs, ObjectList<EmiI
     }
 
     private void addResearch(GTRecipeDefinition recipe) {
-        if (recipe.recipeType.isHasResearchSlot() && ConfigHolder.INSTANCE.machines.enableResearch) {
+        if (recipe.recipeType.isHasResearchSlot() && GTPMConfigHolder.INSTANCE.machines.enableResearch) {
             for (var condition : recipe.conditions) {
                 if (condition instanceof ResearchCondition research) {
                     for (var stack : ItemRecipeCapability.mapResearchItems(research, recipe.recipeType)) {

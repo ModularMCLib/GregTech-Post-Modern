@@ -1,6 +1,6 @@
 package com.modularmc.gtpm.integration.map.cache;
 
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.GTMath;
 
 import net.minecraft.core.BlockPos;
@@ -17,13 +17,13 @@ public class GridPos {
     }
 
     public GridPos(ChunkPos chunk) {
-        this.x = Math.floorDiv(chunk.x, ConfigHolder.INSTANCE.worldgen.oreVeins.oreVeinGridSize);
-        this.z = Math.floorDiv(chunk.z, ConfigHolder.INSTANCE.worldgen.oreVeins.oreVeinGridSize);
+        this.x = Math.floorDiv(chunk.x, GTPMConfigHolder.INSTANCE.worldgen.oreVeins.oreVeinGridSize);
+        this.z = Math.floorDiv(chunk.z, GTPMConfigHolder.INSTANCE.worldgen.oreVeins.oreVeinGridSize);
     }
 
     public GridPos(BlockPos block) {
-        this.x = Math.floorDiv((block.getX() >> 4), ConfigHolder.INSTANCE.worldgen.oreVeins.oreVeinGridSize);
-        this.z = Math.floorDiv((block.getZ() >> 4), ConfigHolder.INSTANCE.worldgen.oreVeins.oreVeinGridSize);
+        this.x = Math.floorDiv((block.getX() >> 4), GTPMConfigHolder.INSTANCE.worldgen.oreVeins.oreVeinGridSize);
+        this.z = Math.floorDiv((block.getZ() >> 4), GTPMConfigHolder.INSTANCE.worldgen.oreVeins.oreVeinGridSize);
     }
 
     public ChunkPos getChunk(int x, int z) {
@@ -57,7 +57,7 @@ public class GridPos {
     }
 
     public static int blockToGridCoords(int c) {
-        return Math.floorDiv((c >> 4), ConfigHolder.INSTANCE.worldgen.oreVeins.oreVeinGridSize);
+        return Math.floorDiv((c >> 4), GTPMConfigHolder.INSTANCE.worldgen.oreVeins.oreVeinGridSize);
     }
 
     public static GridPos fromChunkCoords(int cx, int cz) {

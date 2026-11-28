@@ -2,7 +2,7 @@ package com.modularmc.gtpm.data.loot;
 
 import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.registry.GTRegistries;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.core.mixins.LootPoolAccessor;
 import com.modularmc.gtpm.utils.GTMath;
 import com.modularmc.gtpm.utils.ItemStackHashStrategy;
@@ -62,7 +62,7 @@ public final class ChestGenHooks {
         if (lootEntryItems.containsKey(name)) {
             List<GTLootEntryItem> entryItems = lootEntryItems.get(name);
             for (GTLootEntryItem entry : entryItems) {
-                if (ConfigHolder.INSTANCE.dev.debug) {
+                if (GTPMConfigHolder.INSTANCE.dev.debug) {
                     GTPM.LOGGER.info("adding {} to lootTable {}", entry, name);
                 }
 

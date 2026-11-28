@@ -26,7 +26,7 @@ import com.modularmc.gtpm.api.transfer.item.CustomItemStackHandler;
 import com.modularmc.gtpm.common.data.GTRecipeTypes;
 import com.modularmc.gtpm.common.machine.multiblock.electric.FusionReactorMachine;
 import com.modularmc.gtpm.common.recipe.condition.DimensionCondition;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.lang.LangHandler;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
@@ -473,7 +473,7 @@ public final class GTRecipeUI {
         slot.setCanPutItems(false);
         slot.setIngredientIO(GTXEIHelper.input());
         slot.setBackgroundTexture(IGuiTexture.EMPTY);
-        if (ConfigHolder.INSTANCE.compat.showDimensionTier) {
+        if (GTPMConfigHolder.INSTANCE.compat.showDimensionTier) {
             slot.setContentOverlay(
                     GuiTextures.text("T" + (dimMarker.tier >= DimensionMarker.MAX_TIER ? "?" : dimMarker.tier))
                             .scale(0.75f).transform(-3.0f, 5.0f));

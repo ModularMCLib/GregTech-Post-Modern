@@ -7,7 +7,7 @@ import com.modularmc.gtpm.api.item.component.IDurabilityBar;
 import com.modularmc.gtpm.api.item.component.IInteractionItem;
 import com.modularmc.gtpm.api.pipenet.IPipeNode;
 import com.modularmc.gtpm.common.data.GTSoundEntries;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.BreadthFirstBlockSearch;
 import com.modularmc.gtpm.utils.GradientUtil;
 
@@ -236,7 +236,7 @@ public class ColorSprayBehaviour implements IDurabilityBar, IInteractionItem, IA
             return InteractionResult.PASS;
         }
 
-        int maxBlocksToRecolor = player.isShiftKeyDown() ? ConfigHolder.INSTANCE.tools.sprayCanChainLength : 1;
+        int maxBlocksToRecolor = player.isShiftKeyDown() ? GTPMConfigHolder.INSTANCE.tools.sprayCanChainLength : 1;
 
         BlockEntity first = level.getBlockEntity(pos);
         if (first == null || !handleSpecialBlockEntities(first, maxBlocksToRecolor, context)) {

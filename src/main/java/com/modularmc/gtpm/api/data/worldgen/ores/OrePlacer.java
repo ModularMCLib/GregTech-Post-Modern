@@ -1,6 +1,6 @@
 package com.modularmc.gtpm.api.data.worldgen.ores;
 
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
@@ -42,7 +42,7 @@ public class OrePlacer {
      * once all of its chunks have been generated.
      */
     public void placeOres(WorldGenLevel level, ChunkGenerator chunkGenerator, ChunkAccess chunk) {
-        if (!ConfigHolder.INSTANCE.dev.doSuperflatOres && chunkGenerator instanceof FlatLevelSource) return;
+        if (!GTPMConfigHolder.INSTANCE.dev.doSuperflatOres && chunkGenerator instanceof FlatLevelSource) return;
 
         var random = new XoroshiroRandomSource(level.getSeed() ^ chunk.getPos().toLong());
         var generatedVeins = oreGenCache.consumeChunkVeins(level, chunkGenerator, chunk);
@@ -84,7 +84,7 @@ public class OrePlacer {
     }
 
     private void placeIndicators(ChunkAccess chunk, BulkSectionAccess access, GeneratedIndicators generatedVein) {
-        if (!ConfigHolder.INSTANCE.worldgen.oreVeins.oreIndicators) return;
+        if (!GTPMConfigHolder.INSTANCE.worldgen.oreVeins.oreIndicators) return;
         generatedVein.consumeIndicators(chunk.getPos()).forEach(placer -> {
             placer.placeIndicators(access);
         });

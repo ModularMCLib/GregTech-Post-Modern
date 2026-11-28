@@ -1,7 +1,7 @@
 package com.modularmc.gtpm.api.misc;
 
 import com.modularmc.gtpm.GTPM;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -56,7 +56,7 @@ public class ImageCache {
     private static ImageRequestResult loadConfiguredImage(String url) {
         boolean singleplayer = GTPM.getMinecraftServer().isSingleplayer() &&
                 !GTPM.getMinecraftServer().isPublished();
-        String[] allowedDomains = ConfigHolder.INSTANCE.gameplay.allowedImageDomains;
+        String[] allowedDomains = GTPMConfigHolder.INSTANCE.gameplay.allowedImageDomains;
         return loadImage(url, singleplayer, allowedDomains,
                 validatedUrl -> readImage(validatedUrl, singleplayer, allowedDomains, URL::openConnection));
     }

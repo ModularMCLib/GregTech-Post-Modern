@@ -22,7 +22,7 @@ import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
 import com.modularmc.gtpm.api.sync_system.annotations.SyncToClient;
 import com.modularmc.gtpm.api.sync_system.rpc.RPCMethod;
 import com.modularmc.gtpm.common.data.GTMaterials;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.GTUtil;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
@@ -156,7 +156,7 @@ public class LargeBoilerMachine extends WorkableMultiblockMachine
 
         if (isFormed() && getOffsetTimer() % TICKS_PER_STEAM_GENERATION == 0) {
             var maxDrain = currentTemperature * throttle * TICKS_PER_STEAM_GENERATION /
-                    (ConfigHolder.INSTANCE.machines.largeBoilers.steamPerWater * 100);
+                    (GTPMConfigHolder.INSTANCE.machines.largeBoilers.steamPerWater * 100);
             if (currentTemperature < 100) {
                 setSteamGenerated(0);
             } else if (maxDrain > 0) { // if maxDrain is 0 because throttle is too low, skip trying to make steam
@@ -174,7 +174,7 @@ public class LargeBoilerMachine extends WorkableMultiblockMachine
                 var drained = (drainWater == null || drainWater.isEmpty()) ? maxDrain :
                         maxDrain - drainWater.getFirst().amount();
 
-                setSteamGenerated(drained * ConfigHolder.INSTANCE.machines.largeBoilers.steamPerWater);
+                setSteamGenerated(drained * GTPMConfigHolder.INSTANCE.machines.largeBoilers.steamPerWater);
 
                 if (drained > 0) {
                     // fill steam

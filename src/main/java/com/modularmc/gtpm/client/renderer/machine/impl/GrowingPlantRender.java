@@ -9,7 +9,7 @@ import com.modularmc.gtpm.api.recipe.content.Content;
 import com.modularmc.gtpm.client.renderer.machine.DynamicRender;
 import com.modularmc.gtpm.client.renderer.machine.DynamicRenderType;
 import com.modularmc.gtpm.client.util.RenderUtil;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.core.mixins.GrowingPlantBlockAccessor;
 import com.modularmc.gtpm.core.mixins.IntegerPropertyAccessor;
 import com.modularmc.gtpm.core.mixins.StemBlockAccessor;
@@ -109,7 +109,7 @@ public class GrowingPlantRender extends DynamicRender<IRecipeLogicMachine, Growi
     @Override
     public void render(IRecipeLogicMachine rlm, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource,
                        int packedLight, int packedOverlay) {
-        if (!ConfigHolder.INSTANCE.client.renderer.renderGrowingPlants) return;
+        if (!GTPMConfigHolder.INSTANCE.client.renderer.renderGrowingPlants) return;
         if (!rlm.isActive()) return;
         final RecipeLogic recipeLogic = rlm.getRecipeLogic();
 

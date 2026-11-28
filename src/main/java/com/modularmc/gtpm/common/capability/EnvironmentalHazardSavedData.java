@@ -8,7 +8,7 @@ import com.modularmc.gtpm.api.sync_system.FieldCodecs;
 import com.modularmc.gtpm.common.network.packets.hazard.SPacketAddHazardZone;
 import com.modularmc.gtpm.common.network.packets.hazard.SPacketRemoveHazardZone;
 import com.modularmc.gtpm.common.network.packets.hazard.SPacketSyncHazardZoneStrength;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -66,7 +66,7 @@ public class EnvironmentalHazardSavedData extends SavedData {
 
     public EnvironmentalHazardSavedData(ServerLevel serverLevel, CompoundTag tag) {
         this(serverLevel);
-        if (!ConfigHolder.INSTANCE.gameplay.environmentalHazards) {
+        if (!GTPMConfigHolder.INSTANCE.gameplay.environmentalHazards) {
             return;
         }
 
@@ -82,7 +82,7 @@ public class EnvironmentalHazardSavedData extends SavedData {
     }
 
     public void tick() {
-        if (!ConfigHolder.INSTANCE.gameplay.environmentalHazards) {
+        if (!GTPMConfigHolder.INSTANCE.gameplay.environmentalHazards) {
             return;
         }
 
@@ -96,7 +96,7 @@ public class EnvironmentalHazardSavedData extends SavedData {
                             .equals(entry.getKey()));
             tickPlayerHazards(zone, playersInZone);
 
-            zone = zone.removeStrength(ConfigHolder.INSTANCE.gameplay.environmentalHazardDecayRate);
+            zone = zone.removeStrength(GTPMConfigHolder.INSTANCE.gameplay.environmentalHazardDecayRate);
             if (zone == null) {
                 zonesToRemove.add(entry.getKey());
             } else if (zone.canSpread() && zone.strength() > MIN_STRENGTH_FOR_SPREAD) {
@@ -216,7 +216,7 @@ public class EnvironmentalHazardSavedData extends SavedData {
     }
 
     public void addZone(ChunkPos source, HazardZone zone) {
-        if (!ConfigHolder.INSTANCE.gameplay.environmentalHazards) {
+        if (!GTPMConfigHolder.INSTANCE.gameplay.environmentalHazards) {
             return;
         }
 

@@ -19,7 +19,7 @@ import com.modularmc.gtpm.api.sync_system.annotations.SyncBoth;
 import com.modularmc.gtpm.api.sync_system.annotations.SyncToClient;
 import com.modularmc.gtpm.api.transfer.item.CustomItemStackHandler;
 import com.modularmc.gtpm.common.machine.trait.AutoOutputTrait;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.lang.LangHandler;
 import com.modularmc.gtpm.utils.ISubscription;
 
@@ -145,7 +145,7 @@ public class FisherMachine extends TieredEnergyMachine
 
         this.chargerInventory = new CustomItemStackHandler();
         chargerInventory.setFilter(item -> GTCapabilityHelper.getElectricItem(item) != null ||
-                (ConfigHolder.INSTANCE.compat.energy.nativeEUToFE &&
+                (GTPMConfigHolder.INSTANCE.compat.energy.nativeEUToFE &&
                         GTCapabilityHelper.getForgeEnergyItem(item) != null));
 
         autoOutput = attachTrait(AutoOutputTrait.ofItems(cache));

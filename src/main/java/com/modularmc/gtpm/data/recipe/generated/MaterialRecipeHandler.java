@@ -12,7 +12,7 @@ import com.modularmc.gtpm.common.data.GTItems;
 import com.modularmc.gtpm.common.data.GTMaterialBlocks;
 import com.modularmc.gtpm.common.data.GTMaterials;
 import com.modularmc.gtpm.common.data.GTRecipeCategories;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.recipe.VanillaRecipeHelper;
 import com.modularmc.gtpm.data.recipe.builder.GTRecipeBuilder;
 import com.modularmc.gtpm.utils.FormattingUtil;
@@ -48,7 +48,7 @@ public final class MaterialRecipeHandler {
         processDust(provider, material);
         processSmallDust(provider, material);
         processTinyDust(provider, material);
-        if (ConfigHolder.INSTANCE.recipes.generateLowQualityGems) {
+        if (GTPMConfigHolder.INSTANCE.recipes.generateLowQualityGems) {
             processGemConversion(provider, gemChipped, null, material);
             processGemConversion(provider, gemFlawed, gemChipped, material);
             processGemConversion(provider, gem, gemFlawed, material);
@@ -493,7 +493,7 @@ public final class MaterialRecipeHandler {
             ItemStack ingotStack = ChemicalHelper.get(ingot, material.hasFlag(IS_MAGNETIC) ?
                     material.getProperty(PropertyKey.INGOT).getMacerateInto() : material);
 
-            if (!ConfigHolder.INSTANCE.recipes.disableManualCompression) {
+            if (!GTPMConfigHolder.INSTANCE.recipes.disableManualCompression) {
                 if (!ingot.isIgnored(material)) {
                     VanillaRecipeHelper.addShapelessRecipe(provider,
                             String.format("nugget_disassembling_%s", material.getName()),
@@ -534,7 +534,7 @@ public final class MaterialRecipeHandler {
         } else if (material.hasProperty(PropertyKey.GEM)) {
             ItemStack gemStack = ChemicalHelper.get(gem, material);
 
-            if (!ConfigHolder.INSTANCE.recipes.disableManualCompression) {
+            if (!GTPMConfigHolder.INSTANCE.recipes.disableManualCompression) {
                 if (!gem.isIgnored(material)) {
                     VanillaRecipeHelper.addShapelessRecipe(provider,
                             String.format("nugget_disassembling_%s", material.getName()),
@@ -619,7 +619,7 @@ public final class MaterialRecipeHandler {
             int sizeSqrt = Math.round(Mth.sqrt(size));
             // do not allow handcrafting or uncrafting of blacklisted blocks
             if (!material.hasFlag(EXCLUDE_BLOCK_CRAFTING_BY_HAND_RECIPES) &&
-                    !ConfigHolder.INSTANCE.recipes.disableManualCompression && sizeSqrt * sizeSqrt == size &&
+                    !GTPMConfigHolder.INSTANCE.recipes.disableManualCompression && sizeSqrt * sizeSqrt == size &&
                     !block.isIgnored(material)) {
                 String patternString = "B".repeat(Math.max(0, sizeSqrt));
                 String[] pattern = new String[sizeSqrt];

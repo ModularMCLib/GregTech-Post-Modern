@@ -2,7 +2,7 @@ package com.modularmc.gtpm.client;
 
 import com.modularmc.gtpm.common.capability.EnvironmentalHazardSavedData;
 import com.modularmc.gtpm.common.particle.HazardParticleOptions;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.core.mixins.client.ClientLevelAccessor;
 
 import net.minecraft.client.Minecraft;
@@ -43,7 +43,7 @@ public class EnvironmentalHazardClientHandler {
     private final Map<ChunkPos, FloatIntPair> chunkColorCache = new ConcurrentHashMap<>();
 
     public void onClientTick() {
-        if (!ConfigHolder.INSTANCE.gameplay.environmentalHazards) {
+        if (!GTPMConfigHolder.INSTANCE.gameplay.environmentalHazards) {
             return;
         }
 
@@ -88,7 +88,7 @@ public class EnvironmentalHazardClientHandler {
     }
 
     public void updateHazardMap(Map<ChunkPos, EnvironmentalHazardSavedData.HazardZone> newZones) {
-        if (!ConfigHolder.INSTANCE.gameplay.environmentalHazards) {
+        if (!GTPMConfigHolder.INSTANCE.gameplay.environmentalHazards) {
             return;
         }
 
@@ -110,7 +110,7 @@ public class EnvironmentalHazardClientHandler {
     }
 
     public void updateHazardStrength(ChunkPos pos, float newStrength) {
-        if (!ConfigHolder.INSTANCE.gameplay.environmentalHazards) {
+        if (!GTPMConfigHolder.INSTANCE.gameplay.environmentalHazards) {
             return;
         }
 
@@ -124,7 +124,7 @@ public class EnvironmentalHazardClientHandler {
     }
 
     public void addHazardZone(ChunkPos pos, EnvironmentalHazardSavedData.HazardZone zone) {
-        if (!ConfigHolder.INSTANCE.gameplay.environmentalHazards) {
+        if (!GTPMConfigHolder.INSTANCE.gameplay.environmentalHazards) {
             return;
         }
 

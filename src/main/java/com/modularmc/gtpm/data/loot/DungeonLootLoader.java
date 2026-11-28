@@ -5,7 +5,7 @@ import com.modularmc.gtpm.api.data.chemical.ChemicalHelper;
 import com.modularmc.gtpm.api.data.tag.TagPrefix;
 import com.modularmc.gtpm.common.data.GTItems;
 import com.modularmc.gtpm.common.data.GTMaterials;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -16,10 +16,10 @@ public class DungeonLootLoader {
     private DungeonLootLoader() {}
 
     public static void init() {
-        if (ConfigHolder.INSTANCE.worldgen.addLoot || ConfigHolder.INSTANCE.worldgen.increaseDungeonLoot) {
+        if (GTPMConfigHolder.INSTANCE.worldgen.addLoot || GTPMConfigHolder.INSTANCE.worldgen.increaseDungeonLoot) {
             GTPM.LOGGER.info("Registering dungeon loot...");
         }
-        if (ConfigHolder.INSTANCE.worldgen.addLoot) {
+        if (GTPMConfigHolder.INSTANCE.worldgen.addLoot) {
             ChestGenHooks.addItem(BuiltInLootTables.SPAWN_BONUS_CHEST, GTItems.BOTTLE_PURPLE_DRINK.asStack(), 8, 16, 2);
 
             ChestGenHooks.addItem(BuiltInLootTables.SIMPLE_DUNGEON, GTItems.BOTTLE_PURPLE_DRINK.asStack(), 4, 8, 80);
@@ -151,7 +151,7 @@ public class DungeonLootLoader {
             ChestGenHooks.addItem(BuiltInLootTables.STRONGHOLD_CORRIDOR,
                     ChemicalHelper.get(TagPrefix.ingot, GTMaterials.DamascusSteel), 3, 12, 6);
         }
-        if (ConfigHolder.INSTANCE.worldgen.increaseDungeonLoot) {
+        if (GTPMConfigHolder.INSTANCE.worldgen.increaseDungeonLoot) {
             ChestGenHooks.addRolls(BuiltInLootTables.SPAWN_BONUS_CHEST, 2, 4);
             ChestGenHooks.addRolls(BuiltInLootTables.SIMPLE_DUNGEON, 1, 3);
             ChestGenHooks.addRolls(BuiltInLootTables.DESERT_PYRAMID, 2, 4);

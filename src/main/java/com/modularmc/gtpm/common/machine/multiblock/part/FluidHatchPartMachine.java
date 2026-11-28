@@ -26,7 +26,7 @@ import com.modularmc.gtpm.api.sync_system.rpc.RPCMethod;
 import com.modularmc.gtpm.api.sync_system.rpc.RPCSender;
 import com.modularmc.gtpm.common.data.GTMachines;
 import com.modularmc.gtpm.common.item.behavior.IntCircuitBehaviour;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.integration.xei.GTXEIHelper;
 import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 import com.modularmc.gtpm.utils.GTTransferUtils;
@@ -110,7 +110,7 @@ public class FluidHatchPartMachine extends TieredIOPartMachine
             this.circuitSlotEnabled = true;
             this.circuitInventory = attachTrait(new NotifiableItemStackHandler(1, IO.IN, IO.NONE))
                     .setFilter(IntCircuitBehaviour::isIntegratedCircuit).shouldSearchContent(false)
-                    .shouldDropInventoryInWorld(!ConfigHolder.INSTANCE.machines.ghostCircuit);
+                    .shouldDropInventoryInWorld(!GTPMConfigHolder.INSTANCE.machines.ghostCircuit);
         } else {
             this.circuitSlotEnabled = false;
             this.circuitInventory = attachTrait(new NotifiableItemStackHandler(0, IO.NONE)).shouldSearchContent(false);
@@ -154,7 +154,7 @@ public class FluidHatchPartMachine extends TieredIOPartMachine
     @Override
     public void addedToController(MultiblockControllerMachine controller, String structureName) {
         if (!controller.allowCircuitSlots()) {
-            if (!ConfigHolder.INSTANCE.machines.ghostCircuit) {
+            if (!GTPMConfigHolder.INSTANCE.machines.ghostCircuit) {
                 circuitInventory.dropInventoryInWorld();
             } else {
                 circuitInventory.setStackInSlot(0, ItemStack.EMPTY);

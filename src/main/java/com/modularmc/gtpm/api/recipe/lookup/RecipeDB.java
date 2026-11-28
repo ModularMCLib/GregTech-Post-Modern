@@ -12,7 +12,7 @@ import com.modularmc.gtpm.api.recipe.lookup.ingredient.AbstractMapIngredient;
 import com.modularmc.gtpm.api.recipe.lookup.ingredient.MapIngredientTypeManager;
 import com.modularmc.gtpm.common.data.GTRecipeTypes;
 import com.modularmc.gtpm.common.item.armor.PowerlessJetpack;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
@@ -210,7 +210,7 @@ public final class RecipeDB {
                     }
                     if (v.left().isEmpty() || !v.left().get().equals(recipe)) {
                         // empty recipe or different recipe exists already, conflict
-                        if (ConfigHolder.INSTANCE.dev.debug || GTPM.isDev()) {
+                        if (GTPMConfigHolder.INSTANCE.dev.debug || GTPM.isDev()) {
                             GTPM.LOGGER.warn(
                                     "Recipe duplicate or conflict found in GTRecipeType {} and was not added. See next lines for details",
                                     BuiltInRegistries.RECIPE_TYPE.getKey(recipe.getType()));

@@ -6,7 +6,7 @@ import com.modularmc.gtpm.api.machine.trait.WorkLogic;
 import com.modularmc.gtpm.api.recipe.GTRecipe;
 import com.modularmc.gtpm.api.recipe.GTRecipeType;
 import com.modularmc.gtpm.api.recipe.RecipeHelper;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.integration.jade.provider.RecipeLogicProvider;
 
 import net.minecraft.network.chat.Component;
@@ -120,7 +120,7 @@ public interface IRecipeLogicMachine extends IRecipeCapabilityHolder, IWorkLogic
     }
 
     default boolean shouldWorkingPlaySound() {
-        return ConfigHolder.INSTANCE.machines.machineSounds &&
+        return GTPMConfigHolder.INSTANCE.machines.machineSounds &&
                 (!(self() instanceof IMufflableMachine mufflableMachine) || !mufflableMachine.isMuffled());
     }
 

@@ -2,7 +2,7 @@ package com.modularmc.gtpm.api.item.tool;
 
 import com.modularmc.gtpm.api.item.datacomponents.AoESymmetrical;
 import com.modularmc.gtpm.api.item.tool.behavior.IToolBehavior;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
@@ -113,7 +113,7 @@ public class ToolDefinitionBuilder {
     }
 
     public ToolDefinitionBuilder defaultEnchantment(ResourceKey<Enchantment> enchantment, int level) {
-        if (ConfigHolder.INSTANCE.recipes.enchantedTools) {
+        if (GTPMConfigHolder.INSTANCE.recipes.enchantedTools) {
             this.defaultEnchantments.put(enchantment, level);
         }
         return this;

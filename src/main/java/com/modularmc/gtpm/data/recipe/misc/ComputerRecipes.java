@@ -2,7 +2,7 @@ package com.modularmc.gtpm.data.recipe.misc;
 
 import com.modularmc.gtpm.api.machine.multiblock.CleanroomType;
 import com.modularmc.gtpm.common.data.machines.GTMultiMachines;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.recipe.CustomTags;
 
 import net.minecraft.data.recipes.RecipeOutput;
@@ -87,7 +87,7 @@ public class ComputerRecipes {
                 .inputItems(plate, Glass, 4)
                 .inputItems(wireFine, RedAlloy, 4)
                 .inputFluids(Glowstone, L)
-                .outputItems(MONITOR, ConfigHolder.INSTANCE.recipes.casingsPerCraft)
+                .outputItems(MONITOR, GTPMConfigHolder.INSTANCE.recipes.casingsPerCraft)
                 .duration(1000).EUt(VA[MV])
                 .addMaterialInfo(true).save(provider);
         ASSEMBLER_RECIPES.recipeBuilder("advanced_monitor_casing")
@@ -107,7 +107,7 @@ public class ComputerRecipes {
                 .inputItems(wireFine, Copper, 16)
                 .inputItems(wireGtSingle, NiobiumTitanium, 2)
                 .outputItems(HIGH_POWER_CASING,
-                        ConfigHolder.INSTANCE.recipes.casingsPerCraft)
+                        GTPMConfigHolder.INSTANCE.recipes.casingsPerCraft)
                 .duration(100).EUt(VA[IV])
                 .addMaterialInfo(true).save(provider);
 
@@ -119,7 +119,7 @@ public class ComputerRecipes {
                 .inputItems(wireFine, Copper, 32)
                 .inputItems(wireGtSingle, VanadiumGallium, 2)
                 .outputItems(COMPUTER_CASING,
-                        ConfigHolder.INSTANCE.recipes.casingsPerCraft)
+                        GTPMConfigHolder.INSTANCE.recipes.casingsPerCraft)
                 .duration(200).EUt(VA[LuV])
                 .addMaterialInfo(true).save(provider);
 
@@ -141,7 +141,7 @@ public class ComputerRecipes {
                 .inputItems(plate, Copper, 16)
                 .inputItems(wireGtSingle, SamariumIronArsenicOxide)
                 .outputItems(COMPUTER_HEAT_VENT,
-                        ConfigHolder.INSTANCE.recipes.casingsPerCraft)
+                        GTPMConfigHolder.INSTANCE.recipes.casingsPerCraft)
                 .duration(100).EUt(VA[EV])
                 .addMaterialInfo(true).save(provider);
 

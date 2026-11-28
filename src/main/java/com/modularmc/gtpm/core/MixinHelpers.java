@@ -18,7 +18,7 @@ import com.modularmc.gtpm.api.registry.GTRegistries;
 import com.modularmc.gtpm.api.registry.registrate.GTClientFluidTypeExtensions;
 import com.modularmc.gtpm.common.data.GTMaterialBlocks;
 import com.modularmc.gtpm.common.data.GTMaterialItems;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.core.mixins.BlockBehaviourAccessor;
 import com.modularmc.gtpm.data.recipe.CustomTags;
 
@@ -172,7 +172,7 @@ public class MixinHelpers {
                                 .contains(CustomTags.MINEABLE_WITH_CONFIG_VALID_PICKAXE_WRENCH)) {
                             tagMap.computeIfAbsent(CustomTags.MINEABLE_WITH_WRENCH.location(),
                                     path -> new ArrayList<>()).addAll(entries);
-                            if (!ConfigHolder.INSTANCE.machines.requireGTToolsForBlocks) {
+                            if (!GTPMConfigHolder.INSTANCE.machines.requireGTToolsForBlocks) {
                                 tagMap.computeIfAbsent(BlockTags.MINEABLE_WITH_AXE.location(),
                                         path -> new ArrayList<>())
                                         .addAll(entries);
@@ -206,7 +206,7 @@ public class MixinHelpers {
             });
 
             // if config is NOT enabled, add the "configurable" mineability tags to the pickaxe tag
-            if (!ConfigHolder.INSTANCE.machines.requireGTToolsForBlocks) {
+            if (!GTPMConfigHolder.INSTANCE.machines.requireGTToolsForBlocks) {
                 var tagList = tagMap.computeIfAbsent(BlockTags.MINEABLE_WITH_PICKAXE.location(),
                         path -> new ArrayList<>());
 

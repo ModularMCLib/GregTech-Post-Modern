@@ -4,7 +4,7 @@ import com.modularmc.gtpm.api.GTCEuAPI;
 import com.modularmc.gtpm.api.GTValues;
 import com.modularmc.gtpm.common.CommonProxy;
 import com.modularmc.gtpm.common.network.GTNetwork;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
 import net.minecraft.client.Minecraft;
@@ -49,12 +49,12 @@ public class GTPM {
     public GTPM(IEventBus modBus, FMLModContainer container) {
         GTCEuAPI.instance = this;
         GTPM.gtModBus = modBus;
-        ConfigHolder.init();
+        LOGGER.info(GTPMConfigHolder.HOLDER.getConfigId());
 
         GTCEuAPI.initializeHighTier();
         if (GTPM.isDev()) {
-            ConfigHolder.INSTANCE.recipes.generateLowQualityGems = true;
-            ConfigHolder.INSTANCE.compat.energy.enableFEConverters = true;
+            GTPMConfigHolder.INSTANCE.recipes.generateLowQualityGems = true;
+            GTPMConfigHolder.INSTANCE.compat.energy.enableFEConverters = true;
         }
         CommonProxy.init(modBus);
 

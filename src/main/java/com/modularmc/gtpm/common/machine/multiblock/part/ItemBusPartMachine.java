@@ -26,7 +26,7 @@ import com.modularmc.gtpm.api.sync_system.annotations.SyncBoth;
 import com.modularmc.gtpm.api.sync_system.annotations.SyncToClient;
 import com.modularmc.gtpm.common.data.GTMachines;
 import com.modularmc.gtpm.common.item.behavior.IntCircuitBehaviour;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.integration.xei.GTXEIHelper;
 import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 import com.modularmc.gtpm.utils.GTTransferUtils;
@@ -129,7 +129,7 @@ public class ItemBusPartMachine extends TieredIOPartMachine
         if (io == IO.IN) {
             return new NotifiableItemStackHandler(1, IO.IN, IO.NONE)
                     .setFilter(IntCircuitBehaviour::isIntegratedCircuit)
-                    .shouldDropInventoryInWorld(!ConfigHolder.INSTANCE.machines.ghostCircuit);
+                    .shouldDropInventoryInWorld(!GTPMConfigHolder.INSTANCE.machines.ghostCircuit);
         } else {
             hasCircuitSlot = false;
             setCircuitSlotEnabled(false);
@@ -174,7 +174,7 @@ public class ItemBusPartMachine extends TieredIOPartMachine
     @Override
     public void addedToController(MultiblockControllerMachine controller, String structureName) {
         if (hasCircuitSlot && !controller.allowCircuitSlots()) {
-            if (!ConfigHolder.INSTANCE.machines.ghostCircuit) {
+            if (!GTPMConfigHolder.INSTANCE.machines.ghostCircuit) {
                 circuitInventory.dropInventoryInWorld();
             } else {
                 circuitInventory.setStackInSlot(0, ItemStack.EMPTY);

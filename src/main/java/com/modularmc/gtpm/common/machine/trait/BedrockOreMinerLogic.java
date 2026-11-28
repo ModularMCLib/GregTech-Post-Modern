@@ -12,7 +12,7 @@ import com.modularmc.gtpm.api.machine.trait.RecipeLogic;
 import com.modularmc.gtpm.api.recipe.GTRecipe;
 import com.modularmc.gtpm.api.recipe.RecipeHelper;
 import com.modularmc.gtpm.common.machine.multiblock.electric.BedrockOreMinerMachine;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.recipe.builder.GTRecipeBuilder;
 import com.modularmc.gtpm.utils.GTUtil;
 
@@ -78,7 +78,8 @@ public class BedrockOreMinerLogic extends RecipeLogic {
             if (wm == null) return null;
             Material material = wm.material();
             if (material.isNull()) return null;
-            ItemStack stack = ChemicalHelper.get(TagPrefix.get(ConfigHolder.INSTANCE.machines.bedrockOreDropTagPrefix),
+            ItemStack stack = ChemicalHelper.get(
+                    TagPrefix.get(GTPMConfigHolder.INSTANCE.machines.bedrockOreDropTagPrefix),
                     material, getOreToProduce());
             // backup 1: crushed; if raw ore doesn't exist
             if (stack.isEmpty()) stack = ChemicalHelper.get(TagPrefix.crushed, material, getOreToProduce());

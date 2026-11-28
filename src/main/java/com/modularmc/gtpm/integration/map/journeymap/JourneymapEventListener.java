@@ -1,7 +1,7 @@
 package com.modularmc.gtpm.integration.map.journeymap;
 
 import com.modularmc.gtpm.GTPM;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.integration.map.ButtonState;
 
 import journeymap.api.v2.client.event.FullscreenDisplayEvent;
@@ -22,11 +22,11 @@ public class JourneymapEventListener {
     }
 
     protected static void onFullscreenAddonButton(FullscreenDisplayEvent.AddonButtonDisplayEvent event) {
-        if (!ConfigHolder.INSTANCE.compat.minimap.toggle.journeyMapIntegration) {
+        if (!GTPMConfigHolder.INSTANCE.compat.minimap.toggle.journeyMapIntegration) {
             return;
         }
-        if (ConfigHolder.INSTANCE.compat.minimap.direction !=
-                ConfigHolder.CompatibilityConfigs.MinimapCompatConfig.Direction.VERTICAL) {
+        if (GTPMConfigHolder.INSTANCE.compat.minimap.direction !=
+                GTPMConfigHolder.CompatibilityConfigs.MinimapCompatConfig.Direction.VERTICAL) {
             return;
         }
         var display = event.getThemeButtonDisplay();
@@ -44,11 +44,11 @@ public class JourneymapEventListener {
 
     @SuppressWarnings("deprecation")
     protected static void onFullscreenToolbarEvent(FullscreenDisplayEvent.CustomToolbarEvent event) {
-        if (!ConfigHolder.INSTANCE.compat.minimap.toggle.journeyMapIntegration) {
+        if (!GTPMConfigHolder.INSTANCE.compat.minimap.toggle.journeyMapIntegration) {
             return;
         }
-        if (ConfigHolder.INSTANCE.compat.minimap.direction ==
-                ConfigHolder.CompatibilityConfigs.MinimapCompatConfig.Direction.VERTICAL) {
+        if (GTPMConfigHolder.INSTANCE.compat.minimap.direction ==
+                GTPMConfigHolder.CompatibilityConfigs.MinimapCompatConfig.Direction.VERTICAL) {
             return;
         }
         var builder = event.getCustomToolBarBuilder();

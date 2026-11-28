@@ -7,7 +7,7 @@ import com.modularmc.gtpm.api.gui.factory.MachineUIHolder;
 import com.modularmc.gtpm.api.machine.steam.SteamBoilerMachine;
 import com.modularmc.gtpm.api.machine.trait.NotifiableFluidTank;
 import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
@@ -62,8 +62,8 @@ public class SteamLiquidBoilerMachine extends SteamBoilerMachine {
 
     @Override
     protected long getBaseSteamOutput() {
-        return isHighPressure ? ConfigHolder.INSTANCE.machines.smallBoilers.hpLiquidBoilerBaseOutput :
-                ConfigHolder.INSTANCE.machines.smallBoilers.liquidBoilerBaseOutput;
+        return isHighPressure ? GTPMConfigHolder.INSTANCE.machines.smallBoilers.hpLiquidBoilerBaseOutput :
+                GTPMConfigHolder.INSTANCE.machines.smallBoilers.liquidBoilerBaseOutput;
     }
 
     @Override

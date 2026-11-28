@@ -12,7 +12,7 @@ import com.modularmc.gtpm.api.machine.trait.NotifiableFluidTank;
 import com.modularmc.gtpm.api.sync_system.rpc.RPCMethod;
 import com.modularmc.gtpm.api.sync_system.rpc.RPCSender;
 import com.modularmc.gtpm.common.data.GTMaterials;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.GTUtil;
 
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
@@ -38,7 +38,7 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 public class SteamHatchPartMachine extends FluidHatchPartMachine {
 
     public static final int INITIAL_TANK_CAPACITY = 64 * FluidType.BUCKET_VOLUME;
-    public static final boolean IS_STEEL = ConfigHolder.INSTANCE.machines.steelSteamMultiblocks;
+    public static final boolean IS_STEEL = GTPMConfigHolder.INSTANCE.machines.steelSteamMultiblocks;
 
     public SteamHatchPartMachine(BlockEntityCreationInfo info) {
         super(info, 0, IO.IN, SteamHatchPartMachine.INITIAL_TANK_CAPACITY, 1);

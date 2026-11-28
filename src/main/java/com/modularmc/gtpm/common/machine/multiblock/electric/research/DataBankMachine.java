@@ -16,7 +16,7 @@ import com.modularmc.gtpm.api.machine.multiblock.WorkableElectricMultiblockMachi
 import com.modularmc.gtpm.api.machine.trait.WorkLogic;
 import com.modularmc.gtpm.api.misc.EnergyContainerList;
 import com.modularmc.gtpm.api.recipe.GTRecipeType;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
 import com.modularmc.registrate.localization.annotation.Trans;
@@ -222,7 +222,7 @@ public class DataBankMachine extends WorkableElectricMultiblockMachine
     public void tick() {
         boolean wasProviding = getWorkLogic().isWorking();
         int energyToConsume = this.getEnergyUsage();
-        boolean hasMaintenance = ConfigHolder.INSTANCE.machines.enableMaintenance && this.maintenance != null;
+        boolean hasMaintenance = GTPMConfigHolder.INSTANCE.machines.enableMaintenance && this.maintenance != null;
         if (hasMaintenance) {
             // 10% more energy per maintenance problem
             energyToConsume += maintenance.getNumMaintenanceProblems() * energyToConsume / 10;

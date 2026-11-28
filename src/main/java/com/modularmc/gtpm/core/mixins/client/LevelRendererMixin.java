@@ -11,7 +11,7 @@ import com.modularmc.gtpm.api.machine.feature.ITieredMachine;
 import com.modularmc.gtpm.api.machine.steam.SteamMachine;
 import com.modularmc.gtpm.api.pipenet.IPipeNode;
 import com.modularmc.gtpm.common.blockentity.CableBlockEntity;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.GTUtil;
 
 import net.minecraft.client.Camera;
@@ -174,7 +174,7 @@ public abstract class LevelRendererMixin {
                                                  Entity entity, double camX, double camY, double camZ,
                                                  BlockPos pos, BlockState state, Operation<Void> original) {
         assert level != null;
-        var rendererCfg = ConfigHolder.INSTANCE.client.renderer;
+        var rendererCfg = GTPMConfigHolder.INSTANCE.client.renderer;
         int rgb = 0;
         boolean renderColoredOutline = false;
 

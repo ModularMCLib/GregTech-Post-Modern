@@ -1,6 +1,6 @@
 package com.modularmc.gtpm.integration.map.xaeros.minimap.ore;
 
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.integration.map.GroupingMapRenderer;
 
 import net.minecraft.client.Minecraft;
@@ -38,7 +38,7 @@ public class OreVeinElementReader extends MinimapElementReader<OreVeinElement, O
 
     @Override
     public int getInteractionBoxRight(OreVeinElement element, OreVeinElementContext context, float partialTicks) {
-        return ConfigHolder.INSTANCE.compat.minimap.oreIconSize;
+        return GTPMConfigHolder.INSTANCE.compat.minimap.oreIconSize;
     }
 
     @Override

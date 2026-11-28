@@ -16,7 +16,7 @@ import com.modularmc.gtpm.api.machine.steam.SteamBoilerMachine;
 import com.modularmc.gtpm.api.machine.trait.NotifiableItemStackHandler;
 import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
 import com.modularmc.gtpm.common.data.GTMaterials;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
 import com.modularmc.registrate.localization.annotation.Trans;
@@ -79,8 +79,8 @@ public class SteamSolidBoilerMachine extends SteamBoilerMachine {
 
     @Override
     protected long getBaseSteamOutput() {
-        return isHighPressure ? ConfigHolder.INSTANCE.machines.smallBoilers.hpSolidBoilerBaseOutput :
-                ConfigHolder.INSTANCE.machines.smallBoilers.solidBoilerBaseOutput;
+        return isHighPressure ? GTPMConfigHolder.INSTANCE.machines.smallBoilers.hpSolidBoilerBaseOutput :
+                GTPMConfigHolder.INSTANCE.machines.smallBoilers.solidBoilerBaseOutput;
     }
 
     @Override

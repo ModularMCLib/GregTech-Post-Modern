@@ -12,7 +12,7 @@ import com.modularmc.gtpm.common.data.machines.GTMultiMachines;
 import com.modularmc.gtpm.common.fluid.potion.PotionFluid;
 import com.modularmc.gtpm.common.fluid.potion.PotionFluidHelper;
 import com.modularmc.gtpm.common.item.behavior.IntCircuitBehaviour;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.integration.emi.circuit.GTProgrammedCircuitCategory;
 import com.modularmc.gtpm.integration.emi.multipage.MultiblockInfoEmiCategory;
 import com.modularmc.gtpm.integration.emi.oreprocessing.GTOreProcessingEmiCategory;
@@ -53,11 +53,11 @@ public class GTEMIPlugin implements EmiPlugin {
 
         // Categories
         registry.addCategory(MultiblockInfoEmiCategory.CATEGORY);
-        if (!ConfigHolder.INSTANCE.compat.hideOreProcessingDiagrams)
+        if (!GTPMConfigHolder.INSTANCE.compat.hideOreProcessingDiagrams)
             registry.addCategory(GTOreProcessingEmiCategory.CATEGORY);
         registry.addCategory(GTOreVeinEmiCategory.CATEGORY);
         registry.addCategory(GTBedrockFluidEmiCategory.CATEGORY);
-        if (ConfigHolder.INSTANCE.machines.doBedrockOres)
+        if (GTPMConfigHolder.INSTANCE.machines.doBedrockOres)
             registry.addCategory(GTBedrockOreEmiCategory.CATEGORY);
         for (GTRecipeCategory category : GTRegistries.RECIPE_CATEGORIES) {
             if (category.shouldRegisterDisplays()) {
@@ -70,21 +70,21 @@ public class GTEMIPlugin implements EmiPlugin {
         // Recipes
         MultiblockInfoEmiCategory.registerDisplays(registry);
         GTRecipeEMICategory.registerDisplays(registry);
-        if (!ConfigHolder.INSTANCE.compat.hideOreProcessingDiagrams)
+        if (!GTPMConfigHolder.INSTANCE.compat.hideOreProcessingDiagrams)
             GTOreProcessingEmiCategory.registerDisplays(registry);
         GTOreVeinEmiCategory.registerDisplays(registry);
         GTBedrockFluidEmiCategory.registerDisplays(registry);
-        if (ConfigHolder.INSTANCE.machines.doBedrockOres)
+        if (GTPMConfigHolder.INSTANCE.machines.doBedrockOres)
             GTBedrockOreEmiCategory.registerDisplays(registry);
         GTProgrammedCircuitCategory.registerDisplays(registry);
 
         // workstations
         GTRecipeEMICategory.registerWorkStations(registry);
-        if (!ConfigHolder.INSTANCE.compat.hideOreProcessingDiagrams)
+        if (!GTPMConfigHolder.INSTANCE.compat.hideOreProcessingDiagrams)
             GTOreProcessingEmiCategory.registerWorkStations(registry);
         GTOreVeinEmiCategory.registerWorkStations(registry);
         GTBedrockFluidEmiCategory.registerWorkStations(registry);
-        if (ConfigHolder.INSTANCE.machines.doBedrockOres)
+        if (GTPMConfigHolder.INSTANCE.machines.doBedrockOres)
             GTBedrockOreEmiCategory.registerWorkStations(registry);
         registry.addWorkstation(GTRecipeEMICategory.CATEGORIES.apply(GTRecipeTypes.CHEMICAL_RECIPES.getCategory()),
                 EmiStack.of(GTMultiMachines.LARGE_CHEMICAL_REACTOR.asStack()));

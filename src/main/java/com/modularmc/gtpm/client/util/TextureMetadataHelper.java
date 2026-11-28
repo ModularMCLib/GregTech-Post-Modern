@@ -3,7 +3,7 @@ package com.modularmc.gtpm.client.util;
 import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.client.model.ctm.GTTextureMetadata;
 import com.modularmc.gtpm.client.util.quad.transformers.GTQuadTransformers;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.TriState;
 
 import net.minecraft.client.Minecraft;
@@ -72,7 +72,7 @@ public class TextureMetadataHelper {
             // fall through to emissivity config check if default
         }
 
-        if (ConfigHolder.INSTANCE.client.bloom.emissiveTexturesHaveBloom) {
+        if (GTPMConfigHolder.INSTANCE.client.bloom.emissiveTexturesHaveBloom) {
             return isEmissive(quad, ambientPackedLights);
         }
 
@@ -87,7 +87,7 @@ public class TextureMetadataHelper {
             else if (bloomValue == TriState.FALSE) return false;
         }
 
-        if (ConfigHolder.INSTANCE.client.bloom.emissiveTexturesHaveBloom) {
+        if (GTPMConfigHolder.INSTANCE.client.bloom.emissiveTexturesHaveBloom) {
             return isEmissive(quadPackedLights, ambientPackedLights);
         }
 

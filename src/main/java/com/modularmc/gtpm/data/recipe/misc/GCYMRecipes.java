@@ -11,7 +11,7 @@ import com.modularmc.gtpm.common.data.GTMachines;
 import com.modularmc.gtpm.common.data.GTMaterials;
 import com.modularmc.gtpm.common.data.GTRecipeTypes;
 import com.modularmc.gtpm.common.data.machines.GTMultiMachines;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.recipe.CustomTags;
 import com.modularmc.gtpm.data.recipe.VanillaRecipeHelper;
 
@@ -195,7 +195,7 @@ public class GCYMRecipes {
                 .inputItems(gear, Ultimet, 3)
                 .inputItems(CASING_SECURE_MACERATION.asStack())
                 .inputItems(ELECTRIC_MOTOR_IV.asStack())
-                .outputItems(CRUSHING_WHEELS.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft))
+                .outputItems(CRUSHING_WHEELS.asStack(GTPMConfigHolder.INSTANCE.recipes.casingsPerCraft))
                 .duration(50).EUt(16)
                 .addMaterialInfo(true).save(provider);
 
@@ -204,7 +204,7 @@ public class GCYMRecipes {
                 .inputItems(gear, Ultimet, 3)
                 .inputItems(CASING_SHOCK_PROOF.asStack())
                 .inputItems(ELECTRIC_MOTOR_IV.asStack())
-                .outputItems(SLICING_BLADES.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft))
+                .outputItems(SLICING_BLADES.asStack(GTPMConfigHolder.INSTANCE.recipes.casingsPerCraft))
                 .duration(50).EUt(16)
                 .addMaterialInfo(true).save(provider);
 
@@ -213,7 +213,7 @@ public class GCYMRecipes {
                 .inputItems(cableGtSingle, Tungsten, 1)
                 .inputItems(CASING_NONCONDUCTING.asStack())
                 .inputItems(CustomTags.IV_CIRCUITS)
-                .outputItems(ELECTROLYTIC_CELL.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft))
+                .outputItems(ELECTROLYTIC_CELL.asStack(GTPMConfigHolder.INSTANCE.recipes.casingsPerCraft))
                 .duration(50).EUt(16)
                 .addMaterialInfo(true).save(provider);
 
@@ -230,7 +230,7 @@ public class GCYMRecipes {
                 .inputItems(plateDouble, MolybdenumDisilicide, 2)
                 .inputItems(rotor, Titanium, 1)
                 .inputItems(rodLong, MolybdenumDisilicide, 1)
-                .outputItems(HEAT_VENT.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft))
+                .outputItems(HEAT_VENT.asStack(GTPMConfigHolder.INSTANCE.recipes.casingsPerCraft))
                 .duration(50).EUt(16)
                 .addMaterialInfo(true).save(provider);
 
@@ -238,7 +238,7 @@ public class GCYMRecipes {
                 .inputItems(plate, HSLASteel, 6)
                 .inputItems(frameGt, HSLASteel)
                 .circuitMeta(6)
-                .outputItems(CASING_NONCONDUCTING.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft))
+                .outputItems(CASING_NONCONDUCTING.asStack(GTPMConfigHolder.INSTANCE.recipes.casingsPerCraft))
                 .duration(50).EUt(16)
                 .addMaterialInfo(true).save(provider);
 
@@ -246,7 +246,7 @@ public class GCYMRecipes {
                 .inputItems(plate, IncoloyMA956, 6)
                 .inputItems(frameGt, IncoloyMA956)
                 .circuitMeta(6)
-                .outputItems(CASING_VIBRATION_SAFE.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft))
+                .outputItems(CASING_VIBRATION_SAFE.asStack(GTPMConfigHolder.INSTANCE.recipes.casingsPerCraft))
                 .EUt(16).duration(50)
                 .addMaterialInfo(true).save(provider);
 
@@ -254,7 +254,7 @@ public class GCYMRecipes {
                 .inputItems(plate, WatertightSteel, 6)
                 .inputItems(frameGt, WatertightSteel)
                 .circuitMeta(6)
-                .outputItems(CASING_WATERTIGHT.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft))
+                .outputItems(CASING_WATERTIGHT.asStack(GTPMConfigHolder.INSTANCE.recipes.casingsPerCraft))
                 .duration(50).EUt(16)
                 .addMaterialInfo(true).save(provider);
 
@@ -262,7 +262,7 @@ public class GCYMRecipes {
                 .inputItems(plate, Zeron100, 6)
                 .inputItems(frameGt, Titanium)
                 .circuitMeta(6)
-                .outputItems(CASING_SECURE_MACERATION.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft))
+                .outputItems(CASING_SECURE_MACERATION.asStack(GTPMConfigHolder.INSTANCE.recipes.casingsPerCraft))
                 .EUt(16).duration(50)
                 .addMaterialInfo(true).save(provider);
 
@@ -271,7 +271,8 @@ public class GCYMRecipes {
                 .inputItems(plate, HSLASteel, 2)
                 .inputItems(frameGt, TungstenCarbide)
                 .circuitMeta(6)
-                .outputItems(CASING_HIGH_TEMPERATURE_SMELTING.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft))
+                .outputItems(
+                        CASING_HIGH_TEMPERATURE_SMELTING.asStack(GTPMConfigHolder.INSTANCE.recipes.casingsPerCraft))
                 .duration(50).EUt(16)
                 .addMaterialInfo(true).save(provider);
 
@@ -279,14 +280,14 @@ public class GCYMRecipes {
                 .inputItems(TagPrefix.plate, GTMaterials.HastelloyX, 6)
                 .inputItems(TagPrefix.frameGt, GTMaterials.MaragingSteel300)
                 .circuitMeta(6)
-                .outputItems(CASING_REACTION_SAFE.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft))
+                .outputItems(CASING_REACTION_SAFE.asStack(GTPMConfigHolder.INSTANCE.recipes.casingsPerCraft))
                 .duration(50).EUt(16)
                 .addMaterialInfo(true).save(provider);
 
         ASSEMBLER_RECIPES.recipeBuilder("casing_laser_safe_engraving")
                 .inputItems(plate, TitaniumTungstenCarbide, 6)
                 .inputItems(frameGt, Titanium).circuitMeta(6)
-                .outputItems(CASING_LASER_SAFE_ENGRAVING.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft))
+                .outputItems(CASING_LASER_SAFE_ENGRAVING.asStack(GTPMConfigHolder.INSTANCE.recipes.casingsPerCraft))
                 .duration(50).EUt(16)
                 .addMaterialInfo(true).save(provider);
 
@@ -294,7 +295,7 @@ public class GCYMRecipes {
                 .inputItems(plate, Stellite100, 6)
                 .inputItems(frameGt, Tungsten)
                 .circuitMeta(6)
-                .outputItems(CASING_LARGE_SCALE_ASSEMBLING.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft))
+                .outputItems(CASING_LARGE_SCALE_ASSEMBLING.asStack(GTPMConfigHolder.INSTANCE.recipes.casingsPerCraft))
                 .duration(50).EUt(16)
                 .addMaterialInfo(true).save(provider);
 
@@ -302,7 +303,7 @@ public class GCYMRecipes {
                 .inputItems(plate, HastelloyC276, 6)
                 .inputItems(frameGt, HastelloyC276)
                 .circuitMeta(6)
-                .outputItems(CASING_SHOCK_PROOF.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft))
+                .outputItems(CASING_SHOCK_PROOF.asStack(GTPMConfigHolder.INSTANCE.recipes.casingsPerCraft))
                 .duration(50).EUt(16)
                 .addMaterialInfo(true).save(provider);
 
@@ -310,7 +311,7 @@ public class GCYMRecipes {
                 .inputItems(plate, CobaltBrass, 6)
                 .inputItems(frameGt, HSLASteel)
                 .circuitMeta(6)
-                .outputItems(CASING_CORROSION_PROOF.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft))
+                .outputItems(CASING_CORROSION_PROOF.asStack(GTPMConfigHolder.INSTANCE.recipes.casingsPerCraft))
                 .duration(50).EUt(16)
                 .addMaterialInfo(true).save(provider);
 
@@ -318,7 +319,7 @@ public class GCYMRecipes {
                 .inputItems(plate, MaragingSteel300, 6)
                 .inputItems(frameGt, StainlessSteel)
                 .circuitMeta(6)
-                .outputItems(CASING_STRESS_PROOF.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft))
+                .outputItems(CASING_STRESS_PROOF.asStack(GTPMConfigHolder.INSTANCE.recipes.casingsPerCraft))
                 .duration(50).EUt(16)
                 .addMaterialInfo(true).save(provider);
     }

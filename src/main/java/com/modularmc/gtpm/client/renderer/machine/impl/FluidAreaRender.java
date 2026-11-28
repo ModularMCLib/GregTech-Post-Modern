@@ -7,7 +7,7 @@ import com.modularmc.gtpm.client.renderer.machine.DynamicRender;
 import com.modularmc.gtpm.client.renderer.machine.DynamicRenderType;
 import com.modularmc.gtpm.client.util.RenderUtil;
 import com.modularmc.gtpm.common.machine.trait.multiblock.MultiblockFluidRendererTrait;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -85,7 +85,7 @@ public class FluidAreaRender extends DynamicRender<WorkableMultiblockMachine, Fl
     public void render(WorkableMultiblockMachine machine, float partialTick,
                        PoseStack poseStack, MultiBufferSource buffer,
                        int packedLight, int packedOverlay) {
-        if (!ConfigHolder.INSTANCE.client.renderer.renderFluids) return;
+        if (!GTPMConfigHolder.INSTANCE.client.renderer.renderFluids) return;
 
         var trait = machine.getTrait(MultiblockFluidRendererTrait.TYPE);
         if (trait == null || !machine.isFormed() || trait.getFluidOffsets().isEmpty()) return;

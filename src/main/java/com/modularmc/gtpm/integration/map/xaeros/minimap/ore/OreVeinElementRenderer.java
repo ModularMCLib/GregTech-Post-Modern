@@ -4,7 +4,7 @@ import com.modularmc.gtpm.api.data.chemical.material.Material;
 import com.modularmc.gtpm.api.data.chemical.material.info.MaterialIconType;
 import com.modularmc.gtpm.api.data.worldgen.ores.GeneratedVeinMetadata;
 import com.modularmc.gtpm.client.util.RenderUtil;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.integration.map.GroupingMapRenderer;
 
 import net.minecraft.client.Minecraft;
@@ -41,7 +41,7 @@ public class OreVeinElementRenderer extends MinimapElementRenderer<OreVeinElemen
                                  MinimapElementRenderInfo renderInfo,
                                  GuiGraphics graphics, MultiBufferSource.BufferSource renderTypeBuffers) {
         GeneratedVeinMetadata vein = element.getVein();
-        int iconSize = ConfigHolder.INSTANCE.compat.minimap.oreIconSize;
+        int iconSize = GTPMConfigHolder.INSTANCE.compat.minimap.oreIconSize;
 
         Material firstMaterial = vein.definition().value().veinGenerator().getAllMaterials().getFirst();
         int materialARGB = firstMaterial.getMaterialARGB();
@@ -71,7 +71,7 @@ public class OreVeinElementRenderer extends MinimapElementRenderer<OreVeinElemen
         // }
 
         RenderSystem.setShaderColor(1, 1, 1, 1);
-        int borderColor = ConfigHolder.INSTANCE.compat.minimap.getBorderColor(materialARGB | 0xFF000000);
+        int borderColor = GTPMConfigHolder.INSTANCE.compat.minimap.getBorderColor(materialARGB | 0xFF000000);
         if ((borderColor & 0xFF000000) != 0) {
             int thickness = iconSize / 16;
             graphics.fill(-iconSize / 2, -iconSize / 2, iconSize, thickness, borderColor);

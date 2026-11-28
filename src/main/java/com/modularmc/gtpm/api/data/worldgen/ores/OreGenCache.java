@@ -1,7 +1,7 @@
 package com.modularmc.gtpm.api.data.worldgen.ores;
 
 import com.modularmc.gtpm.GTPM;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
@@ -30,11 +30,11 @@ public class OreGenCache {
     @Getter
     private final OreGenerator oreGenerator = new OreGenerator();
 
-    private final int oreGenerationCacheSize = ConfigHolder.INSTANCE != null ?
-            ConfigHolder.INSTANCE.worldgen.oreVeins.oreGenerationChunkCacheSize : 512;
+    private final int oreGenerationCacheSize = GTPMConfigHolder.INSTANCE != null ?
+            GTPMConfigHolder.INSTANCE.worldgen.oreVeins.oreGenerationChunkCacheSize : 512;
 
-    private final int oreIndicatorCacheSize = ConfigHolder.INSTANCE != null ?
-            ConfigHolder.INSTANCE.worldgen.oreVeins.oreIndicatorChunkCacheSize : 512;
+    private final int oreIndicatorCacheSize = GTPMConfigHolder.INSTANCE != null ?
+            GTPMConfigHolder.INSTANCE.worldgen.oreVeins.oreIndicatorChunkCacheSize : 512;
 
     private final int veinMetadataCacheSize = Math.max(oreGenerationCacheSize, oreIndicatorCacheSize);
 

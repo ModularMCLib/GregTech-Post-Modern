@@ -14,7 +14,7 @@ import com.modularmc.gtpm.api.gui.texture.ProspectingTexture;
 import com.modularmc.gtpm.api.registry.GTRegistries;
 import com.modularmc.gtpm.api.sync_system.FieldCodecs;
 import com.modularmc.gtpm.common.data.GTMaterials;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.FormattingUtil;
 import com.modularmc.gtpm.utils.GTUtil;
 import com.modularmc.gtpm.utils.TagUtil;
@@ -327,7 +327,8 @@ public abstract class ProspectorMode<T> {
         public IGuiTexture getItemIcon(OreInfo item) {
             Material material = item.material;
             ItemStack stack = GTUtil.getFirstNonEmpty(
-                    ChemicalHelper.get(TagPrefix.get(ConfigHolder.INSTANCE.machines.bedrockOreDropTagPrefix), material),
+                    ChemicalHelper.get(TagPrefix.get(GTPMConfigHolder.INSTANCE.machines.bedrockOreDropTagPrefix),
+                            material),
                     ChemicalHelper.get(TagPrefix.crushed, material),
                     ChemicalHelper.get(TagPrefix.gem, material),
                     ChemicalHelper.get(TagPrefix.ore, material),

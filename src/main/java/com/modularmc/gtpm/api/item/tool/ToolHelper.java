@@ -24,7 +24,7 @@ import com.modularmc.gtpm.common.data.GTMaterialItems;
 import com.modularmc.gtpm.common.data.GTMaterials;
 import com.modularmc.gtpm.common.data.GTRecipeTypes;
 import com.modularmc.gtpm.common.data.item.GTItemAbilities;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.recipe.CustomTags;
 import com.modularmc.gtpm.data.recipe.VanillaRecipeHelper;
 import com.modularmc.gtpm.utils.DummyRecipeUtils;
@@ -153,12 +153,12 @@ public class ToolHelper {
             if (!(user instanceof Player player) || !player.hasInfiniteMaterials()) {
                 RandomSource random = user == null ? GTValues.RNG : user.getRandom();
                 if (tool.isElectric()) {
-                    int electricDamage = damage * ConfigHolder.INSTANCE.machines.energyUsageMultiplier;
+                    int electricDamage = damage * GTPMConfigHolder.INSTANCE.machines.energyUsageMultiplier;
                     IElectricItem electricItem = GTCapabilityHelper.getElectricItem(stack);
                     if (electricItem != null) {
                         electricItem.discharge(electricDamage, tool.getElectricTier(), true, false, false);
                         if (electricItem.getCharge() > 0 &&
-                                random.nextInt(100) >= ConfigHolder.INSTANCE.tools.rngDamageElectricTools) {
+                                random.nextInt(100) >= GTPMConfigHolder.INSTANCE.tools.rngDamageElectricTools) {
                             return;
                         }
                     } else {

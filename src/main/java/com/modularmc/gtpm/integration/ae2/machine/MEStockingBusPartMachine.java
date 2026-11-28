@@ -9,7 +9,7 @@ import com.modularmc.gtpm.api.sync_system.annotations.ServerFieldChangeListener;
 import com.modularmc.gtpm.api.sync_system.annotations.SyncBoth;
 import com.modularmc.gtpm.common.data.datacomponents.AEInputConfigCopyData;
 import com.modularmc.gtpm.common.item.behavior.IntCircuitBehaviour;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.integration.ae2.machine.feature.multiblock.IMEStockingPart;
 import com.modularmc.gtpm.integration.ae2.slot.ExportOnlyAEItemList;
 import com.modularmc.gtpm.integration.ae2.slot.ExportOnlyAEItemSlot;
@@ -105,8 +105,9 @@ public class MEStockingBusPartMachine extends MEInputBusPartMachine implements I
     @Override
     public void autoIO() {
         super.autoIO();
-        if (ticksPerCycle == 0) ticksPerCycle = ConfigHolder.INSTANCE.compat.ae2.updateIntervals; // Emergency Check to
-                                                                                                  // Avoid Crash loops.
+        if (ticksPerCycle == 0) ticksPerCycle = GTPMConfigHolder.INSTANCE.compat.ae2.updateIntervals; // Emergency Check
+                                                                                                      // to
+        // Avoid Crash loops.
         if (getOffsetTimer() % ticksPerCycle == 0) {
             if (autoPull) {
                 refreshList();

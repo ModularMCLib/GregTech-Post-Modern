@@ -13,7 +13,7 @@ import com.modularmc.gtpm.api.machine.multiblock.WorkableElectricMultiblockMachi
 import com.modularmc.gtpm.api.machine.trait.WorkLogic;
 import com.modularmc.gtpm.api.misc.EnergyContainerList;
 import com.modularmc.gtpm.api.multiblock.structurepredicate.PatternPredicate;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.FormattingUtil;
 import com.modularmc.gtpm.utils.GTUtil;
 
@@ -164,7 +164,7 @@ public class ActiveTransformerMachine extends WorkableElectricMultiblockMachine 
     public void invalidateStructure(String structureName) {
         boolean shouldExplode = DEFAULT_STRUCTURE.equals(structureName) &&
                 (isWorkingEnabled() && getWorkLogic().getStatus() == WorkLogic.Status.WORKING) &&
-                !ConfigHolder.INSTANCE.machines.harmlessActiveTransformers;
+                !GTPMConfigHolder.INSTANCE.machines.harmlessActiveTransformers;
         float explosionStrength = 6f + getTier();
         super.invalidateStructure(structureName);
         if (!DEFAULT_STRUCTURE.equals(structureName)) return;
@@ -220,7 +220,7 @@ public class ActiveTransformerMachine extends WorkableElectricMultiblockMachine 
                 FormattingUtil.formatNumbers(Math.abs(powerInput.getInputPerSec() / 20))));
         textList.add(Component.translatable("gtpm.multiblock.active_transformer.average_out",
                 FormattingUtil.formatNumbers(Math.abs(powerOutput.getOutputPerSec() / 20))));
-        if (!ConfigHolder.INSTANCE.machines.harmlessActiveTransformers) {
+        if (!GTPMConfigHolder.INSTANCE.machines.harmlessActiveTransformers) {
             textList.add(Component.translatable("gtpm.multiblock.active_transformer.danger_enabled"));
         }
     }

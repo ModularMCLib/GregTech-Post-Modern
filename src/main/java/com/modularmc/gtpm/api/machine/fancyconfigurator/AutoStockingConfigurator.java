@@ -7,7 +7,7 @@ import com.modularmc.gtpm.api.gui.element.GTLabelElement;
 import com.modularmc.gtpm.api.gui.fancy.IFancyConfigurator;
 import com.modularmc.gtpm.api.gui.texture.IGuiTexture;
 import com.modularmc.gtpm.common.data.GTItems;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.integration.ae2.machine.feature.multiblock.AutoStockingPart;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
@@ -91,7 +91,7 @@ public final class AutoStockingConfigurator implements IFancyConfigurator {
 
         GTIntInputElement ticksPerCycleInput = new GTIntInputElement(4, 46, 81, 14, machine::getTicksPerCycle,
                 machine::setTicksPerCycle);
-        ticksPerCycleInput.setMin(ConfigHolder.INSTANCE.compat.ae2.updateIntervals);
+        ticksPerCycleInput.setMin(GTPMConfigHolder.INSTANCE.compat.ae2.updateIntervals);
         ticksPerCycleInput.style(style -> style.tooltips(Component.translatable(
                 "gtpm.gui.adv_stocking_config.ticks_per_cycle")));
         root.addChild(ticksPerCycleInput);

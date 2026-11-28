@@ -1,6 +1,6 @@
 package com.modularmc.gtpm.core.mixins;
 
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -31,7 +31,7 @@ public class OreConfigurationMixin {
 
     @ModifyVariable(method = "<init>(Ljava/util/List;IF)V", at = @At("HEAD"), index = 1, argsOnly = true)
     private static List<TargetBlockState> gtceu$init(List<TargetBlockState> targetStates) {
-        if (ConfigHolder.INSTANCE == null || !ConfigHolder.INSTANCE.worldgen.oreVeins.removeVanillaOreGen)
+        if (GTPMConfigHolder.INSTANCE == null || !GTPMConfigHolder.INSTANCE.worldgen.oreVeins.removeVanillaOreGen)
             return targetStates;
 
         return targetStates.stream()

@@ -13,7 +13,7 @@ import com.modularmc.gtpm.api.recipe.GTRecipe;
 import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
 import com.modularmc.gtpm.api.sync_system.annotations.SyncToClient;
 import com.modularmc.gtpm.common.machine.trait.EnvironmentalExplosionTrait;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.GTUtil;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -201,7 +201,7 @@ public class NotifiableEnergyContainer extends NotifiableRecipeHandlerTrait<Long
                 }
                 return true;
             }
-        } else if (ConfigHolder.INSTANCE.compat.energy.nativeEUToFE) {
+        } else if (GTPMConfigHolder.INSTANCE.compat.energy.nativeEUToFE) {
             IEnergyStorage energyStorage = GTCapabilityHelper.getForgeEnergyItem(stackInSlot);
             if (energyStorage != null && handleForgeEnergyItem(energyStorage, simulate)) {
                 if (!simulate) {

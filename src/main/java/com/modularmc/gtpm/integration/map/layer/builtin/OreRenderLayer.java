@@ -6,7 +6,7 @@ import com.modularmc.gtpm.api.data.tag.TagPrefix;
 import com.modularmc.gtpm.api.data.worldgen.GTOreDefinition;
 import com.modularmc.gtpm.api.data.worldgen.ores.GeneratedVeinMetadata;
 import com.modularmc.gtpm.common.data.GTMaterials;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.integration.map.GenericMapRenderer;
 import com.modularmc.gtpm.integration.map.layer.MapRenderLayer;
 import com.modularmc.gtpm.integration.xei.widgets.GTOreVeinWidget;
@@ -79,10 +79,10 @@ public class OreRenderLayer extends MapRenderLayer {
 
         for (var filler : vein.definition().value().veinGenerator().getAllEntries()) {
             filler.vein().ifLeft(state -> {
-                tooltip.add(Component.literal(ConfigHolder.INSTANCE.compat.minimap.oreNamePrefix)
+                tooltip.add(Component.literal(GTPMConfigHolder.INSTANCE.compat.minimap.oreNamePrefix)
                         .append(state.getBlock().getName()));
             }).ifRight(material -> {
-                tooltip.add(Component.literal(ConfigHolder.INSTANCE.compat.minimap.oreNamePrefix)
+                tooltip.add(Component.literal(GTPMConfigHolder.INSTANCE.compat.minimap.oreNamePrefix)
                         .append(TagPrefix.ore.getLocalizedName(material)));
             });
         }

@@ -10,7 +10,7 @@ import com.modularmc.gtpm.api.gui.element.GTLabelElement;
 import com.modularmc.gtpm.api.gui.element.GTProgressBarElement;
 import com.modularmc.gtpm.api.gui.factory.MachineUIHolder;
 import com.modularmc.gtpm.api.machine.feature.IUIMachine;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
@@ -141,7 +141,7 @@ public class CokeOvenMachine extends PrimitiveWorkableMachine implements IUIMach
                 else z -= 0.52F;
                 x += horizontalOffset;
             }
-            if (ConfigHolder.INSTANCE.machines.machineSounds && GTValues.RNG.nextDouble() < 0.1) {
+            if (GTPMConfigHolder.INSTANCE.machines.machineSounds && GTValues.RNG.nextDouble() < 0.1) {
                 getLevel().playLocalSound(x, y, z, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1.0F, 1.0F,
                         false);
             }

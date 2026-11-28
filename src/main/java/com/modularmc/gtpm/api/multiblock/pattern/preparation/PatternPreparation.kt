@@ -15,7 +15,7 @@ import com.modularmc.gtpm.api.multiblock.pattern.match.PatternMatchCache
 import com.modularmc.gtpm.api.multiblock.pattern.match.PatternMatchResult
 import com.modularmc.gtpm.api.multiblock.pattern.model.PatternConstraint
 import com.modularmc.gtpm.api.multiblock.pattern.model.PatternDefinition
-import com.modularmc.gtpm.config.ConfigHolder
+import com.modularmc.gtpm.config.GTPMConfigHolder
 
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
@@ -189,7 +189,7 @@ class PatternPreparation private constructor(
 		): PatternPreparation? {
 			if (layout.rejections.isNotEmpty()) return null
 			for (index in layout.cells.indices) if (!PreparedRuleCompiler.trusted(layout.predicate(index))) return null
-			val flags = (if (ConfigHolder.INSTANCE.machines.enableMaintenance) 1 else 0) or (if (ConfigHolder.INSTANCE.machines.enableResearch) 2 else 0)
+			val flags = (if (GTPMConfigHolder.INSTANCE.machines.enableMaintenance) 1 else 0) or (if (GTPMConfigHolder.INSTANCE.machines.enableResearch) 2 else 0)
 			val reusable = previous?.takeIf {
 				changed.isNotEmpty() && it.confirmed != null && it.pattern === pattern && it.layout === layout && it.target.world === target.world &&
 					it.target.controllerPos == target.controllerPos && it.target.structureName == target.structureName &&

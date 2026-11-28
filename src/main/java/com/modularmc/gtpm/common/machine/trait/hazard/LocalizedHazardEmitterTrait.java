@@ -7,7 +7,7 @@ import com.modularmc.gtpm.api.data.medicalcondition.MedicalCondition;
 import com.modularmc.gtpm.api.machine.trait.MachineTrait;
 import com.modularmc.gtpm.api.machine.trait.MachineTraitType;
 import com.modularmc.gtpm.common.capability.LocalizedHazardSavedData;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import net.minecraft.server.level.ServerLevel;
 
@@ -42,7 +42,7 @@ public class LocalizedHazardEmitterTrait extends MachineTrait {
     }
 
     public void spreadHazard() {
-        if (!ConfigHolder.INSTANCE.gameplay.environmentalHazards) {
+        if (!GTPMConfigHolder.INSTANCE.gameplay.environmentalHazards) {
             return;
         }
 

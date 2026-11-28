@@ -11,7 +11,7 @@ import com.modularmc.gtpm.api.gui.factory.MachineUIHolder;
 import com.modularmc.gtpm.api.machine.MachineDefinition;
 import com.modularmc.gtpm.api.machine.feature.multiblock.SteamItemBus;
 import com.modularmc.gtpm.common.data.GTMachines;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
@@ -38,7 +38,7 @@ public class SteamItemBusPartMachine extends ItemBusPartMachine
         int xOffset = rowSize == 10 ? 9 : 0;
         int rootWidth = 176 + xOffset * 2;
         int rootHeight = 18 + 18 * rowSize + 105;
-        boolean steelSteamMultiblocks = ConfigHolder.INSTANCE.machines.steelSteamMultiblocks;
+        boolean steelSteamMultiblocks = GTPMConfigHolder.INSTANCE.machines.steelSteamMultiblocks;
 
         UIElement root = new UIElement();
         UITemplate.setBounds(root, 0, 0, rootWidth, rootHeight);

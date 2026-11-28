@@ -8,7 +8,7 @@ import com.modularmc.gtpm.api.multiblock.pattern.layout.PatternLayout
 import com.modularmc.gtpm.common.data.GTBlocks
 import com.modularmc.gtpm.common.data.GTMachines
 import com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE
-import com.modularmc.gtpm.config.ConfigHolder
+import com.modularmc.gtpm.config.GTPMConfigHolder
 import com.modularmc.gtpm.data.recipe.CustomTags
 
 import net.minecraft.resources.ResourceLocation
@@ -36,7 +36,7 @@ data class CleanroomBasePredicate(val allowFloorBlocks: Boolean, val allowDoors:
 		val walls = WALL_BLOCKS.get()
 		result.add(if (allowFloorBlocks) walls.or(FLOOR_BLOCKS.get()) else walls)
 		result.add(INPUT_ENERGY.get())
-		result.add(if (ConfigHolder.INSTANCE.machines.enableMaintenance) MAINTENANCE_ENABLED.get() else MAINTENANCE_DISABLED.get())
+		result.add(if (GTPMConfigHolder.INSTANCE.machines.enableMaintenance) MAINTENANCE_ENABLED.get() else MAINTENANCE_DISABLED.get())
 		result.add(passthrough)
 		if (allowDoors) result.add(DOORS.get())
 	}

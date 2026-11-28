@@ -2,7 +2,7 @@ package com.modularmc.gtpm.client.bloom;
 
 import com.modularmc.gtpm.client.renderer.GTRenderTypes;
 import com.modularmc.gtpm.client.util.TextureMetadataHelper;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.core.config.GTEarlyConfig;
 import com.modularmc.gtpm.core.mixins.GTMixinPlugin;
 import com.modularmc.gtpm.core.mixins.client.bloom.LevelRendererAccessor;
@@ -181,7 +181,7 @@ public class BloomRenderer {
 
     @ApiStatus.Internal
     static void setupBloomShaderUniforms() {
-        final var config = ConfigHolder.INSTANCE.client.bloom;
+        final var config = GTPMConfigHolder.INSTANCE.client.bloom;
 
         // Forcefully insert config values to shader
         modifyBloomPostShaders((index, shader) -> {

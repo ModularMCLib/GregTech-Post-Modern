@@ -13,7 +13,7 @@ import com.modularmc.gtpm.common.data.GTDataComponents;
 import com.modularmc.gtpm.common.data.GTItems;
 import com.modularmc.gtpm.common.data.GTRecipeTypes;
 import com.modularmc.gtpm.common.item.datacomponents.DataItem;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.recipe.builder.GTRecipeBuilder;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
@@ -115,7 +115,7 @@ public final class ResearchManager {
      * @param builder the builder to retrieve recipe info from
      */
     public static void createDefaultResearchRecipe(GTRecipeBuilder builder, RecipeOutput provider) {
-        if (!ConfigHolder.INSTANCE.machines.enableResearch) return;
+        if (!GTPMConfigHolder.INSTANCE.machines.enableResearch) return;
 
         for (GTRecipeBuilder.ResearchRecipeEntry entry : builder.researchRecipeEntries()) {
             if (entry.researchItem().isEmpty() && entry.researchFluid().isEmpty())
@@ -132,7 +132,7 @@ public final class ResearchManager {
                                                    ItemStack dataItem,
                                                    int duration, int tier, long eut, int CWUt,
                                                    RecipeOutput provider) {
-        if (!ConfigHolder.INSTANCE.machines.enableResearch) return;
+        if (!GTPMConfigHolder.INSTANCE.machines.enableResearch) return;
 
         dataItem.set(GTDataComponents.RESEARCH_ITEM, new ResearchItem(researchId, recipeType));
 

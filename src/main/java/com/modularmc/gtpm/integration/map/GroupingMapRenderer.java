@@ -4,7 +4,7 @@ import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.GTValues;
 import com.modularmc.gtpm.api.data.worldgen.ores.GeneratedVeinMetadata;
 import com.modularmc.gtpm.api.gui.misc.ProspectorMode;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.integration.map.ftbchunks.FTBChunksRenderer;
 import com.modularmc.gtpm.integration.map.journeymap.JourneymapRenderer;
 import com.modularmc.gtpm.integration.map.xaeros.XaerosRenderer;
@@ -45,7 +45,7 @@ public class GroupingMapRenderer extends GenericMapRenderer {
 
     static {
         Map<String, GenericMapRenderer> renderers = new HashMap<>();
-        var toggle = ConfigHolder.INSTANCE.compat.minimap.toggle;
+        var toggle = GTPMConfigHolder.INSTANCE.compat.minimap.toggle;
         if (toggle.journeyMapIntegration && GTPM.isModLoaded(GTValues.MODID_JOURNEYMAP)) {
             renderers.put(GTValues.MODID_JOURNEYMAP, new JourneymapRenderer());
         }

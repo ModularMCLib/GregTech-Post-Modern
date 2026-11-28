@@ -2,7 +2,7 @@ package com.modularmc.gtpm.data.pack;
 
 import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.addon.AddonFinder;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import net.minecraft.SharedConstants;
 import net.minecraft.client.renderer.texture.atlas.SpriteSource;
@@ -78,7 +78,7 @@ public class GTDynamicResourcePack implements PackResources {
     }
 
     public static void addResource(ResourceLocation location, byte[] data) {
-        if (ConfigHolder.INSTANCE.dev.dumpAssets) {
+        if (GTPMConfigHolder.INSTANCE.dev.dumpAssets) {
             Path parent = GTPM.GTCEU_FOLDER.resolve("dumped/assets");
             writeJson(location, parent, data);
         }

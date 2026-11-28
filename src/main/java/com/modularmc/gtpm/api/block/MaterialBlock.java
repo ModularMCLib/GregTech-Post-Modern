@@ -9,7 +9,7 @@ import com.modularmc.gtpm.api.item.tool.GTToolType;
 import com.modularmc.gtpm.api.item.tool.ToolHelper;
 import com.modularmc.gtpm.client.renderer.block.MaterialBlockRenderer;
 import com.modularmc.gtpm.common.data.GTMaterials;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -99,7 +99,7 @@ public class MaterialBlock extends Block {
     @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
         if (TagPrefix.ORES.containsKey(this.tagPrefix) && TagPrefix.ORES.get(tagPrefix).isSand() &&
-                ConfigHolder.INSTANCE.worldgen.sandOresFall) {
+                GTPMConfigHolder.INSTANCE.worldgen.sandOresFall) {
             level.scheduleTick(pos, this, this.getDelayAfterPlace());
         }
     }
@@ -108,7 +108,7 @@ public class MaterialBlock extends Block {
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level,
                                   BlockPos currentPos, BlockPos neighborPos) {
         if (TagPrefix.ORES.containsKey(this.tagPrefix) && TagPrefix.ORES.get(tagPrefix).isSand() &&
-                ConfigHolder.INSTANCE.worldgen.sandOresFall) {
+                GTPMConfigHolder.INSTANCE.worldgen.sandOresFall) {
             level.scheduleTick(currentPos, this, this.getDelayAfterPlace());
         }
         return super.updateShape(state, direction, neighborState, level, currentPos, neighborPos);
@@ -125,7 +125,7 @@ public class MaterialBlock extends Block {
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         if (!TagPrefix.ORES.containsKey(this.tagPrefix) || !TagPrefix.ORES.get(tagPrefix).isSand() ||
-                !ConfigHolder.INSTANCE.worldgen.sandOresFall)
+                !GTPMConfigHolder.INSTANCE.worldgen.sandOresFall)
             return;
         if (random.nextInt(16) == 0 && FallingBlock.isFree(level.getBlockState(pos.below()))) {
             double d = (double) pos.getX() + random.nextDouble();

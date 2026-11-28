@@ -27,7 +27,7 @@ import com.modularmc.gtpm.client.renderer.BlockEntityWithBERModelRenderer;
 import com.modularmc.gtpm.client.renderer.ItemWithBERModelRenderer;
 import com.modularmc.gtpm.common.data.GTRecipeModifiers;
 import com.modularmc.gtpm.common.data.GTRecipeTypes;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.model.builder.MachineModelBuilder;
 
 import com.modularmc.registrate.AbstractRegistrate;
@@ -104,7 +104,7 @@ public class MachineBuilder<DEFINITION extends MachineDefinition, TYPE extends M
      * Whether this machine can be rotated or face upwards.
      */
     private boolean allowExtendedFacing = false;
-    private boolean hasBER = ConfigHolder.getInstance().client.machinesHaveBERsByDefault;
+    private boolean hasBER = GTPMConfigHolder.INSTANCE.client.machinesHaveBERsByDefault;
     private boolean renderMultiblockWorldPreview = true;
     private boolean renderMultiblockXEIPreview = true;
     private NonNullUnaryOperator<BlockBehaviour.Properties> blockProp = p -> p;
@@ -117,7 +117,7 @@ public class MachineBuilder<DEFINITION extends MachineDefinition, TYPE extends M
     @Getter // getter for KJS
     private int tier;
     private Reference2IntMap<RecipeCapability<?>> recipeOutputLimits = new Reference2IntOpenHashMap<>();
-    private int paintingColor = ConfigHolder.INSTANCE.client.getDefaultPaintingColor();
+    private int paintingColor = GTPMConfigHolder.INSTANCE.client.getDefaultPaintingColor();
     private BiFunction<ItemStack, Integer, Integer> itemColor = ((itemStack, tintIndex) -> tintIndex == 2 ?
             GTValues.VC[tier] : tintIndex == 1 ? paintingColor : -1);
     private PartAbility[] abilities = new PartAbility[0];
@@ -425,7 +425,8 @@ public class MachineBuilder<DEFINITION extends MachineDefinition, TYPE extends M
     }
 
     public TYPE overlaySteamHullModel(ResourceLocation overlayModel) {
-        modelProperty(GTMachineModelProperties.IS_STEEL_MACHINE, ConfigHolder.INSTANCE.machines.steelSteamMultiblocks);
+        modelProperty(GTMachineModelProperties.IS_STEEL_MACHINE,
+                GTPMConfigHolder.INSTANCE.machines.steelSteamMultiblocks);
         return model(createOverlaySteamHullMachineModel(overlayModel));
     }
 

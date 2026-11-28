@@ -3,7 +3,7 @@ package com.modularmc.gtpm.api.item;
 import com.modularmc.gtpm.api.block.PipeBlock;
 import com.modularmc.gtpm.api.capability.ICoverable;
 import com.modularmc.gtpm.api.pipenet.IPipeNode;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.GTUtil;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
@@ -89,7 +89,7 @@ public class PipeBlockItem extends BlockItem {
                             otherPipe.setConnection(facing.getOpposite(), false, true);
                         }
                     }
-                } else if (!ConfigHolder.INSTANCE.machines.gt6StylePipesCables &&
+                } else if (!GTPMConfigHolder.INSTANCE.machines.gt6StylePipesCables &&
                         selfTile.getPipeBlock().canPipeConnectToBlock(selfTile,
                                 facing, selfTile.getLevel(), selfTile.getBlockPos().relative(facing))) {
                                     selfTile.setConnection(facing, true, false);

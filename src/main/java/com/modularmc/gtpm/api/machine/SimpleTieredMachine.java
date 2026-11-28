@@ -22,7 +22,7 @@ import com.modularmc.gtpm.api.sync_system.annotations.SyncToClient;
 import com.modularmc.gtpm.api.transfer.item.CustomItemStackHandler;
 import com.modularmc.gtpm.common.item.behavior.IntCircuitBehaviour;
 import com.modularmc.gtpm.common.machine.trait.AutoOutputTrait;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.lang.LangHandler;
 import com.modularmc.gtpm.utils.ISubscription;
 
@@ -68,11 +68,11 @@ public class SimpleTieredMachine extends WorkableTieredMachine
             }
         };
         chargerInventory.setFilter(item -> GTCapabilityHelper.getElectricItem(item) != null ||
-                (ConfigHolder.INSTANCE.compat.energy.nativeEUToFE &&
+                (GTPMConfigHolder.INSTANCE.compat.energy.nativeEUToFE &&
                         GTCapabilityHelper.getForgeEnergyItem(item) != null));
 
         this.circuitInventory = attachTrait(new NotifiableItemStackHandler(1, IO.IN, IO.NONE)
-                .shouldDropInventoryInWorld(!ConfigHolder.INSTANCE.machines.ghostCircuit)
+                .shouldDropInventoryInWorld(!GTPMConfigHolder.INSTANCE.machines.ghostCircuit)
                 .setFilter(IntCircuitBehaviour::isIntegratedCircuit));
     }
 

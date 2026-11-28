@@ -1,7 +1,7 @@
 package com.modularmc.gtpm.api.data.worldgen.bedrockore;
 
 import com.modularmc.gtpm.api.sync_system.FieldCodecs;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import net.minecraft.core.Holder;
 
@@ -48,7 +48,8 @@ public class OreVeinWorldEntry {
     }
 
     public void decreaseOperations(int amount) {
-        operationsRemaining = ConfigHolder.INSTANCE.worldgen.oreVeins.infiniteBedrockOresFluids ? operationsRemaining :
+        operationsRemaining = GTPMConfigHolder.INSTANCE.worldgen.oreVeins.infiniteBedrockOresFluids ?
+                operationsRemaining :
                 Math.max(0, operationsRemaining - amount);
     }
 

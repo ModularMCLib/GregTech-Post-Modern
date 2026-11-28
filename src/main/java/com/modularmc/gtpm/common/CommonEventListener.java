@@ -42,7 +42,7 @@ import com.modularmc.gtpm.common.network.packets.SPacketSendWorldID;
 import com.modularmc.gtpm.common.network.packets.hazard.SPacketAddHazardZone;
 import com.modularmc.gtpm.common.network.packets.hazard.SPacketRemoveHazardZone;
 import com.modularmc.gtpm.common.network.packets.hazard.SPacketSyncLevelHazards;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.loader.PostRegistryListener;
 import com.modularmc.gtpm.data.recipe.CustomTags;
 import com.modularmc.gtpm.integration.map.ClientCacheManager;
@@ -155,7 +155,7 @@ public class CommonEventListener {
 
         Player player = event.getEntity();
         IMedicalConditionTracker tracker = GTCapabilityHelper.getMedicalConditionTracker(player);
-        if (!ConfigHolder.INSTANCE.gameplay.hazardsEnabled) {
+        if (!GTPMConfigHolder.INSTANCE.gameplay.hazardsEnabled) {
             for (MedicalCondition medicalCondition : tracker.getMedicalConditions().keySet()) {
                 tracker.removeMedicalCondition(medicalCondition);
             }
@@ -252,7 +252,7 @@ public class CommonEventListener {
         if (event.getLevel() instanceof ServerLevel serverLevel) {
             TaskHandler.onTickUpdate(serverLevel);
             ComputationNetworkManager.tick(serverLevel);
-            if (ConfigHolder.INSTANCE.gameplay.environmentalHazards) {
+            if (GTPMConfigHolder.INSTANCE.gameplay.environmentalHazards) {
                 EnvironmentalHazardSavedData.getOrCreate(serverLevel).tick();
                 LocalizedHazardSavedData.getOrCreate(serverLevel).tick();
             }
@@ -337,7 +337,7 @@ public class CommonEventListener {
         }
         PacketDistributor.sendToPlayer(serverPlayer, new SPacketSendWorldID());
 
-        if (ConfigHolder.INSTANCE.gameplay.environmentalHazards) {
+        if (GTPMConfigHolder.INSTANCE.gameplay.environmentalHazards) {
             ServerLevel level = serverPlayer.serverLevel();
             var data = EnvironmentalHazardSavedData.getOrCreate(level);
             PacketDistributor.sendToPlayer(serverPlayer, new SPacketSyncLevelHazards(data.getHazardZones()));
@@ -418,7 +418,7 @@ public class CommonEventListener {
         Mob entity = event.getEntity();
         Difficulty difficulty = entity.level().getDifficulty();
         if (difficulty == Difficulty.HARD && entity.getRandom().nextFloat() <= 0.03f) {
-            if (entity instanceof Zombie zombie && ConfigHolder.INSTANCE.tools.nanoSaber.zombieSpawnWithSabers) {
+            if (entity instanceof Zombie zombie && GTPMConfigHolder.INSTANCE.tools.nanoSaber.zombieSpawnWithSabers) {
                 ItemStack itemStack = GTItems.NANO_SABER.get().getInfiniteChargedStack();
                 ToggleEnergyConsumerBehavior.setItemActive(itemStack, true);
                 entity.setItemSlot(EquipmentSlot.MAINHAND, itemStack);
@@ -429,7 +429,7 @@ public class CommonEventListener {
 
     @SubscribeEvent
     public static void onPlayerLevelChange(PlayerEvent.PlayerChangedDimensionEvent event) {
-        if (!ConfigHolder.INSTANCE.gameplay.environmentalHazards) {
+        if (!GTPMConfigHolder.INSTANCE.gameplay.environmentalHazards) {
             return;
         }
 

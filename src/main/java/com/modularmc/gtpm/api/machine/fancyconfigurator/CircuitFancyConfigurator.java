@@ -13,7 +13,7 @@ import com.modularmc.gtpm.api.machine.MetaMachine;
 import com.modularmc.gtpm.api.machine.feature.IHasCircuitSlot;
 import com.modularmc.gtpm.api.machine.trait.NotifiableItemStackHandler;
 import com.modularmc.gtpm.common.item.behavior.IntCircuitBehaviour;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.lang.LangHandler;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
@@ -119,7 +119,7 @@ public class CircuitFancyConfigurator implements IFancyConfigurator, IFancyCusto
         root.addChild(label);
 
         int selectedSlotX = (WIDTH - SLOT_SIZE) / 2;
-        boolean canModifySlot = !ConfigHolder.INSTANCE.machines.ghostCircuit;
+        boolean canModifySlot = !GTPMConfigHolder.INSTANCE.machines.ghostCircuit;
         GTItemSlotElement selectedSlot = new GTItemSlotElement(circuitMachine.getCircuitInventory().storage,
                 SELECTED_SLOT);
         selectedSlot.setBackgroundTexture(GuiTextures.group(GuiTextures.SLOT, GuiTextures.INT_CIRCUIT_OVERLAY))
@@ -128,7 +128,7 @@ public class CircuitFancyConfigurator implements IFancyConfigurator, IFancyCusto
         UITemplate.setBounds(selectedSlot, selectedSlotX, 20, SLOT_SIZE, SLOT_SIZE);
         root.addChild(selectedSlot);
 
-        if (ConfigHolder.INSTANCE.machines.ghostCircuit) {
+        if (GTPMConfigHolder.INSTANCE.machines.ghostCircuit) {
             GTButtonElement clearButton = new GTButtonElement(selectedSlotX, 20, SLOT_SIZE, SLOT_SIZE,
                     IGuiTexture.EMPTY, event -> setMachineCircuitConfiguration(NO_CONFIG));
             clearButton.noText();
@@ -161,7 +161,7 @@ public class CircuitFancyConfigurator implements IFancyConfigurator, IFancyCusto
         if (event.deltaY == 0) {
             return false;
         }
-        if (!ConfigHolder.INSTANCE.machines.ghostCircuit &&
+        if (!GTPMConfigHolder.INSTANCE.machines.ghostCircuit &&
                 circuitMachine.getCircuitInventory().getStackInSlot(SELECTED_SLOT).isEmpty()) {
             return false;
         }
@@ -214,10 +214,10 @@ public class CircuitFancyConfigurator implements IFancyConfigurator, IFancyCusto
             }
             return currentValue + 1;
         }
-        if (currentStack.isEmpty() || (currentValue == 0 && !ConfigHolder.INSTANCE.machines.ghostCircuit)) {
+        if (currentStack.isEmpty() || (currentValue == 0 && !GTPMConfigHolder.INSTANCE.machines.ghostCircuit)) {
             return IntCircuitBehaviour.CIRCUIT_MAX;
         }
-        if (currentValue == 1 && ConfigHolder.INSTANCE.machines.ghostCircuit) {
+        if (currentValue == 1 && GTPMConfigHolder.INSTANCE.machines.ghostCircuit) {
             return NO_CONFIG;
         }
         return currentValue - 1;
@@ -231,7 +231,7 @@ public class CircuitFancyConfigurator implements IFancyConfigurator, IFancyCusto
             circuitInventory.setStackInSlot(SELECTED_SLOT, stack);
             return true;
         }
-        if (ConfigHolder.INSTANCE.machines.ghostCircuit) {
+        if (GTPMConfigHolder.INSTANCE.machines.ghostCircuit) {
             circuitInventory.setStackInSlot(SELECTED_SLOT, IntCircuitBehaviour.stack(configuration));
             return true;
         }
@@ -241,7 +241,7 @@ public class CircuitFancyConfigurator implements IFancyConfigurator, IFancyCusto
     public static void writeMachineCircuitConfiguration(NotifiableItemStackHandler circuitInventory,
                                                         int configuration) {
         if (configuration == NO_CONFIG) {
-            if (ConfigHolder.INSTANCE.machines.ghostCircuit ||
+            if (GTPMConfigHolder.INSTANCE.machines.ghostCircuit ||
                     circuitInventory.getStackInSlot(SELECTED_SLOT).isEmpty()) {
                 circuitInventory.setStackInSlot(SELECTED_SLOT, ItemStack.EMPTY);
             } else {
@@ -249,7 +249,7 @@ public class CircuitFancyConfigurator implements IFancyConfigurator, IFancyCusto
             }
             return;
         }
-        if (ConfigHolder.INSTANCE.machines.ghostCircuit ||
+        if (GTPMConfigHolder.INSTANCE.machines.ghostCircuit ||
                 !circuitInventory.getStackInSlot(SELECTED_SLOT).isEmpty()) {
             circuitInventory.setStackInSlot(SELECTED_SLOT, IntCircuitBehaviour.stack(configuration));
         }

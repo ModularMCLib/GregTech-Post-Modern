@@ -3,7 +3,7 @@ package com.modularmc.gtpm.api.data.worldgen.bedrockore;
 import com.modularmc.gtpm.api.GTValues;
 import com.modularmc.gtpm.api.data.worldgen.WorldGeneratorUtils;
 import com.modularmc.gtpm.api.registry.GTRegistries;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.GTMath;
 
 import net.minecraft.core.BlockPos;
@@ -96,7 +96,7 @@ public class BedrockOreVeinSavedData extends SavedData {
     public OreVeinWorldEntry getOreVeinWorldEntry(int chunkX, int chunkZ) {
         ChunkPos pos = new ChunkPos(chunkX, chunkZ);
         if (!veinOres.containsKey(pos)) {
-            int minDistance = ConfigHolder.INSTANCE.worldgen.oreVeins.bedrockOreDistance;
+            int minDistance = GTPMConfigHolder.INSTANCE.worldgen.oreVeins.bedrockOreDistance;
             if (chunkX % minDistance != 0 || chunkZ % minDistance != 0) {
                 OreVeinWorldEntry entry = new OreVeinWorldEntry(null, 0, MAXIMUM_VEIN_OPERATIONS);
                 veinOres.put(pos, entry);

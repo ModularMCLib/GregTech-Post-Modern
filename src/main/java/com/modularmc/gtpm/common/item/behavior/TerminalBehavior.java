@@ -40,7 +40,7 @@ import com.modularmc.gtpm.api.sync_system.rpc.RPCSender;
 import com.modularmc.gtpm.client.gui.ClientMultiblockPreviewElement;
 import com.modularmc.gtpm.client.renderer.MultiblockInWorldPreviewRenderer;
 import com.modularmc.gtpm.common.machine.owner.MachineOwner;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.pattern.StructurePatternRegistry;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
@@ -681,7 +681,7 @@ public class TerminalBehavior extends ItemSyncHolder implements IItemUIFactory, 
                     visibility.setOnClick(event -> {
                         MultiblockInWorldPreviewRenderer.togglePreview(position, TerminalBehavior.this.preview,
                                 structureName(),
-                                ConfigHolder.INSTANCE.client.inWorldPreviewDuration * 20);
+                                GTPMConfigHolder.INSTANCE.client.inWorldPreviewDuration * 20);
                         event.stopPropagation();
                     });
                     options.addScrollViewChild(visibility);
@@ -855,7 +855,7 @@ public class TerminalBehavior extends ItemSyncHolder implements IItemUIFactory, 
                     displayedPreview = TerminalBehavior.this.preview;
                     preview.setPreview(displayedPreview);
                     MultiblockInWorldPreviewRenderer.updatePreview(position, displayedPreview,
-                            ConfigHolder.INSTANCE.client.inWorldPreviewDuration * 20);
+                            GTPMConfigHolder.INSTANCE.client.inWorldPreviewDuration * 20);
                 }
                 result.setValue(status == null ? Component.empty() :
                         Component.translatable("gtpm.multiblock.autobuild.status." +

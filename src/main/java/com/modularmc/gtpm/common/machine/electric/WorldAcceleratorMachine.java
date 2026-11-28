@@ -15,7 +15,7 @@ import com.modularmc.gtpm.api.machine.trait.NotifiableEnergyContainer;
 import com.modularmc.gtpm.api.sync_system.annotations.RerenderOnChanged;
 import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
 import com.modularmc.gtpm.api.sync_system.annotations.SyncToClient;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 import com.modularmc.gtpm.utils.GTUtil;
 
@@ -255,7 +255,7 @@ public class WorldAcceleratorMachine extends TieredEnergyMachine implements ICon
 
     private static void generateWorldAcceleratorBlacklist() {
         if (!gatheredClasses) {
-            for (String name : ConfigHolder.INSTANCE.machines.worldAcceleratorBlacklist) {
+            for (String name : GTPMConfigHolder.INSTANCE.machines.worldAcceleratorBlacklist) {
                 if (!blacklistedClasses.containsKey(name)) {
                     try {
                         blacklistedClasses.put(name, Class.forName(name));

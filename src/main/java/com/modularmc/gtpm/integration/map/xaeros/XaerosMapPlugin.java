@@ -2,7 +2,7 @@ package com.modularmc.gtpm.integration.map.xaeros;
 
 import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.GTValues;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
@@ -32,7 +32,7 @@ public class XaerosMapPlugin {
             dimHighlightHandler.requestRefresh();
         }
 
-        if (ConfigHolder.INSTANCE.compat.minimap.toggle.xaerosMapIntegration &&
+        if (GTPMConfigHolder.INSTANCE.compat.minimap.toggle.xaerosMapIntegration &&
                 GTPM.isModLoaded(GTValues.MODID_XAEROS_WORLDMAP)) {
             WorldMapSession session = WorldMapSession.getCurrentSession();
             MapWorld world = session.getMapProcessor().getMapWorld();

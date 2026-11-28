@@ -8,7 +8,7 @@ import com.modularmc.gtpm.api.recipe.condition.RecipeConditionType;
 import com.modularmc.gtpm.common.capability.EnvironmentalHazardSavedData;
 import com.modularmc.gtpm.common.data.GTMedicalConditions;
 import com.modularmc.gtpm.common.data.GTRecipeConditions;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
 import com.modularmc.registrate.localization.annotation.Trans;
@@ -69,7 +69,7 @@ public class EnvironmentalHazardCondition extends RecipeCondition<EnvironmentalH
 
     @Override
     public boolean testCondition(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
-        if (!ConfigHolder.INSTANCE.gameplay.hazardsEnabled) return true;
+        if (!GTPMConfigHolder.INSTANCE.gameplay.hazardsEnabled) return true;
         if (!(recipeLogic.getMachine().getLevel() instanceof ServerLevel serverLevel)) {
             return false;
         }

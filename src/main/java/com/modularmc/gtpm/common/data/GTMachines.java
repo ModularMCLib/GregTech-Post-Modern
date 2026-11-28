@@ -34,7 +34,7 @@ import com.modularmc.gtpm.common.machine.steam.SteamSolidBoilerMachine;
 import com.modularmc.gtpm.common.machine.storage.*;
 import com.modularmc.gtpm.common.pipelike.fluidpipe.longdistance.LDFluidEndpointMachine;
 import com.modularmc.gtpm.common.pipelike.item.longdistance.LDItemEndpointMachine;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.lang.LangHandler;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
@@ -265,8 +265,8 @@ public class GTMachines {
                     .recipeModifier(SteamBoilerMachine::recipeModifier)
                     .workableSteamHullModel(pressure, GTPM.id("block/generators/boiler/coal"))
                     .tooltips(Component.translatable("gtpm.universal.tooltip.produces_fluid",
-                            (pressure ? ConfigHolder.INSTANCE.machines.smallBoilers.hpSolidBoilerBaseOutput :
-                                    ConfigHolder.INSTANCE.machines.smallBoilers.solidBoilerBaseOutput) *
+                            (pressure ? GTPMConfigHolder.INSTANCE.machines.smallBoilers.hpSolidBoilerBaseOutput :
+                                    GTPMConfigHolder.INSTANCE.machines.smallBoilers.solidBoilerBaseOutput) *
                                     FluidType.BUCKET_VOLUME / 20000))
                     .register());
 
@@ -278,8 +278,8 @@ public class GTMachines {
                     .recipeModifier(SteamBoilerMachine::recipeModifier)
                     .workableSteamHullModel(pressure, GTPM.id("block/generators/boiler/lava"))
                     .tooltips(Component.translatable("gtpm.universal.tooltip.produces_fluid",
-                            (pressure ? ConfigHolder.INSTANCE.machines.smallBoilers.hpLiquidBoilerBaseOutput :
-                                    ConfigHolder.INSTANCE.machines.smallBoilers.liquidBoilerBaseOutput) *
+                            (pressure ? GTPMConfigHolder.INSTANCE.machines.smallBoilers.hpLiquidBoilerBaseOutput :
+                                    GTPMConfigHolder.INSTANCE.machines.smallBoilers.liquidBoilerBaseOutput) *
                                     FluidType.BUCKET_VOLUME / 20000))
                     .register());
 
@@ -291,8 +291,8 @@ public class GTMachines {
                     .recipeModifier(SteamBoilerMachine::recipeModifier)
                     .workableSteamHullModel(pressure, GTPM.id("block/generators/boiler/solar"))
                     .tooltips(Component.translatable("gtpm.universal.tooltip.produces_fluid",
-                            (pressure ? ConfigHolder.INSTANCE.machines.smallBoilers.hpSolarBoilerBaseOutput :
-                                    ConfigHolder.INSTANCE.machines.smallBoilers.solarBoilerBaseOutput) *
+                            (pressure ? GTPMConfigHolder.INSTANCE.machines.smallBoilers.hpSolarBoilerBaseOutput :
+                                    GTPMConfigHolder.INSTANCE.machines.smallBoilers.solarBoilerBaseOutput) *
                                     FluidType.BUCKET_VOLUME / 20000))
                     .register());
 
@@ -748,9 +748,9 @@ public class GTMachines {
             .overlayTieredHullModel("long_distance_item_pipeline_endpoint")
             .tooltips(LangHandler.getMultiLang("gtpm.machine.endpoint.tooltip"))
             .tooltipBuilder((stack, tooltip) -> {
-                if (ConfigHolder.INSTANCE.machines.ldItemPipeMinDistance > 0) {
+                if (GTPMConfigHolder.INSTANCE.machines.ldItemPipeMinDistance > 0) {
                     tooltip.add(Component.translatable("gtpm.machine.endpoint.tooltip.min_length",
-                            ConfigHolder.INSTANCE.machines.ldItemPipeMinDistance));
+                            GTPMConfigHolder.INSTANCE.machines.ldItemPipeMinDistance));
                 }
             })
             .register();
@@ -768,9 +768,9 @@ public class GTMachines {
                     Component.translatable("gtpm.machine.endpoint.tooltip.1"),
                     Component.translatable("gtpm.machine.endpoint.tooltip.2"))
             .tooltipBuilder((stack, tooltip) -> {
-                if (ConfigHolder.INSTANCE.machines.ldFluidPipeMinDistance > 0) {
+                if (GTPMConfigHolder.INSTANCE.machines.ldFluidPipeMinDistance > 0) {
                     tooltip.add(Component.translatable("gtpm.machine.endpoint.tooltip.min_length",
-                            ConfigHolder.INSTANCE.machines.ldFluidPipeMinDistance));
+                            GTPMConfigHolder.INSTANCE.machines.ldFluidPipeMinDistance));
                 }
             })
             .register();
@@ -844,7 +844,7 @@ public class GTMachines {
             LV, MV, HV, EV);
 
     public static final MachineDefinition[] MINER = registerTieredMachines("miner",
-            (holder, tier) -> new MinerMachine(holder, tier, ConfigHolder.INSTANCE.machines.minerSpeed / (tier * 2),
+            (holder, tier) -> new MinerMachine(holder, tier, GTPMConfigHolder.INSTANCE.machines.minerSpeed / (tier * 2),
                     tier * 8, tier),
             (tier, builder) -> builder
                     .rotationState(RotationState.NON_Y_AXIS)
@@ -856,7 +856,7 @@ public class GTMachines {
                     .tooltipBuilder((stack, tooltip) -> {
                         int maxArea = IMiner.getWorkingArea(tier * 8);
                         long energyPerTick = GTValues.V[tier - 1];
-                        int tickSpeed = ConfigHolder.INSTANCE.machines.minerSpeed / (tier * 2);
+                        int tickSpeed = GTPMConfigHolder.INSTANCE.machines.minerSpeed / (tier * 2);
                         tooltip.add(Component.translatable("gtpm.machine.miner.tooltip", maxArea, maxArea));
                         tooltip.add(Component.translatable("gtpm.universal.tooltip.uses_per_tick", energyPerTick)
                                 .append(Component.literal(", ").withStyle(ChatFormatting.GRAY))

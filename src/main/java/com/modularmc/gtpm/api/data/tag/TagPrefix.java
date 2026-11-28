@@ -23,7 +23,7 @@ import com.modularmc.gtpm.common.data.GTMaterialBlocks;
 import com.modularmc.gtpm.common.data.GTMaterialItems;
 import com.modularmc.gtpm.common.data.GTMaterials;
 import com.modularmc.gtpm.common.registry.GTRegistration;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.recipe.CustomTags;
 import com.modularmc.gtpm.integration.xei.widgets.GTOreByProduct;
 import com.modularmc.gtpm.utils.FormattingUtil;
@@ -432,7 +432,8 @@ public class TagPrefix {
             .unificationEnabled(true)
             .enableRecycling()
             .generateItem(true)
-            .generationCondition(hasGemProperty.and(unused -> ConfigHolder.INSTANCE.recipes.generateLowQualityGems));
+            .generationCondition(
+                    hasGemProperty.and(unused -> GTPMConfigHolder.INSTANCE.recipes.generateLowQualityGems));
 
     // A regular Gem worth two small Dusts.
     @Trans(key = "tag.item.c.flawed_gems",
@@ -449,7 +450,8 @@ public class TagPrefix {
             .unificationEnabled(true)
             .enableRecycling()
             .generateItem(true)
-            .generationCondition(hasGemProperty.and(unused -> ConfigHolder.INSTANCE.recipes.generateLowQualityGems));
+            .generationCondition(
+                    hasGemProperty.and(unused -> GTPMConfigHolder.INSTANCE.recipes.generateLowQualityGems));
 
     // A regular Gem worth two Dusts.
     @Trans(key = "tag.item.c.flawless_gems",

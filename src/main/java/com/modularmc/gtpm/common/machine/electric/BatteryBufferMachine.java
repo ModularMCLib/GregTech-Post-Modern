@@ -21,7 +21,7 @@ import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
 import com.modularmc.gtpm.api.sync_system.annotations.SyncToClient;
 import com.modularmc.gtpm.api.transfer.item.CustomItemStackHandler;
 import com.modularmc.gtpm.client.model.machine.MachineRenderState;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.GTUtil;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
@@ -133,7 +133,7 @@ public class BatteryBufferMachine extends TieredEnergyMachine
             }
         };
         handler.setFilter(item -> GTCapabilityHelper.getElectricItem(item) != null ||
-                (ConfigHolder.INSTANCE.compat.energy.nativeEUToFE &&
+                (GTPMConfigHolder.INSTANCE.compat.energy.nativeEUToFE &&
                         GTCapabilityHelper.getForgeEnergyItem(item) != null));
         return handler;
     }
@@ -246,7 +246,7 @@ public class BatteryBufferMachine extends TieredEnergyMachine
                 if (electricItem.getCharge() < electricItem.getMaxCharge()) {
                     batteries.add(electricItem);
                 }
-            } else if (ConfigHolder.INSTANCE.compat.energy.nativeEUToFE) {
+            } else if (GTPMConfigHolder.INSTANCE.compat.energy.nativeEUToFE) {
                 IEnergyStorage energyStorage = GTCapabilityHelper.getForgeEnergyItem(batteryStack);
                 if (energyStorage != null) {
                     if (energyStorage.getEnergyStored() < energyStorage.getMaxEnergyStored()) {
@@ -279,7 +279,7 @@ public class BatteryBufferMachine extends TieredEnergyMachine
             var electricItem = GTCapabilityHelper.getElectricItem(batteryStack);
             if (electricItem != null) {
                 batteries.add(electricItem);
-            } else if (ConfigHolder.INSTANCE.compat.energy.nativeEUToFE) {
+            } else if (GTPMConfigHolder.INSTANCE.compat.energy.nativeEUToFE) {
                 IEnergyStorage energyStorage = GTCapabilityHelper.getForgeEnergyItem(batteryStack);
                 if (energyStorage != null) {
                     batteries.add(energyStorage);

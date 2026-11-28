@@ -12,7 +12,7 @@ import com.modularmc.gtpm.common.data.GTItems;
 import com.modularmc.gtpm.common.data.GTMachines;
 import com.modularmc.gtpm.common.data.GTMaterials;
 import com.modularmc.gtpm.common.data.machines.GTMultiMachines;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -41,17 +41,17 @@ public class RecipeAddition {
         harderRods(provider);
         harderBrickRecipes(provider);
         steelSteamMultiblocks(provider);
-        if (ConfigHolder.INSTANCE.recipes.hardWoodRecipes) hardWoodRecipes(provider);
-        if (ConfigHolder.INSTANCE.recipes.hardIronRecipes) hardIronRecipes(provider);
-        if (ConfigHolder.INSTANCE.recipes.hardGlassRecipes) hardGlassRecipes(provider);
-        if (ConfigHolder.INSTANCE.recipes.nerfPaperCrafting) nerfPaperCrafting(provider);
-        if (ConfigHolder.INSTANCE.recipes.hardAdvancedIronRecipes) hardAdvancedIronRecipes(provider);
-        if (ConfigHolder.INSTANCE.recipes.flintAndSteelRequireSteel) flintAndSteelRequireSteel(provider);
-        if (ConfigHolder.INSTANCE.recipes.removeVanillaBlockRecipes) vanillaBlockRecipes(provider);
+        if (GTPMConfigHolder.INSTANCE.recipes.hardWoodRecipes) hardWoodRecipes(provider);
+        if (GTPMConfigHolder.INSTANCE.recipes.hardIronRecipes) hardIronRecipes(provider);
+        if (GTPMConfigHolder.INSTANCE.recipes.hardGlassRecipes) hardGlassRecipes(provider);
+        if (GTPMConfigHolder.INSTANCE.recipes.nerfPaperCrafting) nerfPaperCrafting(provider);
+        if (GTPMConfigHolder.INSTANCE.recipes.hardAdvancedIronRecipes) hardAdvancedIronRecipes(provider);
+        if (GTPMConfigHolder.INSTANCE.recipes.flintAndSteelRequireSteel) flintAndSteelRequireSteel(provider);
+        if (GTPMConfigHolder.INSTANCE.recipes.removeVanillaBlockRecipes) vanillaBlockRecipes(provider);
     }
 
     private static void steelSteamMultiblocks(RecipeOutput provider) {
-        if (ConfigHolder.INSTANCE.machines.steelSteamMultiblocks) {
+        if (GTPMConfigHolder.INSTANCE.machines.steelSteamMultiblocks) {
             VanillaRecipeHelper.addShapedRecipe(provider, true, "steam_oven",
                     GTMultiMachines.STEAM_OVEN.asStack(),
                     "CGC", "FMF", "CGC",
@@ -139,7 +139,7 @@ public class RecipeAddition {
     }
 
     private static void disableManualCompression(RecipeOutput provider) {
-        if (!ConfigHolder.INSTANCE.recipes.disableManualCompression) {
+        if (!GTPMConfigHolder.INSTANCE.recipes.disableManualCompression) {
             VanillaRecipeHelper.addShapelessRecipe(provider, "nether_quartz_block_to_nether_quartz",
                     new ItemStack(Items.QUARTZ, 4), Blocks.QUARTZ_BLOCK);
             VanillaRecipeHelper.addShapelessRecipe(provider, "copper_ingot_to_copper_nuggets",
@@ -148,7 +148,7 @@ public class RecipeAddition {
     }
 
     private static void harderBrickRecipes(RecipeOutput provider) {
-        if (ConfigHolder.INSTANCE.recipes.harderBrickRecipes) {
+        if (GTPMConfigHolder.INSTANCE.recipes.harderBrickRecipes) {
             VanillaRecipeHelper.addShapedFluidContainerRecipe(provider, "brick_from_water",
                     new ItemStack(Blocks.BRICKS, 2), "BBB",
                     "BWB", "BBB",
@@ -250,7 +250,7 @@ public class RecipeAddition {
     }
 
     private static void hardRedstoneRecipes(RecipeOutput provider) {
-        if (ConfigHolder.INSTANCE.recipes.hardRedstoneRecipes) {
+        if (GTPMConfigHolder.INSTANCE.recipes.hardRedstoneRecipes) {
             VanillaRecipeHelper.addShapedRecipe(provider, "dispenser", new ItemStack(Blocks.DISPENSER), "CRC", "STS",
                     "GAG",
                     'C', ItemTags.STONE_CRAFTING_MATERIALS,
@@ -650,7 +650,7 @@ public class RecipeAddition {
     }
 
     private static void hardToolArmorRecipes(RecipeOutput provider) {
-        if (ConfigHolder.INSTANCE.recipes.hardToolArmorRecipes) {
+        if (GTPMConfigHolder.INSTANCE.recipes.hardToolArmorRecipes) {
             createShovelRecipe(provider, "iron_shovel", new ItemStack(Items.IRON_SHOVEL), GTMaterials.Iron);
             createPickaxeRecipe(provider, "iron_pickaxe", new ItemStack(Items.IRON_PICKAXE), GTMaterials.Iron);
             createAxeRecipe(provider, "iron_axe", new ItemStack(Items.IRON_AXE), GTMaterials.Iron);
@@ -767,7 +767,7 @@ public class RecipeAddition {
     }
 
     private static void harderRods(RecipeOutput provider) {
-        if (ConfigHolder.INSTANCE.recipes.harderRods) {
+        if (GTPMConfigHolder.INSTANCE.recipes.harderRods) {
             LATHE_RECIPES.recipeBuilder("stone_rod_from_cobblestone")
                     .inputItems(ItemTags.STONE_CRAFTING_MATERIALS)
                     .outputItems(rod, Stone, 1)
@@ -802,7 +802,7 @@ public class RecipeAddition {
      * disableManualCompression, or any of the other config options
      */
     private static void hardMiscRecipes(RecipeOutput provider) {
-        if (ConfigHolder.INSTANCE.recipes.hardMiscRecipes) {
+        if (GTPMConfigHolder.INSTANCE.recipes.hardMiscRecipes) {
             VanillaRecipeHelper.addShapedRecipe(provider, true, "beacon", new ItemStack(Blocks.BEACON),
                     "GLG", "GSG", "OOO",
                     'G', new ItemStack(Blocks.GLASS),

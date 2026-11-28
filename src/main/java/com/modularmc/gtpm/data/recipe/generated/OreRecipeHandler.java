@@ -10,7 +10,7 @@ import com.modularmc.gtpm.api.data.chemical.material.stack.MaterialStack;
 import com.modularmc.gtpm.api.data.tag.TagPrefix;
 import com.modularmc.gtpm.common.data.GTMaterials;
 import com.modularmc.gtpm.common.data.GTRecipeCategories;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.recipe.VanillaRecipeHelper;
 import com.modularmc.gtpm.data.recipe.builder.GTRecipeBuilder;
 import com.modularmc.gtpm.utils.GTUtil;
@@ -26,7 +26,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 import static com.modularmc.gtpm.api.GTValues.*;
-import static com.modularmc.gtpm.api.data.chemical.material.info.MaterialFlags.*;
 import static com.modularmc.gtpm.api.data.chemical.material.info.MaterialFlags.HIGH_SIFTER_OUTPUT;
 import static com.modularmc.gtpm.api.data.tag.TagPrefix.*;
 import static com.modularmc.gtpm.common.data.GTMaterials.*;
@@ -216,7 +215,7 @@ public final class OreRecipeHandler {
                     ingotStack, xp);
         }
 
-        if (!ConfigHolder.INSTANCE.recipes.disableManualCompression && !rawOre.isIgnored(material)) {
+        if (!GTPMConfigHolder.INSTANCE.recipes.disableManualCompression && !rawOre.isIgnored(material)) {
             VanillaRecipeHelper.addShapedRecipe(provider, "compress_" + material.getName() + "_to_ore_block",
                     ChemicalHelper.get(rawOreBlock, material),
                     "BBB", "BBB", "BBB",

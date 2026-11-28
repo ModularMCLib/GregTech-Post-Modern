@@ -2,7 +2,7 @@ package com.modularmc.gtpm.data.pack;
 
 import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.addon.AddonFinder;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import com.lowdragmc.lowdraglib2.Platform;
 
@@ -79,7 +79,7 @@ public class GTDynamicDataPack implements PackResources {
     }
 
     public static void addResource(ResourceLocation location, byte[] data) {
-        if (ConfigHolder.INSTANCE.dev.dumpRecipes) {
+        if (GTPMConfigHolder.INSTANCE.dev.dumpRecipes) {
             Path parent = GTPM.GTCEU_FOLDER.resolve("dumped/data");
             writeJson(location, parent, data);
         }
@@ -130,7 +130,7 @@ public class GTDynamicDataPack implements PackResources {
                 .getOrThrow();
         byte[] dataMapBytes = dataMapJson.toString().getBytes(StandardCharsets.UTF_8);
         Path parent = Platform.getGamePath().resolve(GTPM.MOD_ID + "/dumped/data");
-        if (ConfigHolder.INSTANCE.dev.dumpRecipes) {
+        if (GTPMConfigHolder.INSTANCE.dev.dumpRecipes) {
             writeJson(dataMapId, parent, dataMapBytes);
         }
         addResource(dataMapId, dataMapBytes);

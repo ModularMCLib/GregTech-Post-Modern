@@ -4,7 +4,7 @@ import com.modularmc.gtpm.api.data.chemical.material.MarkerMaterials.Color;
 import com.modularmc.gtpm.api.data.chemical.material.stack.MaterialEntry;
 import com.modularmc.gtpm.api.machine.multiblock.CleanroomType;
 import com.modularmc.gtpm.common.data.GTRecipeCategories;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.recipe.CustomTags;
 import com.modularmc.gtpm.data.recipe.VanillaRecipeHelper;
 
@@ -997,7 +997,7 @@ public class CircuitRecipes {
     }
 
     private static void circuitRecipes(RecipeOutput provider) {
-        int outputAmount = ConfigHolder.INSTANCE.recipes.harderCircuitRecipes ? 1 : 2;
+        int outputAmount = GTPMConfigHolder.INSTANCE.recipes.harderCircuitRecipes ? 1 : 2;
 
         // T1: Electronic ==============================================================================================
 
@@ -1098,7 +1098,7 @@ public class CircuitRecipes {
                 .inputItems(CustomTags.CAPACITORS, 2)
                 .inputItems(CustomTags.TRANSISTORS, 2)
                 .inputItems(wireFine, Copper, 2)
-                .outputItems(MICROPROCESSOR_LV, ConfigHolder.INSTANCE.recipes.harderCircuitRecipes ? 2 : 3)
+                .outputItems(MICROPROCESSOR_LV, GTPMConfigHolder.INSTANCE.recipes.harderCircuitRecipes ? 2 : 3)
                 .save(provider);
 
         // Microprocessor LV SoC
@@ -1107,7 +1107,7 @@ public class CircuitRecipes {
                 .inputItems(SYSTEM_ON_CHIP)
                 .inputItems(wireFine, Copper, 2)
                 .inputItems(bolt, Tin, 2)
-                .outputItems(MICROPROCESSOR_LV, ConfigHolder.INSTANCE.recipes.harderCircuitRecipes ? 3 : 6)
+                .outputItems(MICROPROCESSOR_LV, GTPMConfigHolder.INSTANCE.recipes.harderCircuitRecipes ? 3 : 6)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save(provider);
 

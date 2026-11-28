@@ -9,7 +9,7 @@ import com.modularmc.gtpm.common.data.GTRecipeTypes;
 import com.modularmc.gtpm.common.data.machines.GTMultiMachines;
 import com.modularmc.gtpm.common.fluid.potion.PotionFluid;
 import com.modularmc.gtpm.common.item.behavior.IntCircuitBehaviour;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.integration.jei.circuit.GTProgrammedCircuitCategory;
 import com.modularmc.gtpm.integration.jei.multipage.MultiblockInfoCategory;
 import com.modularmc.gtpm.integration.jei.oreprocessing.GTOreProcessingInfoCategory;
@@ -73,11 +73,11 @@ public class GTJEIPlugin implements IModPlugin {
         jeiHelpers = registry.getJeiHelpers();
         multiblocks = new MultiblockInfoCategory(jeiHelpers);
         registry.addRecipeCategories(multiblocks);
-        if (!ConfigHolder.INSTANCE.compat.hideOreProcessingDiagrams)
+        if (!GTPMConfigHolder.INSTANCE.compat.hideOreProcessingDiagrams)
             registry.addRecipeCategories(new GTOreProcessingInfoCategory(jeiHelpers));
         registry.addRecipeCategories(new GTOreVeinInfoCategory(jeiHelpers));
         registry.addRecipeCategories(new GTBedrockFluidInfoCategory(jeiHelpers));
-        if (ConfigHolder.INSTANCE.machines.doBedrockOres)
+        if (GTPMConfigHolder.INSTANCE.machines.doBedrockOres)
             registry.addRecipeCategories(new GTBedrockOreInfoCategory(jeiHelpers));
         for (GTRecipeCategory category : GTRegistries.RECIPE_CATEGORIES) {
             if (category.shouldRegisterDisplays()) {
@@ -98,11 +98,11 @@ public class GTJEIPlugin implements IModPlugin {
         if (!GTPM.MODS.isJEILoaded()) return;
 
         GTRecipeJEICategory.registerRecipeCatalysts(registration);
-        if (!ConfigHolder.INSTANCE.compat.hideOreProcessingDiagrams)
+        if (!GTPMConfigHolder.INSTANCE.compat.hideOreProcessingDiagrams)
             GTOreProcessingInfoCategory.registerRecipeCatalysts(registration);
         GTOreVeinInfoCategory.registerRecipeCatalysts(registration);
         GTBedrockFluidInfoCategory.registerRecipeCatalysts(registration);
-        if (ConfigHolder.INSTANCE.machines.doBedrockOres)
+        if (GTPMConfigHolder.INSTANCE.machines.doBedrockOres)
             GTBedrockOreInfoCategory.registerRecipeCatalysts(registration);
         registration.addRecipeCatalyst(GTMultiMachines.LARGE_CHEMICAL_REACTOR.asStack(),
                 GTRecipeJEICategory.TYPES.apply(GTRecipeTypes.CHEMICAL_RECIPES.getCategory()));
@@ -114,11 +114,11 @@ public class GTJEIPlugin implements IModPlugin {
         if (!GTPM.MODS.isJEILoaded()) return;
 
         GTRecipeJEICategory.registerRecipes(registration);
-        if (!ConfigHolder.INSTANCE.compat.hideOreProcessingDiagrams)
+        if (!GTPMConfigHolder.INSTANCE.compat.hideOreProcessingDiagrams)
             GTOreProcessingInfoCategory.registerRecipes(registration);
         GTOreVeinInfoCategory.registerRecipes(registration);
         GTBedrockFluidInfoCategory.registerRecipes(registration);
-        if (ConfigHolder.INSTANCE.machines.doBedrockOres)
+        if (GTPMConfigHolder.INSTANCE.machines.doBedrockOres)
             GTBedrockOreInfoCategory.registerRecipes(registration);
         registration.addRecipes(GTProgrammedCircuitCategory.RECIPE_TYPE, List.of(new GTProgrammedCircuitWidget()));
     }

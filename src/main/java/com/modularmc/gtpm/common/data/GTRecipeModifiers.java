@@ -17,7 +17,7 @@ import com.modularmc.gtpm.api.recipe.modifier.ModifierFunction;
 import com.modularmc.gtpm.api.recipe.modifier.ParallelLogic;
 import com.modularmc.gtpm.api.recipe.modifier.RecipeModifier;
 import com.modularmc.gtpm.common.capability.EnvironmentalHazardSavedData;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
 import com.modularmc.registrate.localization.annotation.TransVariants;
@@ -69,7 +69,7 @@ public class GTRecipeModifiers {
 
     public static final BiFunction<MedicalCondition, Integer, RecipeModifier> ENVIRONMENT_REQUIREMENT = Util
             .memoize((condition, maxAllowedStrength) -> (machine, recipe) -> {
-                if (!ConfigHolder.INSTANCE.gameplay.environmentalHazards) return ModifierFunction.IDENTITY;
+                if (!GTPMConfigHolder.INSTANCE.gameplay.environmentalHazards) return ModifierFunction.IDENTITY;
                 if (!(machine.getLevel() instanceof ServerLevel serverLevel)) return ModifierFunction.NULL;
 
                 EnvironmentalHazardSavedData data = EnvironmentalHazardSavedData.getOrCreate(serverLevel);
@@ -123,8 +123,8 @@ public class GTRecipeModifiers {
     public static @NotNull ModifierFunction batchMode(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
         if (machine instanceof MultiblockControllerMachine controller && controller.isFormed() &&
                 controller.isBatchEnabled()) {
-            if (recipe.duration < ConfigHolder.INSTANCE.machines.batchDuration) {
-                int parallel = ConfigHolder.INSTANCE.machines.batchDuration / recipe.duration;
+            if (recipe.duration < GTPMConfigHolder.INSTANCE.machines.batchDuration) {
+                int parallel = GTPMConfigHolder.INSTANCE.machines.batchDuration / recipe.duration;
                 parallel = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, parallel);
 
                 if (parallel == 0) return ModifierFunction.NULL;

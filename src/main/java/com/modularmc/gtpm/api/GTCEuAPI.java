@@ -8,7 +8,7 @@ import com.modularmc.gtpm.api.block.IFilterType;
 import com.modularmc.gtpm.api.machine.multiblock.IBatteryData;
 import com.modularmc.gtpm.common.block.BatteryBlock;
 import com.modularmc.gtpm.common.block.CoilBlock;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import net.minecraft.world.level.block.Block;
 
@@ -41,7 +41,7 @@ public class GTCEuAPI {
     @ApiStatus.Internal
     public static void initializeHighTier() {
         if (highTierInitialized) throw new IllegalStateException("High-Tier is already initialized.");
-        highTier = ConfigHolder.INSTANCE.machines.highTierContent ||
+        highTier = GTPMConfigHolder.INSTANCE.machines.highTierContent ||
                 AddonFinder.getAddonList().stream().anyMatch(IGTAddon::requiresHighTier) || GTPM.isDev();
         highTierInitialized = true;
 

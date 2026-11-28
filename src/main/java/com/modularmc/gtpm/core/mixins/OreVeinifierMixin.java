@@ -1,6 +1,6 @@
 package com.modularmc.gtpm.core.mixins;
 
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.NoiseChunk;
@@ -22,7 +22,7 @@ public class OreVeinifierMixin {
     private static void gtceu$create(DensityFunction function1, DensityFunction function2, DensityFunction function3,
                                      PositionalRandomFactory random,
                                      CallbackInfoReturnable<NoiseChunk.BlockStateFiller> cir) {
-        if (ConfigHolder.INSTANCE != null && ConfigHolder.INSTANCE.worldgen.oreVeins.removeVanillaLargeOreVeins)
+        if (GTPMConfigHolder.INSTANCE != null && GTPMConfigHolder.INSTANCE.worldgen.oreVeins.removeVanillaLargeOreVeins)
             cir.setReturnValue(functionContext -> null);
     }
 }

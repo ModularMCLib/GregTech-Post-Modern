@@ -11,7 +11,7 @@ import com.modularmc.gtpm.api.item.armor.ArmorComponentItem;
 import com.modularmc.gtpm.api.sync_system.FieldCodecs;
 import com.modularmc.gtpm.common.data.GTMaterials;
 import com.modularmc.gtpm.common.item.GTBucketItem;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.recipe.CustomTags;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
@@ -194,11 +194,11 @@ public class HazardProperty implements IMaterialProperty {
             material = prefixItem.material;
             prefix = prefixItem.tagPrefix;
         } else if (item.getItem() instanceof BucketItem bucket) {
-            if (ConfigHolder.INSTANCE.gameplay.universalHazards || bucket instanceof GTBucketItem) {
+            if (GTPMConfigHolder.INSTANCE.gameplay.universalHazards || bucket instanceof GTBucketItem) {
                 material = ChemicalHelper.getMaterial(bucket.content);
                 isFluid = true;
             }
-        } else if (ConfigHolder.INSTANCE.gameplay.universalHazards) {
+        } else if (GTPMConfigHolder.INSTANCE.gameplay.universalHazards) {
             MaterialEntry entry = ChemicalHelper.getMaterialEntry(item.getItem());
             if (!entry.isEmpty()) {
                 material = entry.material();

@@ -9,7 +9,7 @@ import com.modularmc.gtpm.api.recipe.RecipeCondition;
 import com.modularmc.gtpm.api.recipe.condition.RecipeConditionType;
 import com.modularmc.gtpm.common.data.GTRecipeConditions;
 import com.modularmc.gtpm.common.machine.trait.CleanroomReceiverTrait;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
 import com.modularmc.registrate.localization.annotation.Trans;
@@ -65,8 +65,8 @@ public class CleanroomCondition extends RecipeCondition<CleanroomCondition> {
     public boolean testCondition(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
         MetaMachine machine = recipeLogic.getMachine();
 
-        if (!ConfigHolder.INSTANCE.machines.enableCleanroom) return true;
-        if (ConfigHolder.INSTANCE.machines.cleanMultiblocks && machine instanceof MultiblockControllerMachine)
+        if (!GTPMConfigHolder.INSTANCE.machines.enableCleanroom) return true;
+        if (GTPMConfigHolder.INSTANCE.machines.cleanMultiblocks && machine instanceof MultiblockControllerMachine)
             return true;
 
         CleanroomReceiverTrait receiverTrait = machine.getTrait(CleanroomReceiverTrait.TYPE);

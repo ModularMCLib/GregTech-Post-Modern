@@ -1,7 +1,7 @@
 package com.modularmc.gtpm.utils.dev;
 
 import com.modularmc.gtpm.GTPM;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
 import com.modularmc.registrate.localization.annotation.TransVariants;
@@ -40,7 +40,7 @@ public class ResourceReloadDetector {
 
     @ApiStatus.Internal
     public static CompletableFuture<Void> regenerateResourcesOnReload(Supplier<CompletableFuture<Void>> reloadFuture) {
-        if (!ConfigHolder.INSTANCE.dev.autoRebuildResources || !GTPM.isDev() || gradleDir == null) {
+        if (!GTPMConfigHolder.INSTANCE.dev.autoRebuildResources || !GTPM.isDev() || gradleDir == null) {
             return reloadFuture.get();
         }
         ProcessBuilder builder = switch (Util.getPlatform()) {

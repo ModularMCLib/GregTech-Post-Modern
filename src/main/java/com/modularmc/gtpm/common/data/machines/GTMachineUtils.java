@@ -51,7 +51,7 @@ import com.modularmc.gtpm.common.machine.storage.CrateMachine;
 import com.modularmc.gtpm.common.machine.storage.DrumMachine;
 import com.modularmc.gtpm.common.machine.storage.QuantumChestMachine;
 import com.modularmc.gtpm.common.machine.storage.QuantumTankMachine;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
 import com.modularmc.registrate.localization.LocalizationDeclaration;
@@ -316,7 +316,7 @@ public class GTMachineUtils {
                                 .apply(GTMedicalConditions.CARBON_MONOXIDE_POISONING, 100 * tier),
                                 GTRecipeModifiers.OC_NON_PERFECT)
                                 .conditionalTooltip(defaultEnvironmentRequirement(),
-                                        ConfigHolder.INSTANCE.gameplay.environmentalHazards);
+                                        GTPMConfigHolder.INSTANCE.gameplay.environmentalHazards);
                     } else {
                         builder.recipeModifier(GTRecipeModifiers.OC_NON_PERFECT);
                     }
@@ -475,7 +475,7 @@ public class GTMachineUtils {
                 (tier, builder) -> builder
                         .rotationState(RotationState.ALL)
                         .itemColor((itemStack, index) -> switch (index) {
-                            case 1 -> ConfigHolder.INSTANCE.client.getDefaultPaintingColor();
+                            case 1 -> GTPMConfigHolder.INSTANCE.client.getDefaultPaintingColor();
                             case 2 -> VC[tier + 1];
                             case 3 -> VC[tier];
                             default -> -1;
@@ -641,7 +641,7 @@ public class GTMachineUtils {
     public static MachineDefinition[] registerConverter(GTRegistrate registrate, int amperage) {
         final var tab = registrate.creativeModeTab();
 
-        if (!ConfigHolder.INSTANCE.compat.energy.enableFEConverters) {
+        if (!GTPMConfigHolder.INSTANCE.compat.energy.enableFEConverters) {
             // REGISTRATE.creativeModeTab(null);
             registrate.creativeModeTab(() -> null);
         }
@@ -670,7 +670,7 @@ public class GTMachineUtils {
                         .register(),
                 ALL_TIERS);
 
-        if (!ConfigHolder.INSTANCE.compat.energy.enableFEConverters) {
+        if (!GTPMConfigHolder.INSTANCE.compat.energy.enableFEConverters) {
             // REGISTRATE.creativeModeTab(MACHINE);
             registrate.creativeModeTab(() -> tab);
         }
@@ -1114,7 +1114,7 @@ public class GTMachineUtils {
 
     // Tooltips
     public static Component explosion() {
-        if (ConfigHolder.INSTANCE.machines.shouldWeatherOrTerrainExplosion)
+        if (GTPMConfigHolder.INSTANCE.machines.shouldWeatherOrTerrainExplosion)
             return Component.translatable("gtpm.universal.tooltip.terrain_resist");
         return null;
     }

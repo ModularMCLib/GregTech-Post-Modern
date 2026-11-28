@@ -2,7 +2,7 @@ package com.modularmc.gtpm.common.machine.owner;
 
 import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.machine.MetaMachine;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
 import com.modularmc.registrate.localization.annotation.TransVariants;
@@ -102,16 +102,16 @@ public abstract sealed class MachineOwner permits PlayerOwner, FTBOwner, Argonau
     }
 
     public static boolean canOpenOwnerMachine(Player player, MetaMachine machine) {
-        if (!ConfigHolder.INSTANCE.machines.onlyOwnerGUI) return true;
-        if (player.hasPermissions(ConfigHolder.INSTANCE.machines.ownerOPBypass)) return true;
+        if (!GTPMConfigHolder.INSTANCE.machines.onlyOwnerGUI) return true;
+        if (player.hasPermissions(GTPMConfigHolder.INSTANCE.machines.ownerOPBypass)) return true;
         var owner = machine.getOwner();
         if (owner == null) return true;
         return owner.isPlayerInTeam(player) || owner.isPlayerFriendly(player);
     }
 
     public static boolean canBreakOwnerMachine(Player player, MetaMachine machine) {
-        if (!ConfigHolder.INSTANCE.machines.onlyOwnerBreak) return true;
-        if (player.hasPermissions(ConfigHolder.INSTANCE.machines.ownerOPBypass)) return true;
+        if (!GTPMConfigHolder.INSTANCE.machines.onlyOwnerBreak) return true;
+        if (player.hasPermissions(GTPMConfigHolder.INSTANCE.machines.ownerOPBypass)) return true;
         var owner = machine.getOwner();
         if (owner == null) return true;
         return owner.isPlayerInTeam(player);

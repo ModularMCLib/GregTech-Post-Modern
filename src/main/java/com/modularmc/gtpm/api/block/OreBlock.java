@@ -4,7 +4,7 @@ import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.data.chemical.material.Material;
 import com.modularmc.gtpm.api.data.tag.TagPrefix;
 import com.modularmc.gtpm.client.renderer.block.OreBlockRenderer;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.integration.map.cache.server.ServerCache;
 
 import net.minecraft.core.BlockPos;
@@ -38,7 +38,7 @@ public class OreBlock extends MaterialBlock {
                     this.material,
                     pos,
                     (ServerPlayer) player,
-                    ConfigHolder.INSTANCE.compat.minimap.oreBlockProspectRange);
+                    GTPMConfigHolder.INSTANCE.compat.minimap.oreBlockProspectRange);
         }
         return InteractionResult.PASS;
     }

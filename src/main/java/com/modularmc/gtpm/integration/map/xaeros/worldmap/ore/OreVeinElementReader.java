@@ -1,6 +1,6 @@
 package com.modularmc.gtpm.integration.map.xaeros.worldmap.ore;
 
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.integration.map.GroupingMapRenderer;
 import com.modularmc.gtpm.integration.map.layer.builtin.OreRenderLayer;
 
@@ -54,7 +54,7 @@ public class OreVeinElementReader extends
 
     @Override
     public int getInteractionBoxRight(OreVeinElement element, OreVeinElementContext context, float partialTicks) {
-        return ConfigHolder.INSTANCE.compat.minimap.oreIconSize;
+        return GTPMConfigHolder.INSTANCE.compat.minimap.oreIconSize;
     }
 
     @Override

@@ -4,7 +4,7 @@ import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.GTValues;
 import com.modularmc.gtpm.api.data.chemical.material.Material;
 import com.modularmc.gtpm.api.item.tool.GTToolType;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.core.mixins.MapColorAccessor;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
@@ -585,7 +585,7 @@ public class GTUtil {
     }
 
     public static void appendHazardTooltips(Material material, List<Component> tooltipComponents) {
-        if (!ConfigHolder.INSTANCE.gameplay.hazardsEnabled || !material.hasProperty(HAZARD)) return;
+        if (!GTPMConfigHolder.INSTANCE.gameplay.hazardsEnabled || !material.hasProperty(HAZARD)) return;
 
         if (GTUtil.isShiftDown()) {
             tooltipComponents.add(Component.translatable("gtpm.medical_condition.description_shift"));
@@ -655,7 +655,7 @@ public class GTUtil {
     public static void doExplosion(Level level, BlockPos pos, float explosionPower) {
         level.removeBlock(pos, false);
         level.explode(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
-                explosionPower, ConfigHolder.INSTANCE.machines.doesExplosionDamagesTerrain ?
+                explosionPower, GTPMConfigHolder.INSTANCE.machines.doesExplosionDamagesTerrain ?
                         Level.ExplosionInteraction.BLOCK : Level.ExplosionInteraction.NONE);
     }
 

@@ -5,7 +5,7 @@ import com.modularmc.gtpm.api.capability.IMedicalConditionTracker;
 import com.modularmc.gtpm.api.data.medicalcondition.MedicalCondition;
 import com.modularmc.gtpm.api.item.component.IAddInformation;
 import com.modularmc.gtpm.api.item.component.IInteractionItem;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.GTUtil;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
@@ -96,7 +96,7 @@ public record AntidoteBehavior(Set<MedicalCondition> types, int removePercent)
     public void appendHoverText(ItemStack stack, @Nullable Item.TooltipContext context,
                                 List<Component> tooltipComponents,
                                 TooltipFlag isAdvanced) {
-        if (!ConfigHolder.INSTANCE.gameplay.hazardsEnabled) return;
+        if (!GTPMConfigHolder.INSTANCE.gameplay.hazardsEnabled) return;
 
         if (GTUtil.isShiftDown()) {
             tooltipComponents.add(Component.translatable("gtpm.medical_condition.antidote.description_shift"));

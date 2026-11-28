@@ -3,7 +3,7 @@ package com.modularmc.gtpm.api.data.chemical.material.properties;
 import com.modularmc.gtpm.api.data.chemical.material.Material;
 import com.modularmc.gtpm.api.item.tool.GTToolType;
 import com.modularmc.gtpm.api.item.tool.MaterialToolTier;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -153,7 +153,7 @@ public class ToolProperty implements IMaterialProperty {
     }
 
     public void addEnchantmentForTools(ResourceKey<Enchantment> enchantment, int level) {
-        if (ConfigHolder.INSTANCE.recipes.enchantedTools) {
+        if (GTPMConfigHolder.INSTANCE.recipes.enchantedTools) {
             enchantments.put(enchantment, level);
         }
     }

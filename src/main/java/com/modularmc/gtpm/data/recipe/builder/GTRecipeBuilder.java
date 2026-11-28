@@ -26,7 +26,7 @@ import com.modularmc.gtpm.common.data.GTDataComponents;
 import com.modularmc.gtpm.common.data.GTRecipeTypes;
 import com.modularmc.gtpm.common.item.behavior.IntCircuitBehaviour;
 import com.modularmc.gtpm.common.recipe.condition.*;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.GTUtil;
 import com.modularmc.gtpm.utils.ResearchManager;
 import com.modularmc.gtpm.utils.codec.CodecUtils;
@@ -1397,7 +1397,7 @@ public class GTRecipeBuilder {
     }
 
     private boolean applyResearchProperty(ResearchData.ResearchEntry researchEntry) {
-        if (!ConfigHolder.INSTANCE.machines.enableResearch) return false;
+        if (!GTPMConfigHolder.INSTANCE.machines.enableResearch) return false;
         if (researchEntry == null) {
             GTPM.LOGGER.error("Research Entry cannot be empty.", new IllegalArgumentException());
             return false;

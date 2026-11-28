@@ -2,7 +2,7 @@ package com.modularmc.gtpm.core.mixins;
 
 import com.modularmc.gtpm.api.capability.GTCapabilityHelper;
 import com.modularmc.gtpm.api.capability.IMedicalConditionTracker;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.core.IFireImmuneEntity;
 
 import net.minecraft.world.entity.Entity;
@@ -46,7 +46,7 @@ public abstract class EntityMixin implements IFireImmuneEntity {
     @ModifyReturnValue(method = "getMaxAirSupply", at = @At("RETURN"))
     private int gtceu$hazardModifyMaxAir(int original) {
         if (!gtceu$isEntityInit) return original;
-        if (!ConfigHolder.INSTANCE.gameplay.hazardsEnabled) return original;
+        if (!GTPMConfigHolder.INSTANCE.gameplay.hazardsEnabled) return original;
 
         if (((Entity) (Object) this) instanceof Player player) {
             IMedicalConditionTracker tracker = GTCapabilityHelper.getMedicalConditionTracker(player);

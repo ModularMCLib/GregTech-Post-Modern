@@ -4,7 +4,7 @@ import com.modularmc.gtpm.api.data.chemical.material.ItemMaterialData;
 import com.modularmc.gtpm.api.data.chemical.material.stack.ItemMaterialInfo;
 import com.modularmc.gtpm.api.data.chemical.material.stack.MaterialStack;
 import com.modularmc.gtpm.common.data.GTMaterials;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -48,7 +48,7 @@ public class MaterialInfoLoader {
         ItemMaterialData.registerMaterialInfo(Blocks.ACTIVATOR_RAIL,
                 new ItemMaterialInfo(new MaterialStack(GTMaterials.Iron, M / 2)));
 
-        if (ConfigHolder.INSTANCE.recipes.hardRedstoneRecipes) {
+        if (GTPMConfigHolder.INSTANCE.recipes.hardRedstoneRecipes) {
             // ChemicalHelper.registerMaterialInfo(new ItemStack(Blocks.WOODEN_PRESSURE_PLATE, 1, W), new
             // ItemMaterialInfo(new MaterialStack(GTMaterials.Wood, M), new MaterialStack(GTMaterials.Iron, M / 2)));
             ItemMaterialData.registerMaterialInfo(Blocks.STONE_PRESSURE_PLATE, new ItemMaterialInfo(
@@ -106,7 +106,7 @@ public class MaterialInfoLoader {
         ItemMaterialData.registerMaterialInfo(Blocks.DAMAGED_ANVIL,
                 new ItemMaterialInfo(new MaterialStack(GTMaterials.Iron, M * 13)));
 
-        if (!ConfigHolder.INSTANCE.recipes.hardMiscRecipes) {
+        if (!GTPMConfigHolder.INSTANCE.recipes.hardMiscRecipes) {
             ItemMaterialData.registerMaterialInfo(Blocks.BEACON,
                     new ItemMaterialInfo(new MaterialStack(GTMaterials.NetherStar, M),
                             new MaterialStack(GTMaterials.Obsidian, M * 3),
@@ -115,7 +115,7 @@ public class MaterialInfoLoader {
         ItemMaterialData.registerMaterialInfo(Blocks.LADDER,
                 new ItemMaterialInfo(new MaterialStack(GTMaterials.Wood, M)));
 
-        if (!ConfigHolder.INSTANCE.recipes.hardMiscRecipes) {
+        if (!GTPMConfigHolder.INSTANCE.recipes.hardMiscRecipes) {
             ItemMaterialData.registerMaterialInfo(Blocks.NOTE_BLOCK, new ItemMaterialInfo(
                     new MaterialStack(GTMaterials.Wood, M * 8), new MaterialStack(GTMaterials.Redstone, M)));
             ItemMaterialData.registerMaterialInfo(Blocks.JUKEBOX, new ItemMaterialInfo(

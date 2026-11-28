@@ -37,7 +37,7 @@ public class GTRecipes {
      * such as "X Ingot -> 2 X Rods" types of recipes, that follow a pattern for many recipes.
      *
      * This should also be used for recipes that need
-     * to respond to a config option in ConfigHolder.
+     * to respond to a config option in GTPMConfigHolder.
      */
     public static void recipeAddition(RecipeOutput originalConsumer) {
         RecipeOutput consumer = new RecipeOutput() {

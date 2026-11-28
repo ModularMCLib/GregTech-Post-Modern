@@ -21,7 +21,7 @@ import com.modularmc.gtpm.api.transfer.item.CustomItemStackHandler;
 import com.modularmc.gtpm.common.item.behavior.PortableScannerBehavior;
 import com.modularmc.gtpm.common.machine.trait.AutoOutputTrait;
 import com.modularmc.gtpm.common.machine.trait.miner.MinerLogic;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.lang.LangHandler;
 import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 import com.modularmc.gtpm.utils.ISubscription;
@@ -99,7 +99,7 @@ public class MinerMachine extends WorkableTieredMachine
     protected CustomItemStackHandler createChargerItemHandler() {
         var handler = new CustomItemStackHandler();
         handler.setFilter(item -> GTCapabilityHelper.getElectricItem(item) != null ||
-                (ConfigHolder.INSTANCE.compat.energy.nativeEUToFE &&
+                (GTPMConfigHolder.INSTANCE.compat.energy.nativeEUToFE &&
                         GTCapabilityHelper.getForgeEnergyItem(item) != null));
         return handler;
     }

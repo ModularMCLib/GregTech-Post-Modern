@@ -30,7 +30,7 @@ import com.modularmc.gtpm.api.sync_system.rpc.RPCSender;
 import com.modularmc.gtpm.client.model.machine.MachineRenderState;
 import com.modularmc.gtpm.client.renderer.MultiblockInWorldPreviewRenderer;
 import com.modularmc.gtpm.common.machine.multiblock.part.ParallelHatchPartMachine;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.pattern.StructurePatternRegistry;
 import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 
@@ -466,7 +466,7 @@ public class MultiblockControllerMachine extends MetaMachine {
         if (!isFormed() && context.getPlayer().isShiftKeyDown()) {
             if (isRemote()) {
                 MultiblockInWorldPreviewRenderer.showPreview(getBlockPos(), this,
-                        ConfigHolder.INSTANCE.client.inWorldPreviewDuration * 20);
+                        GTPMConfigHolder.INSTANCE.client.inWorldPreviewDuration * 20);
             }
             return InteractionResult.SUCCESS;
         }

@@ -5,7 +5,7 @@ import com.modularmc.gtpm.api.machine.trait.MachineTraitType;
 import com.modularmc.gtpm.api.sync_system.ContextualFieldCodec;
 import com.modularmc.gtpm.api.sync_system.FieldCodecs;
 import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.modularmc.gtpm.integration.ae2.sync.GridNodeCodec;
 
@@ -67,7 +67,7 @@ public class GridNodeHolder extends MachineTrait {
                 BlockEntityNodeListener.INSTANCE)
                 .setFlags(GridFlags.REQUIRE_CHANNEL)
                 .setVisualRepresentation(machine.self().getDefinition().getItem())
-                .setIdlePowerUsage(ConfigHolder.INSTANCE.compat.ae2.meHatchEnergyUsage)
+                .setIdlePowerUsage(GTPMConfigHolder.INSTANCE.compat.ae2.meHatchEnergyUsage)
                 .setInWorldNode(true)
                 .setExposedOnSides(
                         machine.self().hasFrontFacing() ? EnumSet.of(machine.self().getFrontFacing()) :

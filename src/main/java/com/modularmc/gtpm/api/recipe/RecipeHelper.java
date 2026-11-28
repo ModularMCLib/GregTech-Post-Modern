@@ -11,7 +11,7 @@ import com.modularmc.gtpm.api.recipe.handler.RecipeHandlerGroupColor;
 import com.modularmc.gtpm.api.recipe.handler.RecipeHandlerGroupDistinctness;
 import com.modularmc.gtpm.api.recipe.handler.RecipeHandlerList;
 import com.modularmc.gtpm.api.recipe.ingredient.ExDataComponentFluidIngredient;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.recipe.builder.GTRecipeBuilder;
 import com.modularmc.gtpm.utils.TagUtil;
 
@@ -304,7 +304,7 @@ public class RecipeHelper {
             return new RecipeHandleResult(result, runner.getSelectedGroup());
         }
 
-        if (!simulated && ConfigHolder.INSTANCE.dev.debug) {
+        if (!simulated && GTPMConfigHolder.INSTANCE.dev.debug) {
             GTPM.LOGGER.warn("IO {} Error while handling recipe {} outputs for {}",
                     Component.translatable(io.tooltip).getString(), recipe, holder);
         }

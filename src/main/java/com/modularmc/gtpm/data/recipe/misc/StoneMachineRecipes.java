@@ -10,7 +10,7 @@ import com.modularmc.gtpm.api.data.tag.TagPrefix;
 import com.modularmc.gtpm.common.data.GTItems;
 import com.modularmc.gtpm.common.data.GTMaterials;
 import com.modularmc.gtpm.common.data.GTRecipeTypes;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.recipe.StoneTypeEntry;
 import com.modularmc.gtpm.data.recipe.VanillaRecipeHelper;
 
@@ -528,7 +528,7 @@ public class StoneMachineRecipes {
         }
 
         if (entry.polishedStone != null) {
-            if (ConfigHolder.INSTANCE.recipes.removeVanillaBlockRecipes) {
+            if (GTPMConfigHolder.INSTANCE.recipes.removeVanillaBlockRecipes) {
                 VanillaRecipeHelper.addShapedRecipe(provider, entry.stoneName + "_polish_hammer",
                         new ItemStack(entry.polishedStone, 4),
                         "hSS", " SS",
@@ -545,7 +545,7 @@ public class StoneMachineRecipes {
         }
 
         if (entry.crackedStone != null) {
-            if (ConfigHolder.INSTANCE.recipes.removeVanillaBlockRecipes) {
+            if (GTPMConfigHolder.INSTANCE.recipes.removeVanillaBlockRecipes) {
                 VanillaRecipeHelper.addShapedRecipe(provider, entry.stoneName + "_hammer",
                         new ItemStack(entry.crackedStone),
                         "h", "S",
@@ -564,7 +564,7 @@ public class StoneMachineRecipes {
         }
 
         if (entry.slab != null) {
-            if (ConfigHolder.INSTANCE.recipes.removeVanillaBlockRecipes) {
+            if (GTPMConfigHolder.INSTANCE.recipes.removeVanillaBlockRecipes) {
                 VanillaRecipeHelper.addShapedRecipe(provider, entry.stoneName + "_slab_saw", new ItemStack(entry.slab),
                         "sS",
                         'S', entry.stone);
@@ -579,7 +579,7 @@ public class StoneMachineRecipes {
                     .save(provider);
 
             if (entry.chiselStone != null) {
-                if (ConfigHolder.INSTANCE.recipes.removeVanillaBlockRecipes) {
+                if (GTPMConfigHolder.INSTANCE.recipes.removeVanillaBlockRecipes) {
                     VanillaRecipeHelper.addShapedRecipe(provider, entry.stoneName + "_polished_hammer",
                             new ItemStack(entry.chiselStone),
                             "mSd", " S ",
@@ -596,7 +596,7 @@ public class StoneMachineRecipes {
 
         if (entry.pressurePlate != null) {
 
-            if (ConfigHolder.INSTANCE.recipes.hardRedstoneRecipes && entry.slab != null) {
+            if (GTPMConfigHolder.INSTANCE.recipes.hardRedstoneRecipes && entry.slab != null) {
                 VanillaRecipeHelper.addShapedRecipe(provider, entry.stoneName + "_pressure_plate",
                         new ItemStack(entry.pressurePlate, 2), "ShS", "LCL", "SdS",
                         'S', new MaterialEntry(TagPrefix.screw, GTMaterials.Iron),
@@ -610,13 +610,13 @@ public class StoneMachineRecipes {
                         .duration(100)
                         .EUt(VA[ULV])
                         .save(provider);
-            } else if (ConfigHolder.INSTANCE.recipes.removeVanillaBlockRecipes) {
+            } else if (GTPMConfigHolder.INSTANCE.recipes.removeVanillaBlockRecipes) {
 
             }
         }
 
         if (entry.button != null) {
-            if (ConfigHolder.INSTANCE.recipes.hardRedstoneRecipes && entry.pressurePlate != null) {
+            if (GTPMConfigHolder.INSTANCE.recipes.hardRedstoneRecipes && entry.pressurePlate != null) {
                 VanillaRecipeHelper.addShapedRecipe(provider, "stone_button", new ItemStack(entry.button, 6), "sP",
                         'P', entry.pressurePlate);
             }
@@ -640,7 +640,7 @@ public class StoneMachineRecipes {
         }
 
         if (entry.stair != null) {
-            if (ConfigHolder.INSTANCE.recipes.removeVanillaBlockRecipes) {
+            if (GTPMConfigHolder.INSTANCE.recipes.removeVanillaBlockRecipes) {
                 VanillaRecipeHelper.addShapedRecipe(provider, entry.stoneName + "_stair_saw",
                         new ItemStack(entry.stair, 3),
                         "Ss ", "SS ", "SSS",
@@ -658,7 +658,7 @@ public class StoneMachineRecipes {
         }
 
         if (entry.wall != null) {
-            if (ConfigHolder.INSTANCE.recipes.removeVanillaBlockRecipes) {
+            if (GTPMConfigHolder.INSTANCE.recipes.removeVanillaBlockRecipes) {
                 VanillaRecipeHelper.addShapedRecipe(provider, entry.stoneName + "_wall_saw",
                         new ItemStack(entry.wall, 2),
                         "sS", " S", " S",

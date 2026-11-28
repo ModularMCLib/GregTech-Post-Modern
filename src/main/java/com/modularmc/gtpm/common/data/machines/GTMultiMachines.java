@@ -31,7 +31,7 @@ import com.modularmc.gtpm.common.machine.multiblock.primitive.CokeOvenMachine;
 import com.modularmc.gtpm.common.machine.multiblock.primitive.PrimitiveBlastFurnaceMachine;
 import com.modularmc.gtpm.common.machine.multiblock.primitive.PrimitivePumpMachine;
 import com.modularmc.gtpm.common.machine.multiblock.steam.SteamParallelMultiblockMachine;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.FormattingUtil;
 import com.modularmc.gtpm.utils.GTUtil;
 
@@ -236,22 +236,22 @@ public class GTMultiMachines {
     public static final MultiblockMachineDefinition LARGE_BOILER_BRONZE = largeBoiler(REGISTRATE, "bronze",
             CASING_BRONZE_BRICKS, FIREBOX_BRONZE,
             GTPM.id("block/casings/solid/machine_casing_bronze_plated_bricks"), BoilerFireboxType.BRONZE_FIREBOX,
-            ConfigHolder.INSTANCE.machines.largeBoilers.bronzeBoilerMaxTemperature,
-            ConfigHolder.INSTANCE.machines.largeBoilers.bronzeBoilerHeatSpeed)
+            GTPMConfigHolder.INSTANCE.machines.largeBoilers.bronzeBoilerMaxTemperature,
+            GTPMConfigHolder.INSTANCE.machines.largeBoilers.bronzeBoilerHeatSpeed)
             .localization(text -> text.source("Large Bronze Boiler").translation(MinecraftLocale.ZH_CN, "大型青铜锅炉"))
             .register();
     public static final MultiblockMachineDefinition LARGE_BOILER_STEEL = largeBoiler(REGISTRATE, "steel",
             CASING_STEEL_SOLID, FIREBOX_STEEL,
             GTPM.id("block/casings/solid/machine_casing_solid_steel"), BoilerFireboxType.STEEL_FIREBOX,
-            ConfigHolder.INSTANCE.machines.largeBoilers.steelBoilerMaxTemperature,
-            ConfigHolder.INSTANCE.machines.largeBoilers.steelBoilerHeatSpeed)
+            GTPMConfigHolder.INSTANCE.machines.largeBoilers.steelBoilerMaxTemperature,
+            GTPMConfigHolder.INSTANCE.machines.largeBoilers.steelBoilerHeatSpeed)
             .localization(text -> text.source("Large Steel Boiler").translation(MinecraftLocale.ZH_CN, "大型钢锅炉"))
             .register();
     public static final MultiblockMachineDefinition LARGE_BOILER_TITANIUM = largeBoiler(REGISTRATE, "titanium",
             CASING_TITANIUM_STABLE, FIREBOX_TITANIUM,
             GTPM.id("block/casings/solid/machine_casing_stable_titanium"), BoilerFireboxType.TITANIUM_FIREBOX,
-            ConfigHolder.INSTANCE.machines.largeBoilers.titaniumBoilerMaxTemperature,
-            ConfigHolder.INSTANCE.machines.largeBoilers.titaniumBoilerHeatSpeed)
+            GTPMConfigHolder.INSTANCE.machines.largeBoilers.titaniumBoilerMaxTemperature,
+            GTPMConfigHolder.INSTANCE.machines.largeBoilers.titaniumBoilerHeatSpeed)
             .localization(text -> text.source("Large Titanium Boiler").translation(MinecraftLocale.ZH_CN, "大型钛锅炉"))
             .register();
     public static final MultiblockMachineDefinition LARGE_BOILER_TUNGSTENSTEEL = largeBoiler(REGISTRATE,
@@ -259,8 +259,8 @@ public class GTMultiMachines {
             CASING_TUNGSTENSTEEL_ROBUST, FIREBOX_TUNGSTENSTEEL,
             GTPM.id("block/casings/solid/machine_casing_robust_tungstensteel"),
             BoilerFireboxType.TUNGSTENSTEEL_FIREBOX,
-            ConfigHolder.INSTANCE.machines.largeBoilers.tungstensteelBoilerMaxTemperature,
-            ConfigHolder.INSTANCE.machines.largeBoilers.tungstensteelBoilerHeatSpeed)
+            GTPMConfigHolder.INSTANCE.machines.largeBoilers.tungstensteelBoilerMaxTemperature,
+            GTPMConfigHolder.INSTANCE.machines.largeBoilers.tungstensteelBoilerHeatSpeed)
             .localization(
                     text -> text.source("Large Tungstensteel Boiler").translation(MinecraftLocale.ZH_CN, "大型钨钢锅炉"))
             .register();
@@ -333,7 +333,7 @@ public class GTMultiMachines {
                     .source("Large Chemical Reactor")
                     .translation(MinecraftLocale.ZH_CN, "大型化学反应釜"))
             .conditionalTooltip(defaultEnvironmentRequirement(),
-                    ConfigHolder.INSTANCE.gameplay.environmentalHazards)
+                    GTPMConfigHolder.INSTANCE.gameplay.environmentalHazards)
             .rotationState(RotationState.ALL)
             .recipeType(GTRecipeTypes.LARGE_CHEMICAL_RECIPES)
             .recipeModifiers(DEFAULT_ENVIRONMENT_REQUIREMENT, OC_PERFECT_SUBTICK, BATCH_MODE)

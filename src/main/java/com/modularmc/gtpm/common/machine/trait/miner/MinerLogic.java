@@ -18,7 +18,7 @@ import com.modularmc.gtpm.api.transfer.item.NotifiableAccountedInvWrapper;
 import com.modularmc.gtpm.common.data.GTBlocks;
 import com.modularmc.gtpm.common.data.GTMaterialItems;
 import com.modularmc.gtpm.common.data.GTMaterials;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.GTTransferUtils;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
@@ -205,7 +205,7 @@ public class MinerLogic extends RecipeLogic implements IRecipeCapabilityHolder {
     }
 
     private static BlockState findMiningReplacementBlock(Level level, BlockPos pos) {
-        if (ConfigHolder.INSTANCE.machines.replaceWithCobbleVersion) {
+        if (GTPMConfigHolder.INSTANCE.machines.replaceWithCobbleVersion) {
             BlockState oreState = level.getBlockState(pos);
             TagPrefix prefix = ChemicalHelper.getPrefix(oreState.getBlock());
             if (prefix.isEmpty() || !GTBlocks.COBBLE_BLOCKS.containsKey(prefix))
@@ -215,10 +215,10 @@ public class MinerLogic extends RecipeLogic implements IRecipeCapabilityHolder {
 
         try {
             return BlockStateParser.parseForBlock(level.holderLookup(Registries.BLOCK),
-                    ConfigHolder.INSTANCE.machines.replaceMinedBlocksWith, false).blockState();
+                    GTPMConfigHolder.INSTANCE.machines.replaceMinedBlocksWith, false).blockState();
         } catch (CommandSyntaxException ignored) {
             GTPM.LOGGER.error("failed to parse replaceMinedBlocksWith, invalid BlockState: {}",
-                    ConfigHolder.INSTANCE.machines.replaceMinedBlocksWith);
+                    GTPMConfigHolder.INSTANCE.machines.replaceMinedBlocksWith);
             return Blocks.COBBLESTONE.defaultBlockState();
         }
     }

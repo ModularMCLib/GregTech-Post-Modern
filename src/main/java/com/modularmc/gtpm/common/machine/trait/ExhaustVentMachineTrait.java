@@ -5,7 +5,7 @@ import com.modularmc.gtpm.api.machine.trait.MachineTrait;
 import com.modularmc.gtpm.api.machine.trait.MachineTraitType;
 import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
 import com.modularmc.gtpm.common.data.GTDamageTypes;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.GTUtil;
 
 import net.minecraft.core.BlockPos;
@@ -83,7 +83,7 @@ public class ExhaustVentMachineTrait extends MachineTrait {
     private void performVenting() {
         doVentingDamage();
         createVentingParticles();
-        if (ConfigHolder.INSTANCE.machines.machineSounds) {
+        if (GTPMConfigHolder.INSTANCE.machines.machineSounds) {
             playVentingSound();
         }
         needsVenting = false;

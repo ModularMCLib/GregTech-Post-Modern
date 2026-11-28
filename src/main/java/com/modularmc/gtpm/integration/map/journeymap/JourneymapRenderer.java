@@ -6,7 +6,7 @@ import com.modularmc.gtpm.api.data.chemical.material.Material;
 import com.modularmc.gtpm.api.data.chemical.material.info.MaterialIconType;
 import com.modularmc.gtpm.api.data.worldgen.ores.GeneratedVeinMetadata;
 import com.modularmc.gtpm.api.gui.misc.ProspectorMode;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.integration.map.GenericMapRenderer;
 import com.modularmc.gtpm.integration.map.WaypointManager;
 import com.modularmc.gtpm.integration.map.layer.builtin.FluidRenderLayer;
@@ -130,8 +130,8 @@ public class JourneymapRenderer extends GenericMapRenderer {
         @SuppressWarnings("DataFlowIssue")
         MapImage image = new MapImage(createOreImage(vein));
         image.centerAnchors()
-                .setDisplayWidth(ConfigHolder.INSTANCE.compat.minimap.oreIconSize)
-                .setDisplayHeight(ConfigHolder.INSTANCE.compat.minimap.oreIconSize);
+                .setDisplayWidth(GTPMConfigHolder.INSTANCE.compat.minimap.oreIconSize)
+                .setDisplayHeight(GTPMConfigHolder.INSTANCE.compat.minimap.oreIconSize);
 
         MarkerOverlay overlay = new MarkerOverlay(GTPM.MOD_ID, center, image);
 

@@ -37,7 +37,7 @@ import com.modularmc.gtpm.common.machine.multiblock.part.hpca.HPCAComponentPartM
 import com.modularmc.gtpm.common.machine.trait.hpca.HPCAComponentTrait;
 import com.modularmc.gtpm.common.machine.trait.hpca.HPCAComputationProviderTrait;
 import com.modularmc.gtpm.common.machine.trait.hpca.HPCACoolantProviderTrait;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.FormattingUtil;
 import com.modularmc.gtpm.utils.GTTransferUtils;
 import com.modularmc.gtpm.utils.GTUtil;
@@ -343,7 +343,7 @@ public class HPCAMachine extends WorkableElectricMultiblockMachine
 
     private void consumeEnergy() {
         long energyToConsume = hpcaHandler.getCurrentEUt();
-        boolean hasMaintenance = ConfigHolder.INSTANCE.machines.enableMaintenance && this.maintenance != null;
+        boolean hasMaintenance = GTPMConfigHolder.INSTANCE.machines.enableMaintenance && this.maintenance != null;
         if (hasMaintenance) {
             // 10% more energy per maintenance problem
             energyToConsume += maintenance.getNumMaintenanceProblems() * energyToConsume / 10;

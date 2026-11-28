@@ -1,6 +1,6 @@
 package com.modularmc.gtpm.api.capability.compat;
 
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.GTMath;
 
 import net.neoforged.neoforge.energy.IEnergyStorage;
@@ -11,8 +11,8 @@ public class FeCompat {
      * Conversion ratio used by energy converters
      */
     public static int ratio(boolean feToEu) {
-        return feToEu ? ConfigHolder.INSTANCE.compat.energy.feToEuRatio :
-                ConfigHolder.INSTANCE.compat.energy.euToFeRatio;
+        return feToEu ? GTPMConfigHolder.INSTANCE.compat.energy.feToEuRatio :
+                GTPMConfigHolder.INSTANCE.compat.energy.euToFeRatio;
     }
 
     /**

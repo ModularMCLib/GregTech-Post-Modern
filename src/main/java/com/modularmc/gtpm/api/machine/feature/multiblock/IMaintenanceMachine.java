@@ -7,7 +7,7 @@ import com.modularmc.gtpm.api.gui.fancy.TooltipsPanel;
 import com.modularmc.gtpm.api.machine.multiblock.MultiblockControllerMachine;
 import com.modularmc.gtpm.api.machine.property.GTMachineModelProperties;
 import com.modularmc.gtpm.api.recipe.GTRecipe;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
 import com.modularmc.registrate.localization.annotation.Trans;
@@ -93,12 +93,12 @@ public interface IMaintenanceMachine extends IMultiPart {
      * @param duration in ticks to add to the counter of active time
      */
     default void calculateMaintenance(IMaintenanceMachine maintenanceMachine, int duration) {
-        if (!ConfigHolder.INSTANCE.machines.enableMaintenance || maintenanceMachine.isFullAuto()) {
+        if (!GTPMConfigHolder.INSTANCE.machines.enableMaintenance || maintenanceMachine.isFullAuto()) {
             return;
         }
 
         setTimeActive(getTimeActive() + duration);
-        float rate = ConfigHolder.INSTANCE.machines.maintenanceCheckRate / maintenanceMachine.getTimeMultiplier();
+        float rate = GTPMConfigHolder.INSTANCE.machines.maintenanceCheckRate / maintenanceMachine.getTimeMultiplier();
         if (getTimeActive() >= rate) {
             setTimeActive(0);
             if (GTValues.RNG.nextInt(6000) == 0) {
@@ -116,11 +116,12 @@ public interface IMaintenanceMachine extends IMultiPart {
     }
 
     default int getNumMaintenanceProblems() {
-        return ConfigHolder.INSTANCE.machines.enableMaintenance ? 6 - Integer.bitCount(getMaintenanceProblems()) : 0;
+        return GTPMConfigHolder.INSTANCE.machines.enableMaintenance ? 6 - Integer.bitCount(getMaintenanceProblems()) :
+                0;
     }
 
     default boolean hasMaintenanceProblems() {
-        return ConfigHolder.INSTANCE.machines.enableMaintenance && this.getMaintenanceProblems() < 63;
+        return GTPMConfigHolder.INSTANCE.machines.enableMaintenance && this.getMaintenanceProblems() < 63;
     }
 
     default void setMaintenanceFixed(int index) {
@@ -143,7 +144,7 @@ public interface IMaintenanceMachine extends IMultiPart {
 
     @Override
     default GTRecipe modifyRecipe(GTRecipe recipe) {
-        if (ConfigHolder.INSTANCE.machines.enableMaintenance) {
+        if (GTPMConfigHolder.INSTANCE.machines.enableMaintenance) {
             if (hasMaintenanceProblems()) {
                 return null;
             }
@@ -172,7 +173,7 @@ public interface IMaintenanceMachine extends IMultiPart {
      * @param tooltipsPanel tooltip panel owned by the current LDLib2 Fancy shell
      */
     default void attachMaintenanceTooltips(TooltipsPanel tooltipsPanel) {
-        if (ConfigHolder.INSTANCE.machines.enableMaintenance) {
+        if (GTPMConfigHolder.INSTANCE.machines.enableMaintenance) {
             tooltipsPanel.attachTooltips(createMaintenanceFancyTooltip());
         }
     }

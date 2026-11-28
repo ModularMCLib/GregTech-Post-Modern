@@ -8,7 +8,7 @@ import com.modularmc.gtpm.api.gui.factory.MachineUIHolder;
 import com.modularmc.gtpm.api.gui.texture.ResourceTexture;
 import com.modularmc.gtpm.api.machine.steam.SteamBoilerMachine;
 import com.modularmc.gtpm.api.machine.trait.WorkLogic;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.GTUtil;
 
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
@@ -37,8 +37,8 @@ public class SteamSolarBoiler extends SteamBoilerMachine {
 
     @Override
     protected long getBaseSteamOutput() {
-        return isHighPressure ? ConfigHolder.INSTANCE.machines.smallBoilers.hpSolarBoilerBaseOutput :
-                ConfigHolder.INSTANCE.machines.smallBoilers.solarBoilerBaseOutput;
+        return isHighPressure ? GTPMConfigHolder.INSTANCE.machines.smallBoilers.hpSolarBoilerBaseOutput :
+                GTPMConfigHolder.INSTANCE.machines.smallBoilers.solarBoilerBaseOutput;
     }
 
     @Override

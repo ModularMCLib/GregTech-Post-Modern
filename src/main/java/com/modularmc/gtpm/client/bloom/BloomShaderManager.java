@@ -1,7 +1,7 @@
 package com.modularmc.gtpm.client.bloom;
 
 import com.modularmc.gtpm.GTPM;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.core.config.GTEarlyConfig;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
@@ -61,7 +61,7 @@ public class BloomShaderManager {
     public static void clientInit(FMLClientSetupEvent event) {
         // Add a validator & update listener for the bloom type config option
         // this path must match the config option's path exactly.
-        ConfigHolder.INTERNAL_INSTANCE.getConfigValue("client.bloom.type", BloomType.class)
+        GTPMConfigHolder.INTERNAL_INSTANCE.getConfigValue("client.bloom.type", BloomType.class)
                 .ifPresentOrElse(option -> option.addValidator(new BloomTypeConfigValidator()),
                         () -> GTPM.LOGGER.warn(
                                 "Could not initialize bloom type config update listener! The shaders will not update automatically when the config option is changed."));
@@ -105,7 +105,7 @@ public class BloomShaderManager {
 
         ResourceLocation id = null;
 
-        switch (ConfigHolder.INSTANCE.client.bloom.type) {
+        switch (GTPMConfigHolder.INSTANCE.client.bloom.type) {
             case UNITY -> id = GTPM.id("shaders/post/bloom_unity.json");
             case UNREAL -> id = GTPM.id("shaders/post/bloom_unreal.json");
             case DISABLED -> {
@@ -114,8 +114,8 @@ public class BloomShaderManager {
             // skip adding a default branch in favor of the if statement below
         }
         if (id == null) {
-            GTPM.LOGGER.error("Invalid bloom style {}", ConfigHolder.INSTANCE.client.bloom.type);
-            ConfigHolder.INSTANCE.client.bloom.type = BloomType.DISABLED;
+            GTPM.LOGGER.error("Invalid bloom style {}", GTPMConfigHolder.INSTANCE.client.bloom.type);
+            GTPMConfigHolder.INSTANCE.client.bloom.type = BloomType.DISABLED;
             return false;
         }
 
@@ -146,7 +146,7 @@ public class BloomShaderManager {
 
     public static boolean isBloomActive() {
         return BLOOM_CHAIN != null && BLOOM_TARGET != null &&
-                ConfigHolder.INSTANCE.client.bloom.type != BloomType.DISABLED && isBloomAvailable();
+                GTPMConfigHolder.INSTANCE.client.bloom.type != BloomType.DISABLED && isBloomAvailable();
     }
 
     @Getter

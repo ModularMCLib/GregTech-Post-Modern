@@ -1,6 +1,6 @@
 package com.modularmc.gtpm.client.renderer.item.decorator;
 
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import com.lowdragmc.lowdraglib2.gui.util.DrawerHelper;
 
@@ -31,7 +31,7 @@ public class GTTankItemFluidPreview implements IItemDecorator {
 
         @Override
         public boolean render(GuiGraphics guiGraphics, Font font, ItemStack itemStack, int x, int y) {
-            if (!ConfigHolder.INSTANCE.client.tankItemFluidPreview.drum) return false;
+            if (!GTPMConfigHolder.INSTANCE.client.tankItemFluidPreview.drum) return false;
             return super.render(guiGraphics, font, itemStack, x, y);
         }
     };
@@ -40,7 +40,7 @@ public class GTTankItemFluidPreview implements IItemDecorator {
 
         @Override
         public boolean render(GuiGraphics guiGraphics, Font font, ItemStack itemStack, int x, int y) {
-            if (!ConfigHolder.INSTANCE.client.tankItemFluidPreview.quantumTank) return false;
+            if (!GTPMConfigHolder.INSTANCE.client.tankItemFluidPreview.quantumTank) return false;
             return super.render(guiGraphics, font, itemStack, x, y);
         }
     };

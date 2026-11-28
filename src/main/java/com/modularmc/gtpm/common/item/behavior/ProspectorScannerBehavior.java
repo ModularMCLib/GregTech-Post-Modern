@@ -13,7 +13,7 @@ import com.modularmc.gtpm.api.item.component.IAddInformation;
 import com.modularmc.gtpm.api.item.component.IInteractionItem;
 import com.modularmc.gtpm.api.item.component.IItemUIFactory;
 import com.modularmc.gtpm.common.data.GTDataComponents;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
 import com.modularmc.registrate.localization.annotation.TransVariants;
@@ -77,7 +77,7 @@ public class ProspectorScannerBehavior implements IItemUIFactory, IInteractionIt
         IElectricItem electricItem = GTCapabilityHelper.getElectricItem(stack);
         if (electricItem == null) return false;
 
-        int amount = Math.round(cost * (ConfigHolder.INSTANCE.machines.prospectorEnergyUseMultiplier / 100F));
+        int amount = Math.round(cost * (GTPMConfigHolder.INSTANCE.machines.prospectorEnergyUseMultiplier / 100F));
 
         return electricItem.discharge(amount, Integer.MAX_VALUE, true, false, simulate) >= amount;
     }

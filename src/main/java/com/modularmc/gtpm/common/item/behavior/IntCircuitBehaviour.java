@@ -13,7 +13,7 @@ import com.modularmc.gtpm.api.machine.trait.NotifiableItemStackHandler;
 import com.modularmc.gtpm.api.transfer.item.CustomItemStackHandler;
 import com.modularmc.gtpm.common.data.GTDataComponents;
 import com.modularmc.gtpm.common.data.GTItems;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
 import com.modularmc.registrate.localization.annotation.Trans;
@@ -157,7 +157,7 @@ public class IntCircuitBehaviour implements IItemUIFactory, IAddInformation {
                     circuitMachine.getCircuitInventory().getSlots() > 0) {
                 setCircuitConfig(circuitMachine.getCircuitInventory(), circuitSetting);
             }
-            if (!ConfigHolder.INSTANCE.machines.ghostCircuit)
+            if (!GTPMConfigHolder.INSTANCE.machines.ghostCircuit)
                 stack.shrink(1);
             return InteractionResult.SUCCESS;
         }

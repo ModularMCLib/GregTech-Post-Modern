@@ -3,7 +3,7 @@ package com.modularmc.gtpm.api.multiblock.structurepredicate
 import com.modularmc.gtpm.api.machine.multiblock.PartAbility
 import com.modularmc.gtpm.api.multiblock.MultiblockState
 import com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE
-import com.modularmc.gtpm.config.ConfigHolder
+import com.modularmc.gtpm.config.GTPMConfigHolder
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
@@ -15,7 +15,7 @@ import it.unimi.dsi.fastutil.objects.ObjectList
 data class AutoMaintenancePredicate(val checkMaintenance: Boolean, val checkMuffler: Boolean, val checkParallel: Boolean) : AlternativePredicate {
 	override fun type(): StructurePredicateType<*> = TYPE
 	override fun alternatives(state: MultiblockState?): ObjectList<StructurePredicate> = ObjectArrayList<StructurePredicate>().also { result ->
-		if (checkMaintenance) result.add(if (ConfigHolder.INSTANCE.machines.enableMaintenance) MAINTENANCE_ENABLED else MAINTENANCE_DISABLED)
+		if (checkMaintenance) result.add(if (GTPMConfigHolder.INSTANCE.machines.enableMaintenance) MAINTENANCE_ENABLED else MAINTENANCE_DISABLED)
 		if (checkMuffler) result.add(MUFFLER)
 		if (checkParallel) result.add(PARALLEL)
 	}

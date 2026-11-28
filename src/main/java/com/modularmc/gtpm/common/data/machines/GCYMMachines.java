@@ -20,7 +20,7 @@ import com.modularmc.gtpm.common.data.machines.tooltip.MachineTooltips;
 import com.modularmc.gtpm.common.machine.multiblock.electric.DistillationTowerMachine;
 import com.modularmc.gtpm.common.machine.multiblock.electric.gcym.*;
 import com.modularmc.gtpm.common.machine.multiblock.part.ParallelHatchPartMachine;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
@@ -249,7 +249,7 @@ public class GCYMMachines {
             .tooltips(MachineTooltips.parallelizable(), MachineTooltips.recipeTypes(ASSEMBLER_RECIPES.getName()))
             .tooltips(MachineTooltips.singleEnergyHatch())
             .conditionalTooltip(GTMachineUtils.defaultEnvironmentRequirement(),
-                    ConfigHolder.INSTANCE.gameplay.environmentalHazards)
+                    GTPMConfigHolder.INSTANCE.gameplay.environmentalHazards)
             .rotationState(RotationState.ALL)
             .recipeType(ASSEMBLER_RECIPES)
             .recipeModifiers(DEFAULT_ENVIRONMENT_REQUIREMENT, GTRecipeModifiers.PARALLEL_HATCH, OC_NON_PERFECT_SUBTICK,
@@ -271,7 +271,7 @@ public class GCYMMachines {
                     MachineTooltips.recipeTypes(CIRCUIT_ASSEMBLER_RECIPES.getName()))
             .tooltips(MachineTooltips.singleEnergyHatch())
             .conditionalTooltip(GTMachineUtils.defaultEnvironmentRequirement(),
-                    ConfigHolder.INSTANCE.gameplay.environmentalHazards)
+                    GTPMConfigHolder.INSTANCE.gameplay.environmentalHazards)
             .rotationState(RotationState.ALL)
             .recipeType(CIRCUIT_ASSEMBLER_RECIPES)
             .recipeModifiers(DEFAULT_ENVIRONMENT_REQUIREMENT, GTRecipeModifiers.PARALLEL_HATCH, OC_NON_PERFECT_SUBTICK,
@@ -308,7 +308,7 @@ public class GCYMMachines {
                     .translation(MinecraftLocale.ZH_CN, "大型激光蚀刻机"))
             .tooltips(MachineTooltips.parallelizable(), MachineTooltips.recipeTypes(LASER_ENGRAVER_RECIPES.getName()))
             .conditionalTooltip(GTMachineUtils.defaultEnvironmentRequirement(),
-                    ConfigHolder.INSTANCE.gameplay.environmentalHazards)
+                    GTPMConfigHolder.INSTANCE.gameplay.environmentalHazards)
             .rotationState(RotationState.ALL)
             .recipeType(LASER_ENGRAVER_RECIPES)
             .recipeModifiers(DEFAULT_ENVIRONMENT_REQUIREMENT, GTRecipeModifiers.PARALLEL_HATCH, OC_NON_PERFECT_SUBTICK,

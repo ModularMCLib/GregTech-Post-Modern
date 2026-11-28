@@ -1,7 +1,7 @@
 package com.modularmc.gtpm.api.recipe.ingredient;
 
 import com.modularmc.gtpm.api.GTValues;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.recipe.GTIngredientTypes;
 
 import net.minecraft.util.RandomSource;
@@ -80,7 +80,7 @@ public class IntProviderFluidIngredient extends FluidIngredient implements IRang
      */
     @Deprecated
     public int getAmount() {
-        if (ConfigHolder.INSTANCE.dev.debug) {
+        if (GTPMConfigHolder.INSTANCE.dev.debug) {
             throw new IllegalCallerException("An IPFI should never have getAmount() called on it!");
         }
         return -1;

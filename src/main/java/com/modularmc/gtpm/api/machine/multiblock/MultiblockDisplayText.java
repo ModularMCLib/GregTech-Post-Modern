@@ -10,7 +10,7 @@ import com.modularmc.gtpm.api.recipe.GTRecipeType;
 import com.modularmc.gtpm.api.recipe.RecipeHelper;
 import com.modularmc.gtpm.api.recipe.ingredient.IntProviderFluidIngredient;
 import com.modularmc.gtpm.api.recipe.ingredient.IntProviderIngredient;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.utils.FormattingUtil;
 import com.modularmc.gtpm.utils.GTUtil;
 
@@ -772,7 +772,7 @@ public class MultiblockDisplayText {
          * Will check the config setting for if maintenance is enabled automatically.
          */
         public Builder addMaintenanceProblemLines(byte maintenanceProblems) {
-            if (!isStructureFormed || !ConfigHolder.INSTANCE.machines.enableMaintenance)
+            if (!isStructureFormed || !GTPMConfigHolder.INSTANCE.machines.enableMaintenance)
                 return this;
             if (maintenanceProblems >= 0 && maintenanceProblems < 0b111111) {
                 addMaintenanceProblemHeader();

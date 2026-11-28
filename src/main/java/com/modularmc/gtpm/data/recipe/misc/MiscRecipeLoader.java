@@ -6,7 +6,7 @@ import com.modularmc.gtpm.api.data.chemical.material.stack.MaterialEntry;
 import com.modularmc.gtpm.api.recipe.ingredient.FluidContainerIngredient;
 import com.modularmc.gtpm.common.data.GTBlocks;
 import com.modularmc.gtpm.common.data.GTRecipeCategories;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.data.recipe.CustomTags;
 import com.modularmc.gtpm.data.recipe.VanillaRecipeHelper;
 import com.modularmc.gtpm.data.recipe.builder.GTRecipeBuilder;
@@ -486,7 +486,7 @@ public class MiscRecipeLoader {
                 .outputFluids(Water.getFluid(1000))
                 .duration(100).EUt(VA[LV]).save(provider);
 
-        if (!ConfigHolder.INSTANCE.recipes.hardMiscRecipes) {
+        if (!GTPMConfigHolder.INSTANCE.recipes.hardMiscRecipes) {
             VanillaRecipeHelper.addShapedRecipe(provider, "flour_to_dough", new ItemStack(DOUGH.asItem(), 8),
                     "FFF", "FWF", "FFF",
                     'F', CustomTags.WHEAT_GRAINS,

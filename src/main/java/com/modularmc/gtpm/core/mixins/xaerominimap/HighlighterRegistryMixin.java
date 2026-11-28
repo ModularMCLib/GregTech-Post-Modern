@@ -1,6 +1,6 @@
 package com.modularmc.gtpm.core.mixins.xaerominimap;
 
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.integration.map.xaeros.minimap.fluid.FluidChunkHighlighter;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,7 +20,7 @@ public abstract class HighlighterRegistryMixin {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void gtceu$registerHighlighters(CallbackInfo ci) {
-        if (!ConfigHolder.INSTANCE.compat.minimap.toggle.xaerosMapIntegration) return;
+        if (!GTPMConfigHolder.INSTANCE.compat.minimap.toggle.xaerosMapIntegration) return;
         this.register(new FluidChunkHighlighter());
     }
 }

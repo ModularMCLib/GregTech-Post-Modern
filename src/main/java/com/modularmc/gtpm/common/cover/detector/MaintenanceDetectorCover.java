@@ -4,7 +4,7 @@ import com.modularmc.gtpm.api.capability.GTCapabilityHelper;
 import com.modularmc.gtpm.api.capability.ICoverable;
 import com.modularmc.gtpm.api.cover.CoverDefinition;
 import com.modularmc.gtpm.api.machine.feature.multiblock.IMaintenanceMachine;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import net.minecraft.core.Direction;
 
@@ -16,7 +16,7 @@ public class MaintenanceDetectorCover extends DetectorCover {
 
     @Override
     public boolean canAttach() {
-        if (!ConfigHolder.INSTANCE.machines.enableMaintenance) {
+        if (!GTPMConfigHolder.INSTANCE.machines.enableMaintenance) {
             return false;
         }
 

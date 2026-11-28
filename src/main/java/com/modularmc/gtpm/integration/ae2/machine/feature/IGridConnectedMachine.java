@@ -1,7 +1,7 @@
 package com.modularmc.gtpm.integration.ae2.machine.feature;
 
 import com.modularmc.gtpm.api.machine.feature.IMachineFeature;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import net.minecraft.core.Direction;
 
@@ -14,7 +14,7 @@ import appeng.me.helpers.IGridConnectedBlockEntity;
  */
 public interface IGridConnectedMachine extends IMachineFeature, IGridConnectedBlockEntity {
 
-    int ME_UPDATE_INTERVAL = ConfigHolder.INSTANCE.compat.ae2.updateIntervals;
+    int ME_UPDATE_INTERVAL = GTPMConfigHolder.INSTANCE.compat.ae2.updateIntervals;
 
     /**
      * @return return {@code true} if current machine connected to a valid ME network, {@code false} otherwise.

@@ -22,7 +22,7 @@ import com.modularmc.gtpm.api.recipe.handler.RecipeHandlerList;
 import com.modularmc.gtpm.api.sync_system.annotations.SaveField;
 import com.modularmc.gtpm.common.machine.multiblock.part.FluidHatchPartMachine;
 import com.modularmc.gtpm.common.machine.multiblock.part.ItemBusPartMachine;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
@@ -119,7 +119,7 @@ public class AssemblyLineMachine extends WorkableElectricMultiblockMachine {
                 copyWithoutItemsFluids.tickInputs.put(entry.getKey(), entry.getValue());
             }
         }
-        var config = ConfigHolder.INSTANCE.machines;
+        var config = GTPMConfigHolder.INSTANCE.machines;
         ActionResult result;
         if (config.orderedAssemblyLineItems) {
             result = consumeItemContents(copyWithItems, isTick);
@@ -366,7 +366,7 @@ public class AssemblyLineMachine extends WorkableElectricMultiblockMachine {
             if (!normalMatch.result().isSuccess()) return normalMatch.result();
             RecipeHandlerGroup normalGroup = normalMatch.selectedGroup();
 
-            var config = ConfigHolder.INSTANCE.machines;
+            var config = GTPMConfigHolder.INSTANCE.machines;
             if (config.orderedAssemblyLineItems) {
                 ActionResult itemMatch = getMachine().checkItemInputs(recipe, false);
                 if (!itemMatch.isSuccess()) return itemMatch;

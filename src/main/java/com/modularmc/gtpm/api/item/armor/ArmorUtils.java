@@ -3,7 +3,7 @@ package com.modularmc.gtpm.api.item.armor;
 import com.modularmc.gtpm.api.capability.GTCapabilityHelper;
 import com.modularmc.gtpm.api.capability.IElectricItem;
 import com.modularmc.gtpm.common.data.GTSoundEntries;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 import com.modularmc.gtpm.core.mixins.ServerGamePacketListenerFloatingTickAccessor;
 
 import net.minecraft.client.Minecraft;
@@ -201,24 +201,24 @@ public class ArmorUtils {
             int windowHeight = mc.getWindow().getGuiScaledHeight();
             int windowWidth = mc.getWindow().getGuiScaledWidth();
             int stringWidth = mc.font.width(stringList.get(index));
-            switch (ConfigHolder.INSTANCE.client.armorHud.hudLocation) {
+            switch (GTPMConfigHolder.INSTANCE.client.armorHud.hudLocation) {
                 case 1 -> {
-                    posX = 1 + ConfigHolder.INSTANCE.client.armorHud.hudOffsetX;
-                    posY = 1 + ConfigHolder.INSTANCE.client.armorHud.hudOffsetY + (fontHeight * index);
+                    posX = 1 + GTPMConfigHolder.INSTANCE.client.armorHud.hudOffsetX;
+                    posY = 1 + GTPMConfigHolder.INSTANCE.client.armorHud.hudOffsetY + (fontHeight * index);
                 }
                 case 2 -> {
-                    posX = windowWidth - (1 + ConfigHolder.INSTANCE.client.armorHud.hudOffsetX) - stringWidth;
-                    posY = 1 + ConfigHolder.INSTANCE.client.armorHud.hudOffsetY + (fontHeight * index);
+                    posX = windowWidth - (1 + GTPMConfigHolder.INSTANCE.client.armorHud.hudOffsetX) - stringWidth;
+                    posY = 1 + GTPMConfigHolder.INSTANCE.client.armorHud.hudOffsetY + (fontHeight * index);
                 }
                 case 3 -> {
-                    posX = 1 + ConfigHolder.INSTANCE.client.armorHud.hudOffsetX;
+                    posX = 1 + GTPMConfigHolder.INSTANCE.client.armorHud.hudOffsetX;
                     posY = windowHeight - fontHeight * (stringAmount - index) - 1 -
-                            ConfigHolder.INSTANCE.client.armorHud.hudOffsetY;
+                            GTPMConfigHolder.INSTANCE.client.armorHud.hudOffsetY;
                 }
                 case 4 -> {
-                    posX = windowWidth - (1 + ConfigHolder.INSTANCE.client.armorHud.hudOffsetX) - stringWidth;
+                    posX = windowWidth - (1 + GTPMConfigHolder.INSTANCE.client.armorHud.hudOffsetX) - stringWidth;
                     posY = windowHeight - fontHeight * (stringAmount - index) - 1 -
-                            ConfigHolder.INSTANCE.client.armorHud.hudOffsetY;
+                            GTPMConfigHolder.INSTANCE.client.armorHud.hudOffsetY;
                 }
                 default -> throw new IllegalArgumentException(
                         "Armor Hud config hudLocation is improperly configured. Allowed values: [1,2,3,4]");

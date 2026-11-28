@@ -19,7 +19,7 @@ import com.modularmc.gtpm.api.recipe.GTRecipeType
 import com.modularmc.gtpm.common.block.LampBlock
 import com.modularmc.gtpm.common.data.GTBlocks.BORDERLESS_LAMPS
 import com.modularmc.gtpm.common.data.GTBlocks.LAMPS
-import com.modularmc.gtpm.config.ConfigHolder
+import com.modularmc.gtpm.config.GTPMConfigHolder
 
 import com.modularmc.registrate.util.entry.BlockEntry
 
@@ -602,7 +602,7 @@ open class PatternPredicate {
 			if (checkMaintenance) {
 				predicate = predicate.or(
 					abilities(PartAbility.MAINTENANCE)
-						.setMinGlobalLimited(if (ConfigHolder.INSTANCE.machines.enableMaintenance) 1 else 0)
+						.setMinGlobalLimited(if (GTPMConfigHolder.INSTANCE.machines.enableMaintenance) 1 else 0)
 						.setMaxGlobalLimited(1),
 				)
 			}
@@ -626,7 +626,7 @@ open class PatternPredicate {
 			.addTooltips(Component.translatable("gtpm.multiblock.pattern.error.batteries"))
 
 		@JvmStatic
-		fun dataHatchPredicate(definition: PatternPredicate): PatternPredicate = if (ConfigHolder.INSTANCE.machines.enableResearch) {
+		fun dataHatchPredicate(definition: PatternPredicate): PatternPredicate = if (GTPMConfigHolder.INSTANCE.machines.enableResearch) {
 			abilities(PartAbility.DATA_ACCESS, PartAbility.OPTICAL_DATA_RECEPTION).setExactLimit(1).or(definition)
 		} else {
 			definition

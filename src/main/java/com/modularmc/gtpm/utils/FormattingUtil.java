@@ -1,6 +1,6 @@
 package com.modularmc.gtpm.utils;
 
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -274,7 +274,7 @@ public class FormattingUtil {
     }
 
     public static String formatTemperature(int temperature) {
-        if (ConfigHolder.INSTANCE.client.temperaturesInCelsius)
+        if (GTPMConfigHolder.INSTANCE.client.temperaturesInCelsius)
             return formatNumbers(temperature - 273) + " °C";
         else return formatNumbers(temperature) + " K";
     }

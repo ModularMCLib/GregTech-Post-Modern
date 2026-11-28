@@ -2,7 +2,7 @@ package com.modularmc.gtpm.common.worldgen.modifier;
 
 import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.registry.GTRegistries;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -24,7 +24,7 @@ public class RubberTreeChancePlacement extends RepeatingPlacement {
 
     @Override
     protected int count(RandomSource random, @NotNull BlockPos pos) {
-        return random.nextFloat() < ConfigHolder.INSTANCE.worldgen.rubberTreeSpawnChance ? 1 : 0;
+        return random.nextFloat() < GTPMConfigHolder.INSTANCE.worldgen.rubberTreeSpawnChance ? 1 : 0;
     }
 
     @Override

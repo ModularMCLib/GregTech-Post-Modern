@@ -2,7 +2,7 @@ package com.modularmc.gtpm.api.item.tool;
 
 import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.common.data.GTToolBehaviors;
-import com.modularmc.gtpm.config.ConfigHolder;
+import com.modularmc.gtpm.config.GTPMConfigHolder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -95,7 +95,7 @@ public class TreeFellingHelper {
                         iterator.remove();
                         continue;
                     }
-                    if (helper.tick % ConfigHolder.INSTANCE.tools.treeFellingDelay == 0) {
+                    if (helper.tick % GTPMConfigHolder.INSTANCE.tools.treeFellingDelay == 0) {
                         ToolHelper.destroyBlock(helper.player, helper.tool, helper.orderedBlocks.removeLast(), true);
                     }
                     helper.tick++;
