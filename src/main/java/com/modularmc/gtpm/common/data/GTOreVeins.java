@@ -1,10 +1,10 @@
 package com.modularmc.gtpm.common.data;
 
-import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.data.worldgen.*;
 import com.modularmc.gtpm.api.data.worldgen.generator.indicators.SurfaceIndicatorGenerator;
 import com.modularmc.gtpm.api.data.worldgen.generator.veins.NoopVeinGenerator;
-import com.modularmc.gtpm.api.registry.GTRegistries;
+
+import com.modularmc.registrate.localization.MinecraftLocale;
 
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
@@ -12,7 +12,6 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.valueproviders.ConstantInt;
@@ -24,7 +23,6 @@ import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 
-import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import lombok.Getter;
 
 import java.util.*;
@@ -33,6 +31,7 @@ import java.util.function.Consumer;
 import static com.modularmc.gtpm.api.data.worldgen.generator.veins.DikeVeinGenerator.DikeBlockDefinition;
 import static com.modularmc.gtpm.api.data.worldgen.generator.veins.VeinedVeinGenerator.VeinBlockDefinition;
 import static com.modularmc.gtpm.common.data.GTMaterials.*;
+import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 
 @SuppressWarnings("unused")
 public class GTOreVeins {
@@ -47,67 +46,147 @@ public class GTOreVeins {
     @Getter
     private static int largestIndicatorOffset = 0;
 
-    public static final Set<ResourceKey<GTOreDefinition>> ALL_KEYS = new ReferenceOpenHashSet<>();
-
     //////////////////////////////////////
     // ******** End Vein *********//
     /// ///////////////////////////////////
 
-    public static final ResourceKey<GTOreDefinition> END_BAUXITE_VEIN = create(GTPM.id("end_bauxite"));
-    public static final ResourceKey<GTOreDefinition> END_MAGNETITE_VEIN = create(GTPM.id("end_magnetite"));
-    public static final ResourceKey<GTOreDefinition> NAQUADAH_VEIN = create(GTPM.id("naquadah"));
-    public static final ResourceKey<GTOreDefinition> PITCHBLENDE_VEIN = create(GTPM.id("pitchblende"));
-    public static final ResourceKey<GTOreDefinition> SCHEELITE_VEIN = create(GTPM.id("scheelite"));
-    public static final ResourceKey<GTOreDefinition> SHELDONITE_VEIN = create(GTPM.id("sheldonite"));
+    public static final ResourceKey<GTOreDefinition> END_BAUXITE_VEIN = REGISTRATE.oreVein("end_bauxite")
+            .localization(text -> text.source("End Bauxite").translation(MinecraftLocale.ZH_CN, "末地铝土"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> END_MAGNETITE_VEIN = REGISTRATE.oreVein("end_magnetite")
+            .localization(text -> text.source("End Magnetite").translation(MinecraftLocale.ZH_CN, "末地磁铁"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> NAQUADAH_VEIN = REGISTRATE.oreVein("naquadah")
+            .localization(text -> text.source("Naquadah").translation(MinecraftLocale.ZH_CN, "硅岩"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> PITCHBLENDE_VEIN = REGISTRATE.oreVein("pitchblende")
+            .localization(text -> text.source("Pitchblende").translation(MinecraftLocale.ZH_CN, "沥青铀矿"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> SCHEELITE_VEIN = REGISTRATE.oreVein("scheelite")
+            .localization(text -> text.source("Scheelite").translation(MinecraftLocale.ZH_CN, "白钨"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> SHELDONITE_VEIN = REGISTRATE.oreVein("sheldonite")
+            .localization(text -> text.source("Sheldonite").translation(MinecraftLocale.ZH_CN, "谢尔顿"))
+            .register();
 
     //////////////////////////////////////
     // ****** Nether Vein *******//
     /// ///////////////////////////////////
 
-    public static final ResourceKey<GTOreDefinition> BANDED_IRON_VEIN = create(GTPM.id("banded_iron"));
-    public static final ResourceKey<GTOreDefinition> BERYLLIUM_VEIN = create(GTPM.id("beryllium"));
-    public static final ResourceKey<GTOreDefinition> CERTUS_QUARTZ_VEIN = create(GTPM.id("certus_quartz"));
-    public static final ResourceKey<GTOreDefinition> NETHER_MANGANESE_VEIN = create(GTPM.id("nether_manganese"));
-    public static final ResourceKey<GTOreDefinition> MOLYBDENUM_VEIN = create(GTPM.id("molybdenum"));
-    public static final ResourceKey<GTOreDefinition> MONAZITE_VEIN = create(GTPM.id("monazite"));
-    public static final ResourceKey<GTOreDefinition> NETHER_QUARTZ_VEIN = create(GTPM.id("nether_quartz"));
-    public static final ResourceKey<GTOreDefinition> METHER_REDSTONE_VEIN = create(GTPM.id("nether_redstone"));
-    public static final ResourceKey<GTOreDefinition> SALTPETER_VEIN = create(GTPM.id("saltpeter"));
-    public static final ResourceKey<GTOreDefinition> SULFUR_VEIN = create(GTPM.id("sulfur"));
-    public static final ResourceKey<GTOreDefinition> TETRAHEDRITE_VEIN = create(GTPM.id("tetrahedrite"));
-    public static final ResourceKey<GTOreDefinition> TOPAZ_VEIN = create(GTPM.id("topaz"));
+    public static final ResourceKey<GTOreDefinition> BANDED_IRON_VEIN = REGISTRATE.oreVein("banded_iron")
+            .localization(text -> text.source("Banded Iron").translation(MinecraftLocale.ZH_CN, "带状铁矿"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> BERYLLIUM_VEIN = REGISTRATE.oreVein("beryllium")
+            .localization(text -> text.source("Beryllium").translation(MinecraftLocale.ZH_CN, "铍"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> CERTUS_QUARTZ_VEIN = REGISTRATE.oreVein("certus_quartz")
+            .localization(text -> text.source("Certus Quartz").translation(MinecraftLocale.ZH_CN, "赛特斯石英"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> NETHER_MANGANESE_VEIN = REGISTRATE.oreVein("nether_manganese")
+            .localization(text -> text.source("Nether Manganese").translation(MinecraftLocale.ZH_CN, "下界锰"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> MOLYBDENUM_VEIN = REGISTRATE.oreVein("molybdenum")
+            .localization(text -> text.source("Molybdenum").translation(MinecraftLocale.ZH_CN, "钼"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> MONAZITE_VEIN = REGISTRATE.oreVein("monazite")
+            .localization(text -> text.source("Monazite").translation(MinecraftLocale.ZH_CN, "独居石"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> NETHER_QUARTZ_VEIN = REGISTRATE.oreVein("nether_quartz")
+            .localization(text -> text.source("Nether Quartz").translation(MinecraftLocale.ZH_CN, "下界石英"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> METHER_REDSTONE_VEIN = REGISTRATE.oreVein("nether_redstone")
+            .localization(text -> text.source("Nether Redstone").translation(MinecraftLocale.ZH_CN, "下界红石"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> SALTPETER_VEIN = REGISTRATE.oreVein("saltpeter")
+            .localization(text -> text.source("Saltpeter").translation(MinecraftLocale.ZH_CN, "硝石"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> SULFUR_VEIN = REGISTRATE.oreVein("sulfur")
+            .localization(text -> text.source("Sulfur").translation(MinecraftLocale.ZH_CN, "硫"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> TETRAHEDRITE_VEIN = REGISTRATE.oreVein("tetrahedrite")
+            .localization(text -> text.source("Tetrahedrite").translation(MinecraftLocale.ZH_CN, "黝铜"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> TOPAZ_VEIN = REGISTRATE.oreVein("topaz")
+            .localization(text -> text.source("Topaz").translation(MinecraftLocale.ZH_CN, "黄玉"))
+            .register();
 
     //////////////////////////////////////
     // ***** Stone *****//
     /// ///////////////////////////////////
 
-    public static final ResourceKey<GTOreDefinition> APATITE_VEIN = create(GTPM.id("apatite"));
-    public static final ResourceKey<GTOreDefinition> CASSITERITE_VEIN = create(GTPM.id("cassiterite"));
-    public static final ResourceKey<GTOreDefinition> COAL_VEIN = create(GTPM.id("coal"));
-    public static final ResourceKey<GTOreDefinition> COPPER_TIN_VEIN = create(GTPM.id("copper_tin"));
-    public static final ResourceKey<GTOreDefinition> GALENA_VEIN = create(GTPM.id("galena"));
-    public static final ResourceKey<GTOreDefinition> GARNET_TIN_VEIN = create(GTPM.id("garnet_tin"));
-    public static final ResourceKey<GTOreDefinition> GARNET_VEIN = create(GTPM.id("garnet"));
-    public static final ResourceKey<GTOreDefinition> IRON_VEIN = create(GTPM.id("iron"));
-    public static final ResourceKey<GTOreDefinition> LUBRICANT_VEIN = create(GTPM.id("lubricant"));
-    public static final ResourceKey<GTOreDefinition> MAGNETITE_VEIN = create(GTPM.id("magnetite"));
-    public static final ResourceKey<GTOreDefinition> MINERAL_SAND_VEIN = create(GTPM.id("mineral_sand"));
-    public static final ResourceKey<GTOreDefinition> NICKEL_VEIN = create(GTPM.id("nickel"));
-    public static final ResourceKey<GTOreDefinition> SALTS_VEIN = create(GTPM.id("salts"));
-    public static final ResourceKey<GTOreDefinition> OILSANDS_VEIN = create(GTPM.id("oilsands"));
+    public static final ResourceKey<GTOreDefinition> APATITE_VEIN = REGISTRATE.oreVein("apatite")
+            .localization(text -> text.source("Apatite").translation(MinecraftLocale.ZH_CN, "磷灰石"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> CASSITERITE_VEIN = REGISTRATE.oreVein("cassiterite")
+            .localization(text -> text.source("Cassiterite").translation(MinecraftLocale.ZH_CN, "锡石"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> COAL_VEIN = REGISTRATE.oreVein("coal")
+            .localization(text -> text.source("Coal").translation(MinecraftLocale.ZH_CN, "煤炭"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> COPPER_TIN_VEIN = REGISTRATE.oreVein("copper_tin")
+            .localization(text -> text.source("Copper Tin").translation(MinecraftLocale.ZH_CN, "铜锡"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> GALENA_VEIN = REGISTRATE.oreVein("galena")
+            .localization(text -> text.source("Galena").translation(MinecraftLocale.ZH_CN, "方铅"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> GARNET_TIN_VEIN = REGISTRATE.oreVein("garnet_tin")
+            .localization(text -> text.source("Garnet Tin").translation(MinecraftLocale.ZH_CN, "锡石榴石"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> GARNET_VEIN = REGISTRATE.oreVein("garnet")
+            .localization(text -> text.source("Garnet").translation(MinecraftLocale.ZH_CN, "石榴石"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> IRON_VEIN = REGISTRATE.oreVein("iron")
+            .localization(text -> text.source("Iron").translation(MinecraftLocale.ZH_CN, "铁"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> LUBRICANT_VEIN = REGISTRATE.oreVein("lubricant")
+            .localization(text -> text.source("Lubricant").translation(MinecraftLocale.ZH_CN, "皂滑"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> MAGNETITE_VEIN = REGISTRATE.oreVein("magnetite")
+            .localization(text -> text.source("Magnetite").translation(MinecraftLocale.ZH_CN, "磁铁"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> MINERAL_SAND_VEIN = REGISTRATE.oreVein("mineral_sand")
+            .localization(text -> text.source("Mineral Sand").translation(MinecraftLocale.ZH_CN, "矿砂"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> NICKEL_VEIN = REGISTRATE.oreVein("nickel")
+            .localization(text -> text.source("Nickel").translation(MinecraftLocale.ZH_CN, "镍"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> SALTS_VEIN = REGISTRATE.oreVein("salts")
+            .localization(text -> text.source("Salts").translation(MinecraftLocale.ZH_CN, "盐"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> OILSANDS_VEIN = REGISTRATE.oreVein("oilsands")
+            .localization(text -> text.source("Oilsands").translation(MinecraftLocale.ZH_CN, "油砂"))
+            .register();
 
     //////////////////////////////////////
     // ***** Deepslate *****//
     /// ///////////////////////////////////
 
-    public static final ResourceKey<GTOreDefinition> COPPER_VEIN = create(GTPM.id("copper"));
-    public static final ResourceKey<GTOreDefinition> DIAMOND_VEIN = create(GTPM.id("diamond"));
-    public static final ResourceKey<GTOreDefinition> LAPIS_VEIN = create(GTPM.id("lapis"));
-    public static final ResourceKey<GTOreDefinition> MANGANESE_VEIN = create(GTPM.id("manganese"));
-    public static final ResourceKey<GTOreDefinition> MICA_VEIN = create(GTPM.id("mica"));
-    public static final ResourceKey<GTOreDefinition> OLIVINE_VEIN = create(GTPM.id("olivine"));
-    public static final ResourceKey<GTOreDefinition> REDSTONE_VEIN = create(GTPM.id("redstone"));
-    public static final ResourceKey<GTOreDefinition> SAPPHIRE_VEIN = create(GTPM.id("sapphire"));
+    public static final ResourceKey<GTOreDefinition> COPPER_VEIN = REGISTRATE.oreVein("copper")
+            .localization(text -> text.source("Copper").translation(MinecraftLocale.ZH_CN, "铜"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> DIAMOND_VEIN = REGISTRATE.oreVein("diamond")
+            .localization(text -> text.source("Diamond").translation(MinecraftLocale.ZH_CN, "钻石"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> LAPIS_VEIN = REGISTRATE.oreVein("lapis")
+            .localization(text -> text.source("Lapis").translation(MinecraftLocale.ZH_CN, "青金石"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> MANGANESE_VEIN = REGISTRATE.oreVein("manganese")
+            .localization(text -> text.source("Manganese").translation(MinecraftLocale.ZH_CN, "锰"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> MICA_VEIN = REGISTRATE.oreVein("mica")
+            .localization(text -> text.source("Mica").translation(MinecraftLocale.ZH_CN, "云母"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> OLIVINE_VEIN = REGISTRATE.oreVein("olivine")
+            .localization(text -> text.source("Olivine").translation(MinecraftLocale.ZH_CN, "橄榄石"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> REDSTONE_VEIN = REGISTRATE.oreVein("redstone")
+            .localization(text -> text.source("Redstone").translation(MinecraftLocale.ZH_CN, "红石"))
+            .register();
+    public static final ResourceKey<GTOreDefinition> SAPPHIRE_VEIN = REGISTRATE.oreVein("sapphire")
+            .localization(text -> text.source("Sapphire").translation(MinecraftLocale.ZH_CN, "蓝宝石"))
+            .register();
+
+    public static void init() {}
 
     public static void updateLargestVeinSize(Registry<GTOreDefinition> registry) {
         // map to average of min & max values.
@@ -123,12 +202,6 @@ public class GTOreVeins {
                                 (int) Math.ceil(definition.clusterSize().getMinValue() / 2.0))))
                 .max()
                 .orElse(0);
-    }
-
-    public static ResourceKey<GTOreDefinition> create(ResourceLocation id) {
-        var key = ResourceKey.create(GTRegistries.ORE_VEIN_REGISTRY, id);
-        ALL_KEYS.add(key);
-        return key;
     }
 
     public static GTOreDefinition blankOreDefinition(HolderGetter<Biome> biomeLookup) {

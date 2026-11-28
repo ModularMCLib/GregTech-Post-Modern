@@ -1,14 +1,6 @@
 package com.modularmc.gtpm.data.lang;
 
-import com.modularmc.gtpm.api.data.worldgen.GTOreDefinition;
-import com.modularmc.gtpm.api.data.worldgen.bedrockfluid.BedrockFluidDefinition;
-import com.modularmc.gtpm.common.data.GTBedrockFluids;
-import com.modularmc.gtpm.common.data.GTOreVeins;
-
 import com.modularmc.registrate.providers.RegistrateLangProvider;
-
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 
 public class IntegrationLang {
 
@@ -185,16 +177,6 @@ public class IntegrationLang {
         provider.add("gtpm.jei.ore_vein_diagram.spawn_range", "Spawn Range:");
         provider.add("gtpm.jei.ore_vein_diagram.weight", "Weight: %s");
         provider.add("gtpm.jei.ore_vein_diagram.dimensions", "Dimensions:");
-        for (ResourceKey<GTOreDefinition> key : GTOreVeins.ALL_KEYS) {
-            ResourceLocation id = key.location();
-            String name = id.getPath();
-            provider.add(id.toLanguageKey("ore_vein"), RegistrateLangProvider.toEnglishName(name));
-        }
-        for (ResourceKey<BedrockFluidDefinition> key : GTBedrockFluids.ALL_KEYS) {
-            ResourceLocation id = key.location();
-            String name = id.getPath();
-            provider.add(id.toLanguageKey("bedrock_fluid"), RegistrateLangProvider.toEnglishName(name));
-        }
     }
 
     private static void initOwnershipLang(RegistrateLangProvider provider) {

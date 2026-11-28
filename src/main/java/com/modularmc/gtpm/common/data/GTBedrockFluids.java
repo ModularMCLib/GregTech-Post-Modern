@@ -1,52 +1,62 @@
 package com.modularmc.gtpm.common.data;
 
-import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.data.worldgen.bedrockfluid.BedrockFluidDefinition;
-import com.modularmc.gtpm.api.registry.GTRegistries;
+
+import com.modularmc.registrate.localization.MinecraftLocale;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biomes;
 import net.neoforged.neoforge.common.Tags;
 
-import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
-
 import java.util.Set;
 import java.util.function.Consumer;
 
+import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
+
 @SuppressWarnings("unused")
 public class GTBedrockFluids {
-
-    public static final Set<ResourceKey<BedrockFluidDefinition>> ALL_KEYS = new ReferenceOpenHashSet<>();
 
     //////////////////////////////////////
     // ******** OVERWORLD ********//
     //////////////////////////////////////
 
-    public static final ResourceKey<BedrockFluidDefinition> HEAVY_OIL = create(GTPM.id("heavy_oil_deposit"));
-    public static final ResourceKey<BedrockFluidDefinition> LIGHT_OIL = create(GTPM.id("light_oil_deposit"));
-    public static final ResourceKey<BedrockFluidDefinition> NATURAL_GAS = create(GTPM.id("natural_gas_deposit"));
-    public static final ResourceKey<BedrockFluidDefinition> OIL = create(GTPM.id("oil_deposit"));
-    public static final ResourceKey<BedrockFluidDefinition> RAW_OIL = create(GTPM.id("raw_oil_deposit"));
-    public static final ResourceKey<BedrockFluidDefinition> SALT_WATER = create(GTPM.id("salt_water_deposit"));
+    public static final ResourceKey<BedrockFluidDefinition> HEAVY_OIL = REGISTRATE.bedrockFluid("heavy_oil_deposit")
+            .localization(text -> text.source("Heavy Oil Deposit").translation(MinecraftLocale.ZH_CN, "重油矿藏"))
+            .register();
+    public static final ResourceKey<BedrockFluidDefinition> LIGHT_OIL = REGISTRATE.bedrockFluid("light_oil_deposit")
+            .localization(text -> text.source("Light Oil Deposit").translation(MinecraftLocale.ZH_CN, "轻油矿藏"))
+            .register();
+    public static final ResourceKey<BedrockFluidDefinition> NATURAL_GAS = REGISTRATE.bedrockFluid("natural_gas_deposit")
+            .localization(text -> text.source("Natural Gas Deposit").translation(MinecraftLocale.ZH_CN, "天然气矿藏"))
+            .register();
+    public static final ResourceKey<BedrockFluidDefinition> OIL = REGISTRATE.bedrockFluid("oil_deposit")
+            .localization(text -> text.source("Oil Deposit").translation(MinecraftLocale.ZH_CN, "石油矿藏"))
+            .register();
+    public static final ResourceKey<BedrockFluidDefinition> RAW_OIL = REGISTRATE.bedrockFluid("raw_oil_deposit")
+            .localization(text -> text.source("Raw Oil Deposit").translation(MinecraftLocale.ZH_CN, "原油矿藏"))
+            .register();
+    public static final ResourceKey<BedrockFluidDefinition> SALT_WATER = REGISTRATE.bedrockFluid("salt_water_deposit")
+            .localization(text -> text.source("Salt Water Deposit").translation(MinecraftLocale.ZH_CN, "盐水矿藏"))
+            .register();
 
     //////////////////////////////////////
     // ******** NETHER ********//
     //////////////////////////////////////
 
-    public static final ResourceKey<BedrockFluidDefinition> LAVA = create(GTPM.id("lava_deposit"));
-    public static final ResourceKey<BedrockFluidDefinition> NETHER_NATURAL_GAS = create(
-            GTPM.id("nether_natural_gas_deposit"));
+    public static final ResourceKey<BedrockFluidDefinition> LAVA = REGISTRATE.bedrockFluid("lava_deposit")
+            .localization(text -> text.source("Lava Deposit").translation(MinecraftLocale.ZH_CN, "熔岩矿藏"))
+            .register();
+    public static final ResourceKey<BedrockFluidDefinition> NETHER_NATURAL_GAS = REGISTRATE
+            .bedrockFluid("nether_natural_gas_deposit")
+            .localization(text -> text.source("Nether Natural Gas Deposit")
+                    .translation(MinecraftLocale.ZH_CN, "下界天然气矿藏"))
+            .register();
 
-    public static ResourceKey<BedrockFluidDefinition> create(ResourceLocation id) {
-        var key = ResourceKey.create(GTRegistries.BEDROCK_FLUID_REGISTRY, id);
-        ALL_KEYS.add(key);
-        return key;
-    }
+    public static void init() {}
 
     public static Set<ResourceKey<Level>> nether() {
         return Set.of(Level.NETHER);

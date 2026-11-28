@@ -3,6 +3,8 @@ package com.modularmc.gtpm.api.registry.registrate;
 import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.block.MetaMachineBlock;
 import com.modularmc.gtpm.api.blockentity.BlockEntityCreationInfo;
+import com.modularmc.gtpm.api.data.worldgen.GTOreDefinition;
+import com.modularmc.gtpm.api.data.worldgen.bedrockfluid.BedrockFluidDefinition;
 import com.modularmc.gtpm.api.item.MetaMachineItem;
 import com.modularmc.gtpm.api.machine.MachineDefinition;
 import com.modularmc.gtpm.api.machine.MetaMachine;
@@ -150,8 +152,8 @@ public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
                 languageOutput != null) {
             // Preserve addon replacements before Registrate-Lib checks for conflicting declarations.
             var staged = new GTLanguageProvider(this, languageOutput);
-            defaultLocalizations.forEach((key, declaration) ->
-                    GTLanguageProvider.addLocalization(staged, this, key, declaration));
+            defaultLocalizations
+                    .forEach((key, declaration) -> GTLanguageProvider.addLocalization(staged, this, key, declaration));
             super.genData(ProviderType.LANG, staged);
             staged.submitTo(language);
             return;
@@ -219,6 +221,18 @@ public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
                                                                                     MaterialRequestProvider provider) {
         return generic(name, GTRegistries.MATERIAL_SOURCE_REGISTRY,
                 () -> new Registration(priority, provider));
+    }
+
+    /** Declares an ore vein key in this mod's namespace for use during datapack bootstrap. */
+    public DatapackKeyBuilder<GTOreDefinition> oreVein(String name) {
+        return new DatapackKeyBuilder<>(this,
+                ResourceKey.create(GTRegistries.ORE_VEIN_REGISTRY, makeResourceLocation(name)));
+    }
+
+    /** Declares a bedrock fluid key in this mod's namespace for use during datapack bootstrap. */
+    public DatapackKeyBuilder<BedrockFluidDefinition> bedrockFluid(String name) {
+        return new DatapackKeyBuilder<>(this,
+                ResourceKey.create(GTRegistries.BEDROCK_FLUID_REGISTRY, makeResourceLocation(name)));
     }
 
     public SoundEntryBuilder sound(String name) {
