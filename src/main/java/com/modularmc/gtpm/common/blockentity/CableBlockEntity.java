@@ -24,6 +24,11 @@ import com.modularmc.gtpm.utils.FormattingUtil;
 import com.modularmc.gtpm.utils.GTMath;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -47,6 +52,15 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 
+@TransVariants(keyPrefix = "behavior.portable_scanner",
+               value = {
+                       @Variant(id = "amp_per_sec",
+                                source = "Average (last second): %s A",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "平均（最后一秒）：%s A")),
+                       @Variant(id = "eu_per_sec",
+                                source = "Average (last second): %s EU/t",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "平均（最后一秒）：%s EU/t")),
+               })
 public class CableBlockEntity extends PipeBlockEntity<Insulation, WireProperties> implements IDataInfoProvider {
 
     protected WeakReference<EnergyNet> currentEnergyNet = new WeakReference<>(null);

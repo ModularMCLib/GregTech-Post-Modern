@@ -6,6 +6,10 @@ import com.modularmc.gtpm.api.pipenet.IPipeNode;
 import com.modularmc.gtpm.config.ConfigHolder;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -21,6 +25,9 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.List;
 
+@Trans(key = "gtpm.tool_action.show_tooltips",
+       source = "Hold SHIFT to show Tool Info",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7按住§6SHIFT§7显示工具信息"))
 public class PipeBlockItem extends BlockItem {
 
     public PipeBlockItem(PipeBlock block, Properties properties) {

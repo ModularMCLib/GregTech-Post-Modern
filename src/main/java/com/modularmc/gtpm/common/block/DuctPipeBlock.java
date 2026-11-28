@@ -16,6 +16,10 @@ import com.modularmc.gtpm.common.pipelike.duct.DuctPipeProperties;
 import com.modularmc.gtpm.common.pipelike.duct.DuctPipeType;
 import com.modularmc.gtpm.common.pipelike.duct.LevelDuctPipeNet;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -32,6 +36,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+@Trans(key = "gtpm.duct_pipe.transfer_rate",
+       source = "§bAir transfer rate: %s",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§b空气传输速率：%s"))
 public class DuctPipeBlock extends PipeBlock<DuctPipeType, DuctPipeProperties, LevelDuctPipeNet> {
 
     private final DuctPipeProperties properties;

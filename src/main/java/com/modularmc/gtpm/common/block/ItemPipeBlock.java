@@ -14,6 +14,10 @@ import com.modularmc.gtpm.common.data.GTBlockEntities;
 import com.modularmc.gtpm.common.pipelike.item.ItemPipeType;
 import com.modularmc.gtpm.common.pipelike.item.LevelItemPipeNet;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -28,6 +32,9 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 
 import java.util.List;
 
+@Trans(key = "gtpm.item_pipe.priority",
+       source = "§9Priority: §f%d",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§9优先级：§f%d"))
 public class ItemPipeBlock extends MaterialPipeBlock<ItemPipeType, ItemPipeProperties, LevelItemPipeNet> {
 
     public ItemPipeBlock(Properties properties, ItemPipeType itemPipeType, Material material) {

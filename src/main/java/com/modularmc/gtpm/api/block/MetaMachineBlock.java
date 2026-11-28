@@ -25,6 +25,10 @@ import com.modularmc.gtpm.common.machine.owner.MachineOwner;
 import com.modularmc.gtpm.utils.ExtendedUseOnContext;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -72,6 +76,9 @@ import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+@Trans(key = "gtpm.multiblock.dimension",
+       source = "§eDimensions: §r%sx%sx%s",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§e尺寸：§r%sx%sx%s"))
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class MetaMachineBlock extends Block implements ManagedSyncEntityBlock {

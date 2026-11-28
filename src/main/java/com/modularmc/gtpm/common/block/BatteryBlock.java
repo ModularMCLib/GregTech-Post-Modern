@@ -4,6 +4,11 @@ import com.modularmc.gtpm.api.GTValues;
 import com.modularmc.gtpm.api.machine.multiblock.IBatteryData;
 import com.modularmc.gtpm.utils.FormattingUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.Item;
@@ -18,6 +23,15 @@ import java.util.Locale;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+@TransVariants(keyPrefix = "block.gtpm.substation_capacitor",
+               value = {
+                       @Variant(id = "tooltip_empty",
+                                source = "§7For filling space in your Power Substation",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§7用于填补蓄能变电站的结构空隙")),
+                       @Variant(id = "tooltip_filled",
+                                source = "§cEnergy Capacity: §f%d EU",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§c电池容量：§f%d EU")),
+               })
 @ParametersAreNonnullByDefault
 public class BatteryBlock extends Block {
 

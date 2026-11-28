@@ -2,6 +2,11 @@ package com.modularmc.gtpm.common.block.explosive;
 
 import com.modularmc.gtpm.common.entity.GTExplosiveEntity;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -34,6 +39,16 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 
+@TransVariants(keyPrefix = "block.gtpm.explosive",
+               value = {
+                       @Variant(id = "breaking_tooltip",
+                                source = "Primes explosion when mined, sneak mine to pick back up",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "破坏它会引爆火药，潜行挖掘以重新拾取")),
+                       @Variant(id = "lighting_tooltip",
+                                source = "Cannot be lit with Redstone",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "无法用红石信号引爆")),
+               })
 @SuppressWarnings("deprecation")
 public abstract class GTExplosiveBlock extends Block {
 

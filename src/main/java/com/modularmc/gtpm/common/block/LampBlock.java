@@ -4,6 +4,11 @@ import com.modularmc.gtpm.api.block.property.GTBlockStateProperties;
 import com.modularmc.gtpm.common.data.GTDataComponents;
 import com.modularmc.gtpm.common.item.LampBlockItem;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -30,6 +35,18 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+@TransVariants(keyPrefix = "block.gtpm.lamp.tooltip",
+               value = {
+                       @Variant(id = "inverted",
+                                source = "Inverted",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "反相")),
+                       @Variant(id = "no_bloom",
+                                source = "No Bloom",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "无泛光")),
+                       @Variant(id = "no_light",
+                                source = "No Light",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "无光照")),
+               })
 public class LampBlock extends Block {
 
     public static final BooleanProperty BLOOM = GTBlockStateProperties.BLOOM;

@@ -7,6 +7,11 @@ import com.modularmc.gtpm.api.data.chemical.material.Material;
 import com.modularmc.gtpm.common.data.GTMaterials;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
@@ -19,6 +24,38 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+@TransVariants(keyPrefix = "block.gtpm.wire_coil",
+               value = {
+                       @Variant(id = "tooltip_cracking",
+                                source = "§8Cracking Unit:",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§8裂化机：")),
+                       @Variant(id = "tooltip_energy_cracking",
+                                source = "  §aEnergy Usage: §f%s%%",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§a耗能：§f%s%%")),
+                       @Variant(id = "tooltip_energy_smelter",
+                                source = "  §aEnergy Usage: §f%s EU/t §8per recipe",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "  §a功耗：§8每个配方 §f%s EU/t")),
+                       @Variant(id = "tooltip_extended_info",
+                                source = "§7Hold SHIFT to show Coil Bonus Info",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§7按住§6SHIFT§7获得更多线圈信息")),
+                       @Variant(id = "tooltip_heat",
+                                source = "§cBase Heat Capacity: §f%d K",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§c基础热容：§f%d K")),
+                       @Variant(id = "tooltip_parallel_smelter",
+                                source = "  §5Max Parallel: §f%s",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§5最大并行：§f%s")),
+                       @Variant(id = "tooltip_pyro",
+                                source = "§8Pyrolyse Oven:",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§8热解炉：")),
+                       @Variant(id = "tooltip_smelter",
+                                source = "§8Multi Smelter:",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§8工业熔炉：")),
+                       @Variant(id = "tooltip_speed_pyro",
+                                source = "  §bProcessing Speed: §f%s%%",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§b处理速度：§f%s%%")),
+               })
 public class CoilBlock extends ActiveBlock {
 
     public ICoilType coilType;

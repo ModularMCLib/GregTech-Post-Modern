@@ -21,6 +21,12 @@ import com.modularmc.gtpm.utils.EntityDamageUtil;
 import com.modularmc.gtpm.utils.FormattingUtil;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -40,6 +46,34 @@ import net.neoforged.neoforge.fluids.FluidUtil;
 
 import java.util.List;
 
+@Trans(key = "gtpm.fluid_pipe.channels",
+       source = "§eChannels: §f%d",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§e并行管道：§f%d"))
+@TransVariants(keyPrefix = "gtpm",
+               value = {
+                       @Variant(id = "fluid_pipe.capacity",
+                                source = "§9Capacity: §f%d mB",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§9容积：§f%d mB")),
+                       @Variant(id = "fluid_pipe.acid_proof",
+                                source = "§6Can handle Acids",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§6可传输酸性物质")),
+                       @Variant(id = "fluid_pipe.cryo_proof",
+                                source = "§6Can handle Cryogenics",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§6可传输低温物质")),
+                       @Variant(id = "fluid_pipe.gas_proof",
+                                source = "§6Can handle Gases",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§6可以传输气体")),
+                       @Variant(id = "fluid_pipe.not_gas_proof",
+                                source = "§4Gases may leak!",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§4气体可能泄漏！")),
+                       @Variant(id = "fluid_pipe.plasma_proof",
+                                source = "§6Can handle all Plasmas",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§6可传输所有等离子体")),
+                       @Variant(id = "tooltip.fluid_pipe_hold_shift",
+                                source = "§7Hold SHIFT to show Fluid Containment Info",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§7按住§6SHIFT§7以查看流体容器详情")),
+               })
 public class FluidPipeBlock extends MaterialPipeBlock<FluidPipeType, FluidPipeProperties, LevelFluidPipeNet> {
 
     public FluidPipeBlock(Properties properties, FluidPipeType fluidPipeType, Material material) {

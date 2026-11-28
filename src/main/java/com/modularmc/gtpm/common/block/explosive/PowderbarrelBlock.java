@@ -3,6 +3,10 @@ package com.modularmc.gtpm.common.block.explosive;
 import com.modularmc.gtpm.common.entity.GTExplosiveEntity;
 import com.modularmc.gtpm.common.entity.PowderbarrelEntity;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,6 +20,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+@Trans(key = "block.gtpm.powderbarrel.drops_tooltip",
+       source = "Slightly larger than TNT, drops all destroyed Blocks as Items",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "爆炸范围略大于TNT，所有被摧毁的方块都会掉落"))
 public class PowderbarrelBlock extends GTExplosiveBlock {
 
     public PowderbarrelBlock(Properties properties) {

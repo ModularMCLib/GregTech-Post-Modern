@@ -6,6 +6,10 @@ import com.modularmc.gtpm.api.item.SurfaceRockBlockItem;
 import com.modularmc.gtpm.client.renderer.block.SurfaceRockRenderer;
 import com.modularmc.gtpm.integration.map.cache.server.ServerCache;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.core.BlockPos;
@@ -35,6 +39,9 @@ import net.neoforged.api.distmarker.OnlyIn;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
+@Trans(key = "block.gtpm.surface_rock",
+       source = "%s Surface Rock",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "地表岩石（%s）"))
 public class SurfaceRockBlock extends Block {
 
     public static final DirectionProperty FACING = BlockStateProperties.FACING;

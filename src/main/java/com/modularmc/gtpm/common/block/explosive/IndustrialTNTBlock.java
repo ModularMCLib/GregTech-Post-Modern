@@ -3,6 +3,10 @@ package com.modularmc.gtpm.common.block.explosive;
 import com.modularmc.gtpm.common.entity.GTExplosiveEntity;
 import com.modularmc.gtpm.common.entity.IndustrialTNTEntity;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.Trans;
+import com.modularmc.registrate.localization.annotation.Translation;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
@@ -17,6 +21,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+@Trans(key = "block.gtpm.itnt.drops_tooltip",
+       source = "Much larger than TNT, drops all destroyed Blocks as Items",
+       translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "爆炸范围比TNT大得多，所有被摧毁的方块都会掉落"))
 public class IndustrialTNTBlock extends GTExplosiveBlock {
 
     public IndustrialTNTBlock(BlockBehaviour.Properties properties) {

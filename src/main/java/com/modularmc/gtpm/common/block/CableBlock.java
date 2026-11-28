@@ -22,6 +22,11 @@ import com.modularmc.gtpm.common.pipelike.cable.LevelEnergyNet;
 import com.modularmc.gtpm.utils.FormattingUtil;
 import com.modularmc.gtpm.utils.GTUtil;
 
+import com.modularmc.registrate.localization.MinecraftLocale;
+import com.modularmc.registrate.localization.annotation.TransVariants;
+import com.modularmc.registrate.localization.annotation.Translation;
+import com.modularmc.registrate.localization.annotation.Variant;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -42,6 +47,23 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+@TransVariants(keyPrefix = "gtpm.cable",
+               value = {
+                       @Variant(id = "amperage",
+                                source = "§eMax Amperage:§r §e%d",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "§e最大电流：§r§e%d")),
+                       @Variant(id = "loss_per_block",
+                                source = "§cLoss/Meter/Ampere:§r §c%d§7 EU-Volt",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§c线损/米/安：§r§c%d§7 伏")),
+                       @Variant(id = "superconductor",
+                                source = "%s §dSuperconductor",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "%s§d超导体")),
+                       @Variant(id = "voltage",
+                                source = "§aMax Voltage:§r §a%d §a(%s§a)",
+                                translations = @Translation(locale = MinecraftLocale.ZH_CN,
+                                                            text = "§a最大电压：§r§a%d§a（%s§a）")),
+               })
 public class CableBlock extends MaterialPipeBlock<Insulation, WireProperties, LevelEnergyNet> {
 
     public CableBlock(Properties properties, Insulation insulation, Material material) {
