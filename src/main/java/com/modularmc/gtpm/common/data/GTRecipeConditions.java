@@ -3,7 +3,6 @@ package com.modularmc.gtpm.common.data;
 import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.recipe.RecipeCondition;
 import com.modularmc.gtpm.api.recipe.condition.RecipeConditionType;
-import com.modularmc.gtpm.api.registry.GTRegistries;
 import com.modularmc.gtpm.common.recipe.condition.*;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
@@ -12,6 +11,8 @@ import com.modularmc.registrate.localization.annotation.Translation;
 import com.modularmc.registrate.localization.annotation.Variant;
 
 import com.mojang.serialization.MapCodec;
+
+import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 
 @TransVariants(keyPrefix = "recipe.condition",
                value = {
@@ -73,7 +74,6 @@ public final class GTRecipeConditions {
     private static <T extends RecipeCondition<T>> RecipeConditionType<T> register(String name,
                                                                                   RecipeConditionType.ConditionFactory<T> factory,
                                                                                   MapCodec<T> codec) {
-        return GTRegistries.register(GTRegistries.RECIPE_CONDITIONS, GTPM.id(name),
-                new RecipeConditionType<>(factory, codec));
+        return REGISTRATE.recipeCondition(name, factory, codec).register();
     }
 }

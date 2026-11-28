@@ -4,7 +4,6 @@ import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.GTCEuAPI;
 import com.modularmc.gtpm.api.GTValues;
 import com.modularmc.gtpm.api.cover.CoverDefinition;
-import com.modularmc.gtpm.api.registry.GTRegistries;
 import com.modularmc.gtpm.client.renderer.cover.*;
 import com.modularmc.gtpm.common.cover.*;
 import com.modularmc.gtpm.common.cover.detector.*;
@@ -16,13 +15,13 @@ import com.modularmc.gtpm.common.cover.voiding.AdvancedItemVoidingCover;
 import com.modularmc.gtpm.common.cover.voiding.FluidVoidingCover;
 import com.modularmc.gtpm.common.cover.voiding.ItemVoidingCover;
 
-import net.minecraft.resources.ResourceLocation;
-
 import it.unimi.dsi.fastutil.ints.Int2ObjectFunction;
 
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.function.Supplier;
+
+import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 
 public class GTCovers {
 
@@ -113,14 +112,7 @@ public class GTCovers {
 
     private static CoverDefinition register(String id, CoverDefinition.CoverBehaviourProvider behaviorCreator,
                                             Supplier<Supplier<ICoverRenderer>> coverRenderer) {
-        return register(GTPM.id(id), behaviorCreator, coverRenderer);
-    }
-
-    public static CoverDefinition register(ResourceLocation id, CoverDefinition.CoverBehaviourProvider behaviorCreator,
-                                           Supplier<Supplier<ICoverRenderer>> coverRenderer) {
-        var definition = new CoverDefinition(id, behaviorCreator, coverRenderer);
-        GTRegistries.register(GTRegistries.COVERS, definition.getId(), definition);
-        return definition;
+        return REGISTRATE.cover(id, behaviorCreator, coverRenderer).register();
     }
 
     private static CoverDefinition[] registerTiered(String id,

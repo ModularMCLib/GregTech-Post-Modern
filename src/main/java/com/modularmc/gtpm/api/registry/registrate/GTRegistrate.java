@@ -3,8 +3,13 @@ package com.modularmc.gtpm.api.registry.registrate;
 import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.block.MetaMachineBlock;
 import com.modularmc.gtpm.api.blockentity.BlockEntityCreationInfo;
+import com.modularmc.gtpm.api.capability.recipe.RecipeCapability;
+import com.modularmc.gtpm.api.cover.CoverDefinition;
+import com.modularmc.gtpm.api.data.DimensionMarker;
+import com.modularmc.gtpm.api.data.chemical.Element;
 import com.modularmc.gtpm.api.data.worldgen.GTOreDefinition;
 import com.modularmc.gtpm.api.data.worldgen.bedrockfluid.BedrockFluidDefinition;
+import com.modularmc.gtpm.api.item.tool.behavior.ToolBehaviorType;
 import com.modularmc.gtpm.api.item.MetaMachineItem;
 import com.modularmc.gtpm.api.machine.MachineDefinition;
 import com.modularmc.gtpm.api.machine.MetaMachine;
@@ -17,9 +22,15 @@ import com.modularmc.gtpm.api.multiblock.structurepredicate.PredicateType;
 import com.modularmc.gtpm.api.multiblock.structurepredicate.StructurePredicate;
 import com.modularmc.gtpm.api.multiblock.structurepredicate.StructurePredicateType;
 import com.modularmc.gtpm.api.recipe.GTRecipeType;
+import com.modularmc.gtpm.api.recipe.RecipeCondition;
 import com.modularmc.gtpm.api.recipe.category.GTRecipeCategory;
+import com.modularmc.gtpm.api.recipe.chance.logic.ChanceLogic;
+import com.modularmc.gtpm.api.recipe.condition.RecipeConditionType;
 import com.modularmc.gtpm.api.registry.GTRegistries;
 import com.modularmc.gtpm.api.registry.registrate.provider.GTLanguageProvider;
+import com.modularmc.gtpm.client.renderer.cover.ICoverRenderer;
+import com.modularmc.gtpm.common.recipe.condition.DimensionCondition;
+import com.modularmc.gtpm.utils.FormattingUtil;
 
 import com.modularmc.registrate.AbstractRegistrate;
 import com.modularmc.registrate.builders.base.Builder;
@@ -37,6 +48,7 @@ import com.modularmc.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -44,6 +56,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.bus.api.IEventBus;
@@ -249,6 +263,57 @@ public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
         var category = new GTRecipeCategory(id, recipeType);
         return new GTRegistryEntryBuilder<>(this, GTRegistries.RECIPE_CATEGORIES, id, category,
                 category.getLanguageKey());
+    }
+
+    /** Starts a definition that can be referenced before the registry event. */
+    public <T> GTRegistryEntryBuilder<T> registryEntry(String name, Registry<? super T> registry, T value) {
+        var id = makeResourceLocation(name);
+        return new GTRegistryEntryBuilder<>(this, registry, id, value, id.toLanguageKey(registry.key().location().getPath()));
+    }
+
+    public <T extends RecipeCondition<T>> GTRegistryEntryBuilder<RecipeConditionType<T>> recipeCondition(
+            String name, RecipeConditionType.ConditionFactory<T> factory, MapCodec<T> codec) {
+        return registryEntry(name, GTRegistries.RECIPE_CONDITIONS, new RecipeConditionType<>(factory, codec));
+    }
+
+    public <T> GTRegistryEntryBuilder<RecipeCapability<T>> recipeCapability(RecipeCapability<T> capability) {
+        return registryEntry(capability.name, GTRegistries.RECIPE_CAPABILITIES, capability);
+    }
+
+    public GTRegistryEntryBuilder<ChanceLogic> chanceLogic(String name, ChanceLogic logic) {
+        var id = makeResourceLocation(name);
+        return new GTRegistryEntryBuilder<>(this, GTRegistries.CHANCE_LOGICS, id, logic,
+                id.getNamespace() + ".chance_logic." + id.getPath());
+    }
+
+    public GTRegistryEntryBuilder<CoverDefinition> cover(String name, CoverDefinition.CoverBehaviourProvider behavior,
+                                                        Supplier<Supplier<ICoverRenderer>> renderer) {
+        var id = makeResourceLocation(name);
+        return new GTRegistryEntryBuilder<>(this, GTRegistries.COVERS, id, new CoverDefinition(id, behavior, renderer),
+                id.toLanguageKey("cover"));
+    }
+
+    /** Uses the dimension's registry ID so consumers can resolve the marker by dimension. */
+    public GTRegistryEntryBuilder<DimensionMarker> dimensionMarker(ResourceKey<Level> dimension, int tier,
+                                                                   Supplier<? extends ItemLike> icon,
+                                                                   @Nullable Component overrideName) {
+        var id = dimension.location();
+        var marker = new DimensionMarker(tier, icon,
+                overrideName == null ? DimensionCondition.getDimensionName(dimension) : overrideName);
+        return new GTRegistryEntryBuilder<>(this, GTRegistries.DIMENSION_MARKERS, id, marker,
+                id.toLanguageKey("dimension_marker"));
+    }
+
+    public GTRegistryEntryBuilder<Element> element(long protons, long neutrons, long halfLifeSeconds,
+                                                   @Nullable String decayTo, String name, String symbol,
+                                                   boolean isotope) {
+        String path = FormattingUtil.hasUpperCase(name) ? FormattingUtil.toLowerCaseUnderscore(name) : name;
+        return registryEntry(path, GTRegistries.ELEMENTS,
+                new Element(protons, neutrons, halfLifeSeconds, decayTo, name, symbol, isotope));
+    }
+
+    public <T extends ToolBehaviorType<?>> GTRegistryEntryBuilder<T> toolBehavior(String name, T type) {
+        return registryEntry(name, GTRegistries.TOOL_BEHAVIORS, type);
     }
 
     public SoundEntryBuilder sound(String name) {

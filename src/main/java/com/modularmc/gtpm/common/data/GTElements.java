@@ -4,6 +4,8 @@ import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.data.chemical.Element;
 import com.modularmc.gtpm.api.registry.GTRegistries;
 
+import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
+
 public class GTElements {
 
     public static final Element H = createAndRegister(1, 0, -1, null, "Hydrogen", "H", false);
@@ -141,11 +143,9 @@ public class GTElements {
     public static final Element Sp = createAndRegister(1, 0, -1, null, "Space", "Sp", false);
     public static final Element Ma = createAndRegister(1, 0, -1, null, "Magic", "Ma", false);
 
-    public static Element createAndRegister(long protons, long neutrons, long halfLifeSeconds, String decayTo,
-                                            String name, String symbol, boolean isIsotope) {
-        Element element = new Element(protons, neutrons, halfLifeSeconds, decayTo, name, symbol, isIsotope);
-        GTRegistries.register(GTRegistries.ELEMENTS, GTPM.id(name), element);
-        return element;
+    private static Element createAndRegister(long protons, long neutrons, long halfLifeSeconds, String decayTo,
+                                              String name, String symbol, boolean isIsotope) {
+        return REGISTRATE.element(protons, neutrons, halfLifeSeconds, decayTo, name, symbol, isIsotope).register();
     }
 
     public static void init() {}

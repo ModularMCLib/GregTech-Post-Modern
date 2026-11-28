@@ -1,17 +1,12 @@
 package com.modularmc.gtpm.api.recipe.chance.logic;
 
-import com.modularmc.gtpm.GTPM;
 import com.modularmc.gtpm.api.GTValues;
 import com.modularmc.gtpm.api.capability.recipe.RecipeCapability;
 import com.modularmc.gtpm.api.recipe.chance.boost.ChanceBoostFunction;
 import com.modularmc.gtpm.api.recipe.content.Content;
 import com.modularmc.gtpm.api.recipe.content.ContentModifier;
-import com.modularmc.gtpm.api.registry.GTRegistries;
 
 import com.modularmc.registrate.localization.MinecraftLocale;
-import com.modularmc.registrate.localization.annotation.TransVariants;
-import com.modularmc.registrate.localization.annotation.Translation;
-import com.modularmc.registrate.localization.annotation.Variant;
 
 import net.minecraft.network.chat.Component;
 
@@ -28,33 +23,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
+
 /**
  * Logic for determining which chanced outputs should be produced from a list
  */
-@TransVariants(keyPrefix = "gtpm.chance_logic",
-               value = {
-                       @Variant(id = "and",
-                                source = "AND",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "AND")),
-                       @Variant(id = "first",
-                                source = "FIRST",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "第一")),
-                       @Variant(id = "none",
-                                source = "NONE",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "NONE")),
-                       @Variant(id = "or",
-                                source = "OR",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "OR")),
-                       @Variant(id = "xor",
-                                source = "XOR",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "XOR")),
-               })
 public abstract class ChanceLogic {
 
     /**
      * Chanced Output Logic where any ingredients succeeding their roll will be produced
      */
-    public static final ChanceLogic OR = new ChanceLogic("or") {
+    public static final ChanceLogic OR = REGISTRATE.chanceLogic("or", new ChanceLogic() {
 
         @Override
         public @Unmodifiable List<@NotNull Content> roll(RecipeCapability<?> cap,
@@ -95,12 +74,12 @@ public abstract class ChanceLogic {
         public String toString() {
             return "ChanceLogic{OR}";
         }
-    };
+    }).localization(text -> text.source("OR").translation(MinecraftLocale.ZH_CN, "OR")).register();
 
     /**
      * Chanced Output Logic where all ingredients must succeed their roll in order for any to be produced
      */
-    public static final ChanceLogic AND = new ChanceLogic("and") {
+    public static final ChanceLogic AND = REGISTRATE.chanceLogic("and", new ChanceLogic() {
 
         @Override
         public @Unmodifiable List<@NotNull Content> roll(RecipeCapability<?> cap,
@@ -133,14 +112,14 @@ public abstract class ChanceLogic {
         public String toString() {
             return "ChanceLogic{AND}";
         }
-    };
+    }).localization(text -> text.source("AND").translation(MinecraftLocale.ZH_CN, "AND")).register();
 
     /**
      * Chanced Output Logic where only the first ingredient succeeding its roll will be produced
      * Deprecated following the rewrite of XOR
      */
     @Deprecated
-    public static final ChanceLogic FIRST = new ChanceLogic("first") {
+    public static final ChanceLogic FIRST = REGISTRATE.chanceLogic("first", new ChanceLogic() {
 
         @Override
         public @Unmodifiable List<@NotNull Content> roll(RecipeCapability<?> cap,
@@ -175,12 +154,12 @@ public abstract class ChanceLogic {
         public String toString() {
             return "ChanceLogic{FIRST}";
         }
-    };
+    }).localization(text -> text.source("FIRST").translation(MinecraftLocale.ZH_CN, "第一")).register();
 
     /**
      * Chanced Output Logic where only one of the ingredients will be output, in a manner weighted to the input chances
      */
-    public static final ChanceLogic XOR = new ChanceLogic("xor") {
+    public static final ChanceLogic XOR = REGISTRATE.chanceLogic("xor", new ChanceLogic() {
 
         @Override
         public @Unmodifiable List<@NotNull Content> roll(RecipeCapability<?> cap,
@@ -271,12 +250,12 @@ public abstract class ChanceLogic {
         public String toString() {
             return "ChanceLogic{XOR}";
         }
-    };
+    }).localization(text -> text.source("XOR").translation(MinecraftLocale.ZH_CN, "XOR")).register();
 
     /**
      * Chanced Output Logic where nothing is produced
      */
-    public static final ChanceLogic NONE = new ChanceLogic("none") {
+    public static final ChanceLogic NONE = REGISTRATE.chanceLogic("none", new ChanceLogic() {
 
         @Override
         public @Unmodifiable List<@NotNull Content> roll(RecipeCapability<?> cap,
@@ -295,11 +274,7 @@ public abstract class ChanceLogic {
         public String toString() {
             return "ChanceLogic{NONE}";
         }
-    };
-
-    public ChanceLogic(String id) {
-        GTRegistries.register(GTRegistries.CHANCE_LOGICS, GTPM.id(id), this);
-    }
+    }).localization(text -> text.source("NONE").translation(MinecraftLocale.ZH_CN, "NONE")).register();
 
     /**
      * @param entry         the entry to get the complete chance for
