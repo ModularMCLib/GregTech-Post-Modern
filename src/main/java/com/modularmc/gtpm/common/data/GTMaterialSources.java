@@ -12,7 +12,9 @@ import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 public class GTMaterialSources {
 
     public static final RegistryEntry<Registration, Registration> PLAYER_INVENTORY = REGISTRATE
-            .materialSource("player_inventory", 0, PlayerInventoryMaterialSource::request).register();
+            .materialSource("player_inventory")
+            .provider(PlayerInventoryMaterialSource::request)
+            .register();
 
     public static void init() {
         if (GTPM.MODS.AE2.isLoaded()) {

@@ -1,6 +1,9 @@
 package com.modularmc.gtpm.api.multiblock.autobuild;
 
 import com.modularmc.gtpm.api.registry.GTRegistries;
+import com.modularmc.gtpm.api.registry.registrate.GTRegistrate;
+
+import com.modularmc.registrate.builders.base.NoConfigBuilder;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -48,4 +51,16 @@ public final class MaterialSources {
 
     /** A registered provider; lower priorities supply materials first and receive returned materials last. */
     public record Registration(int priority, MaterialRequestProvider provider) {}
+
+    public record Builder(GTRegistrate registrate, String name, int priority) {
+
+        public Builder priority(int priority) {
+            return new Builder(registrate, name, priority);
+        }
+
+        public NoConfigBuilder<Registration, Registration, GTRegistrate> provider(MaterialRequestProvider provider) {
+            return registrate.generic(name, GTRegistries.MATERIAL_SOURCE_REGISTRY,
+                    () -> new Registration(priority, provider));
+        }
+    }
 }

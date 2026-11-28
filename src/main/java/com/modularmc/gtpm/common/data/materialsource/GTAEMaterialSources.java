@@ -10,7 +10,9 @@ import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 public class GTAEMaterialSources {
 
     public static final RegistryEntry<Registration, Registration> WIRELESS = REGISTRATE
-            .materialSource("ae2_wireless", 100, MEWirelessMaterialSource::request)
+            .materialSource("ae2_wireless")
+            .priority(100)
+            .provider(MEWirelessMaterialSource::request)
             .register();
 
     public static void init() {}

@@ -14,8 +14,7 @@ import com.modularmc.gtpm.api.item.tool.behavior.ToolBehaviorType;
 import com.modularmc.gtpm.api.machine.MachineDefinition;
 import com.modularmc.gtpm.api.machine.MetaMachine;
 import com.modularmc.gtpm.api.machine.MultiblockMachineDefinition;
-import com.modularmc.gtpm.api.multiblock.autobuild.MaterialRequestProvider;
-import com.modularmc.gtpm.api.multiblock.autobuild.MaterialSources.Registration;
+import com.modularmc.gtpm.api.multiblock.autobuild.MaterialSources;
 import com.modularmc.gtpm.api.multiblock.structurepredicate.PredicateType;
 import com.modularmc.gtpm.api.multiblock.structurepredicate.StructurePredicateType;
 import com.modularmc.gtpm.api.recipe.GTRecipeType;
@@ -223,10 +222,8 @@ public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
      * Creates a material-source registration under this mod's namespace. Lower priorities supply materials first
      * and receive returned materials last.
      */
-    public NoConfigBuilder<Registration, Registration, GTRegistrate> materialSource(String name, int priority,
-                                                                                    MaterialRequestProvider provider) {
-        return generic(name, GTRegistries.MATERIAL_SOURCE_REGISTRY,
-                () -> new Registration(priority, provider));
+    public MaterialSources.Builder materialSource(String name) {
+        return new MaterialSources.Builder(this, name, 0);
     }
 
     /** Declares an ore vein key in this mod's namespace for use during datapack bootstrap. */
@@ -308,13 +305,20 @@ public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
         return registryEntry(name, GTRegistries.TOOL_BEHAVIORS);
     }
 
-    public <T> NoConfigBuilder<DataComponentType<?>, DataComponentType<T>, GTRegistrate> dataComponent(
-            String name, Consumer<DataComponentType.Builder<T>> configure) {
-        return generic(name, Registries.DATA_COMPONENT_TYPE, () -> {
-            var builder = DataComponentType.<T>builder();
-            configure.accept(builder);
-            return builder.build();
-        });
+    public <T> DataComponentBuilder<T> dataComponent(String name) {
+        return new DataComponentBuilder<>(this, name);
+    }
+
+    public record DataComponentBuilder<T>(GTRegistrate registrate, String name) {
+
+        public NoConfigBuilder<DataComponentType<?>, DataComponentType<T>, GTRegistrate> properties(
+                                                                                                    Consumer<DataComponentType.Builder<T>> configure) {
+            return registrate.generic(name, Registries.DATA_COMPONENT_TYPE, () -> {
+                var builder = DataComponentType.<T>builder();
+                configure.accept(builder);
+                return builder.build();
+            });
+        }
     }
 
     public SoundEntryBuilder sound(String name) {
