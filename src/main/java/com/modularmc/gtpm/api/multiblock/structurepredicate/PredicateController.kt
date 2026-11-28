@@ -1,8 +1,8 @@
 package com.modularmc.gtpm.api.multiblock.structurepredicate
 
-import com.modularmc.gtpm.GTPM
 import com.modularmc.gtpm.api.machine.MachineDefinition
 import com.modularmc.gtpm.api.machine.MetaMachine
+import com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE
 
 import net.minecraft.resources.ResourceLocation
 
@@ -39,7 +39,7 @@ open class PredicateController : PatternPredicate {
 
 	companion object {
 		val TYPE: PredicateType<PredicateController> by lazy {
-			PredicateType(CODEC) { it }.also { PredicateRegistry.register(GTPM.id("controller"), it) }
+			REGISTRATE.predicate("controller", PredicateType(CODEC) { it }).register()
 		}
 		val CODEC: MapCodec<PredicateController> = ResourceLocation.CODEC.fieldOf("machine").xmap(::PredicateController) { it.machineId!! }
 	}

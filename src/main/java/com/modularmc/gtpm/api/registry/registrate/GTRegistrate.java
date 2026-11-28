@@ -227,9 +227,17 @@ public class GTRegistrate extends AbstractRegistrate<GTRegistrate> {
     public <T extends StructurePredicate> StructurePredicateType<T> structurePredicate(String name, MapCodec<T> codec) {
         ResourceLocation id = makeResourceLocation(name);
         StructurePredicateType<T> type = new StructurePredicateType<>(id, codec);
-        PredicateRegistry.register(id, new PredicateType<>(codec, PatternPredicate::new));
+        predicate(name, new PredicateType<>(codec, PatternPredicate::new)).register();
         generic(name, GTRegistries.STRUCTURE_PREDICATE_REGISTRY, () -> type).register();
         return type;
+    }
+
+    public <T extends PredicateType<?>> GTRegistryEntryBuilder<T> predicate(String name, T type) {
+        var id = makeResourceLocation(name);
+        if (PredicateRegistry.INSTANCE.find(id) != null) {
+            throw new IllegalArgumentException("Predicate type is already registered: " + id);
+        }
+        return registryEntry(name, GTRegistries.PREDICATE_TYPES, type);
     }
 
     /**

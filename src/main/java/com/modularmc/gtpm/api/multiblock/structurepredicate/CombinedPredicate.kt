@@ -1,9 +1,9 @@
 package com.modularmc.gtpm.api.multiblock.structurepredicate
 
-import com.modularmc.gtpm.GTPM
 import com.modularmc.gtpm.api.capability.recipe.IO
 import com.modularmc.gtpm.api.multiblock.MultiblockState
 import com.modularmc.gtpm.api.multiblock.pattern.model.PatternPredicateDefinition
+import com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE
 
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.level.block.state.BlockState
@@ -116,16 +116,16 @@ class CombinedPredicate private constructor(private val expression: Expression) 
 
 	companion object {
 		val ALL_OF_TYPE: PredicateType<CombinedPredicate> by lazy {
-			PredicateType(ALL_OF_CODEC) { it }.also { PredicateRegistry.register(GTPM.id("all_of"), it) }
+			REGISTRATE.predicate("all_of", PredicateType(ALL_OF_CODEC) { it }).register()
 		}
 		val ANY_OF_TYPE: PredicateType<CombinedPredicate> by lazy {
-			PredicateType(ANY_OF_CODEC) { it }.also { PredicateRegistry.register(GTPM.id("any_of"), it) }
+			REGISTRATE.predicate("any_of", PredicateType(ANY_OF_CODEC) { it }).register()
 		}
 		val ONE_OF_TYPE: PredicateType<CombinedPredicate> by lazy {
-			PredicateType(ONE_OF_CODEC) { it }.also { PredicateRegistry.register(GTPM.id("one_of"), it) }
+			REGISTRATE.predicate("one_of", PredicateType(ONE_OF_CODEC) { it }).register()
 		}
 		val NOT_TYPE: PredicateType<CombinedPredicate> by lazy {
-			PredicateType(NOT_CODEC) { it }.also { PredicateRegistry.register(GTPM.id("not"), it) }
+			REGISTRATE.predicate("not", PredicateType(NOT_CODEC) { it }).register()
 		}
 		private val DEFINITION_CODEC: Codec<PatternPredicateDefinition> = Codec.PASSTHROUGH.xmap(
 			{ dynamic -> nested(dynamic.convert(JavaOps.INSTANCE).value as Map<*, *>) },
