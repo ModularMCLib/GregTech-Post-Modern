@@ -3,12 +3,9 @@ package com.modularmc.gtpm.common.data;
 import com.modularmc.gtpm.api.data.DimensionMarker;
 import com.modularmc.gtpm.api.registry.GTRegistries;
 import com.modularmc.gtpm.common.recipe.condition.DimensionCondition;
-import com.modularmc.gtpm.utils.FormattingUtil;
 
+import com.modularmc.registrate.localization.LocalizationDeclaration;
 import com.modularmc.registrate.localization.MinecraftLocale;
-import com.modularmc.registrate.localization.annotation.TransVariants;
-import com.modularmc.registrate.localization.annotation.Translation;
-import com.modularmc.registrate.localization.annotation.Variant;
 import com.modularmc.registrate.util.entry.BlockEntry;
 
 import net.minecraft.client.renderer.block.model.BlockModel;
@@ -20,32 +17,24 @@ import net.minecraft.world.level.block.Block;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import static com.modularmc.gtpm.common.registry.GTRegistration.REGISTRATE;
 
 @SuppressWarnings("unused")
-@TransVariants(keyPrefix = "block.gtpm",
-               value = {
-                       @Variant(id = "overworld_marker",
-                                source = "Overworld",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "主世界")),
-                       @Variant(id = "the_end_marker",
-                                source = "The End",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "末地")),
-                       @Variant(id = "the_nether_marker",
-                                source = "The Nether",
-                                translations = @Translation(locale = MinecraftLocale.ZH_CN, text = "下界")),
-               })
 public class GTDimensionMarkers {
 
     static {
         REGISTRATE.resetCreativeModeTab();
     }
 
-    public static final BlockEntry<Block> OVERWORLD_MARKER = createMarker("overworld");
-    public static final BlockEntry<Block> NETHER_MARKER = createMarker("the_nether");
-    public static final BlockEntry<Block> END_MARKER = createMarker("the_end");
+    public static final BlockEntry<Block> OVERWORLD_MARKER = createMarker("overworld",
+            text -> text.source("Overworld").translation(MinecraftLocale.ZH_CN, "主世界"));
+    public static final BlockEntry<Block> NETHER_MARKER = createMarker("the_nether",
+            text -> text.source("The Nether").translation(MinecraftLocale.ZH_CN, "下界"));
+    public static final BlockEntry<Block> END_MARKER = createMarker("the_end",
+            text -> text.source("The End").translation(MinecraftLocale.ZH_CN, "末地"));
 
     public static final DimensionMarker OVERWORLD = createAndRegister(Level.OVERWORLD, 0,
             () -> OVERWORLD_MARKER, null);
@@ -66,9 +55,9 @@ public class GTDimensionMarkers {
         return marker;
     }
 
-    private static BlockEntry<Block> createMarker(String name) {
+    private static BlockEntry<Block> createMarker(String name, Consumer<LocalizationDeclaration.Builder> localization) {
         return REGISTRATE.block("%s_marker".formatted(name), Block::new)
-                .lang(FormattingUtil.toEnglishName(name))
+                .localization(localization)
                 .blockstate(() -> (ctx, prov) -> prov.simpleBlock(ctx.get(), prov.models().cube(ctx.getName(),
                         prov.modLoc("block/dim_markers/%s/down".formatted(name)),
                         prov.modLoc("block/dim_markers/%s/up".formatted(name)),

@@ -78,7 +78,7 @@ public class GTFluids {
                             .getColor() | 0xff000000;
                 }
             })
-            .lang("Potion")
+            .localization(text -> text.source("Potion").translation(MinecraftLocale.ZH_CN, "药水"))
             .source(PotionFluid::new).noBlock().noBucket()
             .tag(CustomTags.POTION_FLUIDS)
             .register();
